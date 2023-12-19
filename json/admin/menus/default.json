@@ -1,6 +1,6 @@
 {
     "extends": "base",
     "data": {
-        "@modules": ["users", "permissions"]
+        "@modules": ["gpt","users", "permissions"]
     }
 }
