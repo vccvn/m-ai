@@ -23,7 +23,7 @@
             "products","promos","orders","customers","transactions", "payments","account","alert","order","filemanager", "location", "gpt"
         ],
         "business": [
-            "projects", "clients", "feedback", "teams", "testimonials", "gpt"
+            "gpt"
         ]
     },
     "times": {
