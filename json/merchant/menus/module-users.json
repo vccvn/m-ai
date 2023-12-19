@@ -1,0 +1,44 @@
+{
+    "data": {
+        "users": {
+            "text": "Người dùng",
+            "title": "Người dùng",
+            "route": "merchant.users",
+            "permiss": "merchant.users",
+            "icon": "user",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Danh sách người dùng",
+                        "title": "Danh sách người dùng",
+                        "active_key": "list",
+                        "route": "merchant.users.list",
+                        "icon": "list-ul"
+                    },
+                    {
+                        "text": "Thêm mới",
+                        "title": "Thêm mới",
+                        "active_key": "add",
+                        "route": "merchant.users.create",
+                        "icon": "user-plus"
+                    },
+                    {
+                        "text": "Danh sách Đại lý",
+                        "title": "Danh sách đại lý",
+                        "active_key": "agent",
+                        "route": "merchant.users.agent",
+                        "icon": "list-ul"
+                    },
+                    {
+                        "text": "Sổ đen",
+                        "title": "Người dùng bị chặn",
+                        "active_key": "trash",
+                        "route": "merchant.users.trash",
+                        "icon": "user-slash"
+                    }
+                ]
+            }
+        }
+    }
+}

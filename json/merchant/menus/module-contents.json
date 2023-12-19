@@ -1,0 +1,41 @@
+{
+    "data": {
+        "contents": {
+            "text": "Nội dung website",
+            "title": "Nội dung website",
+            "active_key": "contents",
+            "permiss": "merchant.posts",
+            "href": "#contents",
+            "icon": "sitemap",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Thiết lập Trang chủ",
+                        "title": "Thiết lập Trang chủ",
+                        "active_key": "settings.home",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"home"},
+                        "icon": "home"
+                    },
+                    {
+                        "text": "Mặc định khi đăng",
+                        "title": "Thiết lập Mặc định khi đăng",
+                        "active_key": "settings.default",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"default"},
+                        "icon": "file-word"
+                    },
+                    {
+                        "text": "Thiết lập tin bài",
+                        "title": "Thiết lập tin bài",
+                        "active_key": "settings.posts",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"posts"},
+                        "icon": "file-word"
+                    }
+                ]
+            }
+        }
+    }
+}

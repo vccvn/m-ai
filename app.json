@@ -1,0 +1,10 @@
+{
+    "name": "Web 102",
+    "description": "Ecommerce Website",
+    "lang": "vi",
+    "version": "1.0",
+    "type": "ecommerce",
+    "packages": {
+        
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "data": {
+        "agent_lv1": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Chiết khấu cho đại lý cấp 1",
+            "value": 0,
+            "min": 1,
+            "max": 100,
+            "step": 0.01
+        },
+        "agent_lv2": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Chiết khấu cho đại lý cấp 2",
+            "value": 0,
+            "min": 1,
+            "max": 100,
+            "step": 0.01
+        },
+        "agent_secondary": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Chiết khấu gián tiếp  <br /><small>(KH -> Đại lý cấp II -> Đại lý cấp I)</small>",
+            "value": 0,
+            "min": 1,
+            "max": 100,
+            "step": 0.01
+        },
+        "voucher_agent_lv1": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Chiết khấu từ chi phí phát hành voucher cho đại lý cấp 1",
+            "value": 0,
+            "min": 1,
+            "max": 100,
+            "step": 0.01
+        },
+        "voucher_agent_lv2": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Chiết khấu từ chi phí phát hành voucher cho đại lý cấp 2",
+            "value": 0,
+            "min": 1,
+            "max": 100,
+            "step": 0.01
+        },
+        "has_ref_discount": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Số lượt kết nối cho người mới đăng ký kèm mã khuyến mãi",
+            "value": 0,
+            "min": 0,
+            "max": 10000
+        },
+        "mon_ref_discount": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Số lượt kết nối cho người mới đăng ký KHÔNG có mã khuyến mãi",
+            "value": 0,
+            "min": 0,
+            "max": 10000
+        },
+        "ref_connect_discount": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Số lượt kết nối cho người giới thiệu",
+            "value": 0,
+            "min": 0,
+            "max": 10000
+        },
+        "merchant_contract_renew": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Thời gian gia hạn hợp đồng cho merchant (tháng)",
+            "value": 1,
+            "min": 1,
+            "max": 96
+        },
+        "agent_lv1_contract_renew": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Thời gian gia hạn hợp đồng cho đại lý cấp 1 (tháng)",
+            "value": 1,
+            "min": 1,
+            "max": 96
+        },
+        "agent_lv2_contract_renew": {
+            "type": "number",
+            "value_type": "number",
+            "label": "Thời gian gia hạn hợp đồng cho đại lý cấp 2 (tháng)",
+            "value": 1,
+            "min": 1,
+            "max": 96
+        }
+    }
+}

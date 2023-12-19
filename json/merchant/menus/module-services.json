@@ -1,0 +1,45 @@
+{
+    "data": {
+        "services": {
+            "text": "Gói dịch vụ",
+            "title": "Quản lý Gói dịch vụ",
+            "permiss": "merchant.services",
+            "route": "merchant.services",
+            "icon": "box-open",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Danh sách",
+                        "title": "Danh sách",
+                        "active_key": "list",
+                        "route": "merchant.services.list",
+                        "icon": "list-ul"
+                    },
+                    {
+                        "text": "Thêm mới",
+                        "title": "Thêm mới",
+                        "active_key": "add",
+                        "route": "merchant.services.create",
+                        "icon": "user-plus"
+                    },
+                    {
+                        "text": "Đã xóa",
+                        "title": "Thùng rác",
+                        "active_key": "trash",
+                        "route": "merchant.services.trash",
+                        "icon": "user-slash"
+                    },
+                    {
+                        "text": "Dịch vụ đã đăng ký",
+                        "title": "Danh sách",
+                        "active_key": "list",
+                        "route": "merchant.services.users",
+                        "icon": "id-card"
+                    }
+
+                ]
+            }
+        }
+    }
+}

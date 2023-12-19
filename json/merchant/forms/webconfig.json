@@ -1,0 +1,26 @@
+{
+    "web_type": {
+        "type": "crazyselect",
+        "label": "Loại web",
+        "call": "get_system_config",
+        "params": [
+            "web_type_list"
+        ],
+        "default": "defaukt"
+    },
+    "domain": {
+        "type": "text",
+        "text": "Tên miền",
+        "placeholder": "Ví dụ: domain.com.vn"
+    },
+    "alias_domain": {
+        "type": "text",
+        "text": "Tên miền Alias",
+        "placeholder": "Ví dụ: domain.com.vn"
+    },
+    "ssl": {
+        "type": "switch",
+        "text": "SSL",
+        "check_label": "Kích hoạt SSL"
+    }
+}

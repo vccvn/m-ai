@@ -1,0 +1,229 @@
+.frame-preview {
+  position: relative;
+}
+
+.frame-preview .img-frame {
+  position: relative;
+  cursor: pointer;
+}
+
+.frame-preview .img-frame::before {
+  content: " ";
+  display: block;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  background: url(../assets/images/play.png) no-repeat center center;
+  background-size: contain;
+  opacity: 0.6;
+}
+
+.frame-preview .img-frame:hover::before {
+  opacity: 1;
+}
+
+.frame-preview .img-frame.show-canvas::before {
+  display: none;
+}
+
+.model-3d-preview #canvas-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/2;
+}
+
+.model-3d-preview #canvas-wrapper iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.model-3d-preview .img-preview {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  aspect-ratio: 3/2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+}
+
+.model-3d-preview .img-preview img {
+  width: 100%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+}
+
+.model-3d-preview .show-canvas .img-preview {
+  display: none;
+}
+
+.qr-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.4);
+  align-items: center;
+  align-content: center;
+  display: none;
+  z-index: 9999;
+}
+
+.qr-wrapper .img-frame {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  text-align: center;
+  max-width: 440px;
+  margin: auto;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+
+.qr-wrapper .img-frame img {
+  max-width: 100%;
+}
+
+.qr-wrapper .img-frame .label {
+  margin-top: 15px;
+}
+
+.tracking-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.4);
+  align-items: center;
+  align-content: center;
+  display: none;
+  z-index: 9999;
+}
+
+.tracking-wrapper .img-frame {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  text-align: center;
+  max-width: 100%;
+  margin: auto;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+
+.tracking-wrapper .img-frame img {
+  max-width: 100%;
+  max-height: calc(100vh - 180px);
+}
+
+.tracking-wrapper .img-frame .label {
+  margin-top: 15px;
+}
+
+.model-item .m-thumbnail img {
+  object-fit: cover;
+  aspect-ratio: 3/2;
+  width: 100%;
+}
+
+.model-item .model-body {
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+.model-item .model-content {
+  padding-top: 15px;
+}
+
+.model-item .m-tool {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 2rem;
+}
+
+@media screen and (min-width: 576px) {
+  .tracking-wrapper .img-frame {
+    max-width: 96%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .model-3d-preview #canvas-wrapper,
+  .model-3d-preview .img-preview {
+    aspect-ratio: 3/2;
+  }
+  .model-3d-preview #canvas-wrapper img,
+  .model-3d-preview .img-preview img {
+    aspect-ratio: 3/2;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .tracking-wrapper .img-frame {
+    max-width: 90%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .tracking-wrapper .img-frame {
+    max-width: 80%;
+  }
+}
+
+.preview.m-portlet > .m-portlet__body .btns-block {
+  display: none;
+  position: absolute;
+  top: 14px;
+  right: 15px;
+}
+
+.preview.m-portlet > .m-portlet__body .btns-block a {
+  padding: 15px 10px;
+  font-size: 20px;
+  text-decoration: none;
+  color: grey;
+  font-weight: 800;
+}
+
+.preview.m-portlet > .m-portlet__body .btns-block a:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.preview.m-portlet.m-portlet--fullscreen {
+  z-index: 1000;
+}
+
+.preview.m-portlet.m-portlet--fullscreen > .m-portlet__head {
+  display: none;
+}
+
+.preview.m-portlet.m-portlet--fullscreen > .m-portlet__body {
+  top: 0;
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.preview.m-portlet.m-portlet--fullscreen > .m-portlet__body .frame,
+.preview.m-portlet.m-portlet--fullscreen > .m-portlet__body iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.preview.m-portlet.m-portlet--fullscreen > .m-portlet__body .btns-block {
+  display: block;
+}

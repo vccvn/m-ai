@@ -1,0 +1,42 @@
+{
+    "data": {
+        "themes": {
+            "text": "Giao diện",
+            "title": "Quản lý Giao diện",
+            "active_key": "themes",
+            "route": "merchant.themes",
+            "permiss": "merchant.themes",
+
+            "icon": "palette",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Mã nhúng",
+                        "title": "Mã nhúng",
+                        "active_key": "embeds",
+                        "permiss": "merchant.embeds",
+                        "route": "merchant.embeds.list",
+                        "icon": "code"
+                    },
+                    {
+                        "text": "Menu",
+                        "title": "Menu",
+                        "active_key": "menus",
+                        "permiss": "merchant.menus",
+                        "route": "merchant.menus.list",
+                        "icon": "bars"
+                    },
+                    {
+                        "text": "Slider",
+                        "title": "Slider",
+                        "active_key": "sliders",
+                        "permiss": "merchant.sliders",
+                        "route": "merchant.sliders.list",
+                        "icon": "images"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "inputs": {
+        "order_id": {
+            "type": "radopts",
+            "label": "Chọn gói",
+            "placeholder": "Nhập Order",
+            "call": "get_payment_package_options",
+            "doc_call": "get_payment_package_option_docs"
+        },
+        "payment_method_id": {
+            "type": "optlist",
+            "label": "Phương thức thanh toán",
+            "placeholder": "Nhập Payment Method",
+            "call": "get_payment_method_id_options",
+            "params": []
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

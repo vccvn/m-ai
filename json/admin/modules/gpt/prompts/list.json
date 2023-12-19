@@ -1,0 +1,57 @@
+{
+    "name": "Prompt",
+    "package": "gpt.prompts",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách Prompt",
+        "trash": "Prompt đã xóa"
+    },
+    "data": {},
+    "filter": {
+        "general_columns": {
+            "name": "tên Prompt"
+        },
+        "search_columns": {
+            "keywords": "Từ khóa"
+        },
+        "sort_columns": {
+            "id": "Mã Prompt",
+            "created_at": "Thời gian khổi tạo"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Tên",
+                "class": "min-160 max-250 name",
+                "text": ":name"
+            },
+            {
+                "title": "Chủ đề",
+                "class": "min-160 max-250 category category-map",
+                "text": ":topic_name",
+                "attrs": {
+                    "data-category-id": ":topic_id"
+                }
+            },
+            {
+                "title": "Prompt",
+                "class": "",
+                "text": ":prompt"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": {},
+        "js": [
+            "static/manager/js/categories.js"
+        ],
+        "css": []
+    }
+}

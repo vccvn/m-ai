@@ -1,0 +1,50 @@
+{
+    "data": {
+        "themes": {
+            "text": "Giao diện",
+            "title": "Quản lý Giao diện",
+            "active_key": "themes",
+            "route": "admin.themes",
+            "permiss": "admin.themes",
+
+            "icon": "palette",
+            "submenu": {
+                "type": "list",
+                "data": [
+
+                    {
+                        "text": "Theme của tôi",
+                        "title": "Theme của tôi",
+                        "active_key": "my-themes",
+                        "route": "admin.themes.my-themes",
+                        "icon": "hand-holding-usd"
+                    },
+                    {
+                        "text": "Mã nhúng",
+                        "title": "Mã nhúng",
+                        "active_key": "embeds",
+                        "permiss": "admin.embeds",
+                        "route": "admin.embeds.list",
+                        "icon": "code"
+                    },
+                    {
+                        "text": "Menu",
+                        "title": "Menu",
+                        "active_key": "menus",
+                        "permiss": "admin.menus",
+                        "route": "admin.menus.list",
+                        "icon": "bars"
+                    },
+                    {
+                        "text": "Slider",
+                        "title": "Slider",
+                        "active_key": "sliders",
+                        "permiss": "admin.sliders",
+                        "route": "admin.sliders.list",
+                        "icon": "images"
+                    }
+                ]
+            }
+        }
+    }
+}

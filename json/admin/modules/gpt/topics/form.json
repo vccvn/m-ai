@@ -1,0 +1,33 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Tên chủ đề",
+            "placeholder": "Nhập tên chủ đề"
+        },
+        "parent_id": {
+            "type": "crazyselect",
+            "label": "Chủ đề cha",
+            "template": "crazyselect",
+            "call": "get_topic_parent_category_options",
+            "params": [2],
+            "option_label_type": "value"
+        },
+        "description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập mô tả",
+            "style": {
+                "height": "290px"
+            }
+        },
+        "keywords": {
+            "type": "text",
+            "label": "Từ khóa",
+            "placeholder": "Nhập từ khóa"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

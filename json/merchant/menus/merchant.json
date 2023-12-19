@@ -1,0 +1,6 @@
+{
+    "extends": "base",
+    "data": {
+        "@modules": ["3d", "payments"]
+    }
+}

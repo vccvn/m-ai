@@ -1,0 +1,78 @@
+{
+    "name": {
+        "type": "text",
+        "label": "Tên bộ sưu tập",
+        "placeholder": "Nhập bộ sưu tập",
+        "id": "collection-name"
+    },
+    "custom_slug": {
+        "type": "checkbox",
+        "label": "Tùy chọn slug",
+        "check_label": "Tùy chỉnh",
+        "@hidden": true
+    },
+    "slug": {
+        "type": "text",
+        "label": "Đường dẫn (slug)",
+        "placeholder": "Nhập đường dẫn",
+        "template": "crazyslug",
+        "@check-field": "custom_slug",
+        "@extension": ".html",
+        "@check-slug-route": "admin.products.collections.check-slug",
+        "@get-slug-route": "admin.products.collections.get-slug",
+        "@source-id": "collection-name",
+        "@ajax-param-selectors": "#input-hidden-id",
+        "@ajax-check-name": "slug",
+        "@ajax-get-name": "slug"
+    },
+    "featured_image": {
+        "type": "media",
+        "label": "Hình xem trước",
+        "@filetype": "image/*"
+        
+    },
+    "description": {
+        "type": "textarea",
+        "label": "Mô tả (Tùy chọn)",
+        "placeholder": "Viết gì đó..."
+    },
+    "categories": {
+        "type": "checktree",
+        "label": "Danh mục (Tùy chọn)",
+        "call": "get_product_category_tree_options",
+        "data-ref": false
+    },
+    "sorttype": {
+        "type": "crazyselect",
+        "label": "kiểu sắp xếp SP",
+        "call": "get_product_sortby_options"
+    },
+    "keywords": {
+        "type": "text",
+        "label": "Từ khóa (Tùy chọn)",
+        "placeholder": "Viết gì đó..."
+    },
+    "labels": {
+        "type": "checklist",
+        "label": "Nhãn",
+        "call": "get_product_label_options"
+    },
+    "tags": {
+        "type": "crazytag",
+        "label": "Thẻ",
+        "placeholder": "Nhập thẻ...",
+        "template": "crazytag",
+        "@type": "dynamic",
+        "@search-route": "admin.tags.data",
+        "@create-route": "admin.tags.create",
+        "@create-field": "tags",
+        "call": "get_input_tag_data",
+        "params": [
+            "product-collection",
+            "#hidden_id",
+            {
+                "id": ":defval"
+            }
+        ]
+    }
+}

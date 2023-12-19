@@ -1,0 +1,60 @@
+{
+    "inputs": {
+        "user_id": {
+            "type": "crazyselect",
+            "label": "Tài khoản người dùng",
+            "template": "crazyselect",
+            "@select-type": "search",
+            "@search-route": "merchant.users.select-option",
+            "call": "App\\Repositories\\Users\\UserRepository::getDynamicSelectOptions",
+            "params": [
+                {
+                    "id": ":defval"
+                }
+            ]
+        },
+        "place_id": {
+            "type": "text",
+            "label": "Place id",
+            "placeholder": "Nhập Place id"
+        },
+        "title": {
+            "type": "text",
+            "label": "Title",
+            "placeholder": "Nhập Title"
+        },
+        "description": {
+            "type": "text",
+            "label": "Description",
+            "placeholder": "Nhập Description"
+        },
+        "from_date": {
+            "type": "text",
+            "label": "From Date",
+            "placeholder": "Nhập From Date"
+        },
+        "to_date": {
+            "type": "text",
+            "label": "To Date",
+            "placeholder": "Nhập To Date"
+        },
+        "expired_date": {
+            "type": "text",
+            "label": "Expired Date",
+            "placeholder": "Nhập Expired Date"
+        },
+        "budget": {
+            "type": "number",
+            "label": "Budget",
+            "placeholder": "Nhập Budget"
+        },
+        "status": {
+            "type": "text",
+            "label": "Status",
+            "placeholder": "Nhập Status"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

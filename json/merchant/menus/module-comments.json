@@ -1,0 +1,12 @@
+{
+    "data": {
+        "comments": {
+            "text": "Phản hôi",
+            "title": "Phản hôi",
+            "active_key": "comments",
+            "permiss": "merchant.comments",
+            "route": "merchant.comments.list",
+            "icon": "comment"
+        }
+    }
+}

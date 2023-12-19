@@ -1,0 +1,47 @@
+{
+    "inputs": {
+        "user_id": {
+            "type": "number",
+            "label": "User Id",
+            "placeholder": "Nhập User Id"
+        },
+        "method": {
+            "type": "text",
+            "label": "Method",
+            "placeholder": "Nhập Method"
+        },
+        "money": {
+            "type": "number",
+            "label": "Money",
+            "placeholder": "Nhập Money"
+        },
+        "note": {
+            "type": "text",
+            "label": "Note",
+            "placeholder": "Nhập Note"
+        },
+        "description": {
+            "type": "text",
+            "label": "Description",
+            "placeholder": "Nhập Description"
+        },
+        "type": {
+            "type": "number",
+            "label": "1 là cộng tiền , 2 là trừ tiền",
+            "placeholder": "Nhập 1 là cộng tiền , 2 là trừ tiền"
+        },
+        "order_code": {
+            "type": "text",
+            "label": "Order Code",
+            "placeholder": "Nhập Order Code"
+        },
+        "exam_package_id": {
+            "type": "number",
+            "label": "Exam Package Id",
+            "placeholder": "Nhập Exam Package Id"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "data": {
+        "location": {
+            "text": "Location",
+            "title": "Location",
+            "url": "#Location",
+            "permiss": "merchant.Location",
+            "icon": "map",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Loại Place",
+                        "title": "Danh sách Loại Place",
+                        "active_key": "location.place-types",
+                        "route": "merchant.location.place-types.list",
+                        "icon": "map"
+                    },{
+                        "text": "Place",
+                        "title": "Danh sách Place",
+                        "active_key": "location.places",
+                        "route": "merchant.location.places.list",
+                        "icon": "map"
+                    }
+                ]
+            }
+        }
+    }
+}

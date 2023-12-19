@@ -1,0 +1,30 @@
+{
+    "data": {
+        "gpt": {
+            "text": "GPT",
+            "title": "GPT",
+            "route": "admin.gpt.prompts",
+            "permiss": "admin.gpt.prompts",
+            "icon": "cube",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Topic",
+                        "title": "Danh sách Topic",
+                        "active_key": "list",
+                        "route": "admin.gpt.topics.list",
+                        "icon": "folder-open"
+                    },
+                    {
+                        "text": "Prompt",
+                        "title": "Danh sách prompt",
+                        "active_key": "trash",
+                        "route": "admin.gpt.prompts.list",
+                        "icon": "book-open"
+                    }
+                ]
+            }
+        }
+    }
+}

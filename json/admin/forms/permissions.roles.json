@@ -1,0 +1,46 @@
+{
+    "name": {
+        "type": "text",
+        "label": "Tên quyền",
+        "placeholder": "Nhập tên quyền",
+        "required": "true"
+    },
+    "level": {
+        "type": "crazyselect",
+        "label": "Nhóm quyền",
+        "required": "true",
+        "template": "crazyselect",
+        "data":{
+            "1":"Quyền truy cập",
+            "2":"Quyền quản lý",
+            "3":"Quyền admin"
+        },
+        "default": "1"
+    },
+    
+    "description": {
+        "type": "textarea",
+        "label": "Mô tả",
+        "placeholder": "Nhập Mô tả..."
+    },
+    "users":{
+        "type":"crazytag",
+        "label": "Danh sách người dùng",
+        "placeholder":"Nhập tên người dùng...",
+        "template":"crazytag",
+        "@type":"search",
+        "@search-route": "admin.permissions.roles.user-tags",
+        "call": "get_role_user_tag_data",
+        "params": ["#hidden_id"]
+    },
+    "modules": {
+        "type": "module-table",
+        "label": "Các module được phép truy cập",
+        "@options": {
+            "form_group_class": "row",
+            "label_class": "col-form-label col-12",
+            "wrapper_class": " col-12"
+            
+        }
+    }
+}

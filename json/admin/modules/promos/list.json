@@ -1,0 +1,112 @@
+{
+    "name": "Khuyến mãi",
+    "package": "promos",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách Khuyến mãi",
+        "trash": "Danh sách Khuyến mãi đã xóa"
+    },
+    "buttons": {},
+    "data": {
+        "types":["Trừ vào giá sản phẩm", "Giảm theo phầm trăm", "Miễn phí giao hàng"],
+        "units":["VNĐ", "%", ""],
+        "scopes":{
+            "order": "Đơn hàng",
+            "product": "Danh sách sản phẩm",
+            "user": "Người dùng cụ thể"
+        }
+    },
+    "filter":{
+        "form": "promo",
+        "search_columns": {
+            "name":"Tên ch.trình Khuyến mãi"
+        },
+        "sort_columns": {
+            "name":"Tên c.trình Khuyến mãi",
+            "started_at":"Thời gian bắt đầu",
+            "finished_at":"Thời gian kết thúc"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "type": "template",
+                "title": "Chương trìnhn khuyến mãi",
+                "class": "min-160 max-250",
+                "template": "<a href=\"{url}\">{name}</a>",
+                "data": {
+                    "url": {
+                        "call":"route",
+                        "params":[".update",{
+                            "id": ":id"
+                        }]
+                    },
+                    "name": ":name"
+                }
+            },
+            {
+                "type": "data",
+                "title": "Áp dụng",
+                "class": "",
+                "data_key": "scopes",
+                "value_key": ":scope"
+            },
+            {
+                "type": "data",
+                "title": "Hình thức",
+                "class": "",
+                "template": "{@getTypeText}",
+                "data": {
+                    "@getTypeText": []
+                }
+            },
+            {
+                "type": "template",
+                "title": "Giá trị",
+                "class": "",
+                "template": "<span class=\"down-price\">{value}</span>",
+                "data": {
+                    "value":{
+                        "call": "number_format",
+                        "params": [":down_price",2,",","."]
+                    }
+                }
+            },
+
+            {
+                "title": "Thống kê",
+                "class": "min-100 text-center",
+                "template": "{@getAnalyticsText}",
+                "data": {
+                    "@getAnalyticsText": []
+                }
+            },
+            
+            {
+                "title": "Trạng thái",
+                "class": "min-100 text-center",
+                "input":{
+                    "type": "switch",
+                    "template": "switch",
+                    "name": "promo[{id}][is_activated]",
+                    "lanel": "Trạng thái",
+                    "value": ":is_activated"
+                    
+                }
+            }
+        ]
+    },
+    "resources":{
+        "js_data":{
+            "daterange_selectors": ["#input-daterange-group1", "#input-daterange-group2"]
+        },
+        "js":[],
+        "css":[]
+    }
+}

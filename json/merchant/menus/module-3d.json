@@ -1,0 +1,19 @@
+{
+    "data": {
+        "3d": {
+            "text": "Danh sách Model 3D",
+            "title": "Quản lý Model 3D",
+            "route": "merchant.3d.models.list",
+            "icon": "cubes",
+            "parent": "3d"
+        },
+        "3d_add": {
+            "text": "Tải lên / Thêm model",
+            "title": "Tải lên",
+            "active_key": "upload",
+            "route": "merchant.3d.models.upload",
+            "icon": "cloud-upload-alt",
+            "@parent": "3d"
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Tên prompt",
+            "placeholder": "Nhập tên prompt",
+            "required": "true"
+        },
+        "prompt": {
+            "type": "text",
+            "label": "Prompt",
+            "placeholder": "Nhập Prompt"
+        },
+        "topic_id": {
+            "type": "crazyselect",
+            "label": "Danh mục",
+            "required": "true",
+            "call": "get_topic_options",
+            "@label-type": "header",
+            "@change": "Prompts.form.changeCategory"
+        },
+        "description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập mô tả"
+        }
+
+    },
+    "config": {
+        "name": null
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "name": "Mục đăng bài",
+    "package": "dynamics",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách mục đăng bài",
+        "trash": "Danh sách mục đăng bài đã xóa"
+    },
+    "data": {
+        "post_types": {
+            "article": "Bài viết",
+            "news": "Tin tức",
+            "gallery": "Bộ sưu tập ảnh",
+            "video_embed": "Nhúng video"
+        }
+    },
+    "filter": {
+        "search_columns": {
+            "name": "Tên mục",
+            "type": "Loại tin bài"
+        },
+        "sort_columns": {
+            "name": "Tên mục",
+            "type": "Loại tin bài",
+            "updated_at": "Thời gian cập nhật"
+        }
+    },
+    "table": {
+        "class": "",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Ảnh",
+                "class": "text-center",
+                "template": "<a href=\"{@route}\"><img src=\"{@getFeaturedImage}\" class=\"image-thumbnail\" alt=\"{title}\"></a>",
+                "data": {
+                    "@route": [
+                        ".update",
+                        {
+                            "id": ":id"
+                        }
+                    ],
+                    "@getFeaturedImage": [
+                        "90x90"
+                    ]
+                }
+            },
+            {
+                "title": "Tên Mục",
+                "class": "min-160",
+                "text": ":name"
+            },
+            {
+                "title": "Loại tin bài",
+                "class": "",
+                "data_access": "post_types.{post_type}"
+            },
+            {
+                "title": "Mô tả",
+                "class": "min-160",
+                "text": ":description"
+            },
+            {
+                "title": "Số tin bài",
+                "class": "",
+                "text": ":post_count"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

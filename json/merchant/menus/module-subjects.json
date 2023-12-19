@@ -1,0 +1,62 @@
+{
+    "data": {
+        "subjects": {
+            "text": "Môn thi",
+            "title": "Quản lý môn thi",
+            "permiss": "merchant.subjects",
+            "route": "merchant.subjects.list",
+            "active_key": "subjects",
+            "icon": "cube",
+            "submenu":{
+                "type": "list",
+                "data": {
+                    "list": {
+                        "text": "Danh sách môn thi",
+                        "title": "Danh sách môn thi",
+                        "route": "merchant.subjects.list",
+                        "active_key": "list",
+                        "icon": "list"
+                    },
+                    "add": {
+                        "text": "Thêm môn thi",
+                        "title": "Thêm môn thi",
+                        "route": "merchant.subjects.create",
+                        "active_key": "create",
+                        "icon": "plus-circle"
+                    },
+                    "list_grade": {
+                        "text": "Khối kiến thức",
+                        "title": "Danh sách Khối kiến thức",
+                        "route": "merchant.subjects.grades.list",
+                        "permiss": "merchant.subjects.grades.list",
+                        "active_key": "grades.list",
+                        "icon": "list"
+                    },
+                    "add_grade": {
+                        "text": "Thêm Khối kiến thức",
+                        "title": "Thêm Khối kiến thức",
+                        "route": "merchant.subjects.grades.create",
+                        "permiss": "merchant.subjects.grades.create",
+                        "active_key": "grades.create",
+                        "icon": "plus-circle"
+                    },
+                    "list_topic": {
+                        "text": "Danh sách chuyên đề",
+                        "title": "Danh sách môn thi",
+                        "route": "merchant.subjects.topics.list",
+                        "active_key": "topics.list",
+                        "icon": "list"
+                    },
+                    "add_topic": {
+                        "text": "Thêm chuyên đề",
+                        "title": "Thêm chuyên đề",
+                        "route": "merchant.subjects.topics.create",
+                        "active_key": "topics.create",
+                        "icon": "plus-circle"
+                    }
+                }
+
+            }
+        }
+    }
+}

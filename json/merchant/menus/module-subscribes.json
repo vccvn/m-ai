@@ -1,0 +1,12 @@
+{
+    "data": {
+        "subscribes": {
+            "text": "Đăng ký theo dỏi",
+            "title": "Đăng ký theo dỏi",
+            "permiss": "merchant.subscribes",
+            "active_key": "subscribes",
+            "route": "merchant.subscribes.list",
+            "icon": "wifi"
+        }
+    }
+}

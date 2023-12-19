@@ -1,0 +1,113 @@
+{
+    "name": "Sản phẩm",
+    "package": "products",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách Sản phẩm",
+        "trash": "Danh sách Sản phẩm đã xóa"
+    },
+    "data": {
+        "status_list": ["Hết hàng", "Còn hàng"]
+    },
+    "filter": {
+        "form": "product",
+        "search_columns": {
+            "keywords": "Từ khóa",
+            "name": "Tên sản phẩm"
+        },
+        "sort_columns": {
+            "name": "Tên sản phẩm",
+            "category_name": "Danh mục",
+            "list_price": "Giá sản phẩm",
+            "sku": "Mã sản phẩm",
+            "status": "Trạng thái còn hàng",
+            "created_at": "Thời gian tạo"
+        }
+    },
+    "table": {
+        "class": "header",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Mã",
+                "class": "id-col",
+                "text": ":sku"
+            },
+            {
+                "title": "Ảnh",
+                "class": "text-center",
+                "template": "<a href=\"{@route}\"><img src=\"{@getFeaturedImage}\" class=\"image-thumbnail\" alt=\"{title}\"></a>",
+                "data": {
+                    "@route": [
+                        ".update",
+                        {
+                            "id": ":id"
+                        }
+                    ],
+                    "@getFeaturedImage": []
+                }
+            },
+            {
+                "title": "Tên sản phẩm",
+                "class": "min-160 max-250 name",
+                "text": ":name"
+            },
+            {
+                "title": "Danh mục",
+                "class": "min-160 max-250 category category-map",
+                "text": ":category_name",
+                "attrs": {
+                    "data-category-id":":category_id"
+                }
+            },
+            {
+                "title": "Loại",
+                "class": "min-100",
+                "parse":"htmlentities:$text",
+                "template": "{@getTypeLabel}",
+                "data": {
+                    "@getTypeLabel": []
+                }
+            },
+            {
+                "title": "Giá bán",
+                "class": "",
+                "template": "{@priceFormat}",
+                "data":{
+                    "@priceFormat": ["list"]
+                }
+            },
+            {
+                "title": "Tổng kho",
+                "class": "text-right",
+                "template": "{@countTotal}",
+                "data":{
+                    "@countTotal": []
+                }
+            },
+            {
+                "title": "Khả dụng",
+                "class": "text-right",
+                "text": ":available_in_store",
+                "data":{
+                    "@countTotal": []
+                }
+            },
+            {
+                "title": "Trạng thái",
+                "class": "min-100",
+                "template": "{data:status_list.{status}}"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": ["static/manager/js/categories.js"],
+        "css": []
+    }
+}

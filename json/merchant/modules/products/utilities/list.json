@@ -1,0 +1,65 @@
+{
+    "name": "Tiện ích",
+    "package": "products.utilities",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách Tiện ích",
+        "trash": "Danh sách Tiện ích đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": {
+            "name": "Tên Tiện ích"
+        },
+        "sort_columns": {
+            "name": "Tên Tiện ích",
+            "created_at": "Thời gian tạo"
+        }
+    },
+    "table": {
+        "class": "",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col text-center",
+                "order": 1
+            },
+            {
+                "title": "Icon",
+                "class": "max-100",
+                "template": "<a href=\"{@route}\">{@getAdminHtmlIcon}</a>",
+                "data": {
+                    "@route": [
+                        ".update",
+                        {
+                            "id": ":id"
+                        }
+                    ],
+                    "@getAdminHtmlIcon": []
+                }
+            },
+            {
+                "title": "Tên tiện ích",
+                "class": "",
+                "text": ":name"
+            },
+            {
+                "title": "Loại icon",
+                "class": "",
+                "text": ":icon_type"
+            },
+            {
+                "title": "Mô tả",
+                "class": "",
+                "text": ":description"
+            }
+
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

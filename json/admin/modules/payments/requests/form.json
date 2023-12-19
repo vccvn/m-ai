@@ -1,0 +1,82 @@
+{
+    "inputs": {
+        "id": {
+            "type": "text",
+            "label": "id",
+            "placeholder": "Nhập id"
+        },
+        "user_id": {
+            "type": "text",
+            "label": "User id",
+            "placeholder": "Nhập User id"
+        },
+        "transaction_id": {
+            "type": "text",
+            "label": "Transaction id",
+            "placeholder": "Nhập Transaction id"
+        },
+        "transaction_code": {
+            "type": "text",
+            "label": "Transaction Code",
+            "placeholder": "Nhập Transaction Code"
+        },
+        "order_id": {
+            "type": "text",
+            "label": "Order id",
+            "placeholder": "Nhập Order id"
+        },
+        "order_code": {
+            "type": "text",
+            "label": "Order Code",
+            "placeholder": "Nhập Order Code"
+        },
+        "amount": {
+            "type": "number",
+            "label": "Amount",
+            "placeholder": "Nhập Amount"
+        },
+        "currency": {
+            "type": "text",
+            "label": "Currency",
+            "placeholder": "Nhập Currency"
+        },
+        "promotion_code": {
+            "type": "text",
+            "label": "Promotion Code",
+            "placeholder": "Nhập Promotion Code"
+        },
+        "note": {
+            "type": "text",
+            "label": "Note",
+            "placeholder": "Nhập Note"
+        },
+        "payment_method_name": {
+            "type": "text",
+            "label": "Payment Method Name",
+            "placeholder": "Nhập Payment Method Name"
+        },
+        "payment_method_id": {
+            "type": "text",
+            "label": "Payment Method id",
+            "placeholder": "Nhập Payment Method id"
+        },
+        "bank_code": {
+            "type": "text",
+            "label": "Bank Code",
+            "placeholder": "Nhập Bank Code"
+        },
+        "status": {
+            "type": "number",
+            "label": "Status",
+            "placeholder": "Nhập Status"
+        },
+        "finished_at": {
+            "type": "text",
+            "label": "Finished At",
+            "placeholder": "Nhập Finished At"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

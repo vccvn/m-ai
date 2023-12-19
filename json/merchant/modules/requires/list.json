@@ -1,0 +1,109 @@
+{
+    "name": "Yêu cầu kết nối",
+    "package": "requires",
+    "use_trash": true,
+    "can_edit": false,
+    "can_create": false,
+    "can_update": false,
+    "titles": {
+        "default": "Danh sách Yêu cầu kết nối",
+        "trash": "Danh sách Yêu cầu kết nối đã xóa"
+    },
+    "data": {
+        "status": {
+            "OPENING": "OPENING",
+            "CLOSED": "CLOSED",
+            "BLOCKED": "BLOCKED"
+        }
+    },
+    "filter": {
+        "general_columns":{
+            "title": "Tiêu đề",
+            "place_name": "Điểm đến",
+            "user_name": "Tên người dùng"
+        },
+        "search_columns": [],
+        "sort_columns": {
+            "from_date": "Thời gian bắt đầu",
+            "to_date": "Thời gian kết thúc",
+            "expired_date": "Thời hạn",
+            "budget": "Kinh phí",
+            "status": "Trạng thái"
+        }
+    },
+    "table": {
+        "class": "header-center",
+        "columns": [
+            {
+                "title": "User",
+                "class": "text-center",
+                "template": "{@getUserFullName}",
+                "data": {
+                    "@getUserFullName": []
+                }
+            },
+            {
+                "title": "Place",
+                "class": "text-center",
+                "template": "{@getPlaceTitle}",
+                "data": {
+                    "@getPlaceTitle": []
+                }
+            },
+            {
+                "title": "Description",
+                "class": "text-center",
+                "template": "{@sub}",
+                "data": {
+                    "@sub": ["description", 50]
+                }
+            },
+            {
+                "title": "From Date",
+                "class": "text-center",
+                "text": ":from_date"
+            },
+            {
+                "title": "To Date",
+                "class": "text-center",
+                "text": ":to_date"
+            },
+            {
+                "title": "Expired Date",
+                "class": "text-center",
+                "text": ":expired_date"
+            },
+            {
+                "title": "Budget",
+                "class": "text-center",
+                "template": "{@get_price_format}",
+                "data": {
+                    "@get_price_format": [":budget", "VND"]
+                }
+            },
+            {
+                "title": "Status",
+                "class": "min-100 text-center",
+                "template": "<div class=\"\">{@html_input}</div>",
+                "data": {
+                    "@html_input": [
+                        {
+                            "type": "select",
+                            "name": "requires[{id}][status]",
+                            "lanel": "Trạng thái",
+                            "value": ":status",
+                            "data": "@data:status",
+                            "class": "form-control-sm m-input require-item-status-select",
+                            "data-id": ":id"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": ["/static/features/requires/list.js"],
+        "css": []
+    }
+}

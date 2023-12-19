@@ -1,0 +1,294 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Tên chiến dịch",
+            "placeholder": "Nhập Tên chiến dịch"
+        },
+        "description": {
+            "type": "ckeditor",
+            "label": "Mô tả",
+            "placeholder": "Nhập Mô tả"
+        },
+        "vendor_id": {
+            "type": "crazyselect",
+            "label": "Nhà cung cấp",
+            "template": "crazyselect",
+            "@select-type": "search",
+            "@search-route": "merchant.users.merchant-option",
+            "call": "get_merchant_options",
+            "params": [
+                {
+                    "id": ":defval"
+                }
+            ]
+        },
+        "place_id": {
+            "type": "place",
+            "label": "Địa điểm",
+            "@select-type": "search",
+            "@search-route": "merchant.location.places.options",
+            "call": "get_place_options",
+            "params": [
+                {
+                    "id": ":defval"
+                }
+            ],
+            "@advance": {
+                "add": {
+                    "show": "always",
+                    "text": "Thêm địa điểm",
+                    "@click": "App.places.showForm"
+                }
+            }
+        },
+        "thumbnail_id": {
+            "type": "media",
+            "label": "Thumbnail"
+        },
+        "voucher_title": {
+            "type": "text",
+            "label": "Tiều đề voucher",
+            "placeholder": "Nhập Tiều đề voucher"
+        },
+        "address": {
+            "type": "text",
+            "label": "Địa chỉ",
+            "placeholder": "Nhập Tên chiến dịch"
+        },
+        "voucher_type": {
+            "type": "select",
+            "label": "Loại voucher",
+            "data": {
+                "resort": "Khu nghỉ dưỡng",
+                "internal_tour": "Tour trong nước",
+                "hotel": "Khách sạn",
+                "restaurant": "Nhà hàng",
+                "boat":"Du thuyền"
+            }
+        },
+        "total_quantity": {
+            "type": "number",
+            "label": "Tổng số voucher phát hành",
+            "placeholder": "Nhập Tổng số voucher phát hành",
+            "step": 1,
+            "min": 1,
+            "default": 0
+        },
+        "total_people": {
+            "type": "number",
+            "label": "Tổng số người",
+            "placeholder": "Nhập Tổng số người",
+            "step": 1,
+            "min": 1,
+            "default": 0
+        },
+        "total_per_user": {
+            "type": "number",
+            "label": "Số voucher cho mỗi người",
+            "placeholder": "Nhập Số voucher cho mỗi người",
+            "step": 1,
+            "min": 1,
+            "default": 1
+        },
+        "issuance_costs": {
+            "type": "number",
+            "label": "Chi phí phát hành",
+            "placeholder": "Nhập Chi phí phát hành",
+            "min": 0,
+            "step": 0.01,
+            "default": 0
+        },
+        "original_price": {
+            "type": "number",
+            "label": "Giá gốc",
+            "placeholder": "Nhập Giá gốc",
+            "min": 0,
+            "step": 0.01,
+            "default": 0
+        },
+        "discount": {
+            "type": "number",
+            "label": "Chiết khấu",
+            "placeholder": "Nhập Chiết khấu",
+            "min": 0,
+            "step": 0.01,
+            "default": 0
+        },
+        "currency": {
+            "type": "crazyselect",
+            "label": "Loại tiền tệ",
+            "placeholder": "Nhập Currency",
+            "call": "get_currency_options",
+            "params": [
+                "currency"
+            ],
+            "default": "VND"
+        },
+        "payment_amount": {
+            "type": "number",
+            "label": "Số tiền thanh toán",
+            "placeholder": "Nhập Số tiền thanh toán",
+            "min": 0,
+            "step": 0.01,
+            "default": 0
+        },
+        "utilities": {
+            "type": "checklist",
+            "label": "Tiện tiện ích",
+            "call": "get_product_utility_options",
+            "params":[]
+        },
+
+        "ref_url": {
+            "type": "text",
+            "label": "URL Chiến dịch",
+            "placeholder": "Nhập URL Chiến dịch"
+        },
+
+        "during_time": {
+            "type": "crazyselect",
+            "label": "Thời gian ở lại / diễn ra",
+            "data": {
+                "0.5": "1 ngày",
+                "1": "1 ngày 1 đêm",
+                "1.5": "2 ngày 1 đêm",
+                "2": "2 ngày 2 đêm",
+                "2.5": "3 ngày 2 đêm",
+                "3": "3 ngày 3 đêm",
+                "3.5": "4 ngày 3 đêm",
+                "4": "4 ngày 4 đêm",
+                "4.5": "5 ngày 4 đêm",
+                "5": "5 ngày 5 đêm",
+                "5.5": "6 ngày 5 đêm",
+                "6": "6 ngày 6 đêm",
+                "6.5": "7 ngày 6 đêm",
+                "7": "7 ngày 7 đêm",
+                "7.5": "8 ngày 7 đêm",
+                "8": "8 ngày 8 đêm",
+                "8.5": "9 ngày 8 đêm",
+                "9": "9 ngày 9 đêm",
+                "9.5": "10 ngày 9 đêm",
+                "10": "10 ngày 10 đêm"
+            }
+        },
+
+        "quality_rank": {
+            "type": "radio",
+            "label": "Xếp hạng",
+            "data": {
+                "3": "3 sao",
+                "4": "4 sao",
+                "5": "5 sao"
+            },
+            "default": "3"
+        },
+
+        "expire_days": {
+            "type": "number",
+            "label": "Ngày hết hạn",
+            "placeholder": "Nhập Ngày hết hạn",
+            "min": 0,
+            "step": 1,
+            "default": 0
+        },
+        "display_in": {
+            "type": "number",
+            "label": "Thời gian hiển thị (phút)",
+            "placeholder": "Nhập Thời gian hiển thị",
+            "min": 0,
+            "step": 1
+        },
+        "times": {
+            "type": "daterange",
+            "template": "daterange",
+            "label": "Thời gian áp dụng",
+            "placeholder": "Thời gian bắt đầu - thời gian kết thúc",
+            "data-format": "YYYY-MM-DD HH:mm",
+            "data-use-time": "true"
+        },
+        "status": {
+            "type": "select",
+            "label": "Trạng thái",
+
+            "call":"get_campaign_status_options"
+        },
+        "customer_config_ages": {
+            "type": "range-slider",
+            "label": "Độ tuổi",
+            "@range": [
+                16,
+                60
+            ],
+            "default": [
+                18,
+                40
+            ]
+        },
+        "customer_config_genders": {
+            "type": "checklist",
+            "label": "Cấu hình giới tính",
+            "data": {
+                "MALE": "Nam",
+                "FEMALE": "Nữ",
+                "OTHER": "Khác"
+            }
+        },
+        "customer_config_types": {
+            "type": "checktree",
+            "label": "Nhóm đối tượng",
+            "call": "get_customer_type_options"
+        }
+    },
+    "config": {
+        "name": "Chiền dịch quảng cáo",
+        "layout_type": "column",
+        "form_groups": [
+            {
+                "title": "Thông tin chiến dịch",
+                "class": "col-md-7",
+                "inputs": [
+                    "name",
+                    "times"
+                ]
+            },
+            {
+                "title": "Khách hàng mục tiêu",
+                "class": "col-md-5",
+                "inputs": [
+                    "customer_config_types",
+                    "customer_config_genders",
+                    "customer_config_ages"
+                ]
+            },
+            {
+                "title": "Cấu hình voucher",
+                "class": "col-md-7",
+                "inputs": [
+                    "voucher_title",
+                    "voucher_type",
+                    "quality_rank",
+                    "utilities",
+                    "thumbnail_id",
+                    "place_id",
+                    "total_people",
+                    "total_per_user",
+                    "total_quantity",
+                    "original_price",
+                    "discount",
+                    "issuance_costs",
+                    "payment_amount",
+                    "currency",
+                    "during_time",
+                    "expire_days",
+                    "display_in",
+                    "description"
+                ]
+            }
+        ],
+        "assets": {
+            "js": [],
+            "css": ["/static/features/promotions/campaigns/style.min.css"]
+        }
+    }
+}

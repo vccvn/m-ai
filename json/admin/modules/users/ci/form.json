@@ -1,0 +1,237 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Họ tên",
+            "required": "true",
+            "placeholder": "Nhập họ tên"
+        },
+        "first_name": {
+            "type": "text",
+            "label": "Họ và tên",
+            "required": "true",
+            "placeholder": "Tên",
+            "prepend_group": [
+                "last_name"
+            ]
+        },
+        "last_name": {
+            "type": "text",
+            "label": "họ và đệm",
+            "required": "true",
+            "placeholder": "Họ"
+        },
+        "gender": {
+            "type": "radio",
+            "label": "Giới tính",
+            "data": {
+                "male": "Nam",
+                "female": "Nữ",
+                "other": "Khác"
+            },
+            "default": "male"
+        },
+        "birthday": {
+            "type": "dateselect",
+            "label": "Sinh nhật",
+            "template": "date",
+            "placeholder": "Nhập ngày sinh",
+            "@year-params": [
+                "vi",
+                "current",
+                -70
+            ]
+        },
+        "address": {
+            "type": "text",
+            "label": "Địa chỉ",
+            "placeholder": "Nhập địa chỉ..."
+        },
+        "email": {
+            "type": "email",
+            "label": "Địa chỉ E-mail",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-envelope\"></i>"
+        },
+        "username": {
+            "type": "text",
+            "label": "Tên đăng nhập",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-user\"></i>"
+        },
+        "phone_number": {
+            "type": "text",
+            "label": "Số  điện thoại",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-phone\"></i>"
+        },
+        "type": {
+            "type": "crazyselect",
+            "label": "Loại user",
+            "required": "true",
+            "template": "deepselect",
+            "call": "get_user_config",
+            "params": [
+                "type_list"
+            ],
+            "default": "user"
+        },
+        "password": {
+            "type": "password",
+            "label": "Mật khẩu",
+            "placeholder": "Nhập mật khẩu",
+            "prepend_text": "<i class=\"fa fa-key\"></i>",
+            "show_required": true
+        },
+        "password_confirmation": {
+            "type": "password",
+            "label": "Mật khẩu xác nhận",
+            "placeholder": "Nhập lại mật khẩu",
+            "prepend_text": "<i class=\"fa fa-key\"></i>"
+        },
+        "avatar": {
+            "type": "file",
+            "label": "Hình đại diện",
+            "template": "cropit",
+            "data-width": 400,
+            "data-height": 400
+        },
+        "status": {
+            "type": "radio",
+            "label": "Trạng thái",
+            "required": "true",
+            "func": "get_user_config",
+            "params": [
+                "status_list"
+            ],
+            "template": "deepselect"
+        },
+        "ci_status": {
+            "type": "radio",
+            "label": "Trạng thái duyệt",
+            "data":{
+                "0": "Chờ duyệt",
+                "1": "Đã duyệt"
+            },
+            "default": "0"
+        },
+        "region_id": {
+            "type": "crazyselect",
+            "label": "Tỉnh / Thành phố",
+            "className": "d-block",
+            "call": "get_region_options",
+            "@change": "App.schools.changeRegionID"
+        },
+        "district_id": {
+            "type": "crazyselect",
+            "label": "Quận / huyện",
+            "className": "d-block",
+            "call": "get_district_options",
+            "params": [
+                {
+                    "region_id": "#region_id|0"
+                }
+            ],
+            "@change": "App.schools.changeDistrictID"
+        },
+        "ward_id": {
+            "type": "crazyselect",
+            "label": "Xã / phường",
+            "className": "d-block",
+            "call": "get_ward_options",
+            "params": [
+                {
+                    "district_id": "#district_id|0"
+                }
+            ],
+            "@change": "App.schools.changeWardID"
+        },
+        "school_id": {
+            "type": "crazyselect",
+            "label": "Trường",
+            "className": "d-block",
+            "call": "get_school_options",
+            "params": [
+                {
+                    "region_id": "#region_id|0",
+                    "district_id": "#district_id|0",
+                    "ward_id": "#ward_id|0"
+                }
+            ],
+            "@select-type": "search",
+            "@search-route": "admin.schools.options",
+            "@search-params": "#region_id,#district_id,#ward_id"
+        },
+        "ci_card_number": {
+            "type": "text",
+            "label": "Số CCCD",
+            "placeholder": "Nhập Số CCCD"
+        },
+        "ci_card_front_scan": {
+            "type": "file",
+            "label": "Scan hoặc Ảnh mặt trước CCCD",
+            "accept": "image/*"
+        },
+        "ci_card_back_scan": {
+            "type": "file",
+            "label": "Scan hoặc Ảnh mặt sau CCCD",
+            "accept": "image/*"
+        }
+    },
+    "config": {
+        "name": "Th\u00f4ng tin ng\u01b0\u1eddi d\u00f9ng",
+        "layout_type": "column",
+        "form_groups": [
+            {
+                "title": "Th\u00f4ng tin c\u00e1 nh\u00e2n",
+                "class": "col-md-6",
+                "inputs": [
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "birthday",
+                    "email",
+                    "phone_number",
+                    "type",
+                    "status"
+                ]
+            },
+            {
+                "class": "col-md-6",
+                "inputs": [
+                    "avatar"
+                ]
+            },
+            {
+                "title": "Th\u00f4ng tin Thí sinh",
+                "class": "col-md-6",
+                "inputs": [
+                "ci_card_number",
+                    "ci_card_front_scan",
+                    "ci_card_back_scan",
+                    "ci_status",
+                    "region_id",
+                    "district_id",
+                    "ward_id",
+                    "school_id",
+                    "address"
+                ]
+            },
+            {
+                "title": "Th\u00f4ng tin t\u00e0i kho\u1ea3n",
+                "class": "col-md-6",
+                "inputs": [
+                    "username",
+                    "password",
+                    "password_confirmation"
+                ]
+            }
+        ],
+        "assets": {
+            "js": [
+                "/static/features/schools/script.js"
+            ],
+            "css": []
+        }
+    }
+}

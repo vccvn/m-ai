@@ -1,0 +1,41 @@
+{
+    "data": {
+        "questions": {
+            "text": "Ngân hàng câu hỏi",
+            "title": "Ngân hàng Câu hỏi",
+            "permiss": "merchant.questions",
+            "active_key": "questions",
+            "route": "merchant.questions.list",
+            "icon": "question-circle",
+            "submenu":{
+                "type": "list",
+                "data": {
+                    "list": {
+                        "text": "Danh sách câu hỏi",
+                        "title": "Danh sách Câu hỏi",
+                        "route": "merchant.questions.list",
+                        "active_key": "list",
+                        "icon": "list"
+                    },
+                    "add": {
+                        "text": "Thêm câu hỏi",
+                        "title": "Thêm Câu hỏi",
+                        "route": "merchant.questions.create",
+                        "permiss": "merchant.questions.create",
+                        "active_key": "create",
+                        "icon": "plus-circle"
+                    },
+                    "import": {
+                        "text": "Nhập liệu",
+                        "title": "Nhập liệu",
+                        "active_key": "import",
+                        "route": "merchant.questions.import.form",
+                        "permiss": "merchant.questions.import.form",
+                        "icon": "file-word"
+                    }
+                }
+
+            }
+        }
+    }
+}

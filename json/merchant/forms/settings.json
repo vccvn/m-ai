@@ -1,0 +1,33 @@
+{
+    "web_type": {
+        "type": "crazyselect",
+        "label": "Thời gian lưu cache của Dữ liệu từ DB",
+        "call": "get_web_type_options",
+        "default": "defaukt"
+    },
+    "package_type": {
+        "type": "radio",
+        "label": "Gói",
+        "data": {
+            "demo": "Demo",
+            "pro": "Pro",
+            "max": "max"
+        },
+        "default": "pro"
+    },
+    "domain": {
+        "type": "text",
+        "text": "Tên miền",
+        "placeholder": "Ví dụ: domain.com.vn"
+    },
+    "alias_domain": {
+        "type": "text",
+        "text": "Tên miền Alias",
+        "placeholder": "Ví dụ: domain.com.vn"
+    },
+    "ssl": {
+        "type": "switch",
+        "text": "SSL",
+        "check_label": "Kích hoạt SSL"
+    }
+}

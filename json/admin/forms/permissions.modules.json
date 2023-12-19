@@ -1,0 +1,22 @@
+{
+    "name": {
+        "type": "text",
+        "text": "Tên module",
+        "placeholder": "Nhập tên module",
+        "required": "true"
+    },
+    
+
+    "description": {
+        "type": "textarea",
+        "text": "Mô tả",
+        "placeholder": "Nhập Mô tả..."
+    },
+    "roles": {
+        "type": "checklist",
+        "text": "Các quyền truy cập",
+        "template": "checklist",
+        "call":"App\\Repositories\\Permissions\\RoleRepository::getOptions"
+    }
+    
+}

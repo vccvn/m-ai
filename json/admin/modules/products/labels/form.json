@@ -1,0 +1,18 @@
+{
+    "title": {
+        "type": "text",
+        "label": "Nhãn",
+        "required": "true",
+        "placeholder": "Nhập nhãn"
+    },
+    "bg_color": {
+        "type": "coloris",
+        "label": "Màu nhãn (Tùy chọn)",
+        "placeholder": "Nhập màu nhãn ví dụ: #00FF00"
+    },
+    "text_color": {
+        "type": "coloris",
+        "label": "Màu chữ (Tùy chọn)",
+        "placeholder": "Nhập màu nhãn ví dụ: #00FF00"
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "inputs": {
+        "merchant_id": {
+            "type": "text",
+            "label": "Merchant id",
+            "placeholder": "Nhập Merchant id"
+        },
+        "user_id": {
+            "type": "text",
+            "label": "User id",
+            "placeholder": "Nhập User id"
+        },
+        "name": {
+            "type": "text",
+            "label": "Họ và tên",
+            "placeholder": "Nhập Họ và tên"
+        },
+        "email": {
+            "type": "text",
+            "label": "Email",
+            "placeholder": "Nhập Email"
+        },
+        "phone_number": {
+            "type": "text",
+            "label": "Số điện thoại",
+            "placeholder": "Nhập Số điện thoại"
+        },
+        "message": {
+            "type": "text",
+            "label": "Nội dung liên hệ",
+            "placeholder": "Nhập Nội dung"
+        },
+        "booking_time": {
+            "type": "datepicker",
+            "label": "Thời gian booking",
+            "placeholder": "Nhập Thời gian "
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

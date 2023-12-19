@@ -1,0 +1,31 @@
+{
+    "data": {
+        "schools": {
+            "text": "Trường học",
+            "title": "Quản lý Trường học",
+            "route": "merchant.schools",
+            "permiss": "merchant.schools",
+            "active_key": "schools",
+            "icon": "school",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Danh sách Trường",
+                        "title": "Danh sách Trường học",
+                        "active_key": "schools.list",
+                        "route": "merchant.schools.list",
+                        "icon": "file-code"
+                    },
+                    {
+                        "text": "Thêm Trường học",
+                        "title": "Thêm sản phẩm mới",
+                        "active_key": "schools.create",
+                        "route": "merchant.schools.create",
+                        "icon": "plus"
+                    }
+                ]
+            }
+        }
+    }
+}

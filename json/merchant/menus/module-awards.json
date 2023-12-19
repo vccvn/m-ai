@@ -1,0 +1,53 @@
+{
+    "data": {
+        "awards": {
+            "text": "Giải thưởng",
+            "title": "Quản lý Giải thưởng",
+            "permiss": "merchant.awards",
+            "route": "merchant.awards.list",
+            "active_key": "awards",
+            "icon": "gem",
+            "submenu":{
+                "type": "list",
+                "data": {
+                    "list": {
+                        "text": "Danh sách Giải thưởng",
+                        "title": "Danh sách Giải thưởng",
+                        "active_key": "list",
+                        "route": "merchant.awards.list",
+                        "icon": "list"
+                    },
+                    "add": {
+                        "text": "Thêm Giải thưởng",
+                        "title": "Thêm Giải thưởng",
+                        "active_key": "create",
+                        "route": "merchant.awards.create",
+                        "icon": "plus-circle"
+                    },
+                    "log": {
+                        "text": "Nhật ký",
+                        "title": "Nhật ký",
+                        "active_key": "awards.logs",
+                        "route": "merchant.awards.logs",
+                        "icon": "book"
+                    },
+                    "vouchers": {
+                        "text": "Voucher",
+                        "title": "Vouvher",
+                        "active_key": "awards.vouchers",
+                        "route": "merchant.awards.vouchers",
+                        "icon": "money-bill-wave"
+                    },
+                    "top": {
+                        "text": "Top Tuần",
+                        "title": "Tóp thí sinh trong tuần",
+                        "active_key": "awards.top-users",
+                        "route": "merchant.awards.top-users",
+                        "icon": "users"
+                    }
+                }
+
+            }
+        }
+    }
+}

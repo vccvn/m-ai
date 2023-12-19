@@ -1,0 +1,12 @@
+{
+    "data": {
+        "requires": {
+            "text": "Yêu cầu kết nối",
+            "title": "Quản lý Yêu cầu kết nối",
+            "route": "merchant.requires",
+            "permiss": "merchant.requires",
+            "active_key": "requires",
+            "icon": "handshake"
+        }
+    }
+}

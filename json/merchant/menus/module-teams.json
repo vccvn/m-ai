@@ -1,0 +1,13 @@
+{
+    "data": {
+        "teams": {
+            "text": "Nhóm",
+            "title": "Nhóm",
+            "active_key": "teams",
+            "permiss": "merchant.teams",
+
+            "route": "merchant.teams.list",
+            "icon": "users"
+        }
+    }
+}

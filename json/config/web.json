@@ -1,0 +1,29 @@
+{
+    "profile": {
+        "date": {
+            "start": "1900-01-01",
+            "finish": "2200-12-31"
+        }
+    },
+    "option_input_types": {
+        "text": "Chữ, số, ký tự",
+        "number": "Số",
+        "textarea": "Văn bản",
+        "ckeditor": "CkEditor - Trình soạn thảo",
+        "tinymce": "TinyMCE - Trình soạn thảo",
+        "email": "Email",
+        "tel": "Số điện thoại",
+        "file": "File",
+        "media": "Media - Chọn ảnh từ thư viện",
+        "checkbox": "Check Box",
+        "switch": "Switch",
+        "date": "Ngày tháng",
+        "time": "Thời gian",
+        "daterange": "Khoảng ngày tháng",
+        "touchspin": "Spin",
+        "crazyselect": "Crazy Select",
+        "dateselect": "Chọn ngày tháng năm",
+        "cropit": "Ảnh (Cắt)",
+        "coloris": "Chọn màu"
+    }
+}

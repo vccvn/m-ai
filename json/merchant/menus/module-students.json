@@ -1,0 +1,12 @@
+{
+    "data": {
+        "students": {
+            "text": "Thông tin thí sinh",
+            "title": "Quản lý thông tin thí sinh",
+            "active_key": "students",
+            "route": "merchant.students.list",
+            "permiss": "merchant.students",
+            "icon": "user-graduate"
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "data": {
+        "embeds": {
+            "text": "Mã nhúng",
+            "title": "Mã nhúng",
+            "active_key": "embeds",
+            "permiss": "merchant.embeds",
+            "route": "merchant.embeds.list",
+            "icon": "code"
+        }
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Tên danh mục",
+            "placeholder": "Nhập tên danh mục"
+        },
+        "slug": {
+            "type": "text",
+            "label": "Đường dẫn (Tùy chọn)",
+            "placeholder": "Mặc định theo tên danh mục"
+            
+        },
+        "parent_id": {
+            "type": "crazyselect",
+            "label": "Danh mục cha",
+            "template": "crazyselect",
+            "call": "get_product_parent_category_options",
+            "params":[4],
+            "option_label_type":"value"
+        },
+        "featured_image": {
+            "type": "media",
+            "label": "Hình xem trước",
+            "@filetype": "image/*"
+            
+        },
+        "keywords": {
+            "type": "text",
+            "label": "Từ khóa",
+            "placeholder": "Nhập từ khóa"
+        },
+        "description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập mô tả",
+            "style": {
+                "height": "290px"
+            }
+        },
+        "page_title": {
+            "type": "text",
+            "label": "Tiêu đề trang",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "meta_title": {
+            "type": "text",
+            "label": "Meta Title",
+            "placeholder": "Nhập meta title"
+        },
+        "first_content": {
+            "type": "ckeditor",
+            "label": "Nội dung 1",
+            "placeholder": "Nội dung 1",
+            "height": 450
+        },
+        "second_content": {
+            "type": "ckeditor",
+            "label": "Nội dung 2",
+            "placeholder": "Nội dung 2",
+            "height": 450
+        }
+    },
+    "config": {
+        "name": "Thông tin trang",
+        "layout_type": "single"
+    }
+}

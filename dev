@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+define("BASE_PATH", dirname(__FILE__));
+$corePath = BASE_PATH . '/vendor/gomee/core';
+if (file_exists($helper = $corePath . '/src/helpers/utils.php')){
+    include $helper;
+
+    require_once $corePath . '/src/dev/load.php';
+}elseif(($corePath = BASE_PATH . '/vendor/gomee/core') && file_exists($helper = $corePath . '/src/helpers/utils.php')){
+    include $helper;
+
+    require_once $corePath . '/src/gomee/load.php';
+}else{
+    die("\nGomee library was not required!\n\nPlease run:\n\n    composer require gomee/core\n\n");
+}
+
+
+
+
+
+
+__call__($argv);

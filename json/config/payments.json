@@ -1,0 +1,92 @@
+{
+    "methods": {
+
+        "momo": {
+            "key": "momo",
+            "title": "Thanh toán qua ví MoMo",
+            "icon": "momo.svg",
+            "inputs": {
+                "name": {
+                    "type": "text",
+                    "label": "Tên hiển thị",
+                    "placeholder": "Ví dụ: Thanh toán Momo"
+                },
+                "description": {
+                    "type": "textarea",
+                    "label": "Mô tả",
+                    "placeholder": "Viết gì đó"
+                },
+                "partner_code": {
+                    "type": "text",
+                    "label": "Partner Code",
+                    "placeholder": "Nhập Partner Code"
+                },
+                "access_key": {
+                    "type": "text",
+                    "label": "Access key",
+                    "placeholder": "Nhập Access key"
+                },
+                "secret_key": {
+                    "type": "text",
+                    "label": "Secret key",
+                    "placeholder": "Nhập Secret key"
+                }
+            },
+            "default_values": {
+                "partnerCode": "MOMOQ9L620220913"
+            }
+        },
+        "alepay": {
+            "key": "alepay",
+            "title": "Thanh toán qua qua AlePay",
+            "icon": "alepay.png",
+            "inputs": {
+                "name": {
+                    "type": "text",
+                    "label": "Tên hiển thị",
+                    "placeholder": "Ví dụ: Thanh toán chuyển khoản"
+                },
+                "description": {
+                    "type": "textarea",
+                    "label": "Mô tả",
+                    "placeholder": "Viết gì đó"
+                },
+                "token_key": {
+                    "type": "text",
+                    "label": "Token Key",
+                    "placeholder": "Nhập Token key"
+                },
+                "checksum_key": {
+                    "type": "text",
+                    "label": "Checksum Key",
+                    "placeholder": "Nhập Checksum Key"
+                },
+                "base_url": {
+                    "type": "text",
+                    "label": "Base URL",
+                    "placeholder": "Ví dụ: http://...",
+                    "@display":"row"
+                },
+                "asset_url": {
+                    "type": "text",
+                    "label": "Asset URL",
+                    "placeholder": "Ví dụ: http://...",
+                    "@display":"row"
+                },
+                "return_url": {
+                    "type": "text",
+                    "label": "Return URL",
+                    "placeholder": "Ví dụ: http://...",
+                    "@display":"row"
+                },
+                "cancel_url": {
+                    "type": "text",
+                    "label": "Cancel URL",
+                    "placeholder": "Ví dụ: http://...",
+                    "@display":"row"
+                }
+
+            }
+        }
+    }
+}

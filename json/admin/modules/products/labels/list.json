@@ -1,0 +1,40 @@
+{
+    "name": "Nhãn sản phẩm",
+    "package": "products.labels",
+    "use_trash": false,
+    "titles": {
+        "default": "Danh sách nhãn",
+        "trash": "Danh sách nhãn đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Nhãn",
+                "class": "",
+                "text": ":title"
+            },
+            {
+                "title": "Màu",
+                "class": "",
+                "template": "<span class=\"d-inline-block pl-2 pr-2 pt-1 pb-1\" style=\"background-color: {bg_color};color:{text_color}\">{text_color}</span>"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

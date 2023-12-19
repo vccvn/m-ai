@@ -1,0 +1,91 @@
+{
+    "data": {
+        "settings": {
+            "text": "Thiết lập",
+            "title": "Thiết lập",
+            "url": "#settings",
+            "permiss": "merchant.settings",
+            "active_key": "settings",
+            "icon": "cogs",
+            "submenu": {
+                "type": "list",
+                "data": [
+
+                    {
+                        "text": "Cài đặt hệ thống",
+                        "title": "Cài đặt hệ thống",
+                        "active_key": "settings.system",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"system"},
+                        "icon": "wrench"
+                    },
+                    {
+                        "text": "Thông tin website",
+                        "title": "Thông tin website",
+                        "active_key": "settings.siteinfo",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"siteinfo"},
+                        "icon": "info-circle"
+                    },
+
+
+                    {
+                        "text": "Thiết lập Email",
+                        "title": "Thiết lập Email",
+                        "active_key": "settings.mailer",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"mailer"},
+                        "icon": "envelope"
+                    },
+                    {
+                        "text": "Chính sách",
+                        "title": "Thiết lập chính sách chiết khấu",
+                        "active_key": "products",
+                        "route": "merchant.settings.group.form",
+                        "params": {
+                            "group": "discounts"
+                        },
+                        "icon": "money-bill-alt"
+                    },
+                    {
+                        "text": "Tham số hệ thống",
+                        "title": "Tham số hệ thống",
+                        "active_key": "config.trekka",
+                        "route": "merchant.settings.group.form",
+                        "params": {
+                            "group": "trekka"
+                        },
+                        "icon": "info-circle"
+                    },
+                    {
+                        "text": "Tham số hiển thị",
+                        "title": "Cấu hình nội dung",
+                        "active_key": "settings.contents",
+                        "route": "merchant.settings.group.form",
+                        "params": {
+                            "group": "contents"
+                        },
+                        "icon": "info-circle"
+                    },
+                    {
+                        "text": "Thiết lập Icons",
+                        "title": "Thiết lập Icons",
+                        "active_key": "settings.favicons",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"favicons"},
+                        "icon": "cubes"
+                    },
+                    {
+                        "text": "Thiết lập PWA",
+                        "title": "Thiết lập PWA",
+                        "active_key": "settings.pwa",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"pwa"},
+                        "icon": "cubes"
+
+                    }
+                ]
+            }
+        }
+    }
+}

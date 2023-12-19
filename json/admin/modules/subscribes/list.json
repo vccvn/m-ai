@@ -1,0 +1,37 @@
+{
+    "name": "Đăng ký theo dỏi",
+    "package": "subscribes",
+    "use_trash": false,
+    "can_edit": false,
+    "can_create": false,
+    "titles": {
+        "default": "Danh sách Đăng ký theo dỏi",
+        "trash": "Danh sách Đăng ký theo dỏi đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "general_columns":{
+            "email": "Email"
+        },
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Thông tin",
+                "class": "min-100",
+                "template": "{@getsubscribeInfo}",
+                "data": {
+                    "@getsubscribeInfo": []
+                }
+            }
+        ]
+    }
+}

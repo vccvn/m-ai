@@ -1,0 +1,40 @@
+{
+    "data": [
+        {
+            "name": "frontend_type",
+            "type": "radio",
+            "label": "Cách hiển thị giao diện phía người dùng",
+            "data": {
+                "system": "Blade view hệ thống",
+                "theme": "Giao diện ngoài"
+            },
+            "default": "system"
+        },
+        {
+            "name": "cache_data_time",
+            "type": "number",
+            "value_type": "number",
+            "label": "Thời gian lưu cache của Dữ liệu từ DB"
+        },
+        {
+            "name": "cache_view_time",
+            "type": "number",
+            "value_type": "number",
+            "label": "Thời gian lưu cache của view"
+        },
+        {
+            "name": "send_mail_notification",
+            "type": "checkbox",
+            "value_type": "boolean",
+            "label": "Gửi mail thông báo",
+            "props":{
+                "template": "switch"
+            }
+        },
+        {
+            "name": "mail_notification",
+            "type": "maillist",
+            "label": "Email nhận thông báo (ngăn cách bằng dấu phẩy (,))"
+        }
+    ]
+}

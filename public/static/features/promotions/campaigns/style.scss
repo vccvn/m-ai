@@ -1,0 +1,57 @@
+.btn-edit-campaign{
+    &[status="running"],
+    &[status="canceled"]{
+        display: none;
+    }
+}
+#utilities-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    &>label{
+        padding-right: 15px;
+        margin-right: 0;
+        width: 50%;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+@media screen and (min-width: 768px) {
+    #utilities-wrapper{
+        &>label{
+
+            -webkit-box-flex: 0;
+            width: 33.333333333%;
+            -ms-flex: 0 0 33.333333333%;
+            flex: 0 0 33.333333333%;
+            max-width: 33.333333333%;
+        }
+    }
+}
+
+@media screen and (min-width: 992px) {
+    #utilities-wrapper{
+        &>label{
+
+            -webkit-box-flex: 0;
+            width: 33.333333333%;
+            -ms-flex: 0 0 33.333333333%;
+            flex: 0 0 33.333333333%;
+            max-width: 33.333333333%;
+        }
+    }
+}
+
+@media screen and (min-width: 1560px) {
+    #utilities-wrapper{
+        &>label{
+
+            -webkit-box-flex: 0;
+            width: 25%;
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+}

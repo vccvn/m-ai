@@ -1,0 +1,42 @@
+@import "common/variables.scss";
+.alert-center,
+.text-center {
+    text-align: center;
+}
+.alert {
+    font-size: 15px;
+    padding: 20px 40px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -o-border-radius: 20px;
+    -ms-border-radius: 20px;
+    &.alert-info {
+        background: rgb(0, 153, 255);
+        color: #fff;
+    }
+    &.alert-warning {
+        background: rgb(255, 225, 0);
+        color: #000;
+    }
+    &.alert-success {
+        background: rgb(206, 255, 222);
+        color: green;
+    }
+    &.alert-danger,
+    &.alert-error {
+        background: rgb(252, 193, 193);
+        color: red;
+    }
+}
+.error-message {
+    background: rgb(252, 193, 193);
+    color: red;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+}

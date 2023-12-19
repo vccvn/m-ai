@@ -1,0 +1,10 @@
+.input-article-wrapper {
+  box-shadow: 0 0 10px rgba(185, 185, 185, 0.4);
+  padding: 15px;
+}
+
+.input-article-wrapper .list .article-item {
+  border-bottom: 1px solid #d1d1d1;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}

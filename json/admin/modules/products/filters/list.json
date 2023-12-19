@@ -1,0 +1,64 @@
+{
+    "name": "Danh sách sản phẩm (bộ lọc)",
+    "package": "products.filters",
+    "use_trash": false,
+    "titles": {
+        "default": "Danh sách list (bộ lọc)",
+        "trash": "Danh sách list (bộ lọc) đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "header",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Tên List",
+                "class": "min-160 max-250 name",
+                "text": ":name"
+            },
+            {
+                "title": "Danh mục",
+                "class": "min-160 max-250 category category-map",
+                "text": ":category_name",
+                "attrs": {
+                    "data-category-id":":category_id"
+                }
+            },
+            {
+                "title": "Mô tả",
+                "class": "min-160 max-250 description",
+                "text": ":description"
+            },
+            {
+                "title": "Kiểu sắp xếp",
+                "class": "",
+                "template": "{@getSortTypeLabel}",
+                "data":{
+                    "@getSortTypeLabel":[]
+                }
+            },
+            {
+                "title": "Thẻ",
+                "class": "",
+                "template": "{@getTagNames}",
+                "data":{
+                    "@getTagNames":[]
+                }
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": ["static/manager/js/categories.js"],
+        "css": []
+    }
+}

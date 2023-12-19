@@ -1,0 +1,171 @@
+{
+    "data": {
+        "slider_id": {
+            "type": "crazyselect",
+            "label": "Slider",
+            "call": "get_slider_options"
+        },
+        "feature_list_id": {
+            "type": "crazyselect",
+            "label": "Features",
+            "call": "get_dynamic_options"
+        },
+
+        "combo_title": {
+            "type": "text",
+            "label": "Tiêu đề Mục mua lượt thi",
+            "placeholder": "Nhập tiêu đề"
+        },
+
+        "admission_title": {
+            "type": "text",
+            "label": "Tiêu đề tuyển sinh",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "admission_thumbnail": {
+            "type": "media",
+            "label": "Thumbnail Tuyển sinh",
+            "@filetype": "image"
+        },
+        "admission_description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập nội dung"
+        },
+        "admission_hotline": {
+            "type": "text",
+            "label": "Tổng đài tuyển sinh",
+            "placeholder": "ví dụ 19000146"
+        },
+        "guide_title": {
+            "type": "text",
+            "label": "Tiêu đề HDSD",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "guide_thumbnail": {
+            "type": "media",
+            "label": "Thumbnail HDSD",
+            "@filetype": "image"
+        },
+        "guide_video": {
+            "type": "text",
+            "label": "Video HDSD (URL Youtube)",
+            "placeholder": "https://"
+        },
+        "news_title": {
+            "type": "text",
+            "label": "Tiêu đề Tin tức",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "news_dynamic_id": {
+            "type": "crazyselect",
+            "label": "Mục tin tức",
+            "call": "get_dynamic_options"
+        },
+        "news_sorttype": {
+            "type": "select",
+            "label": "kiểu sắp xếp tin tức",
+            "call": "get_post_sortby_options"
+        },
+        "news_item_number": {
+            "type": "number",
+            "label": "Số tin bài ",
+            "min": 1,
+            "step": 1,
+            "default": 4
+        },
+        "top_user_title": {
+            "type": "text",
+            "label": "Tiêu đề Bảng xếp hạng",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "top_user_number": {
+            "type": "number",
+            "label": "Số thì sinh ",
+            "min": 1,
+            "step": 1,
+            "default": 10
+        },
+        "top_user_award_title": {
+            "type": "text",
+            "label": "Tiêu đề giải thưởng",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "top_user_award_description": {
+            "type": "ckeditor",
+            "label": "Mô tả giải thưởng",
+            "placeholder": "Nhập giải thưởng"
+        },
+        "top_user_award_url":{
+            "type": "text",
+            "label": "Top User link",
+            "placeholder": "Nhập url"
+        },
+        "school_title": {
+            "type": "text",
+            "label": "Tiêu đề Danh sách trường",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "school_dynamic_id": {
+            "type": "crazyselect",
+            "label": "Mục Danh sách trường",
+            "call": "get_dynamic_options"
+        },
+        "school_sorttype": {
+            "type": "select",
+            "label": "kiểu sắp xếp Trường học",
+            "call": "get_post_sortby_options"
+        },
+        "school_item_number": {
+            "type": "number",
+            "label": "Số trường",
+            "min": 1,
+            "step": 1,
+            "default": 10
+        },
+        "review_title": {
+            "type": "text",
+            "label": "Tiêu đề Review",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "review_dynamic_id": {
+            "type": "crazyselect",
+            "label": "Mục Review",
+            "call": "get_dynamic_options"
+        },
+        "review_item_number": {
+            "type": "number",
+            "label": "Số trường",
+            "min": 1,
+            "step": 1,
+            "default": 3
+        },
+        "client_title": {
+            "type": "text",
+            "label": "Tiêu đề đối tác",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "client_description": {
+            "type": "ckeditor",
+            "label": "Mô tả mục đối tác",
+            "placeholder": "Nhập mô tả"
+        },
+        "client_dynamic_id": {
+            "type": "crazyselect",
+            "label": "Mục Đối tác",
+            "call": "get_dynamic_options"
+        },
+        "client_sorttype": {
+            "type": "select",
+            "label": "kiểu sắp xếp Đối tác",
+            "call": "get_post_sortby_options"
+        },
+        "client_item_number": {
+            "type": "number",
+            "label": "Số Đối tác",
+            "min": 1,
+            "step": 1,
+            "default": 3
+        }
+    }
+}

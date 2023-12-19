@@ -1,0 +1,83 @@
+{
+    "name": "Danh mục dự án",
+    "package": "products.categories",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách danh mục",
+        "trash": "Danh mục đã xóa"
+    },
+    "data": {
+        
+    },
+    "filter": {
+        "general_columns": {
+            "name": "tên danh mục"
+        },
+        "search_columns": {
+            "name": "tên danh mục","keywords": "Từ khóa"
+        },
+        "sort_columns": {
+            "name": "tên danh mục",
+            "created_at": "Thời gian khổi tạo"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title":"Ảnh",
+                "class":"text-center",
+                "template":"<a href=\"{@route}\"><img src=\"{@getFeaturedImage}\" class=\"image-thumbnail\" alt=\"{name}\"></a>",
+                "data":{
+                    "@route": [".update", {"id": ":id"}],
+                    "@getFeaturedImage":[]
+                }
+            },
+            {
+                "title": "Tên danh mục",
+                "class": "min-160 max-250",
+                "template": "<a href=\"{@route}\">{name}</a>",
+                "data": {
+                    "@route": [".update", {"id": ":id"}]
+                }
+            },
+            {
+                "title": "Mục cha",
+                "class": "min-160 max-250 max-400 category category-map",
+                "template": "<span>{@getParentName}</span>",
+                "data": {
+                    "@getParentName": ["Không"]
+                },
+                "attrs": {
+                    "data-category-id":":parent_id"
+                }
+            },
+            {
+                "title": "Mô tả",
+                "class": "min-160 max-300",
+                "text": ":description"
+            },
+            {
+                "title": "Số SP",
+                "header_class": "min-100 text-center",
+                "class": "min-100 text-center",
+                "template": "{@getAttr}",
+                "data": {
+                    "@getAttr": ["product_count",0]
+                }
+            }
+        ]
+    },
+    "resources": {
+        "js_data": {},
+        "js": [
+            "static/manager/js/categories.js"
+        ],
+        "css": []
+    }
+}

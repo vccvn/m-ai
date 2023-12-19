@@ -1,0 +1,12 @@
+{
+    "data": {
+        "contacts": {
+            "text": "Liên hệ",
+            "title": "Liên hệ",
+            "active_key": "contacts",
+            "permiss": "merchant.contacts",
+            "route": "merchant.contacts.list",
+            "icon": "envelope"
+        }
+    }
+}

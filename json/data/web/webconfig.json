@@ -1,0 +1,39 @@
+{
+    "config": {
+        "title": "Cấu hình web",
+        "inputs": {
+            "web_type": {
+                "type": "crazyselect",
+                "label": "Thời gian lưu cache của Dữ liệu từ DB",
+                "call": "get_web_type_options",
+                "value": "default",
+                "default": "default"
+            },
+            "theme_id": {
+                "type": "crazyselect",
+                "value_type": "number",
+                "label": "Thời gian lưu cache của Dữ liệu từ DB",
+                "call": "get_theme_options"
+            },
+            "installed_themes":{
+                "type": "checklist",
+                "label": "Danh sách các giao diện đã thiết lập"
+            },
+            "domain": {
+                "type": "text",
+                "text": "Tên miền",
+                "placeholder": "Ví dụ: domain.com.vn"
+            },
+            "alias_domain": {
+                "type": "text",
+                "text": "Tên miền Alias",
+                "placeholder": "Ví dụ: domain.com.vn"
+            },
+            "ssl": {
+                "type": "switch",
+                "text": "SSL",
+                "check_label": "Kích hoạt SSL"
+            }
+        }
+    }
+}

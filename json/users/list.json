@@ -1,0 +1,89 @@
+{
+    "name": "[module]",
+    "package": "users",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách [module]",
+        "trash": "Danh sách [module] đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "header-center",
+        "columns": [
+            {
+                "title": "",
+                "class": "",
+                "text": ":secret_id"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":name"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":type"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":avatar"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":email"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":username"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":email_verified_at"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":password"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":phone_number"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":google2fa_secret"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":level"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":status"
+            },
+            {
+                "title": "",
+                "class": "",
+                "text": ":trashed_status"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

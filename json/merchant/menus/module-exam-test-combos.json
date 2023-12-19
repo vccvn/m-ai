@@ -1,0 +1,32 @@
+{
+    "data": {
+        "exam-test-combos": {
+            "text": "Gói đề thi",
+            "title": "Quản lý Gói",
+            "permiss": "merchant.exam-test-combos",
+            "route": "merchant.exam-test-combos.list",
+            "active_key": "exam-test-combos",
+            "icon": "file-word",
+            "submenu":{
+                "type": "list",
+                "data": {
+                    "list": {
+                        "text": "Danh sách Gói đề",
+                        "title": "Danh sách gói đề thi",
+                        "active_key": "list",
+                        "route": "merchant.exam-test-combos.list",
+                        "icon": "list"
+                    },
+                    "add": {
+                        "text": "Thêm gói",
+                        "title": "Thêm gói đề thi",
+                        "active_key": "create",
+                        "route": "merchant.exam-test-combos.create",
+                        "icon": "plus-circle"
+                    }
+                }
+
+            }
+        }
+    }
+}

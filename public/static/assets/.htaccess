@@ -1,0 +1,19 @@
+# BEGIN WordPress
+
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteRule ^data\/*\.jsonl$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# END WordPress
+
+#<Limit GET POST PUT OPTIONS DELETE PATCH HEAD>
+#    Require all granted
+#</Limit>
+#<LimitExcept GET POST PUT OPTIONS DELETE PATCH HEAD>
+#    Require all denied
+#</LimitExcept>

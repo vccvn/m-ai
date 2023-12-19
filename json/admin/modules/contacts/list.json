@@ -1,0 +1,64 @@
+{
+    "name": "Liên hệ",
+    "package": "contacts",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách [module]",
+        "trash": "Danh sách [module] đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "header-center",
+        "columns": [
+            {
+                "title": "Place id",
+                "class": "",
+                "text": ":id"
+            },
+            {
+                "title": "Merchant id",
+                "class": "",
+                "text": ":merchant_id"
+            },
+            {
+                "title": "User id",
+                "class": "",
+                "text": ":user_id"
+            },
+            {
+                "title": "Name",
+                "class": "",
+                "text": ":name"
+            },
+            {
+                "title": "Email",
+                "class": "",
+                "text": ":email"
+            },
+            {
+                "title": "phone_number",
+                "class": "",
+                "text": ":phone_number"
+            },
+            {
+                "title": "Message",
+                "class": "",
+                "text": ":message"
+            },
+            {
+                "title": "Booking Time",
+                "class": "",
+                "text": ":booking_time"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

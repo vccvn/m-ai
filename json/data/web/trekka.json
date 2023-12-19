@@ -1,0 +1,14 @@
+{
+    "data": {
+
+        "cancel_time_before" :{
+            "type": "number",
+            "label": "Thời hạn có thể huỷ lịch trước khi đến thời điểm trong lịch hẹn (Giờ)",
+            "placeholder": "Nhập giờ",
+            "min": 0,
+            "max": 100,
+            "validate": "min:0|max:100"
+        }
+
+    }
+}

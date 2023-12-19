@@ -1,0 +1,94 @@
+{
+    "name": "Kho hàng",
+    "package": "products.warehouse",
+    "use_trash": false,
+    "can_edit": false,
+    "can_delete": false,
+
+    "titles": {
+        "default": "Danh sách",
+        "trash": "Danh sách đã xóa"
+    },
+    "data": {
+        "types":{"import":"Nhập kho","export": "Xuất kho"}
+    },
+    "filter":{
+        "search_columns": {
+            "product_name": "Tên sản phầm",
+            "product_sku": "Mã sản phầm",
+            "staff_name": "Tên nhân viên",
+            "staff_email": "Email nhân viên"
+        },
+        "sort_columns": {
+            "title":"Tiêu đề",
+            "product_name": "Tên sản phầm",
+            "staff_name": "Tên nhân viên",
+            "staff_email": "Email nhân viên",
+            "type": "Hành động",
+            "created_at": "Thời gian"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col order-col",
+                "order": 1
+            },
+            {
+                "title": "Hành động",
+                "class": "min-100",
+                "data_access": "types.{type}"
+            },
+            {
+                "title": "Tên sản phẩm",
+                "class": "min-100",
+                "text": ":product_name"
+                
+            },
+            {
+                "title": "Mã sản phẩm",
+                "class": "min-100",
+                "text": ":product_sku"
+                
+            },
+            {
+                "title": "Số lượng",
+                "class": "text-center",
+                "template": "{total_abs}",
+                "data": {
+                    "total_abs":{
+                        "call": "abs",
+                        "params":[":total"]
+                    }
+                }
+            },
+            {
+                "title": "Ghi chú",
+                "class": "desc-wrapper max-200",
+                "template": "<span class=\"full\">{@htmlentities}</span><span class=\"short\">{@sub}</span><a href=\"javascript:void(0);\" class=\"btn-toggle-desc\">Xem thêm</a>",
+                "data":{
+                    "@htmlentities": [":note"],
+                    "@sub":["note",120, "..."]
+                }
+            },
+            {
+                "title": "Tên nhân viên",
+                "class": "min-160",
+                "text": ":staff_name"
+                
+            },
+            {
+                "title": "Thời gian",
+                "class": "min-160 text-center",
+                "text": ":created_at"
+            }
+        ]
+    },
+    "resources":{
+        "js_data":{},
+        "js":[],
+        "css":[]
+    }
+}

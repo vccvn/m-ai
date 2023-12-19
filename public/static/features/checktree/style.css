@@ -1,0 +1,52 @@
+.check-tree {
+  position: relative;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 10px;
+}
+
+.check-tree .children {
+  padding-left: 25px;
+  margin-left: 13px;
+  border-left: 1px solid silver;
+}
+
+.check-tree .children .check-block-item {
+  position: relative;
+}
+
+.check-tree .children .check-block-item::after {
+  content: " ";
+  display: block;
+  height: 2px;
+  width: 20px;
+  border-bottom: 1px solid silver;
+  position: absolute;
+  right: 100%;
+  top: 12px;
+}
+
+.check-tree .m-checkbox > span, .check-tree .m-radio > span {
+  top: 4px;
+  left: 4px;
+}
+
+.check-tree label {
+  padding: 4px;
+  padding-left: 34px;
+  display: block;
+}
+
+.check-tree label:hover {
+  background-color: #f8f8f8;
+}
+
+.check-tree label.m-checkbox.parent-checkbox {
+  margin-bottom: 2px;
+}
+
+.check-tree label.m-checkbox.parent-checkbox + .check-tree-block {
+  padding-top: 6px;
+}

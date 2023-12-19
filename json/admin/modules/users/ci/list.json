@@ -1,0 +1,137 @@
+{
+    "name": "Người dùng",
+    "package": "users.ci",
+    "use_trash": false,
+    "can_create": false,
+    "can_update": false,
+    "can_edit": false,
+
+    "can_delete": false,
+    "titles": {
+        "default": "Danh sách người dùng",
+        "trash": "Danh sách người dùng đã xóa"
+    },
+    "data": {
+        "types": {
+            "user": "Người dùng phổ thông",
+            "customer": "Khách hàng",
+            "shopowner": "Chủ web / shop",
+            "admin": "Người quản trị hệ thông"
+        },
+        "status": {
+            "1": "Kích hoạt",
+            "0": "Chờ xác minh",
+            "-1": "Bị khóa"
+        },
+        "levels": {
+            "0": ""
+        }
+    },
+    "filter": {
+        "general_columns": {
+            "name": "Họ Tên",
+            "email": "Email"
+        },
+        "search_columns": {
+            "username": "Username"
+        },
+        "sort_columns": {
+            "birthday": "Sinh nhật",
+            "created_at": "Thời gian khổi tạo"
+        }
+    },
+    "table": {
+        "class": "",
+        "columns": {
+            "order":{
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            "avatar":{
+                "title": "Avatar",
+                "class": "max-100",
+                "template": "<a href=\"{@route}\"><img src=\"{@getAvatar}\" class=\"image-thumbnail\" alt=\"{name}\"></a>",
+                "data": {
+                    "@route": [
+                        "admin.users.update",
+                        {
+                            "id": ":id"
+                        }
+                    ],
+                    "@getAvatar": []
+                }
+            },
+
+            "name":{
+                "title": "Họ tên",
+                "class": "min-120 max-200",
+                "template": "<a href=\"{@route}\">{name}</a>",
+                    "data": {
+                        "@route": [
+                            "admin.users.update",
+                            {
+                                "id": ":id"
+                            }
+                        ]
+                    }
+            },
+            "email":{
+                "title": "Email",
+                "class": "min-150",
+                "text": ":email"
+            },
+            "phone_number":{
+                "title": "Số ĐT",
+                "class": "min-120 text-center",
+                "text": ":phone_number"
+            },
+            "front":{
+                "title": "Mặt trước",
+                "class": "max-180",
+                "template": "<a href=\"javascript:void(0)\" class=\"btn-show-ci-card\" data-front-scan=\"{@getAdminCIFrontScanURL}\" data-back-scan=\"{@getAdminCIBackScanURL}\"><img src=\"{@getAdminCIFrontScanURL}\" class=\"image-thumbnail\" alt=\"{name}\" style=\"width: 60px; height: 40px\"></a>",
+                "data": {
+                    "@getAdminCIFrontScanURL": [],
+                    "@getAdminCIBackScanURL": []
+                }
+            },
+            "back":{
+                "title": "Mặt sau",
+                "class": "max-180",
+                "template": "<a  href=\"javascript:void(0)\" class=\"btn-show-ci-card\" data-front-scan=\"{@getCIFrontScanURL}\" data-back-scan=\"{@getAdminCIBackScanURL}\"><img src=\"{@getAdminCIBackScanURL}\" class=\"image-thumbnail\" alt=\"{name}\" style=\"width: 60px; height: 40px\"></a>",
+                "data": {
+                    "@getAdminCIFrontScanURL": [],
+                    "@getAdminCIBackScanURL": []
+                }
+            },
+            "ci_card":{
+                "title": "CCCD / CMT",
+                "class": "max-150",
+                "template": "<span class=\"d-none d-block{@hasCitizenIdentity}\">{ci_card_number}</span><a href=\"javascript:void(0)\" class=\"btn-show-ci-card d-none{@hasCitizenIdentity}\" data-front-scan=\"{@getCIFrontScanURL}\" data-back-scan=\"{@getAdminCIBackScanURL}\">{@getDecryptCiCardNumber} <span class=\"d-none d-block{@getDecryptCiCardNumber}\">Xem ảnh </span></a>",
+                "data":{
+                    "@getAdminCIFrontScanURL": [],
+                    "@getAdminCIBackScanURL": [],
+                    "@hasCitizenIdentity": [],
+                    "@getDecryptCiCardNumber": []
+                }
+            },
+            "status":{
+                "title": "Hành động",
+                "class": "min-100 text-center",
+                "template":"<a href=\"javascript:void(0)\" class=\"btn-approve-ci d-none{@hasCitizenIdentity} hide-{ci_status} hide-if-approve\" data-id=\"{id}\">Duyệt</a> <span class=\"hide-if-approve\"> / </span> <a href=\"javascript:void(0)\" class=\"btn-decline-ci d-none{@hasCitizenIdentity} hide-{ci_status} hide-if-approve\" data-id=\"{id}\">Từ chối</a><span class=\"ci-status-text d-none show-{ci_status} \">Đã duyệt</span></div>",
+                "data": {
+                    "@hasCitizenIdentity": []
+                }
+            }
+        }
+    },
+    "resources": {
+        "js_data": [],
+        "js": ["/static/features/users/ci.js"],
+        "css": []
+    },
+    "includes":{
+        "templates": ["modal-ci-viewer"]
+    }
+}

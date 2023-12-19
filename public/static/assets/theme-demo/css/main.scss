@@ -1,0 +1,225 @@
+@import "vendor", "theme";
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 9999;
+    .loader {
+        display: block;
+        position: relative;
+        left: 50%;
+        top: 50%;
+        width: 100px;
+        height: 100px;
+        margin: -50px 0 0 -50px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: #072f60;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        &::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--theme-color);
+            -webkit-animation: spin 3s linear infinite;
+            animation: spin 3s linear infinite;
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #072f60;
+            -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 1.5s linear infinite;
+        }
+    }
+}
+
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+// reset
+ul {
+    &.ratting,
+    &.rating,
+    &.partner,
+    &.social,
+    &.nav-tabs,
+    &.dash-profile,
+    &.ps-tab-list,
+    &.short-name,
+    &.circles,
+    &.pagination {
+        padding-left: 0;
+        li {
+            display: inline-block;
+        }
+    }
+}
+.category-section,
+.box-cart,
+.seo-features,
+.crazy-product-detail,
+.tab-nav,
+.mobile-menu,
+.menu-right,
+.category-box,
+.category-option {
+    ul {
+        padding-left: 0;
+        li {
+            display: inline-block;
+        }
+    }
+}
+ul {
+    &.custome-nav-tabs {
+        padding-left: 20px;
+    }
+}
+header {
+    ul {
+        padding-left: 0;
+        list-style: none;
+        li {
+            display: inline-block;
+        }
+    }
+}
+
+.footer-content {
+    ul {
+        padding-left: 0;
+        list-style: none;
+        li {
+            list-style: none;
+        }
+    }
+}
+/*!
+ * wistyle
+ */
+@import "buttons", "menu", "custom-default", "custom", "style-modal", "responsive";
+
+@media (min-width: 1200px) {
+    header .main-navbar .nav-menu > li > a {
+        font-size: 13px;
+        padding: 7.5px 10px;
+        text-transform: none;
+        padding-left: 12px;
+    }
+    header .main-navbar {
+        margin: -15px 0;
+        .nav-menu > li > a {
+            padding: 23px 10px;
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    header .main-navbar .nav-menu > li > a {
+        font-size: 13px;
+        padding: 23px 15px;
+        padding-left: 15px;
+    }
+}
+
+@media (min-width: 1700px) {
+    header .main-navbar .nav-menu > li > a {
+        font-size: 15px;
+        padding: 23px 20px;
+        padding-left: 20px;
+    }
+}
+
+.t-flex > img {
+    max-width: 70px;
+    max-height: 70px;
+    width: 100%;
+}
+
+@media (max-width: 576px) {
+    header .main-navbar .nav-menu > li > a {
+        font-size: 14px;
+    }
+    .footer-sm-space {
+        margin-bottom: 0px;
+    }
+}
+
+.box-content-outdoors {
+    padding: 32px 0px;
+}
+
+.box-content-outdoors > h3 {
+    font-family: "Be Vietnam Pro";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 35px;
+    color: #000000;
+}
+
+.box-content-outdoors > h5 {
+    font-family: "Be Vietnam Pro";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    color: #000000;
+    padding: 25px 0px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 575px) {
+    .tap-to-top {
+        bottom: 16px;
+    }
+}
+.left-side .popular-post {
+    .popular-image {
+        .popular-number {
+            width: 55px;
+        }
+        .popular-contain {
+            width: calc(100% - 55px);
+            margin-left: 0;
+            padding-left: 5px;
+        }
+    }
+}

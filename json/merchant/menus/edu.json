@@ -1,0 +1,6 @@
+{
+    "extends": "base",
+    "data": {
+        "@modules": ["users", "permissions", "edu", "exams", "subjects", "exam-test-combos", "payments", "awards","students"]
+    }
+}

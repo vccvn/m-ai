@@ -1,0 +1,12 @@
+{
+    "data": {
+        "subscribes": {
+            "text": "Đăng ký theo dỏi",
+            "title": "Đăng ký theo dỏi",
+            "permiss": "admin.subscribes",
+            "active_key": "subscribes",
+            "route": "admin.subscribes.list",
+            "icon": "wifi"
+        }
+    }
+}

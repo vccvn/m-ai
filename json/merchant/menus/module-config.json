@@ -1,0 +1,61 @@
+{
+    "data": {
+        "config": {
+            "text": "Cấu hình",
+            "title": "Quản lý Sản phẩm",
+            "url": "#config",
+            "permiss": "merchant.products",
+            "icon": "cubes",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Tiện ích",
+                        "title": "Danh sách Tiện ích",
+                        "active_key": "products.utilities",
+                        "route": "merchant.products.utilities.list",
+                        "icon": "tasks"
+                    },
+                    {
+                        "text": "Chính sách",
+                        "title": "Thiết lập chính sách chiết khấu",
+                        "active_key": "products",
+                        "route": "merchant.settings.group.form",
+                        "params": {
+                            "group": "discounts"
+                        },
+                        "icon": "money-bill-alt"
+                    },
+                    {
+                        "text": "Tham số hệ thống",
+                        "title": "Tham số hệ thống",
+                        "active_key": "config.trekka",
+                        "route": "merchant.settings.group.form",
+                        "params": {
+                            "group": "trekka"
+                        },
+                        "icon": "info-circle"
+                    },
+                    {
+                        "text": "Tham số hiển thị",
+                        "title": "Cấu hình nội dung",
+                        "active_key": "settings.contents",
+                        "route": "merchant.settings.group.form",
+                        "params": {
+                            "group": "contents"
+                        },
+                        "icon": "info-circle"
+                    },
+                    {
+                        "text": "Slider",
+                        "title": "Slider",
+                        "active_key": "sliders",
+                        "route": "merchant.sliders.list",
+                        "icon": "images",
+                        "permiss": "merchant.sliders"
+                    }
+                ]
+            }
+        }
+    }
+}

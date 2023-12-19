@@ -1,0 +1,69 @@
+{
+    "name": "Trang",
+    "package": "pages",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách trang",
+        "trash": "Danh sách trang đã xóa"
+    },
+    "data": {
+
+    },
+    "filter": {
+        "general_columns": {
+            "title": "tên danh mục"
+        },
+        "search_columns": {
+            "keywords": "Từ khóa"
+        },
+        "sort_columns": {
+            "id": "Mã danh mục",
+            "created_at": "Thời gian khổi tạo"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title":"Ảnh",
+                "class":"text-center",
+                "template":"<a href=\"{@route}\"><img src=\"{@getFeaturedImage}\" class=\"image-thumbnail\" alt=\"{title}\"></a>",
+                "data":{
+                    "@route": [".update", {"id": ":id"}],
+                    "@getFeaturedImage":[]
+                }
+            },
+            {
+                "title": "Tiêu đề",
+                "class": "min-160 max-250",
+                "template": "<a href=\"{@route}\">{title}</a>",
+                "data": {
+                    "@route": [".update", {"id": ":id"}]
+                }
+            },
+            {
+                "title": "Page cha",
+                "class": "min-160",
+                "template": "<span>{@getAttr}</span>",
+                "data": {
+                    "@getAttr": ["parent_title", "Không"]
+                }
+            },
+            {
+                "title": "Mô tả",
+                "class": "min-160",
+                "text": ":description"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

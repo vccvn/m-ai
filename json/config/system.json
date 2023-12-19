@@ -1,0 +1,44 @@
+{
+    "web_type_list": {
+        "default": "Mặc định",
+        "ecommerce": "Thương mại điện tử",
+        "news": "Tin tức",
+        "business": "Business",
+        "blog": "Blog"
+
+    },
+    "domain_list": [
+        "vcc.vn"
+    ],
+    "web_modules": {
+        "base--origin":["pages", "dynamics","posts", "files", "forms","tags", "contacts", "comments", "subscribes", "sliders","menus", "settings", "embeds", "themes", "components", "account","alert","order"],
+        "base":["users","permissions","pages", "dynamics","posts", "files", "forms","tags", "account", "settings", "sliders","menus", "embeds", "themes", "components","account","alert","order", "gpt"],
+        "default": [
+            "gpt"
+        ],
+        "news": [
+
+        ],
+        "ecommerce": [
+            "products","promos","orders","customers","transactions", "payments","account","alert","order","filemanager", "location", "gpt"
+        ],
+        "business": [
+            "projects", "clients", "feedback", "teams", "testimonials"
+        ]
+    },
+    "times": {
+        "start": "1900-01-01",
+        "finish": "2200-12-31"
+    },
+    "backend": {
+
+    },
+    "frontend": {
+        "css": {
+            "prefix_class": "crazy-"
+        },
+        "js": {
+            "object": "Crazy"
+        }
+    }
+}

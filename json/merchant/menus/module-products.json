@@ -1,0 +1,31 @@
+{
+    "data": {
+        "products": {
+            "text": "Cấu hình",
+            "title": "Quản lý Sản phẩm",
+            "url": "#products",
+            "permiss": "merchant.products",
+            "icon": "cubes",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Tiện ích",
+                        "title": "Danh sách Tiện ích",
+                        "active_key": "products.utilities",
+                        "route": "merchant.products.utilities.list",
+                        "icon": "tasks"
+                    },
+                    {
+                        "text": "Chiết khấu",
+                        "title": "Thiết lập chiết khấu",
+                        "active_key": "products",
+                        "route": "merchant.settings.group.form",
+                        "params": {"group":"discounts"},
+                        "icon": "money-bill-alt"
+                    }
+                ]
+            }
+        }
+    }
+}

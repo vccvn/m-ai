@@ -1,0 +1,70 @@
+{
+    "name": "Chủ đề",
+    "package": "gpt.topics",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách Chủ đề",
+        "trash": "Chủ đề đã xóa"
+    },
+    "data": {
+
+    },
+    "filter": {
+        "general_columns": {
+            "name": "tên Chủ đề"
+        },
+        "search_columns": {
+            "keywords": "Từ khóa"
+        },
+        "sort_columns": {
+            "id": "Mã Chủ đề",
+            "created_at": "Thời gian khổi tạo"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "title": "Mã",
+                "class": "id-col",
+                "text": ":id"
+            },
+            {
+                "title": "Tên Chủ đề",
+                "class": "min-160 max-250",
+                "template": "<a href=\"{@route}\">{name}</a>",
+                "data": {
+                    "@route": [".update", {"id": ":id"}]
+                }
+            },
+            {
+                "title": "Mục cha",
+                "class": "min-160",
+                "template": "<span>{@getAttr}</span>",
+                "data": {
+                    "@getAttr": ["parent_name", "Không"]
+                }
+            },
+            {
+                "title": "Mô tả",
+                "class": "min-160",
+                "text": ":description"
+            },
+            {
+                "title": "Số dự án",
+                "header_class": "min-100 text-center",
+                "class": "min-100 text-center",
+                "template": "{@getAttr}",
+                "data": {
+                    "@getAttr": ["prompts_count",0]
+                }
+            }
+        ]
+    },
+    "resources": {
+        "js_data": {},
+        "js": [
+
+        ],
+        "css": []
+    }
+}

@@ -1,0 +1,124 @@
+{
+    "name": "Giao dịch thanh toán",
+    "package": "payments.requests",
+    "use_trash": false,
+    "can_edit": false,
+    "can_create": false,
+    "can_update": false,
+    "can_delete": false,
+    "titles": {
+        "default": "Giao dịch thanh toán",
+        "trash": "Danh sách [module] đã xóa"
+    },
+    "data": {
+        "types": {
+            "buy-connect": "Mua kết nối",
+            "buy-voucher": "Mua voucher"
+        }
+    },
+    "tools": {
+        "export": {
+            "type": "primary",
+            "route": ".export",
+            "title":"Xuất file excel theo danh sách filter",
+            "icon": "fa fa-download",
+            "className": "btn-export"
+        }
+    },
+
+    "filter": {
+        "form": "transaction",
+        "general_columns": {
+            "user_name": "Tên người thanh toán",
+            "package_name": "Tên gói thanh toán",
+            "amount": "Số tiền",
+            "order_code": "Mã đơn hàng"
+        },
+        "search_columns": [],
+        "sort_columns": {
+            "created_at": "Thời gian thanh toán"
+        }
+    },
+    "table": {
+        "class": "",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+            {
+                "title": "Người dùng",
+                "class": "min-180",
+                "template": "{@getUserName}",
+                "data": {
+                    "@getUserName": []
+                },
+                "sort_key": "user_name"
+            },
+            {
+                "title": "Loại",
+                "class": "min-180",
+                "template": "{data:types.{type}}",
+
+                "sort_key": "type"
+            },
+
+            {
+                "title": "Mã GD",
+                "class": "min-100",
+                "text": ":transaction_code",
+                "sort_key": "transaction_code"
+            },
+            {
+                "title": "Mã đơn hàng",
+                "class": "min-180",
+                "text": ":order_code",
+                "sort_key": "order_code"
+            },
+            {
+                "title": "Phương thức",
+                "class": "min-180",
+                "text": ":payment_method_name",
+                "sort_key": "payment_method_name"
+            },
+            {
+                "title": "Số tiền",
+                "class": "min-180",
+                "template": "{@getMoneyFormat}",
+                "data": {
+                    "@getMoneyFormat": []
+                },
+                "sort_key": "amount"
+            },
+
+            {
+                "title": "Thời gian",
+                "class": "min-180",
+                "template": "{@dateFormat}",
+                "data": {
+                    "@dateFormat": [
+                        "H:i - d/m/Y",
+                        "updated_at"
+                    ]
+                },
+                "sort_key": "created_at"
+            },
+            {
+                "title": "Trạng thái",
+                "class": "text-center min-180",
+                "template": "{@getStatusLabel}",
+                "data": {
+                    "@getStatusLabel": []
+                },
+                "sort_key": "status"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": ["static/features/payments/transactions/list.js"],
+        "css": []
+    }
+}

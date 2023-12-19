@@ -1,0 +1,37 @@
+{
+    "inputs": {
+
+        "name": {
+            "type": "text",
+            "label": "Tên tiện ích",
+            "placeholder": "Nhập Tên tiện ích"
+        },
+        "description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập Mô tả"
+        },
+        "icon_type": {
+            "type": "radio",
+            "label": "Loại icon",
+            "data": {
+                "font-icon": "Font Icon",
+                "image": "File Ảnh"
+            },
+            "default": "font-icon"
+        },
+        "icon_font_class": {
+            "type": "iconpicker",
+            "label": "Icon Font Class",
+            "placeholder": "Nhập Icon Font Class"
+        },
+        "icon_file_id": {
+            "type": "media",
+            "label": "Icon file",
+            "placeholder": "Nhập Icon file"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Tên gói",
+            "placeholder": "Nhập Tên gói"
+        },
+        "description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập Mô tả"
+        },
+        "connect_count": {
+            "type": "number",
+            "label": "Số lượt kết nối",
+            "placeholder": "",
+            "min": "1",
+            "step": "1"
+        },
+        "price": {
+            "type": "number",
+            "label": "Giá gói",
+            "placeholder": "Nhập Price",
+            "min": "0",
+            "step": "0.01"
+        },
+        "currency": {
+            "type": "crazyselect",
+            "label": "Loại tiền tệ",
+            "placeholder": "Nhập Currency",
+            "call": "get_currency_options",
+            "params": [
+                "currency"
+            ],
+            "default": "VND"
+        },
+        "discount": {
+            "type": "number",
+            "label": "Discount",
+            "placeholder": "",
+            "min": "0",
+            "step": "0.02",
+            "max": 100,
+            "default": 0
+        },
+        "is_default": {
+            "type": "switch",
+            "label": "đặt là mặc định",
+            "check_label": "Có"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

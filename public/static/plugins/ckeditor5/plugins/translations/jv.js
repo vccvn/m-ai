@@ -1,0 +1,1 @@
+!function(a){const t=a.jv=a.jv||{};t.dictionary=Object.assign(t.dictionary||{},{"%0 of %1":"%0 saking %1",Cancel:"Batal","Change image text alternative":"","image widget":"",Save:"Rimat","Show more items":"Tampilaken langkung kathah","Text alternative":""}),t.getPluralForm=function(a){return 0}}(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));

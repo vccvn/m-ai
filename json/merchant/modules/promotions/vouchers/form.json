@@ -1,0 +1,88 @@
+{
+    "inputs": {
+        "campaign_id": {
+            "type": "text",
+            "label": "ID của Chiến dịch",
+            "placeholder": "Nhập ID của Chiến dịch"
+        },
+        "user_id": {
+            "type": "text",
+            "label": "ID của user",
+            "placeholder": "Nhập ID của user"
+        },
+        "claim_user_id": {
+            "type": "text",
+            "label": "ID của user claim Voucher",
+            "placeholder": "Nhập ID của user claim Voucher"
+        },
+        "used_by_user_id": {
+            "type": "text",
+            "label": "ID của user sử dụng",
+            "placeholder": "Nhập ID của user sử dụng"
+        },
+        "issuance_costs": {
+            "type": "number",
+            "label": "Chi phí phát hành",
+            "placeholder": "Nhập Chi phí phát hành"
+        },
+        "payment_amount": {
+            "type": "number",
+            "label": "Số tiền thanh toán",
+            "placeholder": "Nhập Số tiền thanh toán"
+        },
+        "code": {
+            "type": "text",
+            "label": "Mã voucher",
+            "placeholder": "Nhập Mã voucher"
+        },
+        "status": {
+            "type": "text",
+            "label": "Trạng thái",
+            "placeholder": "Nhập Trạng thái"
+        },
+        "ref_type": {
+            "type": "text",
+            "label": "Ref Type",
+            "placeholder": "Nhập Trạng thái"
+        },
+        "total_item": {
+            "type": "number",
+            "label": "Total Item",
+            "placeholder": "Nhập Trạng thái"
+        },
+        "total_usage": {
+            "type": "number",
+            "label": "Total Usage",
+            "placeholder": "Nhập Trạng thái"
+        },
+
+        "is_claim": {
+            "type": "number",
+            "label": "Trạng thái giữ",
+            "placeholder": "Nhập Trạng thái giữ"
+        },
+        "user_affiliate_code": {
+            "type": "text",
+            "label": "Mã user liên kết quảng cáo",
+            "placeholder": "Nhập Mã user liên kết quảng cáo"
+        },
+        "claim_expired_at": {
+            "type": "text",
+            "label": "Thời gian hết hạn nhận voucher",
+            "placeholder": "Nhập Thời gian hết hạn nhận voucher"
+        },
+        "expired_days": {
+            "type": "number",
+            "label": "Ngày có hiệu lực từ lúc nhận",
+            "placeholder": "Nhập Thời gian hết hạn voucher"
+        },
+        "expired_at": {
+            "type": "text",
+            "label": "Thời gian hết hạn voucher",
+            "placeholder": "Nhập Thời gian hết hạn voucher"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

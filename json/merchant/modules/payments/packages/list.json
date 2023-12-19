@@ -1,0 +1,55 @@
+{
+    "name": "Gói thanh toán",
+    "package": "payments.packages",
+    "use_trash": false,
+    "titles": {
+        "default": "Danh sách Gói thanh toán",
+        "trash": "Danh sách Gói thanh toán đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "header-center",
+        "columns": [
+            {
+                "title": "Tên gói",
+                "class": "text-center",
+                "text": ":name"
+            },
+            {
+                "title": "Mô tả",
+                "class": "text-center",
+                "text": ":description"
+            },
+            {
+                "title": "Lượt kết nối",
+                "class": "text-center",
+                "text": ":connect_count"
+            },
+            {
+                "title": "Giá",
+                "class": "text-center",
+                "template": "{@get_price_format}",
+                "data": {
+                    "@get_price_format": [
+                        ":price",
+                        ":currency"
+                    ]
+                }
+            },
+            {
+                "title": "Discount",
+                "class": "text-center",
+                "template": "{discount}%"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

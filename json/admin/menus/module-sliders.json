@@ -1,0 +1,13 @@
+{
+    "data": {
+        "sliders": {
+            "text": "Slider",
+            "title": "Slider",
+            "active_key": "sliders",
+            "route": "admin.sliders.list",
+            "icon": "images",
+            "permiss": "admin.sliders"
+            
+        }
+    }
+}

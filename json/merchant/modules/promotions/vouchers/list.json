@@ -1,0 +1,106 @@
+{
+    "name": "Voucher",
+    "package": "promotions.vouchers",
+    "use_trash": false,
+    "can_edit": false,
+    "titles": {
+        "default": "Danh sách Voucher",
+        "trash": "Danh sách Voucher đã xóa"
+    },
+    "data": {
+        "status": {
+            "idle": "Chờ xử lý",
+            "claimed": "Đã nhận",
+            "used": "Đã sử dụng"
+        },
+        "types": {
+            "tour": "Tour trong nước",
+            "yacht" : "Du thuyền",
+            "hotel": "Khách sạn",
+            "restaurant": "Nhà hàng",
+            "spa": "Spa"
+        }
+    },
+    "filter": {
+        "general_columns": {
+            "campaign_name": "Tên chiến dịch",
+            "user_name": "Tên chủ voucher",
+            "claim_user_name": "Tên người nhận",
+            "code": "Mã voucher"
+        },
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col text-center",
+                "order": 1
+            },
+            {
+                "title": "Thumbnail",
+                "class": "max-100",
+                "template": "<a href=\"{@route}\"><img src=\"{@getThumbnailUrl}\" class=\"image-thumbnail\" alt=\"{title}\"></a>",
+                "data": {
+                    "@route": [
+                        ".update",
+                        {
+                            "id": ":id"
+                        }
+                    ],
+                    "@getThumbnailUrl": []
+                }
+            },
+            {
+                "title": "Chiến dịch",
+                "class": "max-180",
+                "template": "{@getCampaignName}",
+                "data": {
+                    "@getCampaignName": []
+                }
+            },
+            {
+                "title": "Loại voucher",
+                "class": "",
+                "template": "{data:types.{type}}"
+            },
+            {
+                "title": "Mã voucher",
+                "class": "",
+                "text": ":code"
+            },
+            {
+                "title": "Số người",
+                "class": "",
+                "text": ":total_people"
+            },
+
+            {
+                "title": "Người nhận",
+                "class": "",
+                "template": "{@getClaimUserFullName}",
+                "data": {
+                    "@getClaimUserFullName": []
+                }
+            },
+            {
+                "title": "Thời hạn voucher",
+                "class": "",
+                "text": ":expired_at"
+            },
+            {
+                "title": "Trạng thái",
+                "class": "",
+                "template": "{data:status.{status}}"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

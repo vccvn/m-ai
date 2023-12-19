@@ -1,0 +1,81 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Họ tên",
+            "placeholder": "Nhập họ tên",
+            "disabled" : "disabled",
+            "readonly": "true"
+        },
+
+        "email": {
+            "type": "email",
+            "label": "Địa chỉ E-mail",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-envelope\"></i>",
+            "disabled" : "disabled",
+            "readonly": "true"
+        },
+        "phone_number": {
+            "type": "text",
+            "label": "Số  điện thoại",
+            "prepend_text": "<i class=\"fa fa-phone\"></i>",
+            "disabled" : "disabled",
+            "readonly": "true"
+        },
+        "affiliate_code": {
+            "type": "text",
+            "label": "Affiliate Code",
+            "required": "true",
+            "placeholder": "Nhập Affiliate Code"
+        },
+        "type": {
+            "type": "crazyselect",
+            "label": "Loại Agent",
+            "required": "true",
+            "call": "get_user_config",
+            "params": [
+                "agent_type"
+            ],
+            "default": "agent_lv1"
+        },
+
+        "wallet_balance": {
+            "type": "number",
+            "label": "Số dư trong ví",
+            "min": 0,
+            "step": 0.01
+        },
+        "reset_discount": {
+            "type": "radio",
+            "label": "Đặt lại chiết khấu",
+            "data": {
+                "keep": "Giữ nguyên",
+                "reset": "Đặt lại theo cấu hình",
+                "custom": "Tuỳ chọn"
+            },
+            "default": "keep"
+        },
+        "agent_discount": {
+            "type": "number",
+            "label": "Chiết khấu",
+            "min": 0,
+            "step": 0.01,
+            "max": 100.00,
+            "append_text": "%"
+        },
+        "agent_expired_at": {
+            "type": "time",
+            "text": "Hạn hợp đồng",
+            "placeholder": "Nhập Hạn hợp đồng",
+            "data-format": "yyyy-mm-dd hh:ii:ss"
+        }
+    },
+    "config": {
+
+        "assets": {
+            "js": [],
+            "css": []
+        }
+    }
+}

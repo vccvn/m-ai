@@ -1,0 +1,95 @@
+{
+    "extends": "base",
+    "data": {
+        "dashboard": {
+            "text": "Bảng điều khiển",
+            "title": "Bảng điều khiển",
+            "permiss": "merchant.dashboard",
+            "route": "merchant.dashboard",
+            "icon": "tachometer-alt"
+        },
+        "@modules": ["themes", "settings"],
+        "pages": {
+            "text": "Trang",
+            "title": "Quản lý trang",
+            "permiss": "merchant.pages",
+            "route": "merchant.pages",
+            "icon": "file-word",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Danh sách",
+                        "title": "Danh sách trang",
+                        "active_key": "list",
+                        "route": "merchant.pages.list",
+                        "icon": "list-ul"
+                    },
+                    {
+                        "text": "Thêm mới",
+                        "title": "Thêm mới",
+                        "active_key": "add",
+                        "route": "merchant.pages.create",
+                        "icon": "plus-circle"
+                    },
+                    {
+                        "text": "Thùng rác",
+                        "title": "Thùng rác",
+                        "active_key": "trash",
+                        "route": "merchant.pages.trash",
+                        "icon": "trash-alt"
+                    }
+                ]
+            }
+        },
+        "dynamics": {
+            "text": "Quản lý nội dung",
+            "title": "Quản lý nội dung",
+            "route": "merchant.dynamics",
+            "icon": "briefcase-medical",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Danh sách mục",
+                        "title": "Danh sách mục đăng bài",
+                        "active_key": "list",
+                        "route": "merchant.dynamics.list",
+                        "icon": "list-ul"
+                    },
+                    {
+                        "text": "Thêm mục",
+                        "title": "Thêm mới",
+                        "active_key": "add",
+                        "route": "merchant.dynamics.create",
+                        "icon": "plus-circle"
+                    },
+                    {
+                        "text": "Mục đã xóa",
+                        "title": "Thùng rác",
+                        "active_key": "trash",
+                        "route": "merchant.dynamics.trash",
+                        "icon": "trash-alt"
+                    },
+                    {
+                        "text": "Thẻ",
+                        "title": "quản lý thẻ",
+                        "active_key": "tags",
+                        "route": "merchant.tags.list",
+                        "icon": "tags"
+                    }
+                ]
+            }
+        },
+        "custom":["posts"],
+        "files": {
+            "text": "Tập tin",
+            "title": "Quản lý Tập tin",
+            "route": "merchant.files.list",
+            "icon": "file-image"
+
+        },
+        "@module": ["users", "permissions", "teams", "comments","contacts", "subscribes"]
+
+    }
+}

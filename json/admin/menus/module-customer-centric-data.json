@@ -1,0 +1,24 @@
+{
+    "data": {
+        "customer-centric-data": {
+            "text": "Custom Centric Data",
+            "title": "Quản lý Custom Centric Data",
+            "url": "#customer-centric-data",
+            "permiss": "admin.permissions",
+            "active_key": "customer-centric-data",
+            "icon": "users",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Dáng người",
+                        "title": "Danh sách Dáng người",
+                        "active_key": "customer-centric-data.body-shapes",
+                        "route": "admin.customer-centric-data.body-shapes.list",
+                        "icon": "qrcode"
+                    }
+                ]
+            }
+        }
+    }
+}

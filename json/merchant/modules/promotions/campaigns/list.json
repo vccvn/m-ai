@@ -1,0 +1,130 @@
+{
+    "name": "Chiến dịch",
+    "package": "promotions.campaigns",
+    "use_trash": false,
+    "can_edit": false,
+    "titles": {
+        "default": "Danh sách Chiến dịch",
+        "trash": "Danh sách Chiến dịch đã xóa"
+    },
+    "data": {
+        "types": {
+            "tour": "Tour",
+            "hotel": "Khách sạn",
+            "restaurant": "Nhà hàng",
+            "spa": "Spa"
+        },
+        "status": {
+            "running": "Đang hoạt động",
+            "canceled": "Đã huỷ",
+            "expired": "Đã kết thúc"
+        }
+    },
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "buttons": {
+        "run": {
+            "type": "info",
+            "class": "btn-campaign-action btn-run-campaign",
+            "icon": "fa fa-bolt",
+            "title": "Chạy chiến dịch",
+            "data-id": ":id",
+            "route": ".run",
+            "campaign-status": ":status",
+            "show": {
+                "status": "stopped"
+            }
+        },
+        "stop": {
+            "type": "danger",
+            "class": "btn-campaign-action btn-stop-campaign",
+            "icon": "fa fa-stop",
+            "title": "Tạm dừng chiến dịch",
+            "data-id": ":id",
+            "campaign-status": ":status",
+            "route": ".stop",
+            "show": {
+                "status":"running"
+            }
+        },
+        "edit": {
+            "type": "outline-info",
+            "class": "btn-edit-campaign",
+            "icon": "flaticon-edit-1",
+            "title": "chỉnh sửa chiến dịch",
+            "data-id": ":id",
+            "status": ":status",
+            "route": ".update",
+            "params": {
+                "id": ":id"
+            }
+
+        }
+    },
+    "table": {
+        "class": "",
+        "columns": [
+            {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col text-center",
+                "order": 1
+            },
+            {
+                "title": "Thumbnail",
+                "class": "max-100",
+                "template": "<a href=\"{@route}\"><img src=\"{@getThumbnailUrl}\" class=\"image-thumbnail\" alt=\"{title}\"></a>",
+                "data": {
+                    "@route": [
+                        ".update",
+                        {
+                            "id": ":id"
+                        }
+                    ],
+                    "@getThumbnailUrl": []
+                }
+            },
+            {
+                "title": "Chiến dịch",
+                "class": "max-180",
+                "text": ":name"
+            },
+
+            {
+                "title": "Nhà cung cấp",
+                "class": "max-180",
+                "text": ":vendor_name",
+                "template": "{@getVendorName}",
+                "data":{
+                    "@getVendorName": []
+                }
+            },
+
+            {
+                "title": "Bắt đầu",
+                "class": "text-center",
+                "text": ":started_at"
+            },
+            {
+                "title": "Kết thúc",
+                "class": "text-center",
+                "text": ":expired_at"
+            },
+            {
+                "title": "Đã dùng",
+                "class": "text-center",
+                "template": "{used_voucher_count}/{@getTotalVoucherQuantity}",
+                "data":{
+                    "@getTotalVoucherQuantity": []
+                }
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": ["/static/features/promotions/campaigns/script.js"],
+        "css": ["/static/features/promotions/campaigns/style.min.css"]
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "data": [
+        {
+            "name": "copyright",
+            "type": "ckeditor",
+            "value": "&copy; 2023 Trekka",
+            "label": "Copyright"
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "extends": "base",
+    "data": {
+        "@modules": ["users", "permissions", "payments", "location", "requires", "promotions", "bookings", "config"]
+    }
+}

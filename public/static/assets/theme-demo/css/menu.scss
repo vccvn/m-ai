@@ -1,0 +1,20 @@
+header {
+
+    .main-navbar {
+        .nav-menu {
+            &>li{
+                &:hover, &.active, &.current-menu-item{
+                    a{
+                        color: var(--theme-color);
+                    }
+                }
+                &.personal-style-item{
+                    img{
+                        height: 20px;
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+    }
+}

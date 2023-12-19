@@ -1,0 +1,30 @@
+{
+    "data": {
+        "promotions": {
+            "text": "Khuyến mãi",
+            "title": "Quản lý pKhuyến mãi",
+            "url": "#promotions",
+            "permiss": "merchant.promotions",
+            "icon": "money-check-alt",
+            "submenu": {
+                "type": "list",
+                "data": [
+                    {
+                        "text": "Chiến dịch",
+                        "title": "Danh sách chiến dịch",
+                        "active_key": "promotions.campaigns",
+                        "route": "merchant.promotions.campaigns.list",
+                        "icon": "share-alt-square"
+                    },
+                    {
+                        "text": "Voucher",
+                        "title": "Danh sách Voucher",
+                        "active_key": "promotions.vouchers",
+                        "route": "merchant.promotions.vouchers.list",
+                        "icon": "share-alt-square"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "data": {
+        "bookings": {
+            "text": "Lịch hẹn",
+            "title": "Lịch hẹn",
+            "active_key": "bookings",
+            "permiss": "merchant.bookings",
+            "href": "javascript:void(0);",
+            "icon": "calendar-check",
+            "submenu": {
+                "type": "list",
+                "data": {
+                    "all": {
+                        "text": "Tất cả lịch hẹn",
+                        "title": "Danh sách tất cả lịch hẹn",
+                        "active_key": "bookings.list",
+                        "permiss": "merchant.bookings.list",
+                        "route": "merchant.bookings.list",
+                        "icon": "calendar-check"
+                    },
+                    "idle": {
+                        "text": "Chờ xử lý",
+                        "title": "Danh sách chờ xử lý",
+                        "active_key": "bookings.idle",
+                        "permiss": "merchant.bookings.idle",
+                        "route": "merchant.bookings.idle",
+                        "icon": "sync"
+                    },
+                    "confirmed": {
+                        "text": "Đã xác nhận",
+                        "title": "Danh sách đã xác nhận",
+                        "active_key": "bookings.confirmed",
+                        "permiss": "merchant.bookings.confirmed",
+                        "route": "merchant.bookings.confirmed",
+                        "icon": "handshake"
+                    },
+                    "completed": {
+                        "text": "Đã hoàn thành",
+                        "title": "Danh sách đã hoàn thành",
+                        "active_key": "bookings.completed",
+                        "permiss": "merchant.bookings.completed",
+                        "route": "merchant.bookings.completed",
+                        "icon": "check-circle"
+                    },
+                    "canceled": {
+                        "text": "Đã huỷ",
+                        "title": "Danh sách đã huỷ",
+                        "active_key": "bookings.canceled",
+                        "permiss": "merchant.bookings.canceled",
+                        "route": "merchant.bookings.canceled",
+                        "icon": "times-circle"
+                    }
+                }
+            }
+        }
+    }
+}

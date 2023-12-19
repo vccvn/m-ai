@@ -1,0 +1,57 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Họ tên",
+            "placeholder": "Nhập họ tên",
+            "required": "true"
+        },
+        "email": {
+            "type": "email",
+            "label": "Địa chỉ E-mail",
+            "placeholder": "Nhập email",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-envelope\"></i>"
+        },
+        "username": {
+            "type": "text",
+            "label": "Tên đăng nhập",
+            "placeholder": "Nhập tên tài khoản",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-user\"></i>"
+        },
+        "phone_number": {
+            "type": "text",
+            "label": "Số  điện thoại",
+            "required": "true",
+            "prepend_text": "<i class=\"fa fa-phone\"></i>"
+        },
+        "password": {
+            "type": "password",
+            "label": "Mật khẩu",
+            "placeholder": "Nhập mật khẩu",
+            "prepend_text": "<i class=\"fa fa-key\"></i>"
+        },
+        "password_confirmation": {
+            "type": "password",
+            "label": "Mật khẩu xác  nhận",
+            "placeholder": "Nhập lại mật khẩu",
+            "prepend_text": "<i class=\"fa fa-key\"></i>"
+        },
+        "ci_card_number": {
+            "type": "text",
+            "label": "Số CCCD",
+            "placeholder": "Nhập Số CCCD"
+        },
+        "ci_card_front_scan": {
+            "type": "file",
+            "label": "Scan hoặc Ảnh mặt trước CCCD",
+            "accept": "image/*"
+        },
+        "ci_card_back_scan": {
+            "type": "file",
+            "label": "Scan hoặc Ảnh mặt sau CCCD",
+            "accept": "image/*"
+        }
+    }
+}

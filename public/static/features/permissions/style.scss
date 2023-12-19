@@ -1,0 +1,20 @@
+.module-table{
+    .m-checkbox, .m-radio{
+        padding-left: 18px;
+    }
+    table{
+        thead{
+            th{
+                * {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+    .check-col, .module-name, .module-description{
+        span{
+            margin-bottom: 10px;
+            display: block;
+        }
+    }
+}

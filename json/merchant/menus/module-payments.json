@@ -1,0 +1,57 @@
+{
+    "data": {
+        "payments": {
+            "text": "Đăng ký gói tải file",
+            "title": "Đăng ký gói tải file",
+            "permiss": "merchant.payments.requests.create",
+            "route": "merchant.payments.requests.create",
+            "icon": "plus-circle",
+            "@submenu": {
+                "type": "list",
+                "data": {
+                    "transactions": {
+                        "text": "Lịch sử giao dịch",
+                        "title": "Lịch sử giao dịch",
+                        "permiss": "merchant.payments.transactions",
+                        "route": "merchant.payments.transactions",
+                        "icon": "list"
+                    },
+                    "requests": {
+                        "text": "Thêm lượt tải",
+                        "title": "Thêm lượt tải",
+                        "permiss": "merchant.payments.requests.create",
+                        "route": "merchant.payments.requests.create",
+                        "icon": "plus-circle"
+                    }
+                }
+            }
+        },
+        "@payments": {
+            "text": "Lịch sử giao dịch",
+            "title": "Lịch sử giao dịch",
+            "permiss": "merchant.payments.transactions",
+            "route": "merchant.payments.transactions",
+            "icon": "credit-card",
+            "@parent": "payments",
+            "@submenu": {
+                "type": "list",
+                "data": {
+                    "transactions": {
+                        "text": "Lịch sử giao dịch",
+                        "title": "Lịch sử giao dịch",
+                        "permiss": "merchant.payments.transactions",
+                        "route": "merchant.payments.transactions",
+                        "icon": "list"
+                    },
+                    "requests": {
+                        "text": "Thêm lượt tải",
+                        "title": "Thêm lượt tải",
+                        "permiss": "merchant.payments.requests.create",
+                        "route": "merchant.payments.requests.create",
+                        "icon": "plus-circle"
+                    }
+                }
+            }
+        }
+    }
+}

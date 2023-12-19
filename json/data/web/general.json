@@ -1,0 +1,51 @@
+{
+    "data": {
+        "header_menu_id" :{
+            "type": "crazyselect",
+            "label": "Header Menu",
+            "call": "get_menu_options"
+        },
+        "mobile_menu_id" :{
+            "type": "crazyselect",
+            "label": "Mobile Menu",
+            "call": "get_menu_options"
+        },
+
+        "footer_column_1_title" :{
+            "type": "text",
+            "label": "Footer Column 1 Title",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "footer_column_1_menu_id" :{
+            "type": "crazyselect",
+            "label": "Footer Column 1 Menu",
+            "call": "get_menu_options"
+        },
+        "footer_column_2_title" :{
+            "type": "text",
+            "label": "Footer Column 2 Title",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "footer_column_2_menu_id" :{
+            "type": "crazyselect",
+            "label": "Footer Column 2 Menu",
+            "call": "get_menu_options"
+        },
+        "footer_column_3_title" :{
+            "type": "text",
+            "label": "Footer Column 3 Title",
+            "placeholder": "Nhập tiêu đề"
+        },
+        "footer_column_3_menu_id" :{
+            "type": "crazyselect",
+            "label": "Footer Column 3 Menu",
+            "call": "get_menu_options"
+        },
+        "footer_copyright" :{
+            "type": "ckeditor",
+            "label": "Bản quyền",
+            "call": "get_menu_options"
+        }
+
+    }
+}

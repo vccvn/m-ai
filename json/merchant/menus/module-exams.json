@@ -1,0 +1,32 @@
+{
+    "data": {
+        "exams": {
+            "text": "Đề thi",
+            "title": "Quản lý đề thi",
+            "permiss": "merchant.exams",
+            "route": "merchant.exams.list",
+            "active_key": "exams",
+            "icon": "file-word",
+            "submenu":{
+                "type": "list",
+                "data": {
+                    "list": {
+                        "text": "Danh sách đề thi",
+                        "title": "Danh sách đề thi",
+                        "active_key": "list",
+                        "route": "merchant.exams.list",
+                        "icon": "list"
+                    },
+                    "add": {
+                        "text": "Thêm đề thi",
+                        "title": "Thêm đề thi",
+                        "active_key": "create",
+                        "route": "merchant.exams.create",
+                        "icon": "plus-circle"
+                    }
+                }
+
+            }
+        }
+    }
+}

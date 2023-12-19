@@ -1,0 +1,130 @@
+{
+    "name": "Agent",
+    "package": "users.agent",
+    "use_trash": false,
+    "can_create": false,
+    "titles": {
+        "default": "Danh sách Agent",
+        "trash": "Danh sách Agent đã xóa"
+    },
+    "data": {
+        "types": {
+            "user": "Người dùng phổ thông",
+            "customer": "Khách hàng",
+            "shopowner": "Chủ web / shop",
+            "admin": "Người quản trị hệ thông"
+        },
+        "status": {
+            "1": "Kích hoạt",
+            "0": "Chờ xác minh",
+            "-1": "Bị khóa",
+            "-2": "Cấm vĩnh viễn"
+        },
+        "levels": {
+            "0": ""
+        }
+    },
+    "filter": {
+        "general_columns": {
+            "name": "Họ Tên",
+            "email": "Email"
+        },
+        "search_columns": {
+            "username": "Username"
+        },
+        "sort_columns": {
+            "birthday": "Sinh nhật",
+            "created_at": "Thời gian khổi tạo"
+        }
+    },
+    "buttons1": {
+        "reset2fa": {
+            "type": "warning",
+            "route": ".reset2fa",
+            "title":"Đặt lại 2fa",
+            "icon": "fa fa-unlink",
+            "className": "btn-reset2fa"
+        }
+    },
+
+    "table": {
+        "class": "",
+        "columns": {
+            "order": {
+                "type": "order",
+                "title": "STT",
+                "class": "id-col",
+                "order": 1
+            },
+
+            "name": {
+                "title": "Họ tên",
+                "class": "min-120 max-200",
+                "template": "<a href=\"{@route}\">{name}</a>",
+                "data": {
+                    "@route": [
+                        ".update",
+                        {
+                            "id": ":id"
+                        }
+                    ]
+                }
+            },
+            "email": {
+                "title": "Email",
+                "class": "min-150",
+                "text": ":email"
+            },
+            "phone_number": {
+                "title": "Số ĐT",
+                "class": "min-120 text-center",
+                "text": ":phone_number"
+            },
+            "type": {
+                "title": "Đại lý",
+                "class": "text-center",
+                "template": "{@getTypeLabel}",
+                "data": {
+                    "@getTypeLabel": []
+                }
+            },
+
+            "agent_discount": {
+                "title": "Chiết khấu (%)",
+                "class": "min-120 text-center",
+                "text": ":agent_discount"
+            },
+            "wallet_balance": {
+                "title": "Số dư",
+                "class": "text-center",
+                "text": ":wallet_balance"
+            },
+            "status": {
+                "title": "Trạng thái",
+                "class": "min-100 text-center",
+                "template": "<div class=\"\">{@html_input}</div>",
+                "data": {
+                    "@html_input": [
+                        {
+                            "type": "select",
+                            "name": "users[{id}][status]",
+                            "lanel": "Trạng thái",
+                            "value": ":status",
+                            "data": "@data:status",
+                            "class": "form-control-sm m-input user-item-status-select",
+                            "data-id": ":id"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "resources": {
+        "js_data": [],
+        "js": [
+            "/static/features/users/list.js"
+        ],
+        "css": []
+    },
+    "includes": {}
+}

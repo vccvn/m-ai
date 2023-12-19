@@ -1,0 +1,50 @@
+{
+    "user_id": {
+        "type": "crazyselect",
+        "label": "Tài khoản người dùng",
+        "template": "crazyselect",
+        "@select-type": "search",
+        "@search-route": "admin.users.select-option",
+        "call": "App\\Repositories\\Users\\UserRepository::getDynamicSelectOptions",
+        "params": [
+            {
+                "id": ":defval"
+            }
+        ]
+    },
+    "service_id": {
+        "type": "crazyselect",
+        "label": "Chọn dịch vụ",
+        "placeholder": "Nhập tên dịch vụ",
+        "call": "get_service_options",
+        "params": [[], "Tất cả dịch vụ"],
+        "@change": "App.ServicePromos.changeServiceID"
+    },
+    "package_id": {
+        "type": "crazyselect",
+        "label": "Gói dịch vụ",
+        "placeholder": "nhập tên gói",
+        "call": "get_service_package_options",
+        "params": [
+            {
+                "service_id": "#service_id"
+            },
+            "Tất cả"
+        ]
+    },
+    "expired_at": {
+        "type": "text",
+        "text": "Ngày hết hạn",
+        "className": "inp-time",
+        "data-format": "yyyy-mm-dd HH:ii:ss",
+        "append_text": "<i class=\"fa fa-calendar\"></i>"
+    },
+    "status": { 
+        "type": "deepselect", 
+        "text": "Trạng thái", 
+        "required":"true", 
+        "func":"get_user_config", 
+        "params":["status_list"], 
+        "template":"deepselect"
+    }
+}
