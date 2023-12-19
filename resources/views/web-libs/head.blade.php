@@ -1,5 +1,5 @@
 @php
-    $subTemplateFolder = $_env->yieldContent('sub-template', $_env->yieldContent('subTemplate', $_env->yieldContent('template.sub')));
+    $subTemplateFolder = $__env->yieldContent('sub-template', $__env->yieldContent('subTemplate', $__env->yieldContent('template.sub')));
     if($subTemplateFolder) $subTemplateFolder.='.';
 @endphp
 @include($_lib.'meta')
