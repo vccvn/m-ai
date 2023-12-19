@@ -1,6 +1,10 @@
+@php
+    $subTemplateFolder = $_env->yieldContent('sub-template', $_env->yieldContent('subTemplate', $_env->yieldContent('template.sub')));
+    if($subTemplateFolder) $subTemplateFolder.='.';
+@endphp
 @include($_lib.'meta')
 <link rel="stylesheet" href="{{asset('static/app/css/app.min.css')}}">
-@include($_template.'links')
+@include($_template.$subTemplateFolder.'links')
 @yield('css')
 @if ($css = get_custom_css())
 

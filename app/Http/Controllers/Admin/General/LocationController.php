@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\Admin\General;
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Repositories\Locations\RegionRepository;
