@@ -8,7 +8,7 @@
             "route": "admin.dashboard",
             "icon": "tachometer-alt"
         },
-        "@modules": ["themes", "settings"],
+        "@modules": ["themes", "settings", "gpt"],
         "pages": {
             "text": "Trang",
             "title": "Quản lý trang",
@@ -81,14 +81,13 @@
                 ]
             }
         },
-        "@module_list": ["services", "payments", "service-transactions", "service-promos", "projects"],
         "custom":["posts"],
         "files": {
             "text": "Tập tin",
             "title": "Quản lý Tập tin",
             "route": "admin.files.list",
             "icon": "file-image"
-            
+
         },
         "@module": ["crawlers", "users", "permissions", "teams", "clients", "comments","contacts", "subscribes"]
 
