@@ -106,7 +106,7 @@ class ViewManager
         }else{
             $bp = $d .  $blade;
         }
-
+        // dd($bp);
         if(!view()->exists($bp)){
             abort(256, "Hệ thống đã cố gắng hết sức để tải giao diện nhưng không thành công. Xin chia buồn cùng đội ngũ Dev và ban quản trị!");
         }

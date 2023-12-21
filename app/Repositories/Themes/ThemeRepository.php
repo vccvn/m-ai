@@ -4,6 +4,7 @@ namespace App\Repositories\Themes;
 
 use App\Exceptions\NotReportException;
 use App\Masks\Themes\ThemeMask;
+use App\Models\Theme;
 use Gomee\Repositories\BaseRepository;
 use App\Repositories\Components\ComponentRepository;
 use App\Repositories\Html\ComponentRepository as HtmlComponentRepository;
@@ -316,7 +317,8 @@ class ThemeRepository extends BaseRepository
      */
     public function createMetaData($id)
     {
-        if (!($theme = $this->findBy('id', $id))) return false;
+        $theme = $id?(is_a($id, Theme::class)?$id:$this->findBy('id', $id)):null;
+        if (!$theme) return false;
         $filemanager = new Filemanager();
         $metadatas = $this->metadataReposirory;
         $componentRepository = new ComponentRepository();
@@ -368,6 +370,7 @@ class ThemeRepository extends BaseRepository
         // dd($data);
         $metadatas->saveMany('theme', $theme->id, $data, false);
         // dd($metadatas->saveMany('theme', $theme->id, $data, false));
+        return $data;
     }
 
 

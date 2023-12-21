@@ -5,7 +5,7 @@ use App\Models\GPTTopic;
 use Gomee\Masks\Mask;
 /**
  * TopicMask class
- * 
+ *
  */
 class TopicMask extends Mask
 {
@@ -18,13 +18,15 @@ class TopicMask extends Mask
      *
      * @return void
      */
-    // protected function init(){
-    //     # code...
-    // }
+    protected function init(){
+        $this->map([
+            'prompts' => PromptCollection::class
+        ]);
+    }
 
     /**
      * lấy data từ model sang mask
-     * @param GPTTopic $gPTTopic Tham số không bắt buộc phải khai báo. 
+     * @param GPTTopic $gPTTopic Tham số không bắt buộc phải khai báo.
      * Xem thêm ExampleMask
      */
     // public function toMask()
@@ -33,7 +35,7 @@ class TopicMask extends Mask
     //     // thêm data tại đây.
     //     // Xem thêm ExampleMask
     //     return $data;
-        
+
     // }
 
     /**
@@ -45,7 +47,7 @@ class TopicMask extends Mask
     // {
     //     # code...
     // }
-    
-    
+
+
     // khai báo thêm các hàm khác bên dưới nếu cần
 }
