@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Web\Account\AuthController;
-use App\Http\Controllers\Web\Account\CheckAuthController;
+use App\Http\Controllers\Web\Common\AuthController;
+use App\Http\Controllers\Web\Common\CheckAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('auth.')->controller(AuthController::class)->group(function(){

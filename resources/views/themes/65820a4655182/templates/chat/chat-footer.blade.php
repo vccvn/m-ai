@@ -1,5 +1,5 @@
 <div class="chat-footer chat-message-form">
-    <form method="POST" action="?send=true" enctype="multipart/form-data" id="chat-message-form">
+    <form method="POST" action="{{route('web.ai.chat.send-message')}}" enctype="multipart/form-data" id="chat-message-form">
         {{-- <textarea name="message" id="chat-message-input" class="form-control chat_form" placeholder="Nhập nội dung..."></textarea> --}}
         {{-- <input type="text" class="form-control chat_form" placeholder="Enter Message....."> --}}
         <div class="chat_form message-wrapper">

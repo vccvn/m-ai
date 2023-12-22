@@ -13,7 +13,7 @@ return [
         'port' => env('NODE_API_PORT', '4444')
     ],
     'modules' => [
-        'form_key' => env('MODULE_FORM_KEY', 'uuid')
+        'form_key' => env('MODULE_FORM_KEY', 'id')
     ],
     'gmo' => 'AAA',
     'gmo' => 'AAA',

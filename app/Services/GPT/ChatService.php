@@ -16,6 +16,17 @@ class ChatService{
             'messages' => $messages,
         ]);
         // return $result;
+        // dd($result);
+        if($result){
+            $choices = $result->choices;
+            $first = $choices[0];
+            $message= $first->message;
+            $data = [
+                'role' => $message->role,
+                'content' => $message->content
+            ];
+            return $data;
+        }
         return Arr::get($result, 'choices.0.message');
 
     }

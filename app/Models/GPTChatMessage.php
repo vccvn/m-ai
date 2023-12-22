@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GPTChatMessage extends Model
 {
     public $table = 'gpt_chat_messages';
-    public $fillable = ['chat_id', 'user', 'role', 'message', 'content'];
+    public $fillable = ['chat_id', 'role', 'message', 'content'];
 
 
     /**

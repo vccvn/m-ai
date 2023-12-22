@@ -40,7 +40,7 @@
 
 .message-wrapper .prompt-label {
   float: left;
-  margin-left: -14px;
+  margin-left: -13px;
   margin-right: 10px;
   margin-top: 1px;
   padding: 4px 8px;
@@ -75,6 +75,79 @@
 
 .chat-message-form {
   position: relative;
+}
+
+.message-block {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  width: 100%;
+}
+
+.chat .chat-body .messages .chats.user {
+  margin-left: auto;
+  flex-direction: row-reverse;
+  -webkit-flex-direction: row-reverse;
+}
+
+.chat .chat-body .messages .chats.user .chat-time {
+  justify-content: flex-end;
+}
+
+.chat .chat-body .messages .chats.user .message-content {
+  background-color: #e8efff;
+  color: #232323;
+  border-radius: 20px 20px 0 20px;
+}
+
+.chat .chat-body .messages .chats.user .chat-action-btns {
+  order: 2;
+  -webkit-order: 2;
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.chat .chat-body .messages .chats.user .chat-action-btns .chat-action-col {
+  width: 100%;
+  text-align: center;
+}
+
+.chat .chat-body .messages .chats.user .chat-action-btns .chat-read-col {
+  display: flex;
+  display: -webkit-flex;
+  align-items: flex-end;
+  -webkit-align-items: flex-end;
+  padding-bottom: 22px;
+  color: #008024;
+}
+
+.chat .chat-body .messages .chats.user .chat-content {
+  order: 1;
+  -webkit-order: 1;
+}
+
+.chat .chat-body .messages .chats.user .chat-avatar {
+  padding: 8px 0px 0 15px;
+}
+
+.chat .chat-body .messages .chats.user .message-content .chat-time {
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+}
+
+.chat .chat-body .messages .chats.user .message-content .chat-time .time {
+  color: #909090;
+}
+
+.chat .chat-body .messages .chats.user .message-content .chat-time .time i {
+  color: #a3c2ff;
 }
 
 @keyframes chat-writter {

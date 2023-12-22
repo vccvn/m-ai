@@ -1,4 +1,10 @@
+@php
+    $html->addTagAttribute('html', 'lang', 'vi-VN');
+    $html->addTagAttribute('body', [
+        'class' => $__env->yieldContent('body.class')
+    ]);
 
+@endphp
 
 @extends($_lib.'layout')
 

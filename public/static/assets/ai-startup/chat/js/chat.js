@@ -3,13 +3,37 @@ $(function () {
         type: 'new',
         prompt_id: 0,
         id: null,
-        message: ''
+        message: '',
+        name: App.date('H:i', +7),
+        uuid: App.str.rand(32)
     };
+
+    let chats = {};
+
+    const pendingList = [];
 
     const htmlTemplates = {
         promptItem: '',
-        promptLabel: $('#prompt-label-template').html()
+        promptLabel: $('#prompt-label-template').html(),
+        messageBlock: $('#message-block-template').html(),
+        messageItem: $('#message-item-template').html(),
     };
+    const tempElement = document.createElement('div');
+    const $form = $('#chat-message-form');
+    const $inputMessage = $('#chat-message-input');
+    const $messageWrapper = $('.message-wrapper');
+
+    const $chatList = $('.chat-message-list');
+    const SEND_URL = $form.attr('action');
+
+    let currentChatData = {
+        uuid: chatData.uuid,
+        id: chatData.id,
+        prompt_id: chatData.prompt_id
+    }
+
+    let isSending = false;
+    let sendingID = null;
 
     const checkTextareaContentHeight = function checkTextareaContentHeight(el) {
         el.setAttribute('style', 'height:' + (el.scrollHeight) + 'px;overflow-y:hidden;');
@@ -22,7 +46,7 @@ $(function () {
             this.style.height = (this.scrollHeight) + 'px';
         });
     }
-    const tempElement = document.createElement('div');
+
 
     const strpTags = str => {
         tempElement.innerHTML = str;
@@ -35,9 +59,6 @@ $(function () {
     }
 
 
-    const $form = $('chat-message-form');
-    const $inputMessage = $('#chat-message-input');
-    const $messageWrapper = $('.message-wrapper');
     const getMesssageContent = () => {
         let content = '';
         content = $inputMessage.html();
@@ -63,11 +84,11 @@ $(function () {
     const checkMessageInputScroll = () => {
         let windowHeight = window.innerHeight;
         let messageInputHeight = $inputMessage.height();
-        let r = 60 / 100 * windowHeight -40;
-        if(messageInputHeight > r){
+        let r = 60 / 100 * windowHeight - 40;
+        if (messageInputHeight > r) {
             $inputMessage.addClass('scroll-height');
         }
-        else{
+        else {
             $inputMessage.removeClass('scroll-height');
 
         }
@@ -87,17 +108,131 @@ $(function () {
         chatData.id = null;
         chatData.prompt_id = pid;
         chatData.message = '';
+        chatData.name = App.date('H:i', +7);
 
+        chatData.uuid = App.str.rand();
         return true;
     }
 
     const newChatWithPrompt = (id, name) => {
         newChat(id);
         $messageWrapper.prepend(App.str.eval(htmlTemplates.promptLabel, { id, name }));
+        chatData.name = name;
         setMessagePlaceholder('Nhập thêm chi tiết...');
     }
 
+    const createChatBlock = (uuid, name, prepend) => {
+        let chatHtml = App.str.eval(htmlTemplates.messageBlock, {uuid, name});
+        if(prepend){
+            $chatList.prepend(chatHtml);
+        }else{
+            $chatList.append(chatHtml);
+        }
+        return $chatList.find('#message-block-' + uuid);
+    }
 
+    const pushChatMessage = ($chatBlock, role, message) => {
+        if(!$chatBlock) return false;
+        if(App.isString($chatBlock))
+            $chatBlock = $('#message-block-' + $chatBlock);
+        if(!App.isObject($chatBlock))
+            return false;
+        $chatBlock.append(App.str.eval(htmlTemplates.messageItem, {role, message}));
+    }
+    const pushChatMessageList = ($chatBlock, messages) => {
+        if(!$chatBlock || !App.isArray(messages)) return false;
+        if(App.isString($chatBlock))
+            $chatBlock = $('#message-block-' + $chatBlock);
+        if(!App.isObject($chatBlock))
+            return false;
+        messages.map(message => App.isObject(message) && $chatBlock.append(App.str.eval(htmlTemplates.messageItem, {role: message.role, message: message.message})));
+    }
+
+    function sendMessage (data){
+        isSending = true;
+        App.api.post(SEND_URL, data)
+        .then(rs => {
+            if(rs.status){
+                pushChatMessage(data.uuid, rs.data.role, rs.data.message);
+                if(data.uuid = chatData.uuid){
+                    chatData.id = rs.data.chat_id;
+                    chatData.type = 'continue';
+                }
+            }
+            else{
+                App.Swal.warning(rs.message);
+            }
+            isSending = false;
+            checkSendingProccess();
+
+
+        }).catch(e => {
+            isSending = false;
+            checkSendingProccess();
+        })
+    }
+
+    function checkSendingProccess() {
+        if(isSending || pendingList.length == 0) return false;
+        // isSending = true;
+
+        let data = pendingList.shift();
+
+        sendMessage(data);
+
+    };
+
+    const createChat = data => {
+        const currentData = {
+            type: data.type,
+            prompt_id: data.prompt_id,
+            id: data.id,
+            message: data.message,
+            name: data.name,
+            uuid: data.uuid
+        }
+        currentChatData = {
+            id: data.id,
+            prompt_id: data.prompt_id,
+            uuid: data.uuid
+        };
+
+        chats[data.uuid] = true;
+
+        let $chatBlock = createChatBlock(currentData.uuid, currentData.name);
+        pushChatMessage($chatBlock, 'user', currentData.message);
+        sendingID = data.uuid;
+
+        pendingList.push(currentData);
+
+        chatData.type = 'continue';
+        checkSendingProccess();
+    }
+    const updateChat = data => {
+        const currentData = {
+            type: data.type,
+            prompt_id: data.prompt_id,
+            id: data.id,
+            message: data.message,
+            name: data.name,
+            uuid: data.uuid
+        }
+        currentChatData = {
+            id: data.id,
+            prompt_id: data.prompt_id,
+            uuid: data.uuid
+        };
+
+
+        let $chatBlock = $('#message-block-' + data.uuid);
+        pushChatMessage($chatBlock, 'user', currentData.message);
+        sendingID = data.uuid;
+
+        pendingList.push(currentData);
+
+        chatData.type = 'continue';
+        checkSendingProccess();
+    };
 
     const submitForm = (clean) => {
         let message = getMesssageContent();
@@ -113,11 +248,18 @@ $(function () {
             }
         } else {
             chatData.message = message;
-            console.log(chatData);
+            if(typeof chats[chatData.uuid] == "undefined" || chatData.type !="continue" ){
+                createChat(chatData);
+            }else{
+                updateChat(chatData);
+            }
 
             setMessageContent('');
             clearMessageContent();
             setMessagePlaceholder('Viết gì đó...');
+            // App.Swal.showLoading();
+            // setTimeout(() => App.Swal.error('Lỗi server. Vui lòng thử lại sau giây lát'), 3000);
+
         }
     }
 
@@ -133,7 +275,7 @@ $(function () {
     });
 
     $inputMessage.on('keyup', evt => {
-        if(clearAfterKeyUp){
+        if (clearAfterKeyUp) {
             clearAfterKeyUp = false;
             clearMessageContent();
         }
