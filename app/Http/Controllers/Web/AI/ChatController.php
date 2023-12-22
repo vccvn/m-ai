@@ -88,8 +88,8 @@ class ChatController extends WebController
             $messages = $chat->toGPT();
             $messages[] = $cm;
             // dd($messages);
-            $data = $this->chatService->send($messages);
-            $data['message'] = $data['content'];
+            $data = $this->chatService->sendMessages($messages);
+            $data['message'] = nl2br($data['content']);
             $data['chat_id'] = $chat->id;
             $assistantMessage = $this->messageRepository->create($data);
             $status = true;

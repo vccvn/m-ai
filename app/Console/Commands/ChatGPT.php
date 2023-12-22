@@ -29,7 +29,7 @@ class ChatGPT extends Command
     public function handle()
     {
         $chatGPT = new ChatService();
-        $data = $chatGPT->send([
+        $data = $chatGPT->sendMessages([
             // ['role' => 'user', 'content' => "i want to be supper man"],
             // ['role' => 'assistant', 'content' => "Perhaps you mean you want to be like \"Superman\", the popular comic book hero. Here are few tips:
 
