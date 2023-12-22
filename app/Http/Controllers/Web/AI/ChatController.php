@@ -95,7 +95,6 @@ class ChatController extends WebController
             $content = $data['content'];
         $contentArrays = explode("
 ",$content);
-        dump($contentArrays);
         $data['message'] = implode("
 ", array_map(function($ln){
             $i = 0;
