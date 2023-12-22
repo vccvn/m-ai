@@ -46,7 +46,28 @@ class ChatGPT extends Command
             // Remember that Superman is just a character, but the attributes he represents, such as strength, courage, kindness, and resilience, are within everyone's reach."],
             ['role' => 'user', 'content' => $this->argument('message')??'Tôi muốn làm siêu nhân']
         ]);
-        print_r($data);
+        $content = $data['content'];
+        $contentArrays = explode("
+",$content);
+        dump($contentArrays);
+        $data['content'] = implode("
+", array_map(function($ln){
+            $i = 0;
+            $s = '';
+            $l = strlen($ln);
+            for ($j=0; $j < $l; $j++) {
+                # code...
+                $c = substr($ln, $j, 1);
+                if($c != ' '){
+                    $s.= substr($ln, $j);
+                    return $s;
+                }else{
+                    $s.="&nbsp;";
+                }
+            }
+            return $ln;
+        }, $contentArrays));
+        dd($data);
         return Command::SUCCESS;
 
     }

@@ -14,6 +14,7 @@ yarn-error.log
 /.vscode
 /public/static/content/*
 /resources/views/clients/*
+/resources/views/themes/*
 /themes/containers/*
 /themes/zip/*
 /.sftp

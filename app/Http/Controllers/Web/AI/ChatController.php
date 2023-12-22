@@ -92,7 +92,27 @@ class ChatController extends WebController
             $messages[] = $cm;
             // dd($messages);
             $data = $this->chatService->sendMessages($messages);
-            $data['message'] = str_replace(' ', '&nbsp;', nl2br($data['content']));
+            $content = $data['content'];
+        $contentArrays = explode("
+",$content);
+        dump($contentArrays);
+        $data['message'] = implode("
+", array_map(function($ln){
+            $i = 0;
+            $s = '';
+            $l = strlen($ln);
+            for ($j=0; $j < $l; $j++) {
+                # code...
+                $c = substr($ln, $j, 1);
+                if($c != ' '){
+                    $s.= substr($ln, $j);
+                    return $s;
+                }else{
+                    $s.="&nbsp;";
+                }
+            }
+            return $ln;
+        }, $contentArrays));
             $data['chat_id'] = $chat->id;
             $assistantMessage = $this->messageRepository->create($data);
             $status = true;
