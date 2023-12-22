@@ -12,7 +12,7 @@
                         <span>Chats</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="group.html" class="chat-unread pink">
                         <span class="material-icons">group</span>
                         <span>Groups</span>
@@ -35,12 +35,12 @@
                         <span class="material-icons">settings</span>
                         <span>Settings</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
         <div class="bottom-menus">
             <ul>
-                <li>
+                {{-- <li>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-group">
                         <span class="material-icons group-add-btn">group_add</span>
                         <span>Add Groups</span>
@@ -56,7 +56,7 @@
                     <a href="#" id="dark-mode-toggle" class="dark-mode-toggle">
                         <i class="far fa-moon"></i>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="#" class="chat-profile-icon" data-bs-toggle="dropdown">
                         <img src="{{theme_asset('chat/assets/img/avatar/avatar-13.jpg')}}" alt="">

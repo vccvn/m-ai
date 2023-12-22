@@ -19,7 +19,7 @@
             <div class="col-lg-7">
                 <div class="user-all-form">
                     <div class="contact-form">
-                        <form id="contactForm" class="{{ parse_classname('login-form') }}" action="{{ route('web.account.post-login') }}" method="POST">
+                        <form class="{{ parse_classname('login-form') }}" action="{{ route('web.account.post-login') }}" method="POST">
                             @csrf
                                 @if ($next = old('next', $request->next))
                                     <input type="hidden" name="next" value="{{ $next }}">

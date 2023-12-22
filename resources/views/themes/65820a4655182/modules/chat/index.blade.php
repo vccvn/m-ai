@@ -10,7 +10,7 @@
 
     <!-- Chat -->
     <div class="chat" id="middle">
-        <div class="slimscroll">
+        <div class="slimscroll chat-scrollable">
             @include($_template . 'chat.chat-header')
             <div class="chat-body">
                 <div class="messages chat-message-list">
@@ -60,6 +60,16 @@
             <div class="chat-action-btns me-2">
                 <div class="chat-action-col">
                     <a href="#" class="btn-copy-message"><span ><i class="far fa-copy"></i></span></a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="reply-writting-template">
+        <div class="chats reply-writting" id="reply-writing-{uuid}">
+            <div class="chat-content">
+                <div class="chat-profile-name text-end">
+                    <h6>Đang trả lời...</h6>
                 </div>
             </div>
         </div>

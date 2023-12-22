@@ -17,6 +17,7 @@ $(function () {
         promptLabel: $('#prompt-label-template').html(),
         messageBlock: $('#message-block-template').html(),
         messageItem: $('#message-item-template').html(),
+        replyWritting: $('#reply-writting-template').html(),
     };
     const tempElement = document.createElement('div');
     const $form = $('#chat-message-form');
@@ -138,6 +139,8 @@ $(function () {
         if(!App.isObject($chatBlock))
             return false;
         $chatBlock.append(App.str.eval(htmlTemplates.messageItem, {role, message}));
+        window.updateChatScroll();
+
     }
     const pushChatMessageList = ($chatBlock, messages) => {
         if(!$chatBlock || !App.isArray(messages)) return false;
@@ -146,12 +149,25 @@ $(function () {
         if(!App.isObject($chatBlock))
             return false;
         messages.map(message => App.isObject(message) && $chatBlock.append(App.str.eval(htmlTemplates.messageItem, {role: message.role, message: message.message})));
+        window.updateChatScroll();
+    }
+
+    const addReplyWritting = (uuid) => {
+        let $chatBlock = $('#message-block-' + uuid);
+        $chatBlock.append(App.str.eval(htmlTemplates.replyWritting, {uuid}));
+    }
+
+    const removeReplyWritting = (uuid) => {
+        let $chatBlock = $('#message-block-' + uuid);
+        $chatBlock.find('.reply-writting').remove();
     }
 
     function sendMessage (data){
         isSending = true;
+        addReplyWritting(data.uuid);
         App.api.post(SEND_URL, data)
         .then(rs => {
+            removeReplyWritting(data.uuid);
             if(rs.status){
                 pushChatMessage(data.uuid, rs.data.role, rs.data.message);
                 if(data.uuid = chatData.uuid){
@@ -161,6 +177,7 @@ $(function () {
             }
             else{
                 App.Swal.warning(rs.message);
+                newChat();
             }
             isSending = false;
             checkSendingProccess();
@@ -168,6 +185,10 @@ $(function () {
 
         }).catch(e => {
             isSending = false;
+            removeReplyWritting(data.uuid);
+
+            App.Swal.warning('Lỗi hệ thống. Vui lòng thử lại sau giay lát');
+            newChat();
             checkSendingProccess();
         })
     }
@@ -177,6 +198,9 @@ $(function () {
         // isSending = true;
 
         let data = pendingList.shift();
+        if(data.uuid != chatData.uuid && data.type == 'continue'){
+            data.type='new';
+        }
 
         sendMessage(data);
 
