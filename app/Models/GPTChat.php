@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Gomee\Models\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -24,5 +25,15 @@ class GPTChat extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(GPTChatMessage::class, 'chat_id', 'id');
+    }
+
+    /**
+     * Get the prompt that owns the GPTChat
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function prompt(): BelongsTo
+    {
+        return $this->belongsTo(GPTPrompt::class, 'prompt_id', 'id');
     }
 }
