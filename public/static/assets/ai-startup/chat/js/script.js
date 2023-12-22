@@ -41,7 +41,7 @@ Version      : 1.0
         window.updateChatScroll = function () {
             $slimScrolls.each(function (i, el) {
                 if ($(el).hasClass('chat-scrollable')) {
-                    var bottomCoord = el.scrollHeight;
+                    var bottomCoord = el.scrollHeight + 30;
                     $(el).slimScroll({ scrollTo: bottomCoord });
                 }
             })

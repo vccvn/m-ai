@@ -2,6 +2,7 @@ $(function () {
     const chatData = {
         type: 'new',
         prompt_id: 0,
+        prompt_name: '',
         id: null,
         message: '',
         name: App.date('H:i', +7),
@@ -30,7 +31,8 @@ $(function () {
     let currentChatData = {
         uuid: chatData.uuid,
         id: chatData.id,
-        prompt_id: chatData.prompt_id
+        prompt_id: chatData.prompt_id,
+        prompt_name: chatData.prompt_name
     }
 
     let isSending = false;
@@ -112,6 +114,7 @@ $(function () {
         chatData.name = App.date('H:i', +7);
 
         chatData.uuid = App.str.rand();
+        chatData.prompt_name = '';
         return true;
     }
 
@@ -119,6 +122,7 @@ $(function () {
         newChat(id);
         $messageWrapper.prepend(App.str.eval(htmlTemplates.promptLabel, { id, name }));
         chatData.name = name;
+        chatData.prompt_name = name;
         setMessagePlaceholder('Nhập thêm chi tiết...');
     }
 
@@ -155,6 +159,7 @@ $(function () {
     const addReplyWritting = (uuid) => {
         let $chatBlock = $('#message-block-' + uuid);
         $chatBlock.append(App.str.eval(htmlTemplates.replyWritting, {uuid}));
+        window.updateChatScroll();
     }
 
     const removeReplyWritting = (uuid) => {
@@ -213,7 +218,8 @@ $(function () {
             id: data.id,
             message: data.message,
             name: data.name,
-            uuid: data.uuid
+            uuid: data.uuid,
+            prompt_name: data.prompt_name
         }
         currentChatData = {
             id: data.id,
@@ -224,7 +230,7 @@ $(function () {
         chats[data.uuid] = true;
 
         let $chatBlock = createChatBlock(currentData.uuid, currentData.name);
-        pushChatMessage($chatBlock, 'user', currentData.message);
+        pushChatMessage($chatBlock, 'user', currentData.message?currentData.message:currentData.prompt_name);
         sendingID = data.uuid;
 
         pendingList.push(currentData);
@@ -239,7 +245,8 @@ $(function () {
             id: data.id,
             message: data.message,
             name: data.name,
-            uuid: data.uuid
+            uuid: data.uuid,
+            prompt_name: data.prompt_name
         }
         currentChatData = {
             id: data.id,

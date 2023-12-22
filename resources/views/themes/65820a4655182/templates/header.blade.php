@@ -34,25 +34,8 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 Home
-                                <i class="bx bx-plus"></i>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="index.html" class="nav-link">
-                                        SEO Agency
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-2.html" class="nav-link active">
-                                        AI Startup
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index-3.html" class="nav-link">
-                                        Machine Learning
-                                    </a>
-                                </li>
-                            </ul>
+
                         </li>
                         <li class="nav-item">
                             <a href="about.html" class="nav-link">
@@ -215,8 +198,8 @@
                         @if ($header->show_addon_button)
                             <div class="side-item">
                                 <div class="nav-add-btn">
-                                    <a href="{{ $header->addon_button_link }}" class="nav-menu-btn">
-                                        {{ $header->addon_button_text }}
+                                    <a href="{{ $header->addon_button_link('/ai/chat') }}" class="nav-menu-btn">
+                                        {{ $header->addon_button_text('dùng thử') }}
                                         <i class="bx bx-plus"></i>
                                     </a>
                                 </div>

@@ -71,7 +71,7 @@ class ChatController extends WebController
                 'chat_id' => $chat->id,
                 'role' => 'user',
                 'content' => $__mess,
-                'message' => $__mess
+                'message' => str_replace(' ', '&nbsp;', $__mess)
             ];
 
             if($prompt){
@@ -79,9 +79,12 @@ class ChatController extends WebController
                 $c = str_replace('[]', $__mess, $p);
                 if($c == $p){
                     $a = trim($p);
-                    $cn = $a. ((substr($a, -1) == '.')? '.':'' ) . ' ' . $__mess;
+                    $cn = $a.($__mess? ((substr($a, -1) == '.')? '.':'' ) . ' ' . $__mess : '');
                     $cm['content'] = $cn;
                     $cmLog['content'] = $cn;
+                }
+                if(!$__mess){
+                    $cmLog['message'] = $prompt->name;
                 }
             }
             $userMessage = $this->messageRepository->create($cmLog);
@@ -89,7 +92,7 @@ class ChatController extends WebController
             $messages[] = $cm;
             // dd($messages);
             $data = $this->chatService->sendMessages($messages);
-            $data['message'] = nl2br($data['content']);
+            $data['message'] = str_replace(' ', '&nbsp;', nl2br($data['content']));
             $data['chat_id'] = $chat->id;
             $assistantMessage = $this->messageRepository->create($data);
             $status = true;
