@@ -12,7 +12,7 @@
         "sort_columns": []
     },
     "table": {
-        "class": "header-center",
+        "class": "",
         "columns": [
             {
                 "title": "Name",
