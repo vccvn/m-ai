@@ -34,6 +34,7 @@ class CriteriaController extends AdminController
     {
         $this->repository = $repository;
         $this->init();
+        $this->activeMenu('gpt');
     }
 
     public function beforeSave(Request $request, $data, $old = null)

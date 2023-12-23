@@ -33,6 +33,7 @@ class PromptController extends AdminController
     {
         $this->repository = $repository;
         $this->init();
+        $this->activeMenu('gpt');
     }
 
     public function beforeGetListView($request, $data)
