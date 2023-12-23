@@ -7,7 +7,7 @@
             "required": "true"
         },
         "prompt": {
-            "type": "text",
+            "type": "ai-prompt",
             "label": "Prompt",
             "placeholder": "Nhập Prompt"
         },

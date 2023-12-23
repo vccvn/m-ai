@@ -156,6 +156,7 @@ function addTinymceEditor($content) {
             });
         }
     });
+
 };
 
 if ($('textarea.tiny-mce').length) {

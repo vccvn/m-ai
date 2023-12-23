@@ -1,0 +1,28 @@
+{
+    "inputs": {
+        "label": {
+            "type": "text",
+            "label": "Nhãn tiêu chí",
+            "placeholder": "Ví dụ thương hiệu"
+        },
+        "type": {
+            "type": "select",
+            "label": "Cách nhập liệu",
+            "placeholder": "Cách nhập liệu",
+            "data": {
+                "textarea": "Văn bản dài",
+                "text": "Text ngắn 150 ký tự",
+                "number": "Số"
+            },
+            "default": "textarea"
+        },
+        "description": {
+            "type": "text",
+            "label": "Mô tả tiêu chí",
+            "placeholder": "Nhập mô tả tiêu chí"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

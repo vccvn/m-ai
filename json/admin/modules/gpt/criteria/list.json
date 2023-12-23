@@ -1,0 +1,44 @@
+{
+    "name": "[module]",
+    "package": "gpt_criteria",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách [module]",
+        "trash": "Danh sách [module] đã xóa"
+    },
+    "data": [],
+    "filter": {
+        "search_columns": [],
+        "sort_columns": []
+    },
+    "table": {
+        "class": "header-center",
+        "columns": [
+            {
+                "title": "Name",
+                "class": "",
+                "text": ":name"
+            },
+            {
+                "title": "Label",
+                "class": "",
+                "text": ":label"
+            },
+            {
+                "title": "Type",
+                "class": "",
+                "text": ":type"
+            },
+            {
+                "title": "Description",
+                "class": "",
+                "text": ":description"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

@@ -516,6 +516,7 @@ if(!function_exists('is_support_template')){
     }
 }
 
+
 if(!function_exists('add_tinymce_assets')){
 
     function add_tinymce_assets(){
@@ -564,6 +565,19 @@ if(!function_exists('add_tinymce_assets')){
 
         add_js_src('static/manager/js/tinymce.js');
         set_admin_template_data('modals', 'modal-library');
+
+    }
+}
+
+if(!function_exists('add_ai_prompt_assets')){
+
+    function add_ai_prompt_assets(){
+        add_js_src('static/plugins/tinymce/tinymce.min.js');
+        add_js_src('static/plugins/tinymce/jquery.tinymce.min.js');
+
+
+
+        add_js_src('static/manager/js/ai-prompt.js');
 
     }
 }

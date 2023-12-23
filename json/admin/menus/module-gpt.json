@@ -17,6 +17,13 @@
                         "icon": "folder-open"
                     },
                     {
+                        "text": "Các tiêu chí",
+                        "title": "Danh sách tag",
+                        "active_key": "trash",
+                        "route": "admin.gpt.criteria.list",
+                        "icon": "align-left"
+                    },
+                    {
                         "text": "Prompt",
                         "title": "Danh sách prompt",
                         "active_key": "trash",

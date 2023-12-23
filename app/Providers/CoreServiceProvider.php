@@ -121,9 +121,9 @@ class CoreServiceProvider extends ServiceProvider
             $data = $input->getInputData();
             $input->set('data', $data);
             if (!is_array($dd = $input->get('data_docs')) || !$dd) {
-                
+
                 if (($c = $input->get('doc_call') ?? $input->get('data_docs')) && is_callable($c)) {
-            
+
                     $p = $input->parseInputParams($input->get('doc_params') ?? $input->get('data_doc_params'));
                     $data = call_user_func_array($c, $p);
                     $input->set('data_docs', $data);
@@ -146,5 +146,11 @@ class CoreServiceProvider extends ServiceProvider
             $input->val($defVal);
 
         });
+
+
+        Input::addTemplate('ai-prompt', ['ai-prompt', 'textarea'], function (Input $input) {
+            $input->addClass('ai-prompt-editor');
+        });
+
     }
 }
