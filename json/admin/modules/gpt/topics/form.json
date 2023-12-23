@@ -9,8 +9,8 @@
             "type": "crazyselect",
             "label": "Chủ đề cha",
             "template": "crazyselect",
-            "call": "get_topic_parent_category_options",
-            "params": [2],
+            "call": "get_parent_topic_options",
+            "params": [4],
             "option_label_type": "value"
         },
         "description": {
