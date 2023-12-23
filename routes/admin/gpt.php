@@ -3,6 +3,7 @@
 use App\Engines\ModuleManager;
 use App\Http\Controllers\Admin\GPT\PromptController;
 use App\Http\Controllers\Admin\GPT\TopicController;
+use App\Validators\GPT\CriteriaValidator;
 use Illuminate\Support\Facades\Route;
 
 
@@ -44,7 +45,7 @@ Route::prefix('prompts')->name('.prompts')->controller(PromptController::class)-
         $master
     );
 });
-Route::prefix('criteria')->name('.criteria')->controller(PromptController::class)->group(function () use ($master) {
+Route::prefix('criteria')->name('.criteria')->controller(CriteriaValidator::class)->group(function () use ($master) {
     $warehouseMaster = admin_routes(
         // khai bao route
         null, true, true,
