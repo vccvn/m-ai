@@ -44,3 +44,12 @@ Route::prefix('prompts')->name('.prompts')->controller(PromptController::class)-
         $master
     );
 });
+Route::prefix('criteria')->name('.criteria')->controller(PromptController::class)->group(function () use ($master) {
+    $warehouseMaster = admin_routes(
+        // khai bao route
+        null, true, true,
+        // khai bao module
+        true, null, "Quản lý các Tiêu chí", "Cho phép quản lý Các tiêu chí của prompt",
+        $master
+    );
+});
