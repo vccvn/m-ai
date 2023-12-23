@@ -1,10 +1,10 @@
 {
-    "name": "[module]",
-    "package": "gpt_criteria",
+    "name": "tiêu chí",
+    "package": "gpt.criteria",
     "use_trash": true,
     "titles": {
-        "default": "Danh sách [module]",
-        "trash": "Danh sách [module] đã xóa"
+        "default": "Danh sách tiêu chí",
+        "trash": "Danh sách tiêu chí đã xóa"
     },
     "data": [],
     "filter": {
