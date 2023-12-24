@@ -69,3 +69,10 @@ window.addNonEditableBlock = function(id, text){
     var content = '<span class="mceNonEditable criteria-tag" role="criteria" data-id="'+id+'">[' + text + ']</span>';
     $editor.execCommand('mceInsertContent', false, content);
 }
+
+$(function(){
+    $(document).on("click", ".criteria-list .criteria-item", function(e){
+        e.preventDefault();
+        window.addNonEditableBlock($(this).data('id'), $(this).data('label'));
+    })
+})

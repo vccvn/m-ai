@@ -1,5 +1,6 @@
 <?php
 
+use App\Repositories\GPT\CriteriaRepository;
 use App\Repositories\GPT\TopicRepository;
 
 if (!function_exists('get_parent_topic_options')) {
@@ -46,5 +47,17 @@ if (!function_exists('get_topic_map')) {
     {
         $options = TopicRepository::getTopicMap($args);
         return $options;
+    }
+}
+
+if (!function_exists('get_criteria_list')) {
+    /**
+     * lấy danh sách criteria
+     * @param array $args
+     * @return array
+     */
+    function get_criteria_list($args = [])
+    {
+        return app(CriteriaRepository::class)->get($args);
     }
 }

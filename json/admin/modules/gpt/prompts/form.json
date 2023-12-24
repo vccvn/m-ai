@@ -27,6 +27,19 @@
 
     },
     "config": {
-        "name": null
+        "name": "Prompt",
+        "layout_type": "column",
+        "form_groups": {
+            "__": {
+                "title": "",
+                "class": "col-md-12",
+                "inputs": [
+                    "name",
+                    "prompt",
+                    "topic_id",
+                    "description"
+                ]
+            }
+        }
     }
 }

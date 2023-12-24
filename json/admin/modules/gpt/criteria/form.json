@@ -23,6 +23,7 @@
         }
     },
     "config": {
-        "name": null
+        "name": null,
+        "layout_type": "columns"
     }
 }
