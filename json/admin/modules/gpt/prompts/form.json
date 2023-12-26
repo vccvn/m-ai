@@ -23,6 +23,11 @@
             "type": "textarea",
             "label": "Mô tả",
             "placeholder": "Nhập mô tả"
+        },
+        "placeholder": {
+            "type": "text",
+            "label": "Gợi ý cách nhập liệu",
+            "placeholder": "Ví dụ: Thêm thông tin yêu cầu"
         }
 
     },
@@ -35,9 +40,10 @@
                 "class": "col-md-12",
                 "inputs": [
                     "name",
-                    "prompt",
                     "topic_id",
-                    "description"
+                    "description",
+                    "prompt",
+                    "placeholder"
                 ]
             }
         }

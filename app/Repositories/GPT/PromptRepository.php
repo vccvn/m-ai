@@ -16,11 +16,11 @@ use Illuminate\Http\Request;
  * @method PromptCollection<PromptMask>|GPTPrompt[] getData(array $args = []) lấy danh sách GPTPrompt được gán Mask
  * @method PromptCollection<PromptMask>|GPTPrompt[] get(array $args = []) lấy danh sách GPTPrompt
  * @method PromptCollection<PromptMask>|GPTPrompt[] getBy(string $column, mixed $value) lấy danh sách GPTPrompt
- * @method PromptMask|Prompt getDetail(array $args = []) lấy GPTPrompt được gán Mask
- * @method PromptMask|Prompt detail(array $args = []) lấy GPTPrompt được gán Mask
- * @method PromptMask|Prompt find(integer $id) lấy GPTPrompt
- * @method PromptMask|Prompt findBy(string $column, mixed $value) lấy GPTPrompt
- * @method PromptMask|Prompt first(string $column, mixed $value) lấy GPTPrompt
+ * @method PromptMask|GPTPrompt getDetail(array $args = []) lấy GPTPrompt được gán Mask
+ * @method PromptMask|GPTPrompt detail(array $args = []) lấy GPTPrompt được gán Mask
+ * @method PromptMask|GPTPrompt find(integer $id) lấy GPTPrompt
+ * @method PromptMask|GPTPrompt findBy(string $column, mixed $value) lấy GPTPrompt
+ * @method PromptMask|GPTPrompt first(string $column, mixed $value) lấy GPTPrompt
  * @method GPTPrompt create(array $data = []) Thêm bản ghi
  * @method GPTPrompt update(integer $id, array $data = []) Cập nhật
  */

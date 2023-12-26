@@ -82,6 +82,7 @@
                                                 <div>
                                                     <h5>{{ $prompt->name }}</h5>
                                                     <p>{{ $prompt->description }}</p>
+                                                    <span class="placeholder d-none">{{$prompt->placeholder}}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -111,6 +112,7 @@
                 <div>
                     <h5>{$name}</h5>
                     <p>{$description}</p>
+                    <span class="placeholder d-none">{$placeholder}</span>
                 </div>
             </div>
         </li>

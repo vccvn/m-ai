@@ -20,7 +20,7 @@
             @yield('content')
         </div>
         <!-- /Content -->
-        @include($_template.'chat.modals')
+        {{-- @include($_template.'chat.modals') --}}
 
     </div>
     <!-- /Main Wrapper -->

@@ -41,9 +41,9 @@
                 }
             },
             {
-                "title": "Prompt",
+                "title": "Mô tả",
                 "class": "",
-                "text": ":prompt"
+                "text": ":description"
             }
         ]
     },

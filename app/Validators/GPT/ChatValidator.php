@@ -19,8 +19,9 @@ class ChatValidator extends BaseValidator
     
         return [
             
-            'user_id' => 'integer',
-            'prompt_id' => 'integer',
+            'chat_id' => 'integer',
+            'user' => 'string',
+            'message' => 'mediumText',
 
         ];
     }
@@ -32,8 +33,9 @@ class ChatValidator extends BaseValidator
     {
         return [
             
-            'user_id.integer' => 'User Id Không hợp lệ',
-            'prompt_id.integer' => 'Prompt Id Không hợp lệ',
+            'chat_id.integer' => 'Chat Id Không hợp lệ',
+            'user.string' => 'User Không hợp lệ',
+            'message.mediumText' => 'Message Không hợp lệ',
 
         ];
     }

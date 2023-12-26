@@ -24,6 +24,8 @@ class PromptValidator extends BaseValidator
             'description'                      => 'mixed|max:500',
             'keywords'                         => 'mixed|max:180',
             'prompt'                           => 'mixed',
+            'placeholder'                           => 'mixed|max:180',
+
 
         ];
     }

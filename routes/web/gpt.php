@@ -20,6 +20,7 @@ Route::middleware('web.auth')->prefix('ai')->name('ai.')->group(function(){
 
             Route::post('send-message',                             'sendMessage'       )->name('send-message');
 
+            Route::any('prompt-inputs',                             'getPromptInputs'   )->name('prompt-inputs');
         });
 
     });

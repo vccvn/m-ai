@@ -20,10 +20,14 @@
             "type": "text",
             "label": "Mô tả tiêu chí",
             "placeholder": "Nhập mô tả tiêu chí"
+        },
+        "placeholder": {
+            "type": "text",
+            "label": "Gợi ý cách nhập liệu",
+            "placeholder": "Ví dụ: Nhập củ đề cụ thể"
         }
     },
     "config": {
-        "name": null,
-        "layout_type": "columns"
+        "name": null
     }
 }

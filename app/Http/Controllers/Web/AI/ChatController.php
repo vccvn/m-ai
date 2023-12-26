@@ -12,6 +12,7 @@ use App\Repositories\GPT\MessageRepository;
 use App\Repositories\GPT\PromptRepository;
 use App\Repositories\GPT\TopicRepository;
 use App\Services\GPT\ChatService;
+use App\Services\GPT\PromptService;
 
 /**
  * @property-read TopicRepository $topicRepository
@@ -33,88 +34,103 @@ class ChatController extends WebController
      *
      * @return void
      */
-    public function __construct(ChatRepository $repository, protected MessageRepository $messageRepository, protected TopicRepository $topicRepository, protected PromptRepository $promptRepository, protected ChatService $chatService)
-    {
+    public function __construct(
+        ChatRepository $repository,
+        protected MessageRepository $messageRepository,
+        protected TopicRepository $topicRepository,
+        protected PromptRepository $promptRepository,
+        protected ChatService $chatService,
+        protected PromptService $promptService
+    ) {
         $this->repository = $repository;
         $this->init();
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $allPrompt = $this->promptRepository->mode('mask')->getData();
         $topics = $this->topicRepository->with('prompts')->getData();
-        return $this->viewModule('index', ['allPrompt' => $allPrompt, 'topics'=>$topics]);
+        return $this->viewModule('index', ['allPrompt' => $allPrompt, 'topics' => $topics]);
     }
 
-    public function sendMessage(Request $request){
+
+    public function sendMessage(Request $request)
+    {
         extract($this->apiDefaultData);
         $chat = null;
         $user = $request->user();
         $prompt = null;
-        if($request->type == 'continue' && (!$request->id || !($chat = $this->repository->getUserChatDetail($user->id, $request->id))))
+        if ($request->type == 'continue' && (!$request->id || !($chat = $this->repository->getUserChatDetail($user->id, $request->id))))
             $message = 'Dữ liệu không hợp lệ';
-        elseif ($request->type != 'continue' && !($chat = $this->repository->createChatDetail($user->id, $request->prompt_id??0))) {
+        elseif ($request->type != 'continue' && !($chat = $this->repository->createChatDetail($user->id, $request->prompt_id ?? 0))) {
             $message = 'Không thể tạo doạn chat';
-        }
-        elseif($request->type != 'continue' && $request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))){
+        } elseif ($request->type != 'continue' && $request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))) {
             $message = 'Prompt không tồn tại';
-        }else{
-            $__mess = str_replace("/div><div", "/div>\n<div", $request->message);
-            $__mess = str_replace("/p><p", "/p>\n<p", $__mess);
-            $__mess = str_replace("<br>", "\n", $__mess);
-            $__mess = str_replace("<br/>", "\n", $__mess);
-            $__mess = str_replace("<br />", "\n", $__mess);
+        }
+        elseif (!($messageData = $this->promptService->getPromptDataFilled($request))) {
+            $message = 'Dữ liệu không hợp lệ';
+        }
+        else {
+            // return $this->json($messageData);
             $cm = [
                 'role' => 'user',
-                'content' => $__mess
+                'content' => $messageData['content'],
+                // 'message' => $messageData['message']
             ];
             $cmLog = [
                 'chat_id' => $chat->id,
                 'role' => 'user',
-                'content' => $__mess,
-                'message' => str_replace(' ', '&nbsp;', $__mess)
+                'content' => $messageData['content'],
+                'message' => $messageData['message']
             ];
 
-            if($prompt){
-                $p = $prompt->prompt;
-                $c = str_replace('[]', $__mess, $p);
-                if($c == $p){
-                    $a = trim($p);
-                    $cn = $a.($__mess? ((substr($a, -1) == '.')? '.':'' ) . ' ' . $__mess : '');
-                    $cm['content'] = $cn;
-                    $cmLog['content'] = $cn;
-                }
-                if(!$__mess){
-                    $cmLog['message'] = $prompt->name;
-                }
-            }
             $userMessage = $this->messageRepository->create($cmLog);
             $messages = $chat->toGPT();
             $messages[] = $cm;
+
             // dd($messages);
+
+            // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages);
             $content = $data['content'];
-        $contentArrays = explode("
-",$content);
-        $data['message'] = implode("<br>", array_map(function($ln){
-            $i = 0;
-            $s = '';
-            $l = strlen($ln);
-            for ($j=0; $j < $l; $j++) {
-                # code...
-                $c = substr($ln, $j, 1);
-                if($c != ' '){
-                    $s.= substr($ln, $j);
-                    return $s;
-                }else{
-                    $s.="&nbsp;";
-                }
+            if(strip_tags($data['content']) == $data['content']){
+               $contentArrays = explode("
+", $content);
+                $data['message'] = implode("<br>", array_map(function ($ln) {
+                    $i = 0;
+                    $s = '';
+                    $l = strlen($ln);
+                    for ($j = 0; $j < $l; $j++) {
+                        # code...
+                        $c = substr($ln, $j, 1);
+                        if ($c != ' ') {
+                            $s .= substr($ln, $j);
+                            return $s;
+                        } else {
+                            $s .= "&nbsp;";
+                        }
+                    }
+                    return $ln;
+                }, $contentArrays));
+
             }
-            return $ln;
-        }, $contentArrays));
+            // $content = $data['content'];
             $data['chat_id'] = $chat->id;
             $assistantMessage = $this->messageRepository->create($data);
             $status = true;
         }
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
+
+    public function getPromptInputs(Request $request)
+    {
+        extract($this->apiDefaultData);
+        $data = [];
+        $data['inputs'] = $this->promptService->getInputs($request->prompt_id);
+        if ($data['prompt'] = $this->promptService->getCurrentPrompt())
+            $status = true;
+
         return $this->json(compact(...$this->apiSystemVars));
     }
 }

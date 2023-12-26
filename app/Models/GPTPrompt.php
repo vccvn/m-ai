@@ -12,12 +12,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $keywords Keywords
  * @property string $description Description
  * @property string $prompt Prompt
+ * @property string $prompt_config Prompt
+ * @property string $placeholder placeholder
+ * @property array $config
  */
 class GPTPrompt extends Model
 {
     public $table = 'gpt_prompts';
-    public $fillable = ['topic_id', 'name', 'keywords', 'description', 'prompt', 'trashed_status'];
+    public $fillable = ['topic_id', 'name', 'keywords', 'description', 'prompt', 'prompt_config', 'config', 'placeholder', 'trashed_status'];
 
+    public $casts = [
+        'config' => 'json'
+    ];
 
     /**
      * Get the topic that owns the GPTPrompt
@@ -46,6 +52,14 @@ class GPTPrompt extends Model
     {
         $this->trashed_status--;
         $this->save();
+    }
+
+    public function getConfigData(){
+        $a = $this->config;
+        if(is_array($a))
+            return $a;
+        $b = json_decode($a, true);
+        return $b??[];
     }
 
 
