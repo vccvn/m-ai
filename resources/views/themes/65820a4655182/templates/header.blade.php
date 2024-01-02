@@ -32,16 +32,17 @@
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav m-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                Home
+                            <a href="/" class="nav-link active">
+                                Trang chủ
                             </a>
 
                         </li>
                         <li class="nav-item">
-                            <a href="about.html" class="nav-link">
-                                About
+                            <a href="/ai" class="nav-link">
+                                AI Content
                             </a>
                         </li>
+                        <!--
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 Pages
@@ -136,47 +137,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                Services
-                                <i class="bx bx-plus"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="services.html" class="nav-link">
-                                        Services
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="service-details.html" class="nav-link">
-                                        Service Details
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                Blog
-                                <i class="bx bx-plus"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="blog.html" class="nav-link">
-                                        Blog
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="blog-details.html" class="nav-link">
-                                        Blog Details
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="contact.html" class="nav-link">
-                                Contact
-                            </a>
-                        </li>
+                        -->
+
                     </ul>
 
                     <div class="side-nav d-in-line align-items-center">
@@ -198,7 +160,7 @@
                         @if ($header->show_addon_button)
                             <div class="side-item">
                                 <div class="nav-add-btn">
-                                    <a href="{{ $header->addon_button_link('/ai/chat') }}" class="nav-menu-btn">
+                                    <a href="{{ $header->addon_button_link('/ai') }}" class="nav-menu-btn">
                                         {{ $header->addon_button_text('dùng thử') }}
                                         <i class="bx bx-plus"></i>
                                     </a>

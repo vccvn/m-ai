@@ -4,7 +4,7 @@ set_merchant_template_data('modals', 'modal-library');
 
 $type = in_array($t = $input->hiddenData('filetype'), ['image', 'video', 'audio', 'all'])?$t:'image';
 if($input->value === '<!---DEFAULT--->') $input->value = null;
-$file = ($input->value && $f = get_media_file(['uuid' => $input->value])) ? $f : crazy_arr([
+$file = ($input->value && $f = get_media_file(['id' => $input->value])) ? $f : crazy_arr([
     'filename' => 'Không có file nào được chọn',
     'size' => 0,
     'size_unit' => 'KB',

@@ -14,24 +14,26 @@ use Laravel\Passport\HasApiTokens;
 
 /**
  * user class
- * @property string $owner_id
+ * @property string $agent_id
  * @property string $id
- * @property string $full_name
- * @property string $gender
- * @property string $birthday
- * @property string $email
- * @property string $username
- * @property string $password
- * @property string $phone_number
- * @property string $avatar
- * @property string $type
- * @property integer $connect_count
- * @property integer $status
- * @property string $google2fa_secret
- * @property string $email_verified_at
- * @property integer $trashed_status
- * @property string $fcm_token
- * @property array $account_data
+ * @property string $name Name
+ * @property string $gender Gender
+ * @property string $birthday Birthday
+ * @property string $email Email
+ * @property string $username Username
+ * @property string $password Password
+ * @property string $phone_number Phone Number
+ * @property string $avatar Avatar
+ * @property string $type Type
+ * @property float $balance Balance
+ * @property float $money_in Money In
+ * @property float $money_out Money Out
+ * @property string $google2fa_secret Google2fa Secret
+ * @property string $email_verified_at Email Verified At
+ * @property string $fcm_token Fcm Token
+ * @property array $account_data Account Data
+ * @property integer $status Status
+ * @property integer $trashed_status Trashed Status
  * @property Carbon $agent_expired_at
  * @property UserHobby[] $userHobbies
  * @property Region $region
@@ -48,11 +50,10 @@ class User extends Authenticatable
 
     const ADMIN = 'admin';
     const USER = 'user';
-    const AGENT_LV1 = 'agent_lv1';
+    const AGENT = 'agent';
     const AGENT_LV2 = 'agent_lv2';
     const MERCHANT = 'merchant';
     const MANAGER = 'manager';
-    const AGENT_LIST = [self::AGENT_LV1, self::AGENT_LV2];
     const NOT_ACTIVATED = 0;
     const DEACTIVATED = 0;
     const ACTIVATED = 1;
@@ -74,10 +75,11 @@ class User extends Authenticatable
 
 
     const ALL_TYPE = [
-        self::USER, self::MERCHANT, self::ADMIN
+        self::USER, self::AGENT, self::MERCHANT, self::ADMIN
     ];
     const TYPE_LABELS = [
         self::USER => 'Người dùng phổ thông',
+        self::AGENT => 'Đại lý',
         self::MERCHANT => 'Merchant',
         self::MANAGER => 'Người quản lý',
         self::ADMIN => 'Admin'
@@ -102,23 +104,28 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', //
-        'gender', //
-        'birthday', //
-        'email', //
+        'agent_id',
+        'name',
+        'gender',
+        'birthday',
+        'email',
         'username',
         'password',
-        'phone_number', //
-        'avatar', //
-        'type',  //
-        'upload_count', //
-        'country_code',
-        'status', //
+        'phone_number',
+        'avatar',
+        'type',
+        'ref_code',
+        'affiliate_code',
+        'balance',
+        'money_in',
+        'money_out',
         'google2fa_secret',
         'email_verified_at',
-        'trashed_status',
         'fcm_token',
-        'account_data'
+        'account_data',
+        'expired_at',
+        'status',
+        'trashed_status'
     ];
 
     /**
