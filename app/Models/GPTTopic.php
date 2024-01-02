@@ -156,6 +156,15 @@ class GPTTopic extends Model
     }
 
 
+    public function getViewUrl(){
+        if($this->slug){
+            return route('web.ai.topics.detail-by-slug', ['slug' => $this->slug]);
+        }
+        return route('web.ai.topics.detail-by-id', ['id' => $this->id]);
+
+    }
+
+
     /**
      * ẩn danh mục
      */

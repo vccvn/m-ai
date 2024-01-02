@@ -76,7 +76,9 @@ class PromptService{
     }
 
     public function getInputs($id = null){
-        if(!($prompt = $this->getPrompt($id))) return [];
+        if(is_object($id) && is_a($id, GPTPrompt::class))
+            $prompt = $id;
+        elseif(!($prompt = $this->getPrompt($id))) return [];
         $config = array_merge([
             'criteria' => [],
             'map' => [],
@@ -99,14 +101,16 @@ class PromptService{
         return $inputs;
     }
 
+
     public function getPromptDataFilled(Request $request) {
         $__mess = str_replace("/div><div", "/div>\r\n<div", $request->message);
         $__mess = str_replace("/p><p", "/p>\r\n<p", $__mess);
         $__mess = str_replace("<br>", "\r\n", $__mess);
         $__mess = str_replace("<br/>", "\r\n", $__mess);
         $__mess = str_replace("<br />", "\r\n", $__mess);
-
+        $__mess = trim(strip_tags($__mess));
         if(!($prompt = $this->getPrompt($request->prompt_id))){
+
             return ['content' => $__mess, 'message' => $request->message];
         }
 

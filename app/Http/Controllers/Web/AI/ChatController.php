@@ -60,11 +60,9 @@ class ChatController extends WebController
         $chat = null;
         $user = $request->user();
         $prompt = null;
-        if ($request->type == 'continue' && (!$request->id || !($chat = $this->repository->getUserChatDetail($user->id, $request->id))))
+        if (!($chat = $this->chatService->getOrCreateChat($user->id, $request->id, $request->prompt_id??0)))
             $message = 'Dữ liệu không hợp lệ';
-        elseif ($request->type != 'continue' && !($chat = $this->repository->createChatDetail($user->id, $request->prompt_id ?? 0))) {
-            $message = 'Không thể tạo doạn chat';
-        } elseif ($request->type != 'continue' && $request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))) {
+        elseif ($request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))) {
             $message = 'Prompt không tồn tại';
         }
         elseif (!($messageData = $this->promptService->getPromptDataFilled($request))) {
@@ -87,8 +85,6 @@ class ChatController extends WebController
             $userMessage = $this->messageRepository->create($cmLog);
             $messages = $chat->toGPT();
             $messages[] = $cm;
-
-            // dd($messages);
 
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages);
@@ -133,6 +129,27 @@ class ChatController extends WebController
         $data['inputs'] = $this->promptService->getInputs($request->prompt_id);
         if ($data['prompt'] = $this->promptService->getCurrentPrompt())
             $status = true;
+
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
+
+
+    public function chatBox(Request $request){
+        $history = $this->chatService->getHistory($user_id = $request->user()->id);
+        $chatData = $this->chatService->getChatDetail($user_id, $request->p??($request->prompt_id??($request->pid??0)));
+        $page_title = $chatData['name']??'Chat';
+        return $this->viewModule('box', ['history' => $history, 'data' => $chatData, 'page_title' => $page_title]);
+    }
+
+    public function getChatData(Request $request){
+
+        extract($this->apiDefaultData);
+        $user_id = $request->user()->id;
+        if($chatData = $this->chatService->getChatData($user_id, $request->id??($request->chat_id??($request->cid??0)), $request->p??($request->prompt_id??($request->pid??0)))){
+            $status = true;
+            $data = $chatData;
+        }
 
         return $this->json(compact(...$this->apiSystemVars));
     }

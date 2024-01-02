@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Masks\GPT;
 
 use App\Models\GPTChatMessage;
 use Gomee\Masks\Mask;
+
 /**
  * MessageMask class
  *
@@ -13,6 +15,9 @@ use Gomee\Masks\Mask;
  */
 class MessageMask extends Mask
 {
+    protected $hidden = [
+        'content'
+    ];
 
     /**
      * thêm các thiết lập của bạn
@@ -21,7 +26,8 @@ class MessageMask extends Mask
      *
      * @return void
      */
-    protected function init(){
+    protected function init()
+    {
         # code...
     }
 
@@ -50,8 +56,8 @@ class MessageMask extends Mask
         # code...
     }
 
-    public function toGPT(){
-        return ['role' => $this->role, 'content' => $this->content];
+    public function toGPT()
+    {
+        return ['role' => $this->role, 'content' => trim(strip_tags($this->content))];
     }
-
 }

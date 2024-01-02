@@ -26,12 +26,15 @@ Route::prefix('topics')->name('.topics')->controller(TopicController::class)->gr
         true, null, "Quản lý Chủ đề", "Cho phép thêm / sửa / xóa các chủ đề",
         $master
     );
+
+
     /**
      * ------------------------------------------------------------------------------------------------------------------------
      *              Method | URI                              | Controller @ Nethod                   | Route Name
      * ------------------------------------------------------------------------------------------------------------------------
      */
 
+    Route::get('{detail_id}', 'getDetail')->name('.topic-detail');
 });
 
 

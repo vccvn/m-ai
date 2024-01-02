@@ -173,7 +173,7 @@ $currentUrl = url()->full();
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{ $title }}
+                        {{ isset($list_title) && $list_title ? $list_title : $title }}
                     </h3>
                 </div>
             </div>
@@ -210,13 +210,12 @@ $currentUrl = url()->full();
                                 <thead>
                                     <tr>
                                         @if ($showChecklist)
-
-                                        <th class="check-col">
-                                            <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                                <input type="checkbox" class="crazy-check-all">
-                                                <span></span>
-                                            </label>
-                                        </th>
+                                            <th class="check-col">
+                                                <label class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                    <input type="checkbox" class="crazy-check-all">
+                                                    <span></span>
+                                                </label>
+                                            </th>
                                         @endif
                                         @if ($columns)
                                             @foreach ($columns as $column)
@@ -264,12 +263,12 @@ $currentUrl = url()->full();
                                         @endphp
                                         <tr id="crazy-item-{{ $item->id ?? $item->uuid }}" data-name="{{ $item->name ?? $item->title }}">
                                             @if ($showChecklist)
-                                            <td class="check-col">
-                                                <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                                    <input type="checkbox" name="ids[]" value="{{ $item->id ?? $item->uuid }}" data-id="{{ $item->id ?? $item->uuid }}" data-uuid="{{ $item->uuid }}" class="crazy-check-item">
-                                                    <span></span>
-                                                </label>
-                                            </td>
+                                                <td class="check-col">
+                                                    <label class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                        <input type="checkbox" name="ids[]" value="{{ $item->id ?? $item->uuid }}" data-id="{{ $item->id ?? $item->uuid }}" data-uuid="{{ $item->uuid }}" class="crazy-check-item">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
                                             @endif
                                             @if ($columns)
                                                 @foreach ($columns as $column)
@@ -354,7 +353,7 @@ $currentUrl = url()->full();
                     </div>
                     <div class="row">
                         <div class="col-6"></div>
-                        <div class="col-6 text-right">Hiển thị từ {{$results->firstItem()}} đến {{$results->lastItem()}} trên {{$results->total()}} kết quả</div>
+                        <div class="col-6 text-right">Hiển thị từ {{ $results->firstItem() }} đến {{ $results->lastItem() }} trên {{ $results->total() }} kết quả</div>
                     </div>
                 </div>
                 {{-- nút phân trang --}}
@@ -362,10 +361,9 @@ $currentUrl = url()->full();
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-4">
                             @if ($showChecklist)
-
-                            <a href="javascript:void(0);" data-toggle="m-tooltip" data-placement="top" data-original-title="Chọn tất cả" class="crazy-btn-check-all text-success btn btn-outline-success {{ $btn_icon_class }}">
-                                <i class="fa fa-check"></i>
-                            </a>
+                                <a href="javascript:void(0);" data-toggle="m-tooltip" data-placement="top" data-original-title="Chọn tất cả" class="crazy-btn-check-all text-success btn btn-outline-success {{ $btn_icon_class }}">
+                                    <i class="fa fa-check"></i>
+                                </a>
                             @endif
                             @if ($config->use_trash)
                                 @if ($list_group == 'trash')

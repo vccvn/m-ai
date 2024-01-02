@@ -7,6 +7,9 @@ Version      : 1.0
 (function ($) {
     "use strict";
 
+
+
+
     var $slimScrolls = $('.slimscroll');
 
     // Sidebar Slimscroll
@@ -227,6 +230,10 @@ Version      : 1.0
         });
     }
 
+    window.showLoader = () => $('.preloader').removeClass('d-none');
+    window.hideLoader = () => $('.preloader').addClass('d-none');
+
+    $(window).on('load', e => hideLoader());
 })(jQuery);
 
 if ($('#volume').length > 0) {

@@ -11,6 +11,7 @@
 
 @section('body')
 
+    @include($_template.'chat.preloader')
 
     <!-- Main Wrapper -->
     <div class="main-wrapper">

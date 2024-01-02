@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\AI\ChatController;
+use App\Http\Controllers\Web\AI\TopicController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,18 +13,22 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('web.auth')->prefix('ai')->name('ai.')->group(function(){
-    Route::controller(ChatController::class)->group(function(){
-
-        Route::prefix('chat')->name('chat.')->group(function () {
-            Route::get('/',                                         'index'             )->name('index');
-            Route::get('messages',                                  'index'             )->name('messages');
-
-            Route::post('send-message',                             'sendMessage'       )->name('send-message');
-
-            Route::any('prompt-inputs',                             'getPromptInputs'   )->name('prompt-inputs');
-        });
-
+    Route::any('/',                                     [TopicController::class, 'getIndex'])->name('index');
+    Route::controller(ChatController::class)->prefix('chat')->name('chat.')->group(function(){
+        Route::get('/',                                         'index'             )->name('index');
+        Route::get('messages',                                  'index'             )->name('messages');
+        Route::post('send-message',                             'sendMessage'       )->name('send-message');
+        Route::any('prompt-inputs',                             'getPromptInputs'   )->name('prompt-inputs');
+        Route::get('box',                                       'chatBox'           )->name('box');
+        Route::post('send-box-message',                         'sendBoxMessage'    )->name('send-box-message');
+        Route::any('get-chat-data',                             'getChatData'       )->name('data');
     });
+    Route::controller(TopicController::class)->prefix('chuyen-de')->name('topics.')->group(function(){
+        Route::get('/',                                         'getTopic'          )->name('detail-by-id');
+        Route::get('/{slug}',                                   'getTopic'          )->name('detail-by-slug');
+    });
+
+
 
 });
 

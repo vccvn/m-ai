@@ -9,6 +9,7 @@ use Gomee\Helpers\Arr;
 
 use App\Repositories\GPT\PromptRepository;
 use App\Services\GPT\PromptService;
+use App\Services\GPT\TopicService;
 
 /**
  * @property-read PromptService $promptService
@@ -33,7 +34,7 @@ class PromptController extends AdminController
      *
      * @return void
      */
-    public function __construct(PromptRepository $repository, PromptService $promptService)
+    public function __construct(PromptRepository $repository, PromptService $promptService, protected TopicService $topicService)
     {
         $this->repository = $repository;
         $this->promptService = $promptService;
@@ -41,9 +42,19 @@ class PromptController extends AdminController
         $this->activeMenu('gpt');
     }
 
+    public function beforeGetListData($request)
+    {
+        if($topic = $this->topicService->getActiveTopic()){
+            $this->repository->where('topic_id', $topic->id);
+        }
+    }
+
     public function beforeGetListView($request, $data)
     {
-        add_js_data('category_map_data', get_topic_map());
+        add_js_data('category_map_data', [
+            'map' => get_topic_map(),
+            'default_parent' => 'Không'
+        ]);
     }
 
     /**

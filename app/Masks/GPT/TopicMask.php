@@ -5,7 +5,10 @@ use App\Models\GPTTopic;
 use Gomee\Masks\Mask;
 /**
  * TopicMask class
- *
+ * @property GPTTopic $model
+ * @property-read PromptCollection $prompts
+ * @property-read TopicMask $parent
+ * @property-read TopicCollection $children
  */
 class TopicMask extends Mask
 {
@@ -20,8 +23,11 @@ class TopicMask extends Mask
      */
     protected function init(){
         $this->map([
-            'prompts' => PromptCollection::class
+            'prompts' => PromptCollection::class,
+            'parent' => self::class,
+            'children' => TopicCollection::class
         ]);
+        $this->allow('getViewUrl');
     }
 
     /**
@@ -43,10 +49,11 @@ class TopicMask extends Mask
      *
      * @return void
      */
-    // protected function onLoaded()
-    // {
-    //     # code...
-    // }
+    protected function onLoaded()
+    {
+        $this->view_url = $this->model->getViewUrl();
+
+    }
 
 
     // khai báo thêm các hàm khác bên dưới nếu cần

@@ -7,6 +7,9 @@ use Gomee\Masks\Mask;
 class PromoMask extends Mask
 {
 
+    protected $hidden = [
+        'config', 'prompt', 'prompt_config'
+    ];
     // xem thêm ExampleMask
     /**
      * thêm các thiết lập của bạn
@@ -23,7 +26,7 @@ class PromoMask extends Mask
 
     /**
      * lấy data từ model sang mask
-     * @param Promo $promo Tham số không bắt buộc phải khai báo. 
+     * @param Promo $promo Tham số không bắt buộc phải khai báo.
      * Xem thêm ExampleMask
      */
     // public function toMask()
@@ -32,7 +35,7 @@ class PromoMask extends Mask
     //     // thêm data tại đây.
     //     // Xem thêm ExampleMask
     //     return $data;
-        
+
     // }
 
     /**
@@ -44,7 +47,7 @@ class PromoMask extends Mask
     {
         // $this->down_total_label = $this->getDownTotalFLabel();
     }
-    
-    
+
+
     // khai báo thêm các hàm khác bên dưới nếu cần
 }

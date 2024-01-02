@@ -237,7 +237,7 @@
     height: auto;
   }
   .inner-banner::before {
-    display: none;
+    /* display: none; */
   }
   .inner-banner .inner-title {
     padding-top: 120px;
@@ -261,11 +261,11 @@
     top: 4px;
   }
   .inner-banner .inner-banner-shape {
-    display: none;
+    /* display: none; */
   }
   /* Inner Banner CSS End */
   .schedule-shape {
-    display: none;
+    /* display: none; */
   }
   /* Brand Area CSS */
   .brand-area {
@@ -1502,7 +1502,7 @@
     height: auto;
   }
   .inner-banner::before {
-    display: none;
+    /* display: none; */
   }
   .inner-banner .inner-title {
     padding-top: 150px;
@@ -1516,7 +1516,7 @@
     margin-top: 10px;
   }
   .inner-banner .inner-banner-shape {
-    display: none;
+    /* display: none; */
   }
   /* Inner Banner CSS End */
   /* Brand Area CSS */

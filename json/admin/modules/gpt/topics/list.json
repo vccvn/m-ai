@@ -33,15 +33,18 @@
                 "class": "min-160 max-250",
                 "template": "<a href=\"{@route}\">{name}</a>",
                 "data": {
-                    "@route": [".update", {"id": ":id"}]
+                    "@route": [".topic-detail", {"detail_id": ":id"}]
                 }
             },
             {
                 "title": "Mục cha",
-                "class": "min-160",
-                "template": "<span>{@getAttr}</span>",
+                "class": "min-160 max-250 max-400 category category-map",
+                "template": "<span>{@getParentName}</span>",
                 "data": {
-                    "@getAttr": ["parent_name", "Không"]
+                    "@getParentName": ["Không"]
+                },
+                "attrs": {
+                    "data-category-id":":parent_id"
                 }
             },
             {
@@ -63,7 +66,7 @@
     "resources": {
         "js_data": {},
         "js": [
-
+            "static/manager/js/categories.js"
         ],
         "css": []
     }

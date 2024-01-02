@@ -77,9 +77,23 @@ class TopicRepository extends BaseRepository
         return \App\Models\GPTTopic::class;
     }
 
-    public function init() {
+    public function init()
+    {
         $this->setWith('parent');
         $this->setWithCount('prompts');
+    }
+
+
+    public function buildWithData($query = null, $level = 0)
+    {
+        if($level > 4) return;
+        if (!$query)
+            $query = $this;
+        $query->with(['prompts', 'children' => function($query) use($level){
+            $this->buildWithData($query, $level+1);
+        }]);
+        return $this;
+
     }
 
     /**
@@ -112,14 +126,14 @@ class TopicRepository extends BaseRepository
     public function getTopicOptions(array $args = [])
     {
         $a = [];
-        if(count($args)){
+        if (count($args)) {
             foreach ($args as $key => $value) {
-                if(strlen($value)) $a[$key] = $value;
+                if (strlen($value)) $a[$key] = $value;
             }
         }
         $list = ["-- Danh mục --"];
         $this->where('parent_id', '<', 1);
-        if($categories = $this->get($a)){
+        if ($categories = $this->get($a)) {
             $list = static::toTopicSelectOptions($categories, $list);
         }
         return $list;
@@ -129,14 +143,14 @@ class TopicRepository extends BaseRepository
     public function getTopicTreeOptions(array $args = [])
     {
         $a = [];
-        if(count($args)){
+        if (count($args)) {
             foreach ($args as $key => $value) {
-                if(strlen($value)) $a[$key] = $value;
+                if (strlen($value)) $a[$key] = $value;
             }
         }
         $list = [];
         $this->where('parent_id', '<', 1);
-        if($categories = $this->get($a)){
+        if ($categories = $this->get($a)) {
             $list = static::toTopicSelectOptions($categories, $list);
         }
         return $list;
@@ -190,21 +204,20 @@ class TopicRepository extends BaseRepository
 
     protected static function toTopicSelectOptions($list, $opts = [])
     {
-        if(count($list)>0){
-            foreach($list as $c){
+        if (count($list) > 0) {
+            foreach ($list as $c) {
                 $name = $c->name;
-                if(count($ch = $c->getChildren())){
-                    $data = static::toTopicSelectOptions($ch,[]);
+                if (count($ch = $c->getChildren())) {
+                    $data = static::toTopicSelectOptions($ch, []);
                     $opts[$c->id] = [
                         'label' => htmlentities($name),
                         'data' => $data
                     ];
-                }else{
+                } else {
                     $opts[$c->id] = htmlentities($name);
                 }
             }
         }
         return $opts;
     }
-
 }

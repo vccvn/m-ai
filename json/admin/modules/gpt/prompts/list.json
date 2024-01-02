@@ -33,11 +33,11 @@
                 "text": ":name"
             },
             {
-                "title": "Chủ đề",
+                "title": "Danh mục",
                 "class": "min-160 max-250 category category-map",
                 "text": ":topic_name",
                 "attrs": {
-                    "data-category-id": ":topic_id"
+                    "data-category-id":":topic_id"
                 }
             },
             {

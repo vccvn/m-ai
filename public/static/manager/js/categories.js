@@ -2,7 +2,8 @@ Category = {
     categories: {},
     defaultParent: "Không",
     urls: {},
-    init_list: ["categories", "defaultParent"],
+    paramName: null,
+    init_list: ["categories", "defaultParent", "urls"],
     init: function (args) {
         if (!args || typeof args == 'undefined') return;
         for (var key of this.init_list) {

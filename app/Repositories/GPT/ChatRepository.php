@@ -62,11 +62,14 @@ class ChatRepository extends BaseRepository
      * @param int $chat_id
      * @return GPTChat|ChatMask|null
      */
-    public function getUserChatDetail($user_id, $chat_id){
-        return $this->with(['prompt', 'messages' => function($query){
+    public function getUserChatDetail($user_id, $chat_id)
+    {
+        return $this->with(['prompt', 'messages' => function ($query) {
             $query->orderBy('id', 'ASC');
         }])->mode('mask')->detail(['user_id' => $user_id, 'id' => $chat_id]);
     }
+
+
     /**
      * lay thông tin chat
      *
@@ -74,8 +77,9 @@ class ChatRepository extends BaseRepository
      * @param int $chat_id
      * @return GPTChat|ChatMask|null
      */
-    public function createChatDetail($user_id, $prompt_id = 0){
-        if($prompt_id && !app(PromptRepository::class)->count(['id' => $prompt_id]))
+    public function createChatDetail($user_id, $prompt_id = 0)
+    {
+        if ($prompt_id && !app(PromptRepository::class)->count(['id' => $prompt_id]))
             return false;
         $chat = $this->create(compact('user_id', 'prompt_id'));
         /**
@@ -86,4 +90,46 @@ class ChatRepository extends BaseRepository
         return $chatMask;
     }
 
+    /**
+     * get first or create new Chat
+     *
+     * @param array $params
+     * @return ChatMask
+     */
+    public function getOrCreateChat($params = [])
+    {
+        if (!array_key_exists('user_id', $params) || !$params['user_id']) return null;
+        if (!($chat = $this->with(['messages' => function ($query) {
+            $query->orderBy('id', 'ASC');
+        }])->mode('mask')->detail($params))) {
+            unset($params['id']);
+            if ($chat = $this->with(['messages' => function ($query) {
+                $query->orderBy('id', 'ASC');
+            }])->mode('mask')->detail($params))
+                return $chat;
+            /**
+             * @var ChatMask
+             */
+            $chat = $this->mask($this->create($params));
+            $chat->__lock();
+        }
+        return $chat;
+    }
+
+    /**
+     * get first or create new Chat
+     *
+     * @param array $params
+     * @return ChatMask
+     */
+    public function getChat($params = [])
+    {
+        if (!array_key_exists('user_id', $params) || !$params['user_id']) return null;
+        if (!($chat = $this->with(['messages' => function ($query) {
+            $query->orderBy('id', 'ASC');
+        }])->mode('mask')->detail($params))) {
+            return null;
+        }
+        return $chat;
+    }
 }

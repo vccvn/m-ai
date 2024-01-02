@@ -5,12 +5,15 @@ use App\Models\GPTPrompt;
 use Gomee\Masks\Mask;
 /**
  * PromptMask class
- * 
+ *
  */
 class PromptMask extends Mask
 {
 
     // xem thêm ExampleMask
+    protected $hidden = [
+        'prompt', 'prompt_config', 'config', 'trashed_status'
+    ];
     /**
      * thêm các thiết lập của bạn
      * ví dụ thêm danh sách cho phép truy cập vào thuộc tính hay gọi phương thức trong model
@@ -24,7 +27,7 @@ class PromptMask extends Mask
 
     /**
      * lấy data từ model sang mask
-     * @param GPTPrompt $gPTPrompt Tham số không bắt buộc phải khai báo. 
+     * @param GPTPrompt $gPTPrompt Tham số không bắt buộc phải khai báo.
      * Xem thêm ExampleMask
      */
     // public function toMask()
@@ -33,7 +36,7 @@ class PromptMask extends Mask
     //     // thêm data tại đây.
     //     // Xem thêm ExampleMask
     //     return $data;
-        
+
     // }
 
     /**
@@ -45,7 +48,7 @@ class PromptMask extends Mask
     // {
     //     # code...
     // }
-    
-    
+
+
     // khai báo thêm các hàm khác bên dưới nếu cần
 }

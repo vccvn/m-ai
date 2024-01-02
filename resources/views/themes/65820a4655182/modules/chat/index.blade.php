@@ -16,7 +16,7 @@
                 <div class="messages chat-message-list">
 
                     <div class="chat-line">
-                        <span class="chat-date">TBắt đầu cuộc trò chuyện</span>
+                        <span class="chat-date">Bắt đầu cuộc trò chuyện</span>
                     </div>
 
 
@@ -40,7 +40,9 @@
         <div class="chats {$role}">
             <div class="chat-content">
                 <div class="message-content">
-                    {$message}
+                    <div class="inner-content">
+                        {$message}
+                    </div>
                     <!--
                     <div class="chat-time">
                         <div>
@@ -74,7 +76,7 @@
             </div>
         </div>
     </script>
-    @include($_template.'chat.sidebar-right')
+    {{-- @include($_template.'chat.sidebar-right') --}}
 @endsection
 @section('js')
     <script>

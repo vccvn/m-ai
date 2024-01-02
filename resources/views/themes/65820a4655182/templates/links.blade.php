@@ -18,5 +18,6 @@
 <link rel="stylesheet" href="{{theme_asset('css/responsive.css')}}">
 
 <link rel="stylesheet" href="{{theme_asset('css/theme-dark.css')}}">
+<link rel="stylesheet" href="{{theme_asset('css/custom.min.css')}}">
 
 <link rel="icon" type="image/png" href="{{theme_asset('img/favicon.png')}}">
