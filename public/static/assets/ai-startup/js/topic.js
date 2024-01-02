@@ -119,11 +119,13 @@ $(() => {
     }
 
     let contentWindow = null;
+    let isInited = false;
     const initDefault = (prompt_id, topic_id) => {
 
-        $chatFrameWrapper.append(chatFrameTemplate.render({ chat_url: chatUrlTemplate.render({ prompt_id:'', topic_id:'' }) }))
+        $chatFrameWrapper.append(chatFrameTemplate.render({ chat_url: chatUrlTemplate.render({ prompt_id:prompt_id?prompt_id:'', topic_id:'' }) }))
         let x = document.getElementById('chatBoxFrame');
         contentWindow = (x.contentWindow || x.contentDocument);
+        isInited = true;
     }
 
     window.getContentWindow = () => contentWindow;
@@ -134,11 +136,12 @@ $(() => {
         $AIPageContentAndFooter.addClass('d-none');
         $chatPreloader.removeClass('d-none');
         if(!contentWindow){
+            if(!isInited) initDefault();
             if(!turn) turn = 0;
             if(turn > 4) return 0;
             return setTimeout(() => {
                 openChat(prompt_id, topic_id, turn+1);
-            }, 100);
+            }, 500);
         }
         setChatData(prompt_id);
         // $chatFrameWrapper.append(chatFrameTemplate.render({ chat_url: chatUrlTemplate.render({ prompt_id, topic_id }) }))

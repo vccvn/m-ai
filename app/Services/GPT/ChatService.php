@@ -73,6 +73,7 @@ class ChatService
         ]);
 
         $d = json_decode($chat);
+        // dd($d);
         if ($d) {
             return ['role' => $d->choices[0]->message->role, 'content' => $d->choices[0]->message->content];
         }
