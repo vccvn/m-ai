@@ -86,7 +86,7 @@ class UserValidator extends BaseValidator
         $password = $this->password;
 
         $rules = [
-            'full_name'           => 'required|string|max:181',
+            'name'                => 'required|string|max:181',
             'gender'              => 'check_gender',
             'birthday'            => 'arrdate:str',
             'address'             => 'mixed|max:180',
@@ -98,7 +98,7 @@ class UserValidator extends BaseValidator
 
             'type'                => 'user_type',
             'status'              => 'user_status',
-            'upload_count'       => 'numeric|min:0|max:9000000',  //
+            // 'upload_count'       => 'numeric|min:0|max:9000000',  //
 
             // 'affiliate_code'      => 'required|string|max:16', //
             // 'ref_code'            => 'mixed', //
