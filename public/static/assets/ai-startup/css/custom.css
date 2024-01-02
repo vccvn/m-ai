@@ -1,3 +1,36 @@
+.navbar-light .navbar-brand img {
+  max-height: 70px;
+}
+
+.sticky-nav .navbar-light .navbar-brand img {
+  max-height: 60px;
+}
+
+.main-nav nav .side-nav .side-item {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.main-nav nav .side-nav .side-item .search-box, .main-nav nav .side-nav .side-item .user-btn {
+  top: 0;
+}
+
+.main-nav nav .side-nav .side-item .nav-add-btn {
+  display: flex;
+  display: -webkit-flex;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .main-nav nav .side-nav {
+    padding: 3px 0 3px;
+    margin-left: 10px;
+  }
+}
+
+.side-nav-responsive .container .container {
+  z-index: 100;
+}
+
 .inner-banner.banner-size-small {
   height: 174px;
 }
@@ -334,8 +367,8 @@
 
 .chat-area.chat-iframe a {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 15px;
+  left: 10px;
   z-index: 100;
   color: #420ba1;
   font-size: 40px;
@@ -445,6 +478,10 @@
     padding-top: 94px;
     padding-bottom: 55px;
     position: relative;
+  }
+  .chat-area.chat-iframe a {
+    top: 20px;
+    left: 20px;
   }
 }
 

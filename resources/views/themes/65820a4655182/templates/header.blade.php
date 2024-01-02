@@ -2,7 +2,6 @@
     $header = $options->theme->header;
     $desktop_logo = theme_asset('img/logo/logo2.png');
     $mobile_logo = theme_asset('img/logo/logo1.png');
-
     if ($header) {
         $desktop_logo = $header->desktop_logo ?? ($siteinfo->logo ?? $desktop_logo);
         $mobile_logo = $header->mobile_logo ?? ($siteinfo->mobile_logo ?? $mobile_logo);
@@ -17,7 +16,7 @@
 <div class="navbar-area">
 
     <div class="mobile-nav">
-        <a href="index.html" class="logo">
+        <a href="{{route('home')}}" class="logo">
             <img src="{{ $mobile_logo }}" class="logo-one" alt="Logo">
             <img src="{{ $desktop_logo }}" class="logo-two" alt="Logo">
         </a>
@@ -26,8 +25,8 @@
     <div class="main-nav nav-bar-two">
         <div class="container-fluid">
             <nav class="container-max-2 navbar navbar-expand-md navbar-light ">
-                <a class="navbar-brand" href="index.html">
-                    <img src="{{ theme_asset('img/logo/logo2.png') }}" alt="Logo">
+                <a class="navbar-brand" href="{{route('home')}}">
+                    <img src="{{ $desktop_logo }}" alt="{{$siteinfo->site_name}}">
                 </a>
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav m-auto">
@@ -141,7 +140,7 @@
 
                     </ul>
 
-                    <div class="side-nav d-in-line align-items-center">
+                    <div class="side-nav d-in-line d-lg-flex align-items-center">
                         @if ($header->show_search_button)
                             <div class="side-item">
                                 <div class="search-box">
@@ -161,8 +160,8 @@
                             <div class="side-item">
                                 <div class="nav-add-btn">
                                     <a href="{{ $header->addon_button_link('/ai') }}" class="nav-menu-btn">
-                                        {{ $header->addon_button_text('dùng thử') }}
-                                        <i class="bx bx-plus"></i>
+                                        <i class="bx bx-money"></i>
+                                        {{ $header->addon_button_text('100.000đ') }}
                                     </a>
                                 </div>
                             </div>
@@ -196,14 +195,18 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="side-item">
-                            <div class="nav-add-btn">
-                                <a href="#" class="nav-menu-btn border-radius">
-                                    Contact us
-                                    <i class="bx bx-plus"></i>
-                                </a>
+
+                        @if ($header->show_addon_button)
+                            <div class="side-item">
+                                <div class="nav-add-btn">
+                                    <a href="{{ $header->addon_button_link('/ai') }}" class="nav-menu-btn border-radius">
+                                        {{ $header->addon_button_text('Dùng thử') }}
+                                        <i class="bx bx-plus"></i>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

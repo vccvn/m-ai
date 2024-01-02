@@ -10,7 +10,7 @@ use Gomee\Masks\Mask;
  *
  * @property integer $chat_id Chat Id
  * @property string $user User
- * @property mediumText $message Message
+ * @property string $message Message
  * @property-read GPTChatMessage $model
  */
 class MessageMask extends Mask
@@ -54,6 +54,7 @@ class MessageMask extends Mask
     protected function onLoaded()
     {
         # code...
+        $this->message = $this->role == 'user' ? str_replace('&nbsp;', ' ', $this->message): $this->message;
     }
 
     public function toGPT()

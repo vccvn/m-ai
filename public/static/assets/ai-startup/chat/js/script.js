@@ -67,7 +67,10 @@ Version      : 1.0
         var left_sidebar = $('.left-sidebar').width();
         var chat_bar = $('.chat').width();
         var win_width = $(window).width();
-
+        if ($(window).width() < 992) {
+            $('.left-sidebar').addClass('hide-left-sidebar');
+            $('.chat').addClass('show-chatbar');
+        }
         $(".user-list-item:not(body.status-page .user-list-item, body.voice-call-page .user-list-item)").on('click', function () {
             if ($(window).width() < 992) {
                 $('.left-sidebar').addClass('hide-left-sidebar');

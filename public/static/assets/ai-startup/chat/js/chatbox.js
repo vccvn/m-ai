@@ -492,7 +492,7 @@ $(function () {
             App.Swal.warning("Vui lòng nhập đầy dủ các tiêu cxhi1");
         }
         else {
-            chatData.message = message;
+            chatData.message = App.str.replace(message, '&nbsp;', ' ');
             if (typeof chats[chatData.uuid] == "undefined" || chatData.type != "continue") {
                 createChat(chatData);
             } else {

@@ -51,7 +51,7 @@ class User extends Authenticatable
     const ADMIN = 'admin';
     const USER = 'user';
     const AGENT = 'agent';
-    const AGENT_LV2 = 'agent_lv2';
+    // const AGENT_LV2 = 'agent_lv2';s89
     const MERCHANT = 'merchant';
     const MANAGER = 'manager';
     const NOT_ACTIVATED = 0;
