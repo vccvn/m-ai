@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
 
 use App\Repositories\Payments\PackageRepository;
+use App\Validators\Payments\SystemPackageValidator;
 
 class PackageController extends AdminController
 {
@@ -34,19 +35,12 @@ class PackageController extends AdminController
         $this->repository = $repository;
         $this->init();
         $this->activeMenu('payments');
+        $this->repository->addDefaultParam('role', 'system')->addDefaultValue('role', 'system')->setValidatorClass(SystemPackageValidator::class);
 
     }
 
     public function afterSave($request, $result)
     {
-        if($result->is_default){
-            $packages = $this->repository->where('id', '!=', $result->id)->where('is_default', true)->get();
-            if(count($packages)){
-                foreach ($packages as $package) {
-                    $package->is_default = false;
-                    $package->save();
-                }
-            }
-        }
+
     }
 }

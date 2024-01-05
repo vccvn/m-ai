@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\UploadPackage;
+use App\Models\User;
 use App\Repositories\Payments\MethodRepository;
 use App\Repositories\Payments\PackageRepository;
+use App\Repositories\Users\UserRepository;
 use Crazy\Helpers\Arr;
 use Crazy\Html\Html;
 
@@ -84,6 +86,13 @@ if(!function_exists('get_payment_packages')){
     function get_payment_packages($args = []){
         static $packages = [];
         if(!$packages){
+            $user = auth()->user();
+            if($user->agent_id && $agent = app(UserRepository::class)->first(['id'=>$user->agent_id, 'type' => User::AGENT])){
+                $args = array_merge($args, ['role' => User::AGENT, 'agent_id' => $agent->id]);
+            }
+            else{
+                $args = array_merge($args, ['role' => 'system']);
+            }
             $packages = (new PackageRepository())->get($args);
         }
         return $packages;
@@ -120,8 +129,8 @@ if(!function_exists('get_payment_package_option_docs')){
                     $packages[$pk->id] = [
                         'title'=> $pk->name,
                         'label' => $pk->discount ? '-' . $pk->discount . '%': '',
-                        'description' => '<div class="">Số lượt tải: ' . $pk->upload_count . '</div>' 
-                            .'<div class="text-danger">Giá: ' . get_price_format($pk->price, $pk->currency) . '</div>' 
+                        'description' => '<div class="">' . $pk->quantity . ' tháng</div>'
+                            .'<div class="text-danger">Giá: ' . get_price_format($pk->wholesale_price, $pk->currency) . '</div>'
                             . ($pk->description ? '<div class="mt-3">' .$pk->description. '</div>': '')
                     ];
                 }

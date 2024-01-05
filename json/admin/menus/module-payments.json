@@ -3,10 +3,35 @@
         "payments": {
             "text": "Thanh toán",
             "title": "Thanh toán",
-            "permiss": "admin.payments",
-            "route": "admin.payments.methods",
-            "icon": "credit-card"
-            
+            "permiss": "admin.payments.transactions",
+            "route": "admin.payments.transactions",
+            "icon": "credit-card",
+            "submenu": {
+                "type": "list",
+                "data": {
+                    "methods": {
+                        "text": "P. thức thanh toán",
+                        "title": "Phương thức thanh toán",
+                        "permiss": "admin.payments.methods",
+                        "route": "admin.payments.methods",
+                        "icon": "cog"
+                    },
+                    "packages": {
+                        "text": "Gói thanh toán",
+                        "title": "Danh sách các gói thanh toán",
+                        "permiss": "admin.payments.packages",
+                        "route": "admin.payments.packages",
+                        "icon": "cubes"
+                    },
+                    "transactions": {
+                        "text": "Lịch sử giao dịch",
+                        "title": "Lịch sử giao dịch",
+                        "permiss": "admin.payments.transactions",
+                        "route": "admin.payments.transactions",
+                        "icon": "list"
+                    }
+                }
+            }
         }
     }
 }

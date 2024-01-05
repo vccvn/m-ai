@@ -13,7 +13,7 @@
         <div class="row align-items-center pt-45">
             <div class="col-lg-5">
                 <div class="user-all-img">
-                    <img src="{{$siteinfo->logo??theme_asset('/img/faq-img.png')}}" alt="Images">
+                    <img src="{{$siteinfo->logo??ai_startup_asset('/img/faq-img.png')}}" alt="Images">
                 </div>
             </div>
             <div class="col-lg-7">

@@ -108,19 +108,16 @@
             "min": 0,
             "step": 1
         },
-
         "bank_name": {
             "type": "text",
             "label": "Tên ngân hàng",
             "placeholder": "Nhập tên ngân hàng"
         },
-
         "bank_account_name": {
             "type": "text",
             "label": "Chủ tài khoản ngân hàng",
             "placeholder": "Nhập tên chủ tài khoãn"
         },
-
         "bank_account_number": {
             "type": "text",
             "label": "Số tài khoản",
@@ -131,7 +128,6 @@
             "label": "Lý do",
             "placeholder": "Nhập Lý do"
         },
-
         "country_code": {
             "type": "crazyselect",
             "label": "Mã Quốc gia",
@@ -217,10 +213,10 @@
             "label": "Địa chỉ",
             "placeholder": "Nhập địa chỉ..."
         },
-        "identity_card_id": {
-            "type": "text",
-            "label": "CCCD",
-            "placeholder": "Nhập CCCD..."
+        "agent_policy_id": {
+            "type": "select",
+            "label": "Chính sách cho đại lý",
+            "call": "get_agent_policy_options"
         },
         "is_verified_phone_number": {
             "type": "switch",
@@ -256,16 +252,8 @@
             {
                 "class": "col-md-6",
                 "inputs": [
-                    "avatar"
-                ]
-            },
-            {
-                "class": "col-md-6",
-                "inputs": [
-                    "type",
-                    "upload_count",
+                    "avatar",
                     "status"
-
                 ]
             },
             {
@@ -275,6 +263,16 @@
                     "username",
                     "password",
                     "password_confirmation"
+                ]
+            },
+            {
+                "class": "col-md-6",
+                "inputs": [
+
+                    "type",
+                    "agent_policy_id",
+                    "affiliate_code",
+                    "ref_code"
                 ]
             }
         ],

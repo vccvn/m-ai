@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $type Type
  * @property string $order_code Order Code
  * @property string $ref_code Ref Code
- * @property string $method Method
+ * @property PaymentMethod $method Method
  * @property string $note Note
  * @property string $description Description
  * @property float $amount Amount
@@ -37,8 +37,44 @@ class PaymentTransaction extends Model
         self::DEPOSIT,
         self::WITHDRAW
     ];
+
+    const REF_KEY = 'payment-transaction';
+    const STATUS_PROCESSING = 0;
+    const STATUS_CANCELED = -1;
+    const STATUS_COMPLETED = 1;
+
+    const STATUS_LABELS = [
+        self::STATUS_COMPLETED => 'Thành công',
+        self::STATUS_CANCELED => 'Thất bại',
+        self::STATUS_PROCESSING => 'Chưa hoàn thành',
+
+    ];
+
+    const TYPE_BUY_SERVICE = 'buy-service';
+
+
     public $table = 'payment_transactions';
-    public $fillable = ['merchant_id', 'user_id', 'payment_method_id', 'order_id', 'transaction_id', 'transaction_code', 'type', 'order_code', 'ref_code', 'method', 'note', 'description', 'amount', 'discount', 'currency', 'total_item', 'payment_method_name', 'ref_data', 'is_reported'];
+    public $fillable = [
+        'merchant_id',
+        'user_id',
+        'payment_method_id',
+        'order_id',
+        'transaction_id',
+        'transaction_code',
+        'type',
+        'order_code',
+        'ref_code',
+        'method',
+        'note',
+        'description',
+        'amount',
+        'discount',
+        'currency',
+        'total_item',
+        'payment_method_name',
+        'ref_data',
+        'is_reported'
+    ];
 
 
 

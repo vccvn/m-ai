@@ -14,7 +14,7 @@
         "base--origin":["pages", "dynamics","posts", "files", "forms","tags", "contacts", "comments", "subscribes", "sliders","menus", "settings", "embeds", "themes", "components", "account","alert","order"],
         "base":["users","permissions","pages", "dynamics","posts", "files", "forms","tags", "account", "settings", "sliders","menus", "embeds", "themes", "components","account","alert","order", "gpt"],
         "default": [
-            "gpt"
+            "gpt", "payments", "policies"
         ],
         "news": [
 
@@ -24,6 +24,10 @@
         ],
         "business": [
             "gpt"
+        ],
+        "merchant": [
+
+            "account", "users", "payments"
         ]
     },
     "times": {

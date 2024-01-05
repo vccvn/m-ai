@@ -1,0 +1,76 @@
+{
+    "name": "Chính sách",
+    "package": "policies.commissions",
+    "use_trash": true,
+    "titles": {
+        "default": "Danh sách Chính sách",
+        "trash": "Danh sách Chính sách đã xóa"
+    },
+    "data": {
+        "types": {
+            "user": "Người dùng",
+            "agent": "Đại lý"
+        }
+    },
+    "filter": {
+        "search_columns": {
+            "name":"Chính sách"
+        },
+        "sort_columns":{
+            "name":"Chính sách",
+            "level": "Level",
+            "commission_level_1": "% hoa hồng"
+        }
+    },
+    "table": {
+        "class": "header-center1",
+        "columns": [
+            {
+                "title": "Chính sách",
+                "class": "text-center",
+                "text": ":name"
+            },
+            {
+                "title": "Đối tượng",
+                "class": "text-center",
+                "template": "{data:types.{type}}"
+            },
+            {
+                "title": "Chỉ tiêu",
+                "class": "text-right",
+                "template": "{@get_price_format}",
+                "data": {
+                    "@get_price_format": [
+                        ":revenue_target",
+                        "VND"
+                    ]
+                }
+            },
+            {
+                "title": "KH C1",
+                "class": "text-center",
+                "template": "{commission_level_1}%"
+            },
+            {
+                "title": "KH C2",
+                "class": "text-center",
+                "template": "{commission_level_2}%"
+            },
+            {
+                "title": "KH C3",
+                "class": "text-center",
+                "template": "{commission_level_3}%"
+            },
+            {
+                "title": "KH C4",
+                "class": "text-center",
+                "template": "{commission_level_4}%"
+            }
+        ]
+    },
+    "resources": {
+        "js_data": [],
+        "js": [],
+        "css": []
+    }
+}

@@ -13,6 +13,8 @@ use App\Validators\Users\UserValidator;
 use App\Masks\Users\UserMask;
 use App\Masks\Users\UserCollection;
 use App\Models\User;
+use App\Repositories\Accounts\AgentRepository;
+use App\Repositories\Accounts\WalletRepository;
 
 /**
  * @method UserCollection<UserMask>|User[] filter(Request $request, array $args = []) lấy danh sách User được gán Mask
@@ -56,6 +58,15 @@ class UserRepository extends BaseRepository
     static $__Model__;
 
 
+    /**
+     * @var WalletRepository
+     */
+    protected $walletRepository = null;
+
+    /**
+     * @var AgentRepository
+     */
+    protected $agentRepository = null;
 
     protected $columns = [
         'id' => 'users.id',
@@ -71,14 +82,16 @@ class UserRepository extends BaseRepository
 
     public function init()
     {
+        $this->walletRepository = app(WalletRepository::class);
+        $this->agentRepository = app(AgentRepository::class);
         $this->setSearchable([
-            'full_name' => 'users.full_name',
+            'name' => 'users.name',
             'username' => 'users.username',
             'email' => 'users.email',
             'phone_number' => 'users.phone_number',
         ])
             ->searchRule([
-                'users.full_name' => [
+                'users.name' => [
                     '{query}%',
                     '% {query}%',
                 ],
@@ -104,7 +117,15 @@ class UserRepository extends BaseRepository
 
     public function getUserDetail($args)
     {
-        return $this->mode('mask')->with(['hobbies', 'images'])->detail($args);
+        return $this->mode('mask')->detail($args);
+    }
+
+    public function updateAgentMonthBalance($user_id, $month = 0) {
+        $agent = $this->agentRepository->getAgentOrCreate($user_id);
+        if(!$agent) return false;
+        $agent->month_balance+= $month;
+        $agent->save();
+        return $agent;
     }
 
     /**
@@ -112,12 +133,25 @@ class UserRepository extends BaseRepository
      * @param array $data Dữ liệu thông tin người dùng
      * @return array Mảng sau khi dược xử lý
      */
-    public function beforeSave($data)
+    public function beforeSave($data, $id = null)
     {
         if (array_key_exists('password', $data) && $data['password']) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
+        }
+        if (array_key_exists('affiliate_code', $data)) {
+            if (!$data['affiliate_code']) {
+                unset($data['affiliate_code']);
+            } else {
+                while (true) {
+                    if (!($u = $this->first(['affiliate_code' => $data['affiliate_code']])))
+                        break;
+                    elseif ($id && $u->id == $id)
+                        break;
+                    $data['affiliate_code'] = strtoupper(substr(md5(uniqid()), rand(0, 16), 6));
+                }
+            }
         }
         return $data;
     }
@@ -125,7 +159,8 @@ class UserRepository extends BaseRepository
     public function beforeCreate(array $data)
     {
         $affiliate_code = '';
-
+        if (!array_key_exists('affiliate_code', $data) || !$data['affiliate_code'])
+            $data['affiliate_code'] = strtoupper(substr(md5(uniqid()), rand(0, 16), 6));
         return $data;
     }
 
@@ -134,6 +169,11 @@ class UserRepository extends BaseRepository
         return $data;
     }
 
+    public function afterSave($result)
+    {
+        $this->walletRepository->createDefaultWallet($result->id);
+
+    }
 
     public function deleteAvatar(string $id)
     {

@@ -82,5 +82,5 @@
     <script>
         window.__prompt_input_url__ = '{{route('web.ai.chat.prompt-inputs')}}';
     </script>
-    <script src="{{ theme_asset('chat/js/chat.js') }}"></script>
+    <script src="{{ ai_startup_asset('chat/js/chat.js') }}"></script>
 @endsection

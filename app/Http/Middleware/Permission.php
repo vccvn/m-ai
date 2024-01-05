@@ -55,13 +55,11 @@ class Permission
         // lấy thông tin route hiện tại
         $subDomain = get_subdomain() ;
         $routeInfo = Router::getRouteInfo($request->route());
-        if($request->is('admin/3d/*'))
-            return $next($request);
-        if ($request->is('merchant/') || $request->is('merchant/*') || $subDomain == 'merchant') {
+        if (($request->is('merchant/') || $request->is('merchant/*') || $subDomain == 'merchant') && in_array($user->type, [User::AGENT, User::MERCHANT])) {
             return $next($request);
         }
         if (in_array($user->type, [User::ADMIN])) return $next($request);
-        
+
         $userRoles = $user->getUserRoles();
         if (array_key_exists('name', $routeInfo) && $routeInfo['name']) {
 

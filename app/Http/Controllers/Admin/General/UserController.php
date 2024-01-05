@@ -6,6 +6,7 @@ use App\DTOs\Users\UserDTO;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\User;
+use App\Repositories\Accounts\AgentRepository;
 use Gomee\Helpers\Arr;
 use App\Repositories\Users\UserRepository;
 use App\Services\Encryptions\HashService;
@@ -16,6 +17,7 @@ use Carbon\Carbon;
 /**
  * user
  * @property UserRepository $repository
+ * @property AgentRepository $agentRepository
  * @property UserService $service
  * @property User $user
  */
@@ -33,25 +35,19 @@ class UserController extends AdminController
 
     protected $listType = null;
 
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(UserRepository $UserRepository, UserService $service)
+    public function __construct(UserRepository $UserRepository, UserService $service, AgentRepository $agentRepository)
     {
         $this->repository = $UserRepository;
+        $this->agentRepository = $agentRepository;
         $this->service = $service;
         $this->init();
     }
-
-    public function getCIPendingStatus(Request $request)
-    {
-        $this->repository->enableCIQuery();
-        return $this->getList($request);
-    }
-
-
     public function beforeGetListView(Request $request, $data)
     {
         add_js_data('users', [
@@ -79,43 +75,24 @@ class UserController extends AdminController
     protected function beforeSave(Request $request, $data)
     {
         $this->uploadImageAttachFile($request, $data, 'avatar', get_content_path('users/avatar'));
-        // $trust_score = 0;
-        // if ($data->is_verified_phone)
-        //     $trust_score += User::TRUST_PHONE_SCORE;
-        // if ($data->is_verified_email)
-        //     $trust_score += User::TRUST_EMAIL_SCORE;
-        // if ($data->is_verified_identity)
-        //     $trust_score += User::TRUST_EKYC_SCORE;
-        // if ($this->user && $this->user->hasPayment)
-        //     $trust_score += User::TRUST_PAY_SCORE;
-        // $data->trust_score = $trust_score;
-
-        // if ($this->user) {
-        //     if ($this->user->type != $data->type && in_array($data->type, [User::MERCHANT, User::AGENT_LV1, User::AGENT_LV2])) {
-        //         $data->agent_expired_at = Carbon::now()->addMonths(discount_setting($data->type.'_contract_renew', 1))->toDateTimeString('millisecond');
-        //     }
-        // }
-        // elseif (in_array($data->type, [User::MERCHANT, User::AGENT_LV1, User::AGENT_LV2])) {
-        //         $data->agent_expired_at = Carbon::now()->addMonths(discount_setting($data->type.'_contract_renew', 1))->toDateTimeString('millisecond');
-        // }
-
-        // $data->account_data = $data->copy([
-        //     "bank_name",
-        //     "bank_account_name",
-        //     "bank_account_number"
-        // ]);
+        if($data->ref_code && ($agent = $this->repository->first(['affiliate_code' => $data->ref_code])) && $agent->type == User::AGENT){
+            $data->agent_id = $agent->id;
+        }
     }
 
     /**
      * can thiệp sau khi luu
      * @param Request $request
-     * @param Model $model dũ liệu đã được luu
+     * @param User $user dũ liệu đã được luu
      * @return void
      */
-    protected function afterSave(Request $request, $model)
+    protected function afterSave(Request $request, $user)
     {
         // luu thong tin pro file
         // $this->profiles->saveProfile($model->id, $this->data);
+        if($user->type == User::AGENT){
+            $this->agentRepository->updateAgent($user->id, $request->agent_policy_id);
+        }
 
     }
 
@@ -211,5 +188,4 @@ class UserController extends AdminController
 
         return $this->json(compact(...$this->apiSystemVars));
     }
-
 }

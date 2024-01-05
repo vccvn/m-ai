@@ -1,0 +1,96 @@
+{
+    "inputs": {
+        "name": {
+            "type": "text",
+            "label": "Tên / Tiêu đề",
+            "placeholder": "Nhập Tên / Tiêu đề"
+        },
+        "type": {
+            "type": "radio",
+            "label": "Đối tượng",
+            "data": {
+                "user": "Người dùng phổ thông",
+                "agent": "Đại lý"
+            },
+            "default": "agent"
+        },
+        "level": {
+            "type": "number",
+            "label": "Level",
+            "placeholder": "Nhập Level",
+            "min": 1,
+            "step": 1,
+            "default": 1
+        },
+        "receive_times": {
+            "type": "number",
+            "label": "Số lần được hưởng hoa hồng từ khách hàng <br> (-1 là không giới hạn)",
+            "placeholder": "Nhập Số lần",
+            "min": -1,
+            "step": 1,
+            "default": 1
+        },
+        "revenue_target": {
+            "type": "number",
+            "label": "Mục tiêu doanh thu để thăng hạng",
+            "placeholder": "Nhập Doanh thu",
+            "min": 0,
+            "step": 1000,
+            "default": 0
+        },
+        "description": {
+            "type": "textarea",
+            "label": "Mô tả",
+            "placeholder": "Nhập Mô tả"
+        },
+        "commission_level_1": {
+            "type": "number",
+            "label": "Hoa hồng từ khách hàng trực tiếp",
+            "placeholder": "Nhập % hoa hồng",
+            "prepend_text": "%",
+            "min": 0,
+            "max":  100,
+            "step": 0.1,
+            "default": 0
+        },
+        "commission_level_2": {
+            "type": "number",
+            "label": "Hoa hồng từ khách hàng cấp 2",
+            "placeholder": "Nhập % hoa hồng",
+            "prepend_text": "%",
+            "min": 1,
+            "max":  100,
+            "step": 0.1,
+            "default": 0
+
+        },
+        "commission_level_3": {
+            "type": "number",
+            "label": "Hoa hồng từ khách hàng cấp 3",
+            "placeholder": "Nhập % hoa hồng",
+            "prepend_text": "%",
+            "min": 0,
+            "max":  100,
+            "step": 0.1,
+            "default": 0
+        },
+        "commission_level_4": {
+            "type": "number",
+            "label": "Hoa hồng từ khách hàng cấp 4",
+            "placeholder": "Nhập % hoa hồng",
+            "prepend_text": "%",
+            "min": 0,
+            "max":  100,
+            "step": 0.1,
+            "default": 0
+        }
+    },
+    "config": {
+        "name": "Chính sách",
+        "assets": {
+            "js": [
+                "/static/features/policies/form.js"
+            ]
+        }
+    }
+}

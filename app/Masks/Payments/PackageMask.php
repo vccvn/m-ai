@@ -1,11 +1,19 @@
 <?php
 namespace App\Masks\Payments;
 
-use App\Models\ConnectPackage;
+use App\Models\ServicePackage;
 use Gomee\Masks\Mask;
 /**
  * PackageMask class
- *
+ * @property integer $agent_id Agent Id
+ * @property string $role Role
+ * @property string $name Name
+ * @property string $description Description
+ * @property integer $quantity Quantity
+ * @property float $wholesale_price Wholesale Price
+ * @property float $retail_price Retail Price
+ * @property string $currency Currency
+ * @property array $metadata Metadata
  */
 class PackageMask extends Mask
 {
@@ -24,7 +32,7 @@ class PackageMask extends Mask
 
     /**
      * lấy data từ model sang mask
-     * @param ConnectPackage $connectPackage Tham số không bắt buộc phải khai báo.
+     * @param ServicePackage $model Tham số không bắt buộc phải khai báo.
      * Xem thêm ExampleMask
      */
     // public function toMask()

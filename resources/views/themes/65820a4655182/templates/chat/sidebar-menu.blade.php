@@ -1,7 +1,7 @@
 
 <div class="sidebar-menu">
     <div class="logo-col">
-        <a href="index.html"><img src="{{theme_asset('chat/img/logo.png')}}" alt=""></a>
+        <a href="index.html"><img src="{{ai_startup_asset('chat/img/logo.png')}}" alt=""></a>
     </div>
     <div class="menus-col">
         <div class="chat-menus">
@@ -59,7 +59,7 @@
                 </li> --}}
                 <li>
                     <a href="#" class="chat-profile-icon" data-bs-toggle="dropdown">
-                        <img src="{{theme_asset('chat/assets/img/avatar/avatar-13.jpg')}}" alt="">
+                        <img src="{{ai_startup_asset('chat/assets/img/avatar/avatar-13.jpg')}}" alt="">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a href="#" class="dropdown-item dream_profile_menu">Edit Profile <span class="edit-profile-icon"><i class="fas fa-edit"></i></span></a>

@@ -48,13 +48,13 @@ class DashboardController extends MerchantController
 
     public function getIndex(Request $request)
     {
-        return redirect()->route($this->routeNamePrefix . '3d.models.list');
+        // return redirect()->route($this->routeNamePrefix . '3d.models.list');
         return $this->viewModule('default');
     }
 
     public function viewDefaultDashboard(Request $request)
     {
-        return redirect()->route($this->routeNamePrefix . '3d.models.list');
+        // return redirect()->route($this->routeNamePrefix . '3d.models.list');
         $data = [];
         return $this->viewModule('default', $data);
     }

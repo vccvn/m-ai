@@ -7,8 +7,8 @@
                 <div class="col-lg-4 col-sm-7">
                     <div class="footer-widget">
                         <div class="footer-img">
-                            <img src="{{theme_asset('img/logo/logo1.png')}}" class="footer-img1" alt="Images">
-                            <img src="{{theme_asset('img/logo/logo2.png')}}" class="footer-img2" alt="Images">
+                            <img src="{{ai_startup_asset('img/logo/logo1.png')}}" class="footer-img1" alt="Images">
+                            <img src="{{ai_startup_asset('img/logo/logo2.png')}}" class="footer-img2" alt="Images">
                         </div>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit,

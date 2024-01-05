@@ -10,7 +10,7 @@
             </ul>
         </div>
         {{-- <figure class="avatar ms-1">
-            <img src="{{theme_asset('chat/assets/img/avatar/avatar-8.jpg')}}" class="rounded-circle" alt="image">
+            <img src="{{ai_startup_asset('chat/assets/img/avatar/avatar-8.jpg')}}" class="rounded-circle" alt="image">
         </figure> --}}
         <div class="mt-1">
             <h5>123 tin</h5>

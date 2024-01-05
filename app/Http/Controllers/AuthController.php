@@ -98,7 +98,7 @@ class AuthController extends Controller
                 $message = "Bạn đã nhập sai mật khẩu quá 5 lần";
                 $cookie = cookie('VX-TOKEN', 1, 5);
             } elseif (Auth::attempt($args, $request->remember)) {
-                $data = ['redirect' => $user->type == User::MERCHANT || $user->owner_id? (get_subdomain() == 'merchant' ?route('merchant.dashboard'): 'https://merchant.' . get_cfg_domain()): route('dashboard')];
+                $data = ['redirect' => $user->type == User::MERCHANT || $user->type == User::AGENT? route('merchant.dashboard') : route('dashboard')];
                 $status = true;
                 if ($failTimeCond) {
                     $failLogin->status = 1;

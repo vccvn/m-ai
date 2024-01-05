@@ -122,25 +122,41 @@ $(() => {
     let isInited = false;
     const initDefault = (prompt_id, topic_id) => {
 
-        $chatFrameWrapper.append(chatFrameTemplate.render({ chat_url: chatUrlTemplate.render({ prompt_id:prompt_id?prompt_id:'', topic_id:'' }) }))
         let x = document.getElementById('chatBoxFrame');
+        if (!x) {
+
+
+            let html = chatFrameTemplate.render({ chat_url: chatUrlTemplate.render({ prompt_id: prompt_id ? prompt_id : '', topic_id: '' }) });
+            $chatFrameWrapper.empty();
+            $chatFrameWrapper.append(html);
+
+            // console.log(html);
+            return setTimeout(() => {
+                initDefault(prompt_id, topic_id);
+            }, 100);
+        }
+
         contentWindow = (x.contentWindow || x.contentDocument);
         isInited = true;
+        console.log('inited');
     }
 
     window.getContentWindow = () => contentWindow;
 
     const setChatData = (prompt_id) => window.getContentWindow().setPromptChat(prompt_id);
 
-    function openChat (prompt_id, topic_id, turn) {
+    function openChat(prompt_id, topic_id, turn) {
         $AIPageContentAndFooter.addClass('d-none');
         $chatPreloader.removeClass('d-none');
-        if(!contentWindow){
-            if(!isInited) initDefault();
-            if(!turn) turn = 0;
-            if(turn > 4) return 0;
+        console.log("open Chat")
+
+        if (!contentWindow || !isInited) {
+            console.log("not init")
+            if (!isInited) initDefault();
+            if (!turn) turn = 0;
+            if (turn > 4) return 0;
             return setTimeout(() => {
-                openChat(prompt_id, topic_id, turn+1);
+                openChat(prompt_id, topic_id, turn + 1);
             }, 500);
         }
         setChatData(prompt_id);
@@ -163,7 +179,14 @@ $(() => {
 
     registerTopicMAp();
     renderNav();
-    $(window).on('load', e => initDefault());
+    // initDefault();
+    $(window).on('load', e => {
+        console.log("loaded")
+        initDefault()
+    });
+    setTimeout(() => {
+        if(!isInited) initDefault();
+    }, 2000);
 
     $(document).on('click', ".topic-page .topic-nav-item", function (e) {
         e.preventDefault();

@@ -178,7 +178,7 @@
                             <ul class="user-list mt-2">
                                 <li class="user-list-item">
                                     <div class="avatar avatar-online">
-                                        <img src="{{theme_asset('ai/chat/assets/img/avatar/avatar-1.jpg')}}" class="rounded-circle" alt="image">
+                                        <img src="{{ai_startup_asset('ai/chat/assets/img/avatar/avatar-1.jpg')}}" class="rounded-circle" alt="image">
                                     </div>
                                     <div class="users-list-body align-items-center">
                                         <div>
@@ -194,7 +194,7 @@
                                 </li>
                                 <li class="user-list-item">
                                     <div class="avatar avatar-online">
-                                        <img src="{{theme_asset('ai/chat/assets/img/avatar/avatar-2.jpg')}}" class="rounded-circle" alt="image">
+                                        <img src="{{ai_startup_asset('ai/chat/assets/img/avatar/avatar-2.jpg')}}" class="rounded-circle" alt="image">
                                     </div>
                                     <div class="users-list-body align-items-center">
                                         <div>
@@ -213,7 +213,7 @@
                             <ul class="user-list mt-2">
                                 <li class="user-list-item">
                                     <div class="avatar avatar-online">
-                                        <img src="{{theme_asset('ai/chat/assets/img/avatar/avatar-3.jpg')}}" class="rounded-circle" alt="image">
+                                        <img src="{{ai_startup_asset('ai/chat/assets/img/avatar/avatar-3.jpg')}}" class="rounded-circle" alt="image">
                                     </div>
                                     <div class="users-list-body align-items-center">
                                         <div>
@@ -229,7 +229,7 @@
                                 </li>
                                 <li class="user-list-item">
                                     <div class="avatar avatar-online">
-                                        <img src="{{theme_asset('ai/chat/assets/img/avatar/avatar-4.jpg')}}" class="rounded-circle" alt="image">
+                                        <img src="{{ai_startup_asset('ai/chat/assets/img/avatar/avatar-4.jpg')}}" class="rounded-circle" alt="image">
                                     </div>
                                     <div class="users-list-body align-items-center">
                                         <div>
@@ -276,7 +276,7 @@
                             <div class="call-wrapper">
                                 <div class="call-inner">
                                     <div class="call-user">
-                                        <img alt="User Image" src="{{theme_asset('ai/chat/assets/img/avatar/avatar-8.jpg')}}" class="call-avatar">
+                                        <img alt="User Image" src="{{ai_startup_asset('ai/chat/assets/img/avatar/avatar-8.jpg')}}" class="call-avatar">
                                         <h4>Brietta Blogg <span>video calling</span>
                                         </h4>
                                     </div>
@@ -306,7 +306,7 @@
                             <div class="call-wrapper">
                                 <div class="call-inner">
                                     <div class="call-user">
-                                        <img alt="User Image" src="{{theme_asset('ai/chat/assets/img/avatar/avatar-8.jpg')}}" class="call-avatar">
+                                        <img alt="User Image" src="{{ai_startup_asset('ai/chat/assets/img/avatar/avatar-8.jpg')}}" class="call-avatar">
                                         <h4>Brietta Blogg <span>voice calling</span>
                                         </h4>
                                     </div>

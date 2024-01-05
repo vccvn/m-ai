@@ -116,4 +116,4 @@ Route::name('merchant.')->group(function () use ($routes) {
 });
 
 
-Route::any('{any}', [ErrorController::class, 'handleError'])->where('any', '.*')->name('error');
+// Route::any('{any}', [ErrorController::class, 'handleError'])->where('any', '.*')->name('error');

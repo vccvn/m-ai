@@ -1,10 +1,10 @@
 {
-    "name": "Gói thanh toán",
+    "name": "Gói Thue bao",
     "package": "payments.packages",
     "use_trash": false,
     "titles": {
-        "default": "Danh sách Gói thanh toán",
-        "trash": "Danh sách Gói thanh toán đã xóa"
+        "default": "Danh sách Gói thuê bao",
+        "trash": "Danh sách Gói thue bao đã xóa"
     },
     "data": [],
     "filter": {
@@ -25,25 +25,31 @@
                 "text": ":description"
             },
             {
-                "title": "Số file",
+                "title": "Số tháng",
                 "class": "text-center",
-                "text": ":upload_count"
+                "text": ":quantity"
             },
             {
-                "title": "Giá",
+                "title": "Giá bán buôn",
                 "class": "text-center",
                 "template": "{@get_price_format}",
                 "data": {
                     "@get_price_format": [
-                        ":price",
+                        ":wholesale_price",
                         ":currency"
                     ]
                 }
             },
             {
-                "title": "Discount",
+                "title": "Giá bán lẻ",
                 "class": "text-center",
-                "template": "{discount}%"
+                "template": "{@get_price_format}",
+                "data": {
+                    "@get_price_format": [
+                        ":retail_price",
+                        ":currency"
+                    ]
+                }
             }
         ]
     },

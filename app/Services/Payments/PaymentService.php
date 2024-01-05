@@ -5,18 +5,23 @@ namespace App\Services\Payments;
 use App\Services\Service;
 use App\Models\ConnectPackage;
 use App\Models\PaymentMethod;
-use App\Models\PaymentRequest;
+use App\Models\PaymentTransaction;
+use App\Models\ServicePackage;
+// use App\Models\PaymentRequest;
 use App\Models\UploadPackage;
 use App\Models\User;
 use App\Models\Voucher;
+use App\Repositories\Accounts\AgentRepository;
+use App\Repositories\Accounts\WalletRepository;
 use App\Repositories\Payments\AgentPaymentLogRepository;
 use App\Repositories\Payments\MethodRepository;
 use App\Repositories\Payments\PackageRepository;
 use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
 
-use App\Repositories\Payments\RequestRepository;
+// use App\Repositories\Payments\RequestRepository;
 use App\Repositories\Payments\TransactionRepository;
+use App\Repositories\Policies\CommissionRepository;
 use App\Repositories\Promotions\VoucherRepository;
 use App\Repositories\Users\UserRepository;
 use App\Services\Mailers\Mailer;
@@ -34,8 +39,12 @@ use Illuminate\Support\Facades\DB;
  * @property-read PackageRepository $packageRepository
  * @property-read VoucherRepository $voucherRepository
  * @property-read TransactionRepository $transactionRepository
+ * @property-read AgentRepository $agentRepository
  * @property-read AlePayService $alepayService
- * @property-read Filemanager $filemanager
+ * @property-read Filemanager $filemanager CommissionRepository
+ * @property-read CommissionRepository $commissionRepository CommissionRepository
+
+ * @property-read WalletRepository $walletRepository
  */
 
 class PaymentService extends Service
@@ -53,12 +62,6 @@ class PaymentService extends Service
      */
     public $repository;
 
-    /**
-     * AgentPaymentLogRepository
-     *
-     * @var AgentPaymentLogRepository
-     */
-    protected $agentPaymentLogRepository;
     protected $voucherRepository;
     protected $errorMessage = null;
 
@@ -72,21 +75,27 @@ class PaymentService extends Service
      * @return void
      */
     public function __construct(
-        RequestRepository $repository,
+        // RequestRepository $repository,
         UserRepository $userRepository,
         PackageRepository $packageRepository,
         MethodRepository $methodRepository,
         TransactionRepository $transactionRepository,
         AlePayService $alepayService,
-        Filemanager $filemanager
+        Filemanager $filemanager,
+        AgentRepository $agentRepository,
+        CommissionRepository $commissionRepository,
+        WalletRepository $walletRepository
     ) {
-        $this->repository                 = $repository;
+        // $this->repository                 = $repository;
         $this->userRepository             = $userRepository;
         $this->methodRepository           = $methodRepository;
         $this->packageRepository          = $packageRepository;
         $this->transactionRepository      = $transactionRepository;
         $this->alepayService              = $alepayService;
         $this->filemanager                = $filemanager;
+        $this->agentRepository            = $agentRepository;
+        $this->commissionRepository       = $commissionRepository;
+        $this->walletRepository           = $walletRepository;
         $this->init();
         if ($alepay = $this->methodRepository->first(['method' => 'alepay'])) {
             $config = $alepay->getConfigData();
@@ -98,6 +107,10 @@ class PaymentService extends Service
             if ($assetURL = $config->asset_url(config('payment.alepay.asset_url')))
                 $this->alepayService->setAssetURL($assetURL);
         }
+
+        $this->transactionRepository->on('completed', function ($transaction) {
+            $this->onTransactionCompleted($transaction);
+        });
     }
 
 
@@ -123,7 +136,7 @@ class PaymentService extends Service
     public function createPayment($user, $method, $type, $payment_data = [])
     {
         if ($method->method == PaymentMethod::PAYMENT_ALEPAY) {
-            if ($paymentData = $this->createAlePayRequest($user, $type, $payment_data)) {
+            if ($paymentData = $this->createAlePayTransaction($user, $type, $payment_data)) {
                 return [
                     'action' => 'payment',
                     'payment' => $paymentData
@@ -142,18 +155,18 @@ class PaymentService extends Service
     /**
      * tao yeu cầu thanh toán kết nối
      *
-     * @param UploadPackage $package
+     * @param ServicePackage $package
      * @param PaymentMethod $method
      * @param User $user
      * @param array $advance
      * @return array
      */
-    public function createUploadPayment($package, $method, $user, $advance = [])
+    public function createServicePayment($package, $method, $user, $advance = [])
     {
 
 
         if ($method->method == PaymentMethod::PAYMENT_ALEPAY) {
-            if ($paymentData = $this->createUploadAlePayRequest($user, $package, $method, $advance)) {
+            if ($paymentData = $this->createServicePaymentTransaction($user, $package, $method, $advance)) {
                 return [
                     'status' => 'payment',
                     'action' => 'payment',
@@ -185,21 +198,21 @@ class PaymentService extends Service
             $message = 'Đang tiến hành';
         } elseif ($response->status == '111') {
             $message = 'Giao dịch đã bị huỷ';
-            $this->repository->updatePaymentStatus($response, false, $message);
+            $this->transactionRepository->updatePaymentStatus($response, false, $message);
         } elseif ($response->status != '000') {
             $message = 'Giao dịch đã bị huỷ';
-            $this->repository->updatePaymentStatus($response, false, $message);
+            $this->transactionRepository->updatePaymentStatus($response, false, $message);
         } elseif (
-            !($payment = $this->repository->first(['transaction_code' => $request->transactionCode]))
+            !($payment = $this->transactionRepository->first(['transaction_code' => $request->transactionCode]))
         ) {
             $message = 'Không tìm được thông tin gói';
-        } elseif ($payment->status == PaymentRequest::STATUS_PROCESSING && $response->isSuccess) {
-            if ($this->savePaymentHistory($response) && $this->repository->updatePaymentStatus($response, true)) {
+        } elseif ($payment->status == PaymentTransaction::STATUS_PROCESSING && $response->isSuccess) {
+            if ($this->transactionRepository->updatePaymentStatus($response, true)) {
                 $status = true;
             } else {
                 $message = 'Không thể lưu dữ liệu';
             }
-        } elseif ($payment->status == PaymentRequest::STATUS_COMPLETED) {
+        } elseif ($payment->status == PaymentTransaction::STATUS_COMPLETED) {
             $status = true;
         } else {
             $message = 'Lỗi không xác định';
@@ -211,9 +224,9 @@ class PaymentService extends Service
 
     public function cancelTransaction(Request $request)
     {
-        $data = $this->repository->updatePaymentStatus($request, false, $message = 'Giao dịch đã bị huỷ');
+        $data = $this->transactionRepository->updatePaymentStatus($request, false, $message = 'Giao dịch đã bị huỷ');
         $status = $data ? true : false;
-        return redirect()->route('merchant.payments.requests.create', ['transaction_code' => $request->transactionCode])->with('error', $message);
+        return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('error', $message);
 
 
         if ($data && $data->method && $data->method->method == PaymentMethod::PAYMENT_ALEPAY) {
@@ -235,40 +248,39 @@ class PaymentService extends Service
     {
         $message = '';
         $redirect = null;
-        if (!$request->transactionCode || !($pr = $this->repository->with('method')->first(['transaction_code' => $request->transactionCode]))) {
+        if (!$request->transactionCode || !($pr = $this->transactionRepository->with('method')->first(['transaction_code' => $request->transactionCode]))) {
         } elseif ($request->errorCode != '000') {
             $message = $this->alepayService->getMessage($request->errorCode);
-            $this->repository->updatePaymentStatus($request, false, $message);
+            $this->transactionRepository->updatePaymentStatus($request, false, $message);
             $redirect = $pr->error_redirect_url;
         } elseif ($request->cancel == 'True') {
             $message = 'Yêu cầu thanh toán đã bị huỷ';
-            $this->repository->updatePaymentStatus($request, false, $message);
+            $this->transactionRepository->updatePaymentStatus($request, false, $message);
             $redirect = $pr->cancel_redirect_url;
         } elseif (!($response = $this->alepayService->getTransactionInfo($request->transactionCode))) {
             $message = 'Không có thông tin giao dịch';
             $redirect = $pr->error_redirect_url;
         } elseif (!$response->isSuccess || $response->status != "000") {
             $message = $response->message;
-            $this->repository->updatePaymentStatus($response, false, $message);
-        } elseif (!($transaction = $this->savePaymentHistory($response))) {
+            $this->transactionRepository->updatePaymentStatus($response, false, $message);
+        } elseif (!($payment = $this->transactionRepository->updatePaymentStatus($response, true))) {
             $redirect = $pr->error_redirect_url;
 
             $message = $this->errorMessage ?? 'Lỗi hệ thống. chúng tôi sẽ xác minh giao dịch và thông báo cho bạn khi hoàn tất';
-            $this->repository->updatePaymentStatus($response, false, $message);
+            // $this->transactionRepository->updatePaymentStatus($response, false, $message);
         } else {
             $redirect = $pr->success_redirect_url;
-
-            $payment = $this->repository->updatePaymentStatus($response, true);
+            $package = $this->packageRepository->find($payment->order_id);
             if ($pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY) {
-                return redirect()->route('merchant.3d.models.upload', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $transaction->package_upload_count . ' lượt tải file lên!');
-                $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
-                return redirect($url);
+                return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+                // $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
+                // return redirect($url);
             }
         }
         if ($redirect)
             return redirect(url_merge($redirect, ['transaction_code' => $request->transactionCode]));
 
-        return redirect()->route('merchant.payments.requests.create', ['transaction_code' => $request->transactionCode])
+        return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])
             ->with('error', $message);
     }
 
@@ -289,34 +301,34 @@ class PaymentService extends Service
         if (
             !$transaction_code ||
             !($response = $this->alepayService->getTransactionInfo($transaction_code)) ||
-            !($payment = $this->repository->first(['transaction_code' => $transaction_code]))
+            !($payment = $this->transactionRepository->first(['transaction_code' => $transaction_code]))
         ) {
             $message = 'Không tìm được thông tin gói';
             $stop = true;
-        } elseif ($payment->status == PaymentRequest::STATUS_COMPLETED) {
+        } elseif ($payment->status == PaymentTransaction::STATUS_COMPLETED) {
             $status = true;
             $stop = true;
             $data = $payment;
-        } elseif ($payment->status == PaymentRequest::STATUS_CANCELED) {
+        } elseif ($payment->status == PaymentTransaction::STATUS_CANCELED) {
             $message = 'Giao dịch đã bị huỷ';
             $stop = true;
         } elseif ($response->status == null) {
             $message = 'chưa có thông tin';
         } elseif ($response->status == '111') {
-            $this->repository->updatePaymentStatus($response, false);
+            $this->transactionRepository->updatePaymentStatus($response, false);
             $message = 'Giao dịch đã bị huỷ';
             $stop = true;
         } elseif ($response->status != "000") {
             $message = 'Đang tiến hành';
-        } elseif ($payment->status == PaymentRequest::STATUS_PROCESSING && $response->isSuccess) {
-            if ($this->savePaymentHistory($response) && $pr = $this->repository->updatePaymentStatus($response, true)) {
+        } elseif ($payment->status == PaymentTransaction::STATUS_PROCESSING && $response->isSuccess) {
+            if ($pr = $this->transactionRepository->updatePaymentStatus($response, true)) {
                 $status = true;
                 $stop = true;
                 $data['payment'] = $pr;
             } else {
                 $message = $this->errorMessage ?? 'Không thể lưu lịch sử';
             }
-        } elseif ($payment->status == PaymentRequest::STATUS_COMPLETED) {
+        } elseif ($payment->status == PaymentTransaction::STATUS_COMPLETED) {
             $status = true;
             $data['payment'] = $payment;
         }
@@ -327,33 +339,27 @@ class PaymentService extends Service
 
 
 
-
-
-    /**
-     * create ale pay request
-
-
     /**
      * create ale pay request
      *
      * @param User $user
-     * @param UploadPackage $package
+     * @param ServicePackage $package
      * @param PaymentMethod $method
      * @param array $advance
      * @return array
      */
-    public function createUploadAlePayRequest($user, $package, $method, $advance = [])
+    public function createServicePaymentTransaction($user, $package, $method, $advance = [])
     {
         $paymentData = new Arr([
             'orderCode' => strtoupper(uniqid()),
-            'customMerchantId' => 'ca-' . $user->id,
-            'amount' => (int) $package->price,
+            'customMerchantId' => 'm-ai-' . $user->id,
+            'amount' => (int) ($user->type == User::AGENT ? $package->wholesale_price : $package->retail_price),
             'currency' => $package->currency,
             'orderDescription' => 'Đăng ký ' . $package->name,
-            'totalItem' => $package->upload_count,
+            'totalItem' => $package->quantity,
             'returnUrl' => route('api.payment.complete'),
             'cancelUrl' => route('api.payment.cancel'),
-            'buyerName' => $user->full_name,
+            'buyerName' => $user->name,
             'buyerEmail' => $user->email,
             'buyerPhone' => $user->phone ?? "0987123456",
             'buyerAddress' => 'So 1 Dai Co Viet',
@@ -371,8 +377,8 @@ class PaymentService extends Service
             // $paymentData->transactionCode = $aleResponse->transactionCode;
             // $paymentData->currentConnectCount = $user->connect_count;
             // $paymentData->packageConnectCount = $package->connect_count;
-            $paymentRequest = $this->repository->create(array_merge((array) $advance, [
-                'type' => PaymentRequest::TYPE_BUY_UPLOAD_FILES,
+            $paymentRequest = $this->transactionRepository->create(array_merge((array) $advance, [
+                'type' => PaymentTransaction::TYPE_BUY_SERVICE,
                 'order_id' => $package->id,
                 'user_id' => $user->id,
                 'order_code' => $paymentData->orderCode,
@@ -385,7 +391,7 @@ class PaymentService extends Service
             if ($paymentRequest)
                 return [
                     'transaction_code' => $aleResponse->transactionCode,
-                    'price_format' => get_price_format($package->price, $package->currency),
+                    'price_format' => get_price_format($user->type == User::AGENT ? $package->wholesale_price : $package->retail_price, $package->currency),
                     'check_status_url' => route('api.payment.status'),
                     'checkout_url' => $aleResponse->checkoutUrl
                 ];
@@ -406,7 +412,7 @@ class PaymentService extends Service
      * @param array $advance
      * @return array
      */
-    public function createAlePayRequest($user, $type = 'buy-connect', $payment_data = [], $advance = [])
+    public function createAlePayTransaction($user, $type = 'buy-connect', $payment_data = [], $advance = [])
     {
         $paymentData = new Arr([
             'orderCode' => $payment_data['order_code'] ??  strtoupper(uniqid()),
@@ -417,9 +423,9 @@ class PaymentService extends Service
             'totalItem' => $payment_data['total_item'] ?? 1,
             'returnUrl' => $payment_data['return_url'] ?? route('api.payment.complete'),
             'cancelUrl' => $payment_data['cancel_url'] ?? route('api.payment.cancel'),
-            'buyerName' => $user->full_name,
+            'buyerName' => $user->name,
             'buyerEmail' => $user->email,
-            'buyerPhone' => $user->phone ?? "0987123456",
+            'buyerPhone' => $user->phone_number ?? "0987123456",
             'buyerAddress' => $user->address ?? 'So 1 Dai Co Viet',
             'buyerCity' => 'Hà Nội',
             'buyerCountry' => 'Việt Nam',
@@ -435,7 +441,7 @@ class PaymentService extends Service
             // $paymentData->transactionCode = $aleResponse->transactionCode;
             // $paymentData->currentConnectCount = $user->connect_count;
             // $paymentData->packageConnectCount = $package->connect_count;
-            $paymentRequest = $this->repository->create(array_merge($advance, [
+            $paymentRequest = $this->transactionRepository->create(array_merge($advance, [
                 'type' => $type,
                 'order_id' => $payment_data['order_id'] ?? '',
                 'user_id' => $user->id,
@@ -466,92 +472,96 @@ class PaymentService extends Service
 
 
     /**
-     * lưu lịch sử
+     * hoan thangh
      *
-     * @param AlePayResponse $response
-     * @return PaymentTransaction|false
+     * @param PaymentTransaction $payment
+     * @return void
      */
-    public function savePaymentHistory(AlePayResponse $response)
+    public function onTransactionCompleted($payment)
     {
-        $message = '';
-        DB::beginTransaction();
-        if (
-            !($payment = $this->repository->first(['transaction_code' => $response->transactionCode]))
-            || !($user = $this->userRepository->first(['id' => $payment->user_id]))
-        ) {
-            $message = 'Thông tin tin không hợp lệ';
-        } elseif ($payment->status == PaymentRequest::STATUS_PROCESSING) {
-            try {
-                $transaction = null;
-                if ($payment->type == PaymentRequest::TYPE_BUY_UPLOAD_FILES) {
-                    if ($trams = $this->completeBuyUploadFileTraction($user, $response, $payment)) {
-                        $transaction = $trams;
-                    } else {
-                        $message = 'Gói không tồn tại';
-                    }
-                } else {
-                    $message = 'Giao dịch không hợp lệ';
-                }
-                $this->errorMessage = $message;
-
-                DB::commit();
-                return $transaction;
-            } catch (\Exception $exception) {
-                $this->errorMessage = 'Không thể hoàn thành giao dịch';
-                DB::rollback();
-                $this->filemanager->json(storage_path('payments/logs/' . $response->transactionCode . '.json'), $response->toArray());
-                $this->filemanager->save(storage_path('payments/logs/' . $response->transactionCode . '.log'), $exception->getMessage());
-                MailNotification::subject('Có người giao dịch thành công nhưng đã xảy ra lỗi trong quá trình xử lý')
-                    ->body('simple')
-                    ->content('Có người thanh toán thành công nhưng xảy ra lỗi trong quá trình xử lý. Chi tiết xem file log đã được mã hoá. <br> Mã giao dịch: ' . $response->transactionCode)
-                    ->sendAfter(1);
-            }
-        } elseif ($payment->status == PaymentRequest::STATUS_COMPLETED) {
-            if ($payment->type == PaymentRequest::TYPE_BUY_UPLOAD_FILES) {
-
-                if ($voucher = $this->packageRepository->find($payment->order_id)) {
-                    return $voucher;
-                }
-            }
+        if ($payment->type == PaymentTransaction::TYPE_BUY_SERVICE) {
+            if (!($user = $this->userRepository->find($payment->user_id)))
+                $message = 'Không thấy user';
+            else
+                return $this->plusMoney($user, $payment->amount, 0);
+        } else {
+            $message = 'Giao dịch không hợp lệ';
         }
         $this->errorMessage = $message;
-        // die ($message);
-        return false;
     }
 
 
-
-    public function completeBuyUploadFileTraction($user, $response, $payment)
+    /**
+     * cong tien cho agent
+     *
+     * @param User $user
+     * @param integer $amount
+     * @param integer $level
+     * @return void
+     */
+    public function plusMoney($user, $amount = 0, $level = 0)
     {
-
-        if (!($package = $this->packageRepository->find($payment->order_id))) {
-            $this->errorMessage = 'Gói kết nối không tồn tại';
-        } else {
-            $payment->payment_method_name = $response->paymentMethod ?? $response->method;
-            $payment->save();
-            $transaction = $this->transactionRepository->create([
-                'payment_method_name' => $payment->payment_method_name,
-                'order_id' => $package->id,
-                'order_code' => $response->orderCode,
-                'transaction_code' => $payment->transaction_code,
-                'money' => $response->amount,
-                'amount' => $response->amount,
-                'currency' => $response->currency,
-                'user_id' => $user->id,
-                'note' => $response->orderDescription,
-                'description' => $response->orderDescription,
-                'current_upload_count' => $user->upload_count,
-                'package_upload_count' => $package->upload_count,
-                'ref_code' => $user->ref_code,
-                'type' => $payment->type,
-                'is_reported' => false
-            ]);
-
-            $user->upload_count += $package->upload_count;
-            $user->save();
-            // $a = $this->addMoneyForAgent($user->id, $user->ref_code, $transaction->id, $response->amount, $response->currency);
-            return $transaction;
+        $level++;
+        if (!$user->agent_id && !$user->ref_code)
+            return false;
+        $ag = null;
+        if ($user->agent_id && $a = $this->userRepository->first(['id' => $user->agent_id]))
+            $ag = $a;
+        elseif ($user->ref_code && $ap = $this->userRepository->first(['affiliate_code' => $user->ref_code]))
+            $ag = $ap;
+        if (!$ag) return false;
+        if ($ag->type != User::AGENT) {
+            if ($level > 1)
+                return false;
+            return $this->addMoneyToUser($user, $ag, $amount, $level);
         }
-        return null;
+        return $this->addMoneyToAgent($user, $ag, $amount, $level);
+    }
+
+    /**
+     * add to agent
+     *
+     * @param User $user
+     * @param User $agentUser
+     * @param int $amount
+     * @param int $level
+     * @return void
+     */
+    public function addMoneyToAgent($user, $agentUser, $amount = 0, $level = 1)
+    {
+        if (!($agent = $this->agentRepository->with('policy')->first(['user_id' => $agentUser->id])) || !($policy = $agent->policy))
+            return false;
+        if ($policy->receive_times >= 0 && $this->transactionRepository->count(['user_id' => $user->id, 'status' => PaymentTransaction::STATUS_COMPLETED]))
+            return false;
+        $percent = $policy->{'commission_level_' . $level};
+        if (!$percent || $percent <= 0)
+            return false;
+        $wallet = $this->walletRepository->createDefaultWallet($agentUser->id);
+        $wallet += $percent * $amount / 100;
+        $wallet->save();
+        return $this->plusMoney($agent, $amount, $level + 1);
+    }
+
+    /**
+     * cong rien cho user
+     *
+     * @param User $user
+     * @param User $refUser
+     * @param integer $amount
+     * @return void
+     */
+    public function addMoneyToUser($user, $refUser, $amount = 0, $level = 1)
+    {
+        if (!($policy = $this->commissionRepository->first(['type' => 'user'])))
+            return false;
+        if ($policy->receive_times >= 0 && $policy->receive_times < $this->transactionRepository->count(['user_id' => $user->id, 'status' => PaymentTransaction::STATUS_COMPLETED]))
+            return null;
+        $percent = $policy->{'commission_level_' . $level};
+        if (!$percent || $percent <= 0)
+            return false;
+        $wallet = $this->walletRepository->createDefaultWallet($refUser->id);
+        $wallet += $percent * $amount / 100;
+        $wallet->save();
+        return $this->plusMoney($refUser, $amount, $level + 1);
     }
 }

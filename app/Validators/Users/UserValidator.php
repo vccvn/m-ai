@@ -3,6 +3,7 @@
 namespace App\Validators\Users;
 
 use App\Models\User;
+use App\Repositories\Policies\CommissionRepository;
 use App\Validators\Common\ParseInputData;
 use App\Validators\Common\RemoveScriptTag;
 use Gomee\Validators\Validator as BaseValidator;
@@ -73,6 +74,10 @@ class UserValidator extends BaseValidator
             return in_array(strtolower($value), User::ALL_TYPE);
         });
 
+        $this->addRule('check_policy', function ($attr, $value) {
+            return $value && (new CommissionRepository())->count(['id' => $value]) > 0;
+        });
+
         $this->addRule('carbon_time', function ($attr, $value) {
             return get_carbon_time($value, 'time')?true:false;
         });
@@ -100,8 +105,8 @@ class UserValidator extends BaseValidator
             'status'              => 'user_status',
             // 'upload_count'       => 'numeric|min:0|max:9000000',  //
 
-            // 'affiliate_code'      => 'required|string|max:16', //
-            // 'ref_code'            => 'mixed', //
+            'affiliate_code'      => 'required|string|max:16', //
+            'ref_code'            => 'mixed', //
             // 'wallet_balance'      => 'numeric|min:0|max:99999999',  //
             // 'agent_discount'      => 'numeric|min:0|max:100',  //
             // 'agent_expired_at'    => 'datetime:datetime',
@@ -125,6 +130,10 @@ class UserValidator extends BaseValidator
 
         if (!($this->id?? $this->id) || strlen($this->password)) {
             $rules['password'] = 'required|string|min:6|confirmed';
+        }
+
+        if($this->type == 'agent'){
+            $rules['agent_policy_id'] = 'check_policy';
         }
 
         return $rules;

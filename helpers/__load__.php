@@ -9,6 +9,7 @@ require_once 'view.php';
 require_once 'general.php';
 require_once 'ecommerce.php';
 require_once 'gpt.php';
+require_once 'affiliate.php';
 require_once 'payments.php';
 require_once 'admin.php';
 require_once 'posts.php';

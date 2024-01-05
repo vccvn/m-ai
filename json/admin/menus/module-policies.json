@@ -1,0 +1,11 @@
+{
+    "data": {
+        "policies": {
+            "text": "Chính sách hoa hồng",
+            "title": "Chính sách hoa hồng",
+            "route": "admin.policies.commissions",
+            "permiss": "admin.policies.commissions",
+            "icon": "hands-helping"
+        }
+    }
+}

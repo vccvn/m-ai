@@ -5,9 +5,11 @@ namespace App\Repositories\Payments;
 use Gomee\Repositories\BaseRepository;
 use App\Masks\Payments\TransactionMask;
 use App\Masks\Payments\TransactionCollection;
+use App\Models\PaymentMethod;
 use App\Models\PaymentTransaction;
 use App\Validators\Payments\TransactionValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @method TransactionCollection<TransactionMask>|PaymentTransaction[] filter(Request $request, array $args = []) lấy danh sách PaymentTransaction được gán Mask
@@ -32,7 +34,7 @@ class TransactionRepository extends BaseRepository
      * class chứ các phương thức để validate dử liệu
      * @var string $validatorClass
      */
-    protected $validatorClass = TransactionValidator::class;
+    // protected $validatorClass = TransactionValidator::class;
     /**
      * tên class mặt nạ. Thường có tiền tố [tên thư mục] + \ vá hậu tố Mask
      *
@@ -64,19 +66,19 @@ class TransactionRepository extends BaseRepository
             'created_at' => 'DESC'
         ];
         $columns = [
-            'user_name' => 'users.full_name',
+            'user_name' => 'users.name',
             'user_phone_number' => 'users.phone_number',
             'user_email' => 'users.email',
-            'package_name' => 'upload_packages.name',
-            'upload_count' => 'upload_packages.upload_count'
+            'package_name' => 'service_packages.name',
+            'quantity' => 'service_packages.quantity'
 
         ];
         $this->setJoinable([
             ['leftJoin', 'users', 'users.id', '=', 'payment_transactions.user_id'],
-            ['leftJoin', 'upload_packages', 'upload_packages.id', '=', 'payment_transactions.order_id']
+            ['leftJoin', 'service_packages', 'service_packages.id', '=', 'payment_transactions.order_id']
         ]);
         $this->setSearchable($columns)->setWhereable($columns)->setSortable($columns)
-        ->setSelectable(array_merge($columns, ['payment_transactions.*']));
+            ->setSelectable(array_merge($columns, ['payment_transactions.*']));
     }
 
     /**
@@ -99,5 +101,42 @@ class TransactionRepository extends BaseRepository
         if ($request->to_date && ($toDate = strtodate($request->to_date))) {
             $this->whereDate('payment_transactions.created_at', '<=', "$toDate[year]-$toDate[month]-$toDate[day]");
         }
+    }
+
+
+
+
+    /**
+     * update payment status
+     *
+     * @param AlePayResponse $response
+     * @param boolean $status
+     * @return PaymentRequest|false
+     */
+    public function updatePaymentStatus($response, $status = false, $message = null)
+    {
+        if ($pr = $this->with('method')->first(['transaction_code' => $response->transactionCode, 'status' => PaymentTransaction::STATUS_PROCESSING])) {
+            DB::beginTransaction();
+            try {
+                //code...
+                $this->update($pr->id, $pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY ? [
+                    'status' => $status ? PaymentTransaction::STATUS_COMPLETED : PaymentTransaction::STATUS_CANCELED,
+                    'payment_method_name' => $response->method ?? $response->paymentMethod,
+                    'message' => $message
+                ] : ['status' => $status ? PaymentTransaction::STATUS_COMPLETED : PaymentTransaction::STATUS_CANCELED, 'message' => $message]);
+
+
+                $d = $this->mode('mask')->with('method')->detail(['id' => $pr->id]);
+                if ($status == PaymentTransaction::STATUS_COMPLETED) {
+                    $this->fire('completed', $d);
+                }
+                DB::commit();
+                return $d;
+            } catch (\Throwable $th) {
+                //throw $th;
+                DB::rollBack();
+            }
+        }
+        return null;
     }
 }

@@ -391,7 +391,8 @@ $(function () {
             keys.map(k => {
                 message += '<p><strong>' + CRITERIA_LABELS[k] + ': </strong> ' + data.criteria[k] + '</p>' + "\r\n";
             });
-            message += "<br>";
+            if (data.message && data.message.length)
+                message += "<br>";
         }
         message += data.message;
         return message;
@@ -475,8 +476,16 @@ $(function () {
         let cleanContent = strpTags(message).trim();
         // console.log(cleanContent);
         let criteria = getCriteriaData();
-
-        if ((!cleanContent || cleanContent == '') && (chatData.type != 'new' || (chatData.type == 'new' && chatData.prompt_id == 0))) {
+        let cond = (
+            (!cleanContent || cleanContent == '') &&
+            (chatData.prompt_id == 0 ||
+                (
+                    chatData.prompt_id != 0 && chatData.criteriaTotal == 0
+                )
+            )
+        );
+        console.log(cond, chatData, criteria);
+        if (cond) {
             // console.log('không làm gì');
             if (clean) {
                 setMessageContent('');
@@ -489,7 +498,7 @@ $(function () {
             }
         }
         else if (chatData.hasCriteria && Object.keys(criteria).length < chatData.criteriaTotal) {
-            App.Swal.warning("Vui lòng nhập đầy dủ các tiêu cxhi1");
+            App.Swal.warning("Vui lòng nhập đầy dủ các tiêu chí ");
         }
         else {
             chatData.message = App.str.replace(message, '&nbsp;', ' ');
@@ -521,15 +530,18 @@ $(function () {
         }
         if (DATA.inputs && DATA.inputs.length) {
             renderInputs(DATA.inputs);
+            chatData.criteriaTotal = DATA.inputs.length;
         }
         if (DATA.chat && DATA.chat.id) {
             chatData.id = DATA.chat.id;
             chatData.type = 'continue';
             chats[chatData.uuid] = true;
         }
+        $chatList.empty();
+        let $chatBlock = createChatBlock(chatData.uuid, DATA.prompt ? DATA.prompt.name : App.date("H:i"));
+
         if (DATA.messages && DATA.messages.length) {
-            $chatList.empty();
-            let $chatBlock = createChatBlock(chatData.uuid, DATA.prompt ? DATA.prompt.name : App.date("H:i"));
+
             pushChatMessageList($chatBlock, DATA.messages);
         }
         window.hideLoader();
@@ -574,7 +586,15 @@ $(function () {
     let clearAfterKeyUp = false;
 
     // addElementToCheckHeight($inputMessage);
-
+    $criteriaWrapper.on("keydown", "textarea.inp-criteria", evt => {
+        checkMessageInputScroll();
+        updateChatBodyPaddingBottom()
+        if (evt.keyCode == 13 && !evt.shiftKey) {
+            evt.preventDefault();
+            submitForm();
+            // clearAfterKeyUp = true;
+        }
+    })
     $inputMessage.on('keydown', evt => {
         checkMessageInputScroll();
         updateChatBodyPaddingBottom()

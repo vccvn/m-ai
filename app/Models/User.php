@@ -39,6 +39,7 @@ use Laravel\Passport\HasApiTokens;
  * @property Region $region
  * @property integer $trashed_status
  * @property-read AgentPaymentLog[] $agentPaymentUnreportedLogs
+ * @property AgentAccount $agentAccount
  *
  */
 class User extends Authenticatable
@@ -201,6 +202,15 @@ class User extends Authenticatable
         return $this->hasMany(PermissionUserRole::class, 'user_id', 'id');
     }
 
+    /**
+     * Get the agentAccount associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function agentAccount(): HasOne
+    {
+        return $this->hasOne(AgentAccount::class, 'user_id', 'id');
+    }
 
 
     public function getUserRoles()
@@ -386,10 +396,18 @@ class User extends Authenticatable
     {
         $a = $this->getAvatar();
         $data = $this->toArray();
-        $a = explode(' ', $this->full_name);
+        $a = explode(' ', $this->name);
         $data['first_name'] = array_pop($a);
         $data['last_name'] = implode(' ', $a);
         if ($this->avatar) $data['avatar'] = $a;
+
+        if($this->type == User::AGENT && $this->agentAccount){
+            $aaa = $this->agentAccount->toArray();
+            foreach ($aaa as $key => $value) {
+                $data['agent_' . $key] = $value;
+            }
+        }
+
         return $data;
     }
 

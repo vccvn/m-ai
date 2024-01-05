@@ -1,7 +1,7 @@
 @php
     $header = $options->theme->header;
-    $desktop_logo = theme_asset('img/logo/logo2.png');
-    $mobile_logo = theme_asset('img/logo/logo1.png');
+    $desktop_logo = ai_startup_asset('img/logo/logo2.png');
+    $mobile_logo = ai_startup_asset('img/logo/logo1.png');
     if ($header) {
         $desktop_logo = $header->desktop_logo ?? ($siteinfo->logo ?? $desktop_logo);
         $mobile_logo = $header->mobile_logo ?? ($siteinfo->mobile_logo ?? $mobile_logo);

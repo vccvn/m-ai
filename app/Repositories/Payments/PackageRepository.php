@@ -3,24 +3,24 @@
 namespace App\Repositories\Payments;
 
 use Gomee\Repositories\BaseRepository;
-use App\Masks\Payments\UploadPackageMask;
-use App\Masks\Payments\UploadPackageCollection;
-use App\Models\UploadPackage;
+use App\Masks\Payments\PackageMask;
+use App\Masks\Payments\PackageCollection;
+use App\Models\ServicePackage;
 use App\Validators\Payments\PackageValidator;
 use Illuminate\Http\Request;
 
 /**
- * @method UploadPackageCollection<UploadPackageMask>|UploadPackage[] filter(Request $request, array $args = []) lấy danh sách UploadPackage được gán Mask
- * @method UploadPackageCollection<UploadPackageMask>|UploadPackage[] getFilter(Request $request, array $args = []) lấy danh sách UploadPackage được gán Mask
- * @method UploadPackageCollection<UploadPackageMask>|UploadPackage[] getResults(Request $request, array $args = []) lấy danh sách UploadPackage được gán Mask
- * @method UploadPackageCollection<UploadPackageMask>|UploadPackage[] getData(array $args = []) lấy danh sách UploadPackage được gán Mask
- * @method UploadPackageCollection<UploadPackageMask>|UploadPackage[] get(array $args = []) lấy danh sách UploadPackage
- * @method UploadPackageCollection<UploadPackageMask>|UploadPackage[] getBy(string $column, mixed $value) lấy danh sách UploadPackage
- * @method UploadPackageMask|UploadPackage getDetail(array $args = []) lấy UploadPackage được gán Mask
- * @method UploadPackageMask|UploadPackage detail(array $args = []) lấy UploadPackage được gán Mask
- * @method UploadPackageMask|UploadPackage find(integer $id) lấy UploadPackage
- * @method UploadPackageMask|UploadPackage findBy(string $column, mixed $value) lấy UploadPackage
- * @method UploadPackageMask|UploadPackage first(string $column, mixed $value) lấy UploadPackage
+ * @method PackageCollection<PackageMask>|ServicePackage[] filter(Request $request, array $args = []) lấy danh sách UploadPackage được gán Mask
+ * @method PackageCollection<PackageMask>|ServicePackage[] getFilter(Request $request, array $args = []) lấy danh sách UploadPackage được gán Mask
+ * @method PackageCollection<PackageMask>|ServicePackage[] getResults(Request $request, array $args = []) lấy danh sách UploadPackage được gán Mask
+ * @method PackageCollection<PackageMask>|UploadPackage[] getData(array $args = []) lấy danh sách UploadPackage được gán Mask
+ * @method PackageCollection<PackageMask>|UploadPackage[] get(array $args = []) lấy danh sách UploadPackage
+ * @method PackageCollection<PackageMask>|UploadPackage[] getBy(string $column, mixed $value) lấy danh sách UploadPackage
+ * @method PackageMask|UploadPackage getDetail(array $args = []) lấy UploadPackage được gán Mask
+ * @method PackageMask|UploadPackage detail(array $args = []) lấy UploadPackage được gán Mask
+ * @method PackageMask|UploadPackage find(integer $id) lấy UploadPackage
+ * @method PackageMask|UploadPackage findBy(string $column, mixed $value) lấy UploadPackage
+ * @method PackageMask|UploadPackage first(string $column, mixed $value) lấy UploadPackage
  * @method UploadPackage create(array $data = []) Thêm bản ghi
  * @method UploadPackage update(integer $id, array $data = []) Cập nhật
  */
@@ -28,7 +28,7 @@ class PackageRepository extends BaseRepository
 {
     /**
      * class chứ các phương thức để validate dử liệu
-     * @var string $validatorClass 
+     * @var string $validatorClass
      */
     protected $validatorClass = PackageValidator::class;
     /**
@@ -36,14 +36,14 @@ class PackageRepository extends BaseRepository
      *
      * @var string
      */
-    protected $maskClass = UploadPackageMask::class;
+    protected $maskClass = PackageMask::class;
 
     /**
      * tên collection mặt nạ
      *
      * @var string
      */
-    protected $maskCollectionClass = UploadPackageCollection::class;
+    protected $maskCollectionClass = PackageCollection::class;
 
 
     /**
@@ -52,7 +52,7 @@ class PackageRepository extends BaseRepository
      */
     public function getModel()
     {
-        return \App\Models\UploadPackage::class;
+        return \App\Models\ServicePackage::class;
     }
 
 }

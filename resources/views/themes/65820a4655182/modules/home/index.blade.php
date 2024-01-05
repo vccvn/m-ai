@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="banner-img-2">
-                            <img src="{{ theme_asset('img/home-two/home-two-img.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/home-two/home-two-img.png') }}" alt="Images">
                         </div>
                     </div>
                 </div>
@@ -31,19 +31,19 @@
         </div>
         <div class="banner-bottom-shape">
             <div class="shape-one wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
-                <img src="{{ theme_asset('img/home-two/home-two-shape1.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/home-two/home-two-shape1.png') }}" alt="Images">
             </div>
             <div class="shape-two wow animate__animated animate__fadeInUp" data-wow-delay=".5s">
-                <img src="{{ theme_asset('img/home-two/home-two-shape2.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/home-two/home-two-shape2.png') }}" alt="Images">
             </div>
             <div class="shape-three wow animate__animated animate__fadeInUp" data-wow-delay=".7s">
-                <img src="{{ theme_asset('img/home-two/home-two-shape3.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/home-two/home-two-shape3.png') }}" alt="Images">
             </div>
             <div class="banner-dots1">
-                <img src="{{ theme_asset('img/home-two/home-two-dots.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/home-two/home-two-dots.png') }}" alt="Images">
             </div>
             <div class="banner-dots2">
-                <img src="{{ theme_asset('img/home-two/home-two-dots2.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/home-two/home-two-dots2.png') }}" alt="Images">
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
                         <h3><a href="service-details.html">Consumer Analytics</a></h3>
                         <div class="service-item-img">
                             <a href="service-details.html">
-                                <img src="{{ theme_asset('img/service/service-icon7.png') }}" alt="Images">
+                                <img src="{{ ai_startup_asset('img/service/service-icon7.png') }}" alt="Images">
                             </a>
                             <div class="img-circle"></div>
                         </div>
@@ -77,7 +77,7 @@
                         <h3><a href="service-details.html">Marketing Analytics</a></h3>
                         <div class="service-item-img">
                             <a href="service-details.html">
-                                <img src="{{ theme_asset('img/service/service-icon8.png') }}" alt="Images">
+                                <img src="{{ ai_startup_asset('img/service/service-icon8.png') }}" alt="Images">
                             </a>
                             <div class="img-circle"></div>
                         </div>
@@ -93,7 +93,7 @@
                         <h3><a href="service-details.html">Sales Analytics</a></h3>
                         <div class="service-item-img">
                             <a href="service-details.html">
-                                <img src="{{ theme_asset('img/service/service-icon9.png') }}" alt="Images">
+                                <img src="{{ ai_startup_asset('img/service/service-icon9.png') }}" alt="Images">
                             </a>
                             <div class="img-circle"></div>
                         </div>
@@ -108,19 +108,19 @@
         </div>
         <div class="service-two-shape">
             <div class="shape-in1">
-                <img src="{{ theme_asset('img/shape/shape9.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape9.png') }}" alt="Images">
             </div>
             <div class="shape-in2">
-                <img src="{{ theme_asset('img/shape/shape10.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape10.png') }}" alt="Images">
             </div>
             <div class="shape-in3">
-                <img src="{{ theme_asset('img/shape/shape11.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape11.png') }}" alt="Images">
             </div>
             <div class="shape-in4">
-                <img src="{{ theme_asset('img/shape/shape7.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape7.png') }}" alt="Images">
             </div>
             <div class="shape-in5">
-                <img src="{{ theme_asset('img/shape/shape12.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape12.png') }}" alt="Images">
             </div>
         </div>
     </div>
@@ -132,7 +132,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="about-img-2">
-                            <img src="{{ theme_asset('img/about/about-img2.png') }}" alt>
+                            <img src="{{ ai_startup_asset('img/about/about-img2.png') }}" alt>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -225,7 +225,7 @@
             </div>
         </div>
         <div class="counter-shape-top">
-            <img src="{{ theme_asset('img/counter/counter-shape.png') }}" alt="Images">
+            <img src="{{ ai_startup_asset('img/counter/counter-shape.png') }}" alt="Images">
         </div>
     </div>
 
@@ -307,22 +307,22 @@
         </div>
         <div class="service-another-shape">
             <div class="shape-1">
-                <img src="{{ theme_asset('img/shape/shape13.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape13.png') }}" alt="Images">
             </div>
             <div class="shape-2">
-                <img src="{{ theme_asset('img/shape/shape11.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape11.png') }}" alt="Images">
             </div>
             <div class="shape-3">
-                <img src="{{ theme_asset('img/shape/shape10.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape10.png') }}" alt="Images">
             </div>
             <div class="shape-4">
-                <img src="{{ theme_asset('img/shape/shape9.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape9.png') }}" alt="Images">
             </div>
             <div class="shape-5">
-                <img src="{{ theme_asset('img/shape/shape7.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape7.png') }}" alt="Images">
             </div>
             <div class="shape-6">
-                <img src="{{ theme_asset('img/shape/shape12.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape12.png') }}" alt="Images">
             </div>
         </div>
     </div>
@@ -355,7 +355,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="work-img-2">
-                        <img src="{{ theme_asset('img/work-img.png') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/work-img.png') }}" alt="Images">
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -442,23 +442,23 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="mission-img">
-                        <img src="{{ theme_asset('img/mission-img.png') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/mission-img.png') }}" alt="Images">
                     </div>
                 </div>
             </div>
         </div>
         <div class="mission-shape">
             <div class="shape1">
-                <img src="{{ theme_asset('img/shape/shape13.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape13.png') }}" alt="Images">
             </div>
             <div class="shape2">
-                <img src="{{ theme_asset('img/shape/shape11.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape11.png') }}" alt="Images">
             </div>
             <div class="shape3">
-                <img src="{{ theme_asset('img/shape/shape12.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape12.png') }}" alt="Images">
             </div>
             <div class="shape4">
-                <img src="{{ theme_asset('img/shape/shape9.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape9.png') }}" alt="Images">
             </div>
         </div>
     </div>
@@ -473,7 +473,7 @@
             <div class="team-slider-two owl-carousel owl-theme">
                 <div class="team-card active">
                     <a href="#">
-                        <img src="{{ theme_asset('img/team/team-img7.jpg') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/team/team-img7.jpg') }}" alt="Images">
                     </a>
                     <div class="content">
                         <h3><a href="team.html">Cristiono Kopper</a></h3>
@@ -496,7 +496,7 @@
                 </div>
                 <div class="team-card team-rotated">
                     <a href="#">
-                        <img src="{{ theme_asset('img/team/team-img8.jpg') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/team/team-img8.jpg') }}" alt="Images">
                     </a>
                     <div class="content">
                         <h3><a href="team.html">Jermin Jekson</a></h3>
@@ -519,7 +519,7 @@
                 </div>
                 <div class="team-card">
                     <a href="#">
-                        <img src="{{ theme_asset('img/team/team-img9.jpg') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/team/team-img9.jpg') }}" alt="Images">
                     </a>
                     <div class="content">
                         <h3><a href="team.html">Hobler Jeain</a></h3>
@@ -542,7 +542,7 @@
                 </div>
                 <div class="team-card team-rotated-2">
                     <a href="#">
-                        <img src="{{ theme_asset('img/team/team-img10.jpg') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/team/team-img10.jpg') }}" alt="Images">
                     </a>
                     <div class="content">
                         <h3><a href="team.html">Julfiker Jeain</a></h3>
@@ -565,7 +565,7 @@
                 </div>
                 <div class="team-card active">
                     <a href="#">
-                        <img src="{{ theme_asset('img/team/team-img11.jpg') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/team/team-img11.jpg') }}" alt="Images">
                     </a>
                     <div class="content">
                         <h3><a href="team.html">Hobler Jeain</a></h3>
@@ -588,7 +588,7 @@
                 </div>
                 <div class="team-card team-rotated-2">
                     <a href="#">
-                        <img src="{{ theme_asset('img/team/team-img12.jpg') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/team/team-img12.jpg') }}" alt="Images">
                     </a>
                     <div class="content">
                         <h3><a href="team.html">Julfiker Jeain</a></h3>
@@ -613,25 +613,25 @@
         </div>
         <div class="team-two-shape">
             <div class="shape1">
-                <img src="{{ theme_asset('img/shape/shape13.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape13.png') }}" alt="Images">
             </div>
             <div class="shape2">
-                <img src="{{ theme_asset('img/shape/shape11.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape11.png') }}" alt="Images">
             </div>
             <div class="shape3">
-                <img src="{{ theme_asset('img/shape/shape10.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape10.png') }}" alt="Images">
             </div>
             <div class="shape4">
-                <img src="{{ theme_asset('img/shape/shape9.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape9.png') }}" alt="Images">
             </div>
             <div class="shape5">
-                <img src="{{ theme_asset('img/shape/shape12.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape12.png') }}" alt="Images">
             </div>
             <div class="shape6">
-                <img src="{{ theme_asset('img/shape/shape7.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape7.png') }}" alt="Images">
             </div>
             <div class="shape7">
-                <img src="{{ theme_asset('img/shape/shape14.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape14.png') }}" alt="Images">
             </div>
         </div>
     </div>
@@ -643,19 +643,19 @@
                 <div class="col-lg-6">
                     <div class="testimonial-list">
                         <div class="list-img-1">
-                            <img src="{{ theme_asset('img/testimonial/testimonial1.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/testimonial/testimonial1.png') }}" alt="Images">
                         </div>
                         <div class="list-img-2">
-                            <img src="{{ theme_asset('img/testimonial/testimonial2.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/testimonial/testimonial2.png') }}" alt="Images">
                         </div>
                         <div class="list-img-3">
-                            <img src="{{ theme_asset('img/testimonial/testimonial3.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/testimonial/testimonial3.png') }}" alt="Images">
                         </div>
                         <div class="list-img-4">
-                            <img src="{{ theme_asset('img/testimonial/testimonial4.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/testimonial/testimonial4.png') }}" alt="Images">
                         </div>
                         <div class="list-img-5">
-                            <img src="{{ theme_asset('img/testimonial/testimonial5.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/testimonial/testimonial5.png') }}" alt="Images">
                         </div>
                     </div>
                 </div>
@@ -671,7 +671,7 @@
                                 really awesome treated me like family
                             </p>
                             <div class="content">
-                                <img src="{{ theme_asset('img/testimonial/testimonial-img1.png') }}" alt="Images">
+                                <img src="{{ ai_startup_asset('img/testimonial/testimonial-img1.png') }}" alt="Images">
                                 <div class="content-title">
                                     <h3>David McLean</h3>
                                     <span>CEO & Manager</span>
@@ -685,7 +685,7 @@
                                 really awesome treated me like family
                             </p>
                             <div class="content">
-                                <img src="{{ theme_asset('img/testimonial/testimonial-img2.png') }}" alt="Images">
+                                <img src="{{ ai_startup_asset('img/testimonial/testimonial-img2.png') }}" alt="Images">
                                 <div class="content-title">
                                     <h3>Jermin Jekson</h3>
                                     <span>Marketing Manager</span>
@@ -699,7 +699,7 @@
                                 really awesome treated me like family
                             </p>
                             <div class="content">
-                                <img src="{{ theme_asset('img/testimonial/testimonial-img3.png') }}" alt="Images">
+                                <img src="{{ ai_startup_asset('img/testimonial/testimonial-img3.png') }}" alt="Images">
                                 <div class="content-title">
                                     <h3>Julfiker Jeain</h3>
                                     <span>CEO At Ostino</span>
@@ -727,7 +727,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="blog-card">
                         <a href="blog-details.html">
-                            <img src="{{ theme_asset('img/blog/blog1.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/blog/blog1.png') }}" alt="Images">
                         </a>
                         <div class="content">
                             <ul>
@@ -747,7 +747,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="blog-card">
                         <a href="blog-details.html">
-                            <img src="{{ theme_asset('img/blog/blog2.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/blog/blog2.png') }}" alt="Images">
                         </a>
                         <div class="content">
                             <ul>
@@ -767,7 +767,7 @@
                 <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
                     <div class="blog-card">
                         <a href="blog-details.html">
-                            <img src="{{ theme_asset('img/blog/blog3.png') }}" alt="Images">
+                            <img src="{{ ai_startup_asset('img/blog/blog3.png') }}" alt="Images">
                         </a>
                         <div class="content">
                             <ul>
@@ -788,16 +788,16 @@
         </div>
         <div class="blog-shape">
             <div class="shape1">
-                <img src="{{ theme_asset('img/shape/shape1.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape1.png') }}" alt="Images">
             </div>
             <div class="shape2">
-                <img src="{{ theme_asset('img/shape/shape5.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape5.png') }}" alt="Images">
             </div>
             <div class="shape3">
-                <img src="{{ theme_asset('img/shape/shape4.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape4.png') }}" alt="Images">
             </div>
             <div class="shape4">
-                <img src="{{ theme_asset('img/shape/shape6.png') }}" alt="Images">
+                <img src="{{ ai_startup_asset('img/shape/shape6.png') }}" alt="Images">
             </div>
         </div>
     </div>
@@ -808,28 +808,28 @@
             <div class="container-max">
                 <div class="brand-logo-slider owl-carousel owl-theme">
                     <div class="brand-logo-item">
-                        <img src="{{ theme_asset('img/brand/brand-logo1.png') }}" class="brand-logo1" alt="Images">
-                        <img src="{{ theme_asset('img/brand/brand-style1.png') }}" class="brand-logo2" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-logo1.png') }}" class="brand-logo1" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-style1.png') }}" class="brand-logo2" alt="Images">
                     </div>
                     <div class="brand-logo-item">
-                        <img src="{{ theme_asset('img/brand/brand-logo2.png') }}" class="brand-logo1" alt="Images">
-                        <img src="{{ theme_asset('img/brand/brand-style2.png') }}" class="brand-logo2" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-logo2.png') }}" class="brand-logo1" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-style2.png') }}" class="brand-logo2" alt="Images">
                     </div>
                     <div class="brand-logo-item">
-                        <img src="{{ theme_asset('img/brand/brand-logo3.png') }}" class="brand-logo1" alt="Images">
-                        <img src="{{ theme_asset('img/brand/brand-style3.png') }}" class="brand-logo2" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-logo3.png') }}" class="brand-logo1" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-style3.png') }}" class="brand-logo2" alt="Images">
                     </div>
                     <div class="brand-logo-item">
-                        <img src="{{ theme_asset('img/brand/brand-logo4.png') }}" class="brand-logo1" alt="Images">
-                        <img src="{{ theme_asset('img/brand/brand-style4.png') }}" class="brand-logo2" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-logo4.png') }}" class="brand-logo1" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-style4.png') }}" class="brand-logo2" alt="Images">
                     </div>
                     <div class="brand-logo-item">
-                        <img src="{{ theme_asset('img/brand/brand-logo5.png') }}" class="brand-logo1" alt="Images">
-                        <img src="{{ theme_asset('img/brand/brand-style5.png') }}" class="brand-logo2" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-logo5.png') }}" class="brand-logo1" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-style5.png') }}" class="brand-logo2" alt="Images">
                     </div>
                     <div class="brand-logo-item">
-                        <img src="{{ theme_asset('img/brand/brand-logo6.png') }}" class="brand-logo1" alt="Images">
-                        <img src="{{ theme_asset('img/brand/brand-style6.png') }}" class="brand-logo2" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-logo6.png') }}" class="brand-logo1" alt="Images">
+                        <img src="{{ ai_startup_asset('img/brand/brand-style6.png') }}" class="brand-logo2" alt="Images">
                     </div>
                 </div>
             </div>
@@ -848,7 +848,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="data-table-img">
-                        <img src="{{ theme_asset('img/data-table-img.png') }}" alt="Images">
+                        <img src="{{ ai_startup_asset('img/data-table-img.png') }}" alt="Images">
                     </div>
                 </div>
             </div>
