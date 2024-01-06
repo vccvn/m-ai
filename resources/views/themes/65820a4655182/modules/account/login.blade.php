@@ -7,8 +7,8 @@
 <div class="sign-in-area pt-50 pb-70">
     <div class="container">
         <div class="section-title text-center">
-            <span class="sp-before sp-after">Sign In</span>
-            <h2 class="h2-color">Sign in to Your Account!</h2>
+            <span class="sp-before sp-after">Đăng nhập</span>
+            <h2 class="h2-color">Đăng nhập hệ thống</h2>
         </div>
         <div class="row align-items-center pt-45">
             <div class="col-lg-5">
@@ -58,7 +58,7 @@
                                 <div class="col-12">
                                     <p class="account-desc">
                                         Chưa có tài khoản?
-                                        <a href="sign-up.html">Đăng ký</a>
+                                        <a href="{{route('web.account.register')}}">Đăng ký</a>
                                     </p>
                                 </div>
                             </div>

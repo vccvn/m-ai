@@ -62,10 +62,10 @@ class SignUpValidator extends BaseValidator
     public function rules()
     {
         $rules = [
-            'full_name'                => 'required|string|max:181',
+            'name'                => 'required|string|max:181',
             'email'               => 'check_email|unique_attr|max:191',
             'password'            => 'required|string|min:8|password_safe|confirmed',
-            'agree'               => 'required'
+            'register_agent'               => 'check_boolean'
 
         ];
         return $this->parseRules($rules);
@@ -74,8 +74,8 @@ class SignUpValidator extends BaseValidator
     public function messages()
     {
         return [
-            'full_name.max'                        => 'Họ tên dài vựa quá số ký tự',
-            'full_name.required'                   => 'Bạn chưa nhập họ và tên',
+            'name.max'                        => 'Họ tên dài vựa quá số ký tự',
+            'name.required'                   => 'Bạn chưa nhập họ và tên',
 
             'email.required'                       => 'Bạn chưa nhập email',
             'email.check_email'                          => 'Email không hợp lệ',

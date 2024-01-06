@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\WebController;
 use App\Repositories\Emails\EmailTokenRepository;
 use App\Repositories\Users\UserRepository;
 use App\Services\Mailers\Mailer;
+use App\Validators\Account\SignUpValidator;
 use App\Validators\Auth\Login;
 use App\Validators\Auth\PasswordReset;
 use App\Validators\Auth\Verify;
@@ -83,7 +84,7 @@ class AuthController extends WebController
      */
     public function postRegister(Request $request)
     {
-        $validator = $this->repository->validator($request, 'Auth\Register');
+        $validator = $this->repository->validator($request, SignUpValidator::class);
         $errors    = [];
         if (!$validator->success()) {
             $errors  = $validator->errors();
@@ -91,8 +92,9 @@ class AuthController extends WebController
             $data = $validator->inputs();
             $data['status'] = 0;
             $data['type'] = 'user';
-            $data['name'] = $this->repository->getUsernameByEmail($data['email']);
+            // $data['name'] = $this->repository->getUsernameByEmail($data['email']);
             $data['username'] = $this->repository->getUsernameByEmail($data['email']);
+            $data['phone_number'] = $this->repository->getUniquePhone('098');
             if (!($user = $this->repository->create($data))) {
                 $errors['email.unknow'] = __("Unknow Error");
             } else {
