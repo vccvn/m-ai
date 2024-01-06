@@ -24,6 +24,11 @@
             "label": "Mật khẩu xác nhận",
             "placeholder": "Nhập lại mật khẩu",
             "prepend_text": "<i class=\"fa fa-key\"></i>"
+        },
+        "ref_code":{
+            "type": "text",
+            "label": "Mã giới thiệu",
+            "placeholder": "Mã giới thiệu (nếu có)"
         }
     }
 }

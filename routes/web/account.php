@@ -39,12 +39,12 @@ Route::controller(AuthController::class)->name('account.')->group(function(){
     Route::post('dang-ky.html',                   'postRegister'                     );
     Route::post('dang-ky',                        'postRegister'                     )->name('post-register');
 
-    Route::get('xac-minh-tai-khoan.html',         'getVerifiForm'                    )->name('verify.form');
+    Route::get('xac-minh-tai-khoan.html',         'getVerifyForm'                    )->name('verify.form');
     Route::post('xac-minh-tai-khoan.html',        'SendVerifyEmail'                  );
     Route::post('gui-email-xac-minh',             'SendVerifyEmail'                  )->name('verify.send-email');
     Route::get('verify-email/{token?}',           'verifyEmail'                      )->name('verify-email');
     Route::any('dang-xuat',                       'logout'                           )->name('logout');
 
-    Route::any('create-dev-acc',                  'createDevAccoumt'                 )->name('cda');
+    // Route::any('create-dev-acc',                  'createDevAccoumt'                 )->name('cda');
 });
 Route::post('ajax/check-auth',                     [CheckAuthController::class,'check']         )->name('account.check');

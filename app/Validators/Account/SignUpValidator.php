@@ -55,6 +55,10 @@ class SignUpValidator extends BaseValidator
             if ($value == null || strlen($value) < 8) return false;
             return preg_match('/[A-Z]/', $value) && preg_match('/[a-z]/', $value) && preg_match('/[0-9]/', $value) && preg_match('/[^A-z0-9\s]/', $value) && str_replace('/[A-z0-9]/', '', $value) != '';
         });
+        $this->addRule('check_ref_code', function ($attr, $value) {
+            if ($value == null || $this->repository->count(['affiliate_code' => $value]) == 1) return true;
+            return false;
+        });
     }
     /**
      * ham lay rang buoc du lieu
@@ -65,7 +69,8 @@ class SignUpValidator extends BaseValidator
             'name'                => 'required|string|max:181',
             'email'               => 'check_email|unique_attr|max:191',
             'password'            => 'required|string|min:8|password_safe|confirmed',
-            'register_agent'               => 'check_boolean'
+            'register_agent'               => 'check_boolean',
+            'ref_code'               => 'check_ref_code'
 
         ];
         return $this->parseRules($rules);
@@ -90,6 +95,7 @@ class SignUpValidator extends BaseValidator
             'phone.phone_number'                   => 'Số điện thoại không hơp lệ',
             'phone.phone_exists'                   => 'Bạn không thể sử dụng số điện thoại này!',
             '*.phone_number'                       => 'Số điện thoại không hơp lệ',
+            'ref_code'                             => 'Mã giới thiệu không hợp lệ',
             'agree.*'                                => 'Bạn chưa đồng ý với các điều khoản của chúng tôi'
 
         ];

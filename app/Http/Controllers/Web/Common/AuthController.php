@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Web\Common;
 
 use App\Http\Controllers\Web\WebController;
+use App\Models\User;
+use App\Repositories\Accounts\AgentRepository;
+use App\Repositories\Accounts\WalletRepository;
 use App\Repositories\Emails\EmailTokenRepository;
 use App\Repositories\Users\UserRepository;
 use App\Services\Mailers\Mailer;
@@ -44,7 +47,13 @@ class AuthController extends WebController
      *
      * @return void
      */
-    public function __construct(UserRepository $UserRepository, EmailTokenRepository $EmailTokenRepository)
+    public function __construct(
+        UserRepository $UserRepository,
+        EmailTokenRepository $EmailTokenRepository,
+        protected AgentRepository $agentRepository,
+        protected WalletRepository $walletRepository
+
+    )
     {
         $this->middleware('guest')->except('logout');
         $this->repository = $UserRepository;
@@ -91,10 +100,15 @@ class AuthController extends WebController
         } else {
             $data = $validator->inputs();
             $data['status'] = 0;
-            $data['type'] = 'user';
+            $data['type'] = $request->register_agent ? User::AGENT : User::USER;
             // $data['name'] = $this->repository->getUsernameByEmail($data['email']);
             $data['username'] = $this->repository->getUsernameByEmail($data['email']);
             $data['phone_number'] = $this->repository->getUniquePhone('098');
+            if ($request->ref_code && $refUser = $this->repository->first(['affiliate_code' => $request->ref_code])) {
+                if ($refUser->type == User::AGENT) {
+                    $data['agent_id'] = $refUser->id;
+                }
+            }
             if (!($user = $this->repository->create($data))) {
                 $errors['email.unknow'] = __("Unknow Error");
             } else {
@@ -149,12 +163,12 @@ class AuthController extends WebController
                 'email' => $user->email,
                 'user'  => $user
             ];
-            if($emailSetting = get_mailer_setting()){
+            if ($emailSetting = get_mailer_setting()) {
                 $from = $emailSetting->mail_from_address(siteinfo('email'));
                 $name = $emailSetting->mail_from_name(siteinfo('site_name'));
-            }else{
+            } else {
                 $from = siteinfo('email', 'no-reply@' . get_non_www_domain());
-                $name = siteinfo('site_name', 'Regenbogen Edu');
+                $name = siteinfo('site_name', 'Gomee');
             }
 
             Mailer::from($from, $name)
@@ -177,7 +191,7 @@ class AuthController extends WebController
      *
      * @return void
      */
-    public function getVerifiForm()
+    public function getVerifyForm()
     {
         $page_title = "Xác minh tài khoản";
         $this->breadcrumb->add($page_title);
@@ -209,7 +223,11 @@ class AuthController extends WebController
         $this->repository->update($user->id, [
             'status' => 1
         ]);
+        if($user->type == User::AGENT){
+            $this->agentRepository->createDefaultAgent($user->id);
 
+        }
+        $this->walletRepository->createDefaultWallet($user->id);
         return redirect()->route('web.alert')->with([
             'type'    => 'success',
             'message' => __('account.verify_success'),
@@ -339,9 +357,9 @@ class AuthController extends WebController
                     'user'  => $user
                 ];
 
-                Mailer::from($this->siteinfo->email('no-reply@' . get_non_www_domain()), $this->siteinfo->company('Gomee Support'))
+                Mailer::from($this->siteinfo->email('no-reply@' . get_non_www_domain()), $this->siteinfo->company('M.AI'))
                     ->to($request->email, $user->name)
-                    ->subject(__('account.reset_password_mail_subject', ['site' => $this->siteinfo->site_name('Gomee Support')]))
+                    ->subject(__('account.reset_password_mail_subject', ['site' => $this->siteinfo->site_name('M.AI')]))
                     ->body('mails.reset-password')
                     ->data($data)
                     ->send();
@@ -430,7 +448,8 @@ class AuthController extends WebController
         } elseif (!($user = $this->repository->resetDefaultParams()->findBy('email', $email->email))) {
             $message = __('account.action_error'); //"Hình như có gì đó sai sai! Bạn hãy thử lại trong giây lát";
         } elseif (!($this->repository->update($user->id, ['password' => $request->password]))) {
-            $message = __('account.action_error'); "Lỗi không xác định";
+            $message = __('account.action_error');
+            "Lỗi không xác định";
         } else {
             $status  = true;
             $message = __('auth.reset-success');

@@ -170,6 +170,15 @@
   height: 100%;
 }
 
+.coming-soon-content.service-card {
+  padding: 35px 30px;
+  border: none;
+}
+
+.coming-soon-content.service-card p {
+  color: #000;
+}
+
 .chat-area {
   position: fixed;
   width: 100%;

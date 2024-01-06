@@ -10,15 +10,16 @@
     <div class="cw-wrapper">
         <h3>Xin chào, {{$user->name}}</h3>
         <p>
-            Chúng tôi vừa nhận được yêu cầu đặt lại mật khẩu của bạn. <br>Hãy nhập mã bên dưới để đặt lại mật khẩu
+            Chúng tôi vừa nhận được yêu cầu đặt lại mật khẩu của bạn. <br>Hãy truy cập link bên dưới để đặt lại mật khẩu
         </p>
         <p>
-            Mã OTP: {{$code}}
+            link: <a href="{{$url}}">{{$url}}</a>
         </p>
 
         <p></p>
         <p></p>
         <p>Nếu không phải bạn vui lòng bỏ qua email này!</p>
+        {{-- <p>Thân ái <a href="{{route('login')}}">Gomee Inc</a></p> --}}
     </div>
 </body>
 </html>

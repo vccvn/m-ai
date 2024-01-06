@@ -30,7 +30,7 @@ class AlertController extends WebController
     public function message(Request $request)
     {
         $message = $request->get('message', session('message'));
-        if(!$message) return redirect('/');
+        // if(!$message) return redirect('/');
         $this->breadcrumb->add('thông báo');
         $data = array_merge([
             'page_title' => 'thông báo'
