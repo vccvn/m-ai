@@ -582,7 +582,7 @@ class PaymentService extends Service
         if (!$percent || $percent <= 0)
             return false;
         $wallet = $this->walletRepository->createDefaultWallet($agentUser->id);
-        $wallet += $percent * $amount / 100;
+        $wallet->balance += $percent * $amount / 100;
         $wallet->save();
         return $this->plusMoney($agent, $amount, $level + 1);
     }
@@ -605,7 +605,7 @@ class PaymentService extends Service
         if (!$percent || $percent <= 0)
             return false;
         $wallet = $this->walletRepository->createDefaultWallet($refUser->id);
-        $wallet += $percent * $amount / 100;
+        $wallet->balance += $percent * $amount / 100;
         $wallet->save();
         return $this->plusMoney($refUser, $amount, $level + 1);
     }
