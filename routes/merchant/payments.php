@@ -46,3 +46,18 @@ Route::prefix('transactions')->controller(TransactionController::class)->name('.
 
 });
 
+
+Route::prefix('packages')->controller(PackageController::class)->name('.packages')->group(function () {
+    $master = admin_routes(
+        // khai bao route
+        null, true, true,
+        // khai bao module
+        true, null, "Quản lý Các gói thanh toánh thanh toán", "Cho phép xem , quản lý các gói thanh toán"
+    );
+    /**
+     * --------------------------------------------------------------------------------------------------------------------
+     *               Method | URI                           | Controller @ Method                   | Route Name
+     * --------------------------------------------------------------------------------------------------------------------
+     */
+
+});

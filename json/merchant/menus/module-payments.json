@@ -8,28 +8,28 @@
             "icon": "plus-circle"
         },
         "@payments": {
-            "text": "Lịch sử giao dịch",
-            "title": "Lịch sử giao dịch",
+            "text": "Thanh toán",
+            "title": "Thanh toán",
             "permiss": "merchant.payments.transactions",
             "route": "merchant.payments.transactions",
             "icon": "credit-card",
             "@parent": "payments",
-            "@submenu": {
+            "submenu": {
                 "type": "list",
                 "data": {
+                    "packages": {
+                        "text": "Gói thanh toán",
+                        "title": "Danh sách các gói thanh toán",
+                        "permiss": "merchant.payments.packages",
+                        "route": "merchant.payments.packages",
+                        "icon": "cubes"
+                    },
                     "transactions": {
                         "text": "Lịch sử giao dịch",
                         "title": "Lịch sử giao dịch",
                         "permiss": "merchant.payments.transactions",
                         "route": "merchant.payments.transactions",
                         "icon": "list"
-                    },
-                    "requests": {
-                        "text": "Thêm lượt tải",
-                        "title": "Thêm lượt tải",
-                        "permiss": "merchant.payments.requests.create",
-                        "route": "merchant.payments.requests.create",
-                        "icon": "plus-circle"
                     }
                 }
             }

@@ -5,18 +5,18 @@
 	<!-- begin::Head -->
 	<head>
 		@Include($_base.'_meta.info')
-		
+
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 		<script>
 			window.warning = function warning(params) {
-				
+
 			};
 		</script>
-		
+
 		@Include($_template.'css')
 
-		
+
 	</head>
 
 	<!-- end::Head -->
@@ -26,13 +26,13 @@
 		$headerFixed = $__env->yieldContent('header_fixed');
 		$hf = $headerFixed !== '0' && $headerFixed != 'false'? 'm-header--fixed m-header--fixed-mobile': '';
 	@endphp
-	<body class="m-page--fluid m--skin- m-content--skin-light2 {{$hf}} m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default content-no-padding m-brand--minimize m-aside-left--minimize @yield('body.class') ">
+	<body class="m-page--fluid m--skin- m-content--skin-light2 {{$hf}} m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default content-no-padding @yield('body.class') ">
 
 		<!-- begin:: Page -->
 		<div class="m-grid m-grid--hor m-grid--root m-page">
 
 			<!-- BEGIN: Header -->
-			
+
 			@include($_component.'header')
 
 			<!-- END: Header -->
@@ -64,9 +64,9 @@
 			<!-- begin::Footer -->
 			@include($_component.'footer')
 
-			
 
-			
+
+
 			<!-- end::Footer -->
 		</div>
 
@@ -92,7 +92,7 @@
 		@include($_template.'js')
 
 		<!--end::Base Scripts -->
-		
+
 	</body>
 
 	<!-- end::Body -->

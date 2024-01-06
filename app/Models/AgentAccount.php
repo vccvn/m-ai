@@ -25,6 +25,7 @@ class AgentAccount extends Model
         'user_id',
         'policy_id',
         'month_balance',
+        'revenue',
         'commission_level_1',
         'commission_level_2',
         'commission_level_3',

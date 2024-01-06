@@ -1,6 +1,13 @@
 {
     "extends": "base",
     "data": {
+        "dashboard": {
+            "text": "Bảng điều khiển",
+            "title": "Bảng điều khiển",
+            "route": "merchant.dashboard",
+            "permiss": "merchant.dashboard",
+            "icon": "tachometer-alt"
+        },
         "@modules": ["payments"]
     }
 }

@@ -109,7 +109,8 @@ class PaymentService extends Service
         }
 
         $this->transactionRepository->on('completed', function ($transaction) {
-            $this->onTransactionCompleted($transaction);
+            dump("on complete");
+            // $this->onTransactionCompleted($transaction);
         });
     }
 
@@ -207,7 +208,7 @@ class PaymentService extends Service
         ) {
             $message = 'Không tìm được thông tin gói';
         } elseif ($payment->status == PaymentTransaction::STATUS_PROCESSING && $response->isSuccess) {
-            if ($this->transactionRepository->updatePaymentStatus($response, true)) {
+            if (($transaction = $this->transactionRepository->updatePaymentStatus($response, true)) && $this->onTransactionCompleted($transaction)) {
                 $status = true;
             } else {
                 $message = 'Không thể lưu dữ liệu';
@@ -249,6 +250,7 @@ class PaymentService extends Service
         $message = '';
         $redirect = null;
         if (!$request->transactionCode || !($pr = $this->transactionRepository->with('method')->first(['transaction_code' => $request->transactionCode]))) {
+
         } elseif ($request->errorCode != '000') {
             $message = $this->alepayService->getMessage($request->errorCode);
             $this->transactionRepository->updatePaymentStatus($request, false, $message);
@@ -263,20 +265,44 @@ class PaymentService extends Service
         } elseif (!$response->isSuccess || $response->status != "000") {
             $message = $response->message;
             $this->transactionRepository->updatePaymentStatus($response, false, $message);
-        } elseif (!($payment = $this->transactionRepository->updatePaymentStatus($response, true))) {
+        }
+        elseif($pr->status == PaymentTransaction::STATUS_COMPLETED){
+            $package = $this->packageRepository->find($pr->order_id);
+
+            // dd("1", $pr);
+            if ($pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY) {
+                return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+                // $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
+                // return redirect($url);
+            }
+            return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công');
+        }
+
+        elseif (!($payment = $this->transactionRepository->updatePaymentStatus($response, true))) {
             $redirect = $pr->error_redirect_url;
 
             $message = $this->errorMessage ?? 'Lỗi hệ thống. chúng tôi sẽ xác minh giao dịch và thông báo cho bạn khi hoàn tất';
             // $this->transactionRepository->updatePaymentStatus($response, false, $message);
-        } else {
+        }
+        elseif (!$this->onTransactionCompleted($payment)) {
+            # code...
+            $message = $this->errorMessage ?? 'Lỗi hệ thống. chúng tôi sẽ xác minh giao dịch và thông báo cho bạn khi hoàn tất';
+
+        }
+        else {
             $redirect = $pr->success_redirect_url;
             $package = $this->packageRepository->find($payment->order_id);
+            // dd("2", $payment);
+            // $request->session()->put('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+            // $this->onTransactionCompleted($payment);
             if ($pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY) {
                 return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
                 // $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
                 // return redirect($url);
             }
         }
+        // dd("3");
+
         if ($redirect)
             return redirect(url_merge($redirect, ['transaction_code' => $request->transactionCode]));
 
@@ -357,8 +383,8 @@ class PaymentService extends Service
             'currency' => $package->currency,
             'orderDescription' => 'Đăng ký ' . $package->name,
             'totalItem' => $package->quantity,
-            'returnUrl' => route('api.payment.complete'),
-            'cancelUrl' => route('api.payment.cancel'),
+            'returnUrl' => route('web.payments.complete'),
+            'cancelUrl' => route('web.payments.cancel'),
             'buyerName' => $user->name,
             'buyerEmail' => $user->email,
             'buyerPhone' => $user->phone ?? "0987123456",
@@ -479,15 +505,34 @@ class PaymentService extends Service
      */
     public function onTransactionCompleted($payment)
     {
+        // dump($payment);
         if ($payment->type == PaymentTransaction::TYPE_BUY_SERVICE) {
             if (!($user = $this->userRepository->find($payment->user_id)))
                 $message = 'Không thấy user';
-            else
-                return $this->plusMoney($user, $payment->amount, 0);
+            else{
+                $package = $this->packageRepository->find($payment->order_id);
+                if($user->type == User::AGENT && $agent = get_agent_account($user->id)){
+                    $agent->month_balance += ($package)?$package->quantity:0;
+                    // dd($agent, $package);
+                    $agent->save();
+                }else{
+                    $time = strtotime($user->expired_at);
+                    if($time < time())
+                        $datetime = Carbon::now()->addMonths($package?$package->quantity:0);
+                    else
+                        $datetime = Carbon::parse($user->expired_at)->addMonths($package?$package->quantity:0);
+                    $user->expired_at = $datetime->toDateTimeString();
+                    $user->save();
+
+                }
+                $this->plusMoney($user, $payment->amount, 0);
+                return true;
+            }
         } else {
             $message = 'Giao dịch không hợp lệ';
         }
         $this->errorMessage = $message;
+        return false;
     }
 
 

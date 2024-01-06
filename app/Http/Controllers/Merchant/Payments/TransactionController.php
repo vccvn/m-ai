@@ -83,7 +83,7 @@ class TransactionController extends MerchantController
         $this->agentRepository        = $agentRepository;
         $this->repository->setValidatorClass(UploadPaymentValidator::class);
         $this->init();
-        $this->activeMenu('payments');
+        // $this->activeMenu('payments');
 
     }
 

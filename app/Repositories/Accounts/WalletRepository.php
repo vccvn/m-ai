@@ -66,5 +66,17 @@ class WalletRepository extends BaseRepository
             $wallet = $this->create($p);
         return $wallet;
     }
+    /**
+     * get
+     *
+     * @param int $user_id
+     * @return Wallet
+     */
+    public function pushMoneyToWallet($user_id, $money = 0, $note = ''){
+        if(!($wallet = $this->first($p = ['user_id' => $user_id])))
+            $wallet = $this->create($p);
+        $wallet->balance+=$money;
+        $wallet->save();
+    }
 
 }

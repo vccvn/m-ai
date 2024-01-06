@@ -111,7 +111,7 @@ class TransactionRepository extends BaseRepository
      *
      * @param AlePayResponse $response
      * @param boolean $status
-     * @return PaymentRequest|false
+     * @return PaymentTransaction|false
      */
     public function updatePaymentStatus($response, $status = false, $message = null)
     {
@@ -119,7 +119,7 @@ class TransactionRepository extends BaseRepository
             DB::beginTransaction();
             try {
                 //code...
-                $this->update($pr->id, $pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY ? [
+                $p = $this->update($pr->id, $pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY ? [
                     'status' => $status ? PaymentTransaction::STATUS_COMPLETED : PaymentTransaction::STATUS_CANCELED,
                     'payment_method_name' => $response->method ?? $response->paymentMethod,
                     'message' => $message
@@ -127,7 +127,8 @@ class TransactionRepository extends BaseRepository
 
 
                 $d = $this->mode('mask')->with('method')->detail(['id' => $pr->id]);
-                if ($status == PaymentTransaction::STATUS_COMPLETED) {
+                // dd($pr);
+                if ($p->status == PaymentTransaction::STATUS_COMPLETED) {
                     $this->fire('completed', $d);
                 }
                 DB::commit();

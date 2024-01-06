@@ -10,7 +10,12 @@
         "default": "Lịch sử thanh toán",
         "trash": "Danh sách [module] đã xóa"
     },
-    "data": [],
+    "data": {
+        "types": {
+            "buy-connect": "Mua kết nối",
+            "buy-voucher": "Mua voucher"
+        }
+    },
     "tools": {
         "export": {
             "type": "primary",
@@ -74,16 +79,7 @@
                 },
                 "sort_key": "amount"
             },
-            {
-                "title": "Số lượt hiện tại",
-                "class": "min-180",
-                "text": ":current_upload_count"
-            },
-            {
-                "title": "Số lượt đăng ký thêm",
-                "class": "min-180",
-                "text": ":package_upload_count"
-            },
+
             {
                 "title": "Thời gian",
                 "class": "min-180",
@@ -95,6 +91,15 @@
                     ]
                 },
                 "sort_key": "created_at"
+            },
+            {
+                "title": "Trạng thái",
+                "class": "text-center min-180",
+                "template": "{@getStatusLabel}",
+                "data": {
+                    "@getStatusLabel": []
+                },
+                "sort_key": "status"
             }
         ]
     },

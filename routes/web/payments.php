@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Payments\PaymentController;
+use App\Http\Controllers\Web\Payments\PaymentServiceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,26 +22,10 @@ Route::name('payments.')->controller(PaymentController::class)->group(function()
     Route::post('verify-transfer',                              'verifyTransfer'        )->name('verify-transfer');
 
 
+});
 
-    Route::get('/vnpay',                                        'vnPay'                 )->name('vnpay');
-    Route::get('/vnpay/form',                                   'vnPay'                 )->name('vnpay.form');
-    Route::get('/vnpay/create',                                 'vnPayCreate'           )->name('vnpay.submit');
-    Route::post('/vnpay/create',                                'vnPayCreate'           );
-
-    Route::get('/vnpay/check',                                  'vnPayCheck'            )->name('vnpay.check');
-    Route::post('/vnpay-check',                                 'vnPayCheck'            );
-
-    Route::get('/vnpay/status',                                 'vnPayStatus'           )->name('vnpay.status');
-    Route::post('/vnpay/status',                                'vnPayStatus'           );
-
-    Route::get('/momo',                                        'momo'                 )->name('momo');
-    Route::get('/momo/form',                                   'momo'                 )->name('momo.form');
-    Route::get('/momo/create',                                 'momoCreate'           )->name('momo.submit');
-    Route::post('/momo/create',                                'momoCreate'           );
-
-    Route::get('/momo/check',                                  'momoCheck'            )->name('momo.check');
-    Route::post('/momo-check',                                 'momoCheck'            );
-
-    Route::get('/momo/status',                                 'momoStatus'           )->name('momo.status');
-    Route::post('/momo/status',                                'momoStatus'           );
+Route::controller(PaymentServiceController::class)->group(function () {
+    Route::any('payment/cancel', 'cancelTransaction')->name('payments.cancel');
+    Route::any('payment/complete', 'completeTransaction')->name('payments.complete');
+    Route::any('payment/alepay-webhook', 'alepayWebhook')->name('payments.alepay-webhook');
 });
