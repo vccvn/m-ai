@@ -101,7 +101,7 @@ class ChatRepository extends BaseRepository
         if (!array_key_exists('user_id', $params) || !$params['user_id']) return null;
         if (!($chat = $this->with(['messages' => function ($query) {
             $query->orderBy('id', 'ASC');
-        }])->mode('mask')->detail($params))) {
+        }])->mode('mask')->orderBy('id', 'DESC')->detail($params))) {
             unset($params['id']);
             if ($chat = $this->with(['messages' => function ($query) {
                 $query->orderBy('id', 'ASC');
@@ -127,7 +127,7 @@ class ChatRepository extends BaseRepository
         if (!array_key_exists('user_id', $params) || !$params['user_id']) return null;
         if (!($chat = $this->with(['messages' => function ($query) {
             $query->orderBy('id', 'ASC');
-        }])->mode('mask')->detail($params))) {
+        }])->mode('mask')->orderBy('id', 'DESC')->detail($params))) {
             return null;
         }
         return $chat;

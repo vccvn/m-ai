@@ -60,15 +60,13 @@ class ChatController extends WebController
         $chat = null;
         $user = $request->user();
         $prompt = null;
-        if (!($chat = $this->chatService->getOrCreateChat($user->id, $request->id, $request->prompt_id??0)))
+        if (!($chat = $this->chatService->getOrCreateChat($user->id, $request->id, $request->prompt_id ?? 0)))
             $message = 'Dữ liệu không hợp lệ';
         elseif ($request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))) {
             $message = 'Prompt không tồn tại';
-        }
-        elseif (!($messageData = $this->promptService->getPromptDataFilled($request))) {
+        } elseif (!($messageData = $this->promptService->getPromptDataFilled($request))) {
             $message = 'Dữ liệu không hợp lệ';
-        }
-        else {
+        } else {
             // return $this->json($messageData);
             $cm = [
                 'role' => 'user',
@@ -88,9 +86,24 @@ class ChatController extends WebController
 
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages);
+            if (!$data) {
+                if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
+                    $chat = $this->chatService->createChat($user->id, $request->prompt_id);
+                    $userMessage = $this->messageRepository->create($cmLog);
+                    $messages = $chat->toGPT();
+                    $messages[] = $cm;
+
+                    // return $this->json($messages);
+                    $data = $this->chatService->sendMessages($messages);
+                }
+            }
+            if (!$data || !$data['content']) {
+                $message = $this->chatService->getErrorMessage();
+                return $this->json(compact(...$this->apiSystemVars));
+            }
             $content = $data['content'];
-            if(strip_tags($data['content']) == $data['content']){
-               $contentArrays = explode("
+            if (strip_tags($data['content']) == $data['content']) {
+                $contentArrays = explode("
 ", $content);
                 $data['message'] = implode("<br>", array_map(function ($ln) {
                     $i = 0;
@@ -108,10 +121,8 @@ class ChatController extends WebController
                     }
                     return $ln;
                 }, $contentArrays));
-
-            }else{
+            } else {
                 $data['message'] = preg_replace('/(<html[^>]>.*<body>|<\/body>|</html>)/i', '', $data['content']);
-
             }
             // $content = $data['content'];
             $data['chat_id'] = $chat->id;
@@ -135,18 +146,20 @@ class ChatController extends WebController
 
 
 
-    public function chatBox(Request $request){
+    public function chatBox(Request $request)
+    {
         $history = $this->chatService->getHistory($user_id = $request->user()->id);
-        $chatData = $this->chatService->getChatDetail($user_id, $request->p??($request->prompt_id??($request->pid??0)));
-        $page_title = $chatData['name']??'Chat';
+        $chatData = $this->chatService->getChatDetail($user_id, $request->p ?? ($request->prompt_id ?? ($request->pid ?? 0)));
+        $page_title = $chatData['name'] ?? 'Chat';
         return $this->viewModule('box', ['history' => $history, 'data' => $chatData, 'page_title' => $page_title]);
     }
 
-    public function getChatData(Request $request){
+    public function getChatData(Request $request)
+    {
 
         extract($this->apiDefaultData);
         $user_id = $request->user()->id;
-        if($chatData = $this->chatService->getChatData($user_id, $request->id??($request->chat_id??($request->cid??0)), $request->p??($request->prompt_id??($request->pid??0)))){
+        if ($chatData = $this->chatService->getChatData($user_id, $request->id ?? ($request->chat_id ?? ($request->cid ?? 0)), $request->p ?? ($request->prompt_id ?? ($request->pid ?? 0)))) {
             $status = true;
             $data = $chatData;
         }

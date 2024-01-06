@@ -6,6 +6,7 @@ use App\Masks\GPT\ChatCollection;
 use App\Masks\GPT\ChatMask;
 use App\Masks\Promos\PromoMask;
 use App\Repositories\GPT\ChatRepository;
+use Gomee\Helpers\Arr as HelpersArr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -25,6 +26,9 @@ class ChatService
      * @var OpenAiGPT
      */
     protected $gpt = null;
+
+    protected $message = null;
+    protected $code = null;
     /**
      * Undocumented function
      *
@@ -61,25 +65,31 @@ class ChatService
     {
         $open_ai_key = getenv('OPENAI_API_KEY');
         $open_ai = new OpenAiGPT($open_ai_key);
-        // try {
-        //code...
-        $chat = $open_ai->chat([
-            'model' => 'gpt-4',
-            'messages' => $messages,
-            'temperature' => 1.0,
-            'max_tokens' => 4000,
-            'frequency_penalty' => 0,
-            'presence_penalty' => 0,
-        ]);
+        try {
+            //code...
+            $chat = $open_ai->chat([
+                'model' => 'gpt-4',
+                'messages' => $messages,
+                'temperature' => 1.0,
+                'max_tokens' => 4000,
+                'frequency_penalty' => 0,
+                'presence_penalty' => 0,
+            ]);
 
-        $d = json_decode($chat);
-        // dd($d);
-        if ($d) {
-            return ['role' => $d->choices[0]->message->role, 'content' => $d->choices[0]->message->content];
+            $d = new HelpersArr(json_decode($chat, true));
+            // dd($d);
+            if ($d && $d->choices) {
+                return ['role' => $d->get('choices.0.message.role'), 'content' => $d->get('choices.0.message.content')];
+            }
+            elseif($d->error){
+                $this->message = $d->gey('error.message');
+                $this->code = $d->get('error.code');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->code = $th->getCode();
+            $this->message = $th->getMessage();
         }
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        // }
 
         return null;
     }
@@ -113,6 +123,12 @@ class ChatService
         return null;
     }
 
+    public function getErrorCode() {
+        return $this->code;
+    }
+    public function getErrorMessage() {
+        return $this->message;
+    }
 
     public function getChatData($user_id, $chat_id = 0, $prompt_id = 0)
     {
@@ -134,13 +150,12 @@ class ChatService
                 if ($inputs) {
                     $detail['inputs'] = $inputs;
                 }
-                if($prompt = $this->promptService->getCurrentPrompt()){
+                if ($prompt = $this->promptService->getCurrentPrompt()) {
                     $p = new PromoMask($prompt);
                     $p->__lock();
                     $detail['prompt'] = $p;
                     $detail['name'] = $p->name;
                 }
-
             }
             return $detail;
         }
@@ -170,13 +185,16 @@ class ChatService
         ];
         if ($chat_id) {
             $params['id'] = $chat_id;
-        }
-        elseif ($prompt_id) {
+        } elseif ($prompt_id) {
             $params['prompt_id'] = $prompt_id;
         }
         return $this->chatRepository->getOrCreateChat($params);
     }
+    public function createChat($user_id, $prompt_id = 0): ChatMask
+    {
 
+        return $this->chatRepository->createChatDetail($user_id, $prompt_id);
+    }
     /**
      * get chat history
      *
