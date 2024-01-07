@@ -34,7 +34,7 @@ use Laravel\Passport\HasApiTokens;
  * @property array $account_data Account Data
  * @property integer $status Status
  * @property integer $trashed_status Trashed Status
- * @property Carbon $agent_expired_at
+ * @property Carbon $expired_at
  * @property UserHobby[] $userHobbies
  * @property Region $region
  * @property integer $trashed_status
@@ -186,22 +186,6 @@ class User extends Authenticatable
         return $this->defaultValues;
     }
 
-
-    /**
-     * ket noi voi bang metadata
-     * @return queryBuilder
-     */
-    public function metadatas()
-    {
-        return $this->hasMany(Metadata::class, 'ref_id', 'id')->where('ref', 'user');
-    }
-
-
-    public function userRole()
-    {
-        return $this->hasMany(PermissionUserRole::class, 'user_id', 'id');
-    }
-
     /**
      * Get the agentAccount associated with the User
      *
@@ -212,79 +196,12 @@ class User extends Authenticatable
         return $this->hasOne(AgentAccount::class, 'user_id', 'id');
     }
 
-
-    public function getUserRoles()
-    {
-        if ($this->isCheckRoles) return $this->_roles;
-        $data = [];
-        if ($this->userRole && count($this->userRole)) {
-            foreach ($this->userRole as $r) {
-                $data[] = $r->role_id;
-            }
-        }
-        $this->isCheckRoles = true;
-        $this->_roles = $data;
-        return $this->_roles;
-    }
-
-    public function getRoleIdListAttribute()
-    {
-        return $this->getUserRoles();
-    }
-
-    /**
-     * lấy ra danh sách role
-     */
-    public function roles()
-    {
-        return $this->userRole()
-            ->join('permission_roles', 'permission_roles.id', '=', 'permission_user_roles.role_id')
-            ->select('permission_roles.id', 'permission_roles.name', 'permission_roles.level', 'permission_roles.description')
-            ->orderBy('permission_roles.level', 'DESC');
-    }
-
-    public function roleLevels()
-    {
-        if ($this->role_levels) return $this->role_levels;
-        $data = ['admin' => [], 'mod' => [], 'access' => [], 'list' => [], 'roles' => []];
-        $level = [3 => 'admin', 2 => 'mod', 1 => 'access'];
-        if (count($this->roles)) {
-            foreach ($this->roles as $role) {
-                $data[$level[$role->level]][] = $role->id;
-                $data['list'][] = $role->id;
-                $data['roles'][$role->id] = $role;
-            }
-        }
-        $this->role_levels = $data;
-        return $data;
-    }
-
-    public function inGroup($level = 'mod')
-    {
-        if (!in_array($lv = strtolower($level), ['admin', 'mod'])) return false;
-        $data = $this->roleLevels();
-        return count($data[$lv]);
-    }
-
-    public function hasRoles($roles = [])
-    {
-        if (!is_array($roles) || !count($roles)) return false;
-        $data = $this->roleLevels();
-        foreach ($roles as $role_id) {
-            if (!in_array($role_id, $data['list'])) return false;
-        }
-        return true;
-    }
-
-    public function hasOnly($roles = [])
-    {
-        if (!is_array($roles) || !count($roles)) return false;
-        $data = $this->roleLevels();
-        if (count($roles) != count($data['list'])) return false;
-        foreach ($roles as $role_id) {
-            if (!in_array($role_id, $data['list'])) return false;
-        }
-        return true;
+    public function getServiceExpiredInfo($format = null){
+        if(!$this->expired_at) return false;
+        $time = strtotime($this->expired_at);
+        if($time > time())
+            return $format?date($format, $time):$this->expired_at;
+        return false;
     }
 
     public function getNotificationToken(){
@@ -365,10 +282,6 @@ class User extends Authenticatable
         return is_array($types) ? ($types[$this->type] ?? $this->type) : null;
     }
 
-    public function getTimeText()
-    {
-        return get_time_string($this->duetime ?? 0);
-    }
     /**
      * ham xóa file cũ
      * @param int $id
@@ -412,11 +325,6 @@ class User extends Authenticatable
     }
 
 
-
-    public function __get_table()
-    {
-        return 'users';
-    }
 
 
 

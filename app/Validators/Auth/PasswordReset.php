@@ -26,7 +26,7 @@ class PasswordReset extends BaseValidator
     {
 
         return [
-            'otp'              => 'required|is_code',
+            // 'otp'              => 'required|is_code',
             'password'         => 'required|min:6|confirmed|password_safe'
         ];
     }

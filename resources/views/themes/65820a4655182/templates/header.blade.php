@@ -160,8 +160,17 @@
                             <div class="side-item">
                                 <div class="nav-add-btn">
                                     <a href="{{ $header->addon_button_link('/ai') }}" class="nav-menu-btn">
-                                        <i class="bx bx-money"></i>
-                                        {{ $header->addon_button_text('100.000đ') }}
+                                        {{-- <i class="bx bx-money"></i> --}}
+                                        @php
+                                            $text = $header->addon_button_text('100.000đ');
+                                            if($user = auth()->user()){
+                                                $wallet = get_user_wallet($user->id);
+                                                if($wallet){
+                                                    $text = get_price_format($wallet->balance, 'VND');
+                                                }
+                                            }
+                                        @endphp
+                                        {{ $text }}
                                     </a>
                                 </div>
                             </div>

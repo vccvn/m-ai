@@ -13,7 +13,8 @@ Route::middleware('web.auth')->controller(AccountController::class)->name('accou
      *  Method | URI                             | Controller @ Nethod               | Route Name
      * -------------------------------------------------------------------------------------------------------------------------------
      */
-    Route::get('tai-khoan.html',                  'index'                            )->name("");
+    Route::get('tai-khoan.html',                  'info'                            )->name("");
+    Route::get('thong-tin-tai-khoan.html',        'info'                            )->name(".info");
     Route::prefix('tai-khoan')->group(function(){
         Route::get('cap-nhat/{tab}.html',         'index'                            )->name('.settings');
         Route::post('cap-nhat/{tab}.html',        'updateAccount'                    )->name('.update-settings');

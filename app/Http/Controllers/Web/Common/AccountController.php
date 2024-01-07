@@ -53,7 +53,11 @@ class AccountController extends WebController
      *
      * @return void
      */
-    public function __construct(UserRepository $repository,  EmailTokenRepository $EmailTokenRepository, CustomerRepository $customerRepository)
+    public function __construct(
+        UserRepository $repository,
+        EmailTokenRepository $EmailTokenRepository,
+        CustomerRepository $customerRepository
+    )
     {
         $this->repository = $repository;
         $this->emailTokens = $EmailTokenRepository;
@@ -62,6 +66,28 @@ class AccountController extends WebController
         $this->init();
         $this->setting = system_setting();
         $this->siteinfo = siteinfo();
+    }
+
+
+
+    /**
+     * hiển thĩ cập nhât
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function info(Request $request)
+    {
+        $settings = get_account_setting_configs();
+        $user = $request->user();
+
+
+        $account = new Arr(compact('settings', 'user'));
+
+        $this->breadcrumb->add("Tài khoản", route('web.account'))
+            ->add("My Service", route('web.account.info'));
+
+        return $this->viewModule('info', compact('account', 'user'));
     }
 
     /**
@@ -94,7 +120,7 @@ class AccountController extends WebController
         ) : $user->toFormData();
 
         if ($tab == 'general') {
-            $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
+            // $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
         }
 
         $form = new Form([
@@ -102,13 +128,13 @@ class AccountController extends WebController
             'data' => $data,
             'errors' => $request->session()->get('errors')
         ]);
-        $form->map('setTemplatePath', 'client-libs.form');
+        $form->map('setTemplatePath', 'web-libs.form');
 
 
         $account = new Arr(compact('settings', 'formConfig', 'form', 'data', 'tab'));
 
-        $this->breadcrumb->add("Tài khoản", route('client.account'))
-            ->add($formConfig->title, route('client.account.settings', ['tab' => $tab]));
+        $this->breadcrumb->add("Tài khoản", route('web.account'))
+            ->add($formConfig->title, route('web.account.settings', ['tab' => $tab]));
 
         return $this->viewModule('index', compact('account'));
     }
@@ -181,6 +207,9 @@ class AccountController extends WebController
 
         return false;
     }
+
+
+
 
     public function getTabKey($key)
     {

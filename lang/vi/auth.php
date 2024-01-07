@@ -12,7 +12,16 @@
 */
 
 return [
-    'failed'   => 'Thông tin tài khoản không tìm thấy trong hệ thống.',
-    'password' => 'Mật khẩu không đúng.',
-    'throttle' => 'Vượt quá số lần đăng nhập cho phép. Vui lòng thử lại sau :seconds giây.',
+    "failed" => "Thông tin xác thực này không khớp với hồ sơ của chúng tôi.",
+    "password" => "Mật khẩu đã cung cấp không đúng.",
+    "username" => "Trường :attribute là bắt buộc.",
+    "email" => "E-Mail đã cung cấp không hợp lệ.",
+    "throttle" => "Quá nhiều lần đăng nhập. Vui lòng thử lại sau :seconds giây.",
+    "account-register" => "Đăng ký tài khoản",
+    "register-failed" => "Đã xảy ra lỗi! Vui lòng kiểm tra thông tin!",
+    "register-success" => "Bạn đã đăng ký thành công!y",
+    "register-success-by-social" => "Bạn đã đăng ký tài khoản :provider thành công!y",
+    "reset-success" => "Bạn đã đặt lại mật khẩu thành công!",
+    "token-mismatch" => "Mã thông báo không khớp",
+    "login-failed" => "Đăng nhập thất bại"
 ];

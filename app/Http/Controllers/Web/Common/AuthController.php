@@ -13,6 +13,7 @@ use App\Validators\Account\SignUpValidator;
 use App\Validators\Auth\Login;
 use App\Validators\Auth\PasswordReset;
 use App\Validators\Auth\Verify;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -221,7 +222,8 @@ class AuthController extends WebController
             ]);
         }
         $this->repository->update($user->id, [
-            'status' => 1
+            'status' => 1,
+            'expired_at' => Carbon::now()->toDateTimeString()
         ]);
         if($user->type == User::AGENT){
             $this->agentRepository->createDefaultAgent($user->id);
@@ -442,6 +444,7 @@ class AuthController extends WebController
         $status    = false;
         $errors    = [];
         $validator = $this->emailTokens->validator($request, PasswordReset::class);
+        // dd($validator->errors());
         if (!$validator->success() || !($email = $this->emailTokens->findBy('token', $request->token))) {
             $message = __('account.action_error');
             $errors  = $validator->errors();

@@ -54,7 +54,7 @@
                                     <div class="col-lg-6 col-sm-6">
                                         <a class="forget" href="{{ route('web.account.forgot') }}">Quên mật khẩu?</a>
                                     </div>
-                                    <div class="col-lg-12 col-md-12 text-center">
+                                    <div class="col-lg-12 col-md-12 text-center mt-3">
                                         <button type="submit" class="default-btn">
                                             Đăng nhập
                                             <i class="bx bx-plus"></i>

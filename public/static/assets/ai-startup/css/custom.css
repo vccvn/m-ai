@@ -475,6 +475,19 @@
   }
 }
 
+.inner-banner.navbg {
+  margin-bottom: 30px;
+  height: 80px;
+}
+
+.inner-banner.navbg::before {
+  height: 80px;
+}
+
+.crazy-radio label {
+  margin-right: 15px;
+}
+
 @media screen and (min-width: 992px) {
   .inner-banner.banner-size-small {
     height: 250px;
@@ -487,6 +500,12 @@
     padding-top: 94px;
     padding-bottom: 55px;
     position: relative;
+  }
+  .navbg {
+    height: 80px;
+  }
+  .navbg::before {
+    height: 80px;
   }
   .chat-area.chat-iframe a {
     top: 20px;
@@ -506,5 +525,11 @@
     padding-top: 104px;
     padding-bottom: 65px;
     position: relative;
+  }
+  .inner-banner.navbg {
+    height: 80px;
+  }
+  .inner-banner.navbg::before {
+    height: 80px;
   }
 }

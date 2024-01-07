@@ -5,30 +5,16 @@ namespace App\Http\Controllers\Web\Payments;
 // use App\Http\Controllers\Apis\ApiController;
 
 use App\Http\Controllers\Web\WebController;
-use App\Models\ConnectPackage;
-use App\Models\PaymentMethod;
-use App\Models\PaymentRequest;
-use App\Models\PaymentTransaction;
-use App\Models\User;
 use App\Repositories\Payments\MethodRepository;
 use App\Repositories\Payments\PackageRepository;
 use Illuminate\Http\Request;
-use Gomee\Helpers\Arr;
 
 use App\Repositories\Payments\RequestRepository;
 use App\Repositories\Payments\TransactionRepository;
 use App\Repositories\Users\UserRepository;
-use App\Services\Encryptions\HashService;
-use App\Services\Mailers\MailNotification;
-use App\Services\Payments\AlePayResponse;
 use App\Services\Payments\AlePayService;
 use App\Services\Payments\PaymentService;
-use App\Validators\Payments\ConnectPaymentValidator;
-use Carbon\Carbon;
 use Gomee\Files\Filemanager;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-
 /**
  * @property-read UserRepository $userRepository
  * @property-read PackageRepository $packageRepository
@@ -89,6 +75,12 @@ class PaymentServiceController extends WebController
             if ($assetURL = $config->asset_url(config('payment.alepay.asset_url')))
                 $this->alepayService->setAssetURL($assetURL);
         }
+    }
+
+    public function checkout(Request $request) {
+        $role = 'system';
+        $agent_id = 0;
+        $user = '';
     }
 
     public function alepayWebhook(Request $request)

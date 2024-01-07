@@ -69,3 +69,29 @@ if(!function_exists('push_to_wallet')){
         return app(WalletRepository::class)->pushMoneyToWallet($user_id, $money, $note);
     }
 }
+
+
+
+if(!function_exists('get_user_service_expired')){
+    function get_user_service_expired($user_id, $format = null){
+        static $containers = [];
+        if(!array_key_exists($user_id, $containers)){
+            if($policy = get_user(['id' => $user_id])){
+                $containers[$user_id] = $policy;
+            }
+            else{
+                return false;
+            }
+        }
+        if(!array_key_exists($user_id, $containers)){
+            return false;
+        }
+        if(!$containers[$user_id]->expired_at) return false;
+        $time = strtotime($containers[$user_id]->expired_at);
+        if($time > time())
+            return $format?date($format, $time):$containers[$user_id]->expired_at;
+        return false;
+
+
+    }
+}

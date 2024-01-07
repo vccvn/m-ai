@@ -17,7 +17,7 @@
     },
     "account_settings": {
         "general": {
-            "title": "Thông tin cá nhân",
+            "title": "Cập nhật Thông tin cá nhân",
             "slug": "thong-tin-ca-nhan",
             "inputs": {
                 "name": {
@@ -117,8 +117,8 @@
             }
         },
         "account": {
-            "title": "Thông tin tài khoản",
-            "slug": "thong-tin-tai-khoan",
+            "title": "Thông tin Đăng nhập",
+            "slug": "thong-tin-đăng nhập",
             "inputs": {
                 "username": {
                     "type": "text",
@@ -177,7 +177,7 @@
     },
     "account_setting_tabs": {
         "thong-tin-ca-nhan": "general",
-        "thong-tin-tai-khoan": "account",
+        "thong-tin-dang-nhap": "account",
         "thong-tin-mua-hang": "customer",
         "doi-mat-khau": "password"
     }

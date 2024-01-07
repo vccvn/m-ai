@@ -14,21 +14,21 @@ use App\Repositories\Teams\TeamRepository;
 use App\Services\Permissions\PermissionService;
 use Illuminate\Support\Facades\Auth;
 
-if(!function_exists('set_logedin_user')){
-    function set_logedin_user($user)
+if(!function_exists('set_login_user')){
+    function set_login_user($user)
     {
         if($user){
-            set_web_data('__logedin_user_login___', $user);
+            set_web_data('__login_user_login___', $user);
         }
     }
 }
-if(!function_exists('get_logedin_user')){
-    function get_logedin_user()
+if(!function_exists('get_login_user')){
+    function get_login_user()
     {
-        if(!($user = get_web_data('__logedin_user_login___'))){
+        if(!($user = get_web_data('__login_user_login___'))){
             if($u = auth()->user()){
                 $user = new UserMask($u);
-                set_logedin_user($user);
+                set_login_user($user);
 
             }else $user = null;
         }
@@ -56,22 +56,22 @@ if(!function_exists('get_login_user')){
     /**
      * kiểm tra đăng nhập có hợp lệ ko và lấy thông tin user
      *
-     * @return UserMask
+     * @return UserMask|User
      */
     function get_login_user()
     {
-        return get_logedin_user();
+        return get_login_user();
     }
 }
-if(!function_exists('get_user_logedin')){
+if(!function_exists('get_user_login')){
     /**
      * kiểm tra đăng nhập có hợp lệ ko và lấy thông tin user
      *
      * @return UserMask
      */
-    function get_user_logedin()
+    function get_user_login()
     {
-        return get_logedin_user();
+        return get_login_user();
     }
 }
 
@@ -83,7 +83,7 @@ if(!function_exists('get_current_account')){
      */
     function get_current_account()
     {
-        return get_logedin_user();
+        return get_login_user();
     }
 }
 
@@ -312,32 +312,5 @@ if(!function_exists('check_current_user_permission')){
     function check_current_user_permission($path)
     {
         return PermissionService::checkUserPermiss(auth()->user(), $path);
-    }
-}
-
-
-if(!function_exists('get_team_options')){
-    /**
-     * lấy danh sách khách hàng dưới dạng option
-     * @param mixed ...$params
-     * @return array
-     */
-    function get_team_options(...$params)
-    {
-        return app(TeamRepository::class)->getDataOptions(...$params);
-    }
-}
-
-
-
-if(!function_exists('get_team_members')){
-    /**
-     * lấy danh sách khách hàng
-     * @param array $params
-     * @return \App\Masks\Teams\MemberCollection
-     */
-    function get_team_members(array $params = [])
-    {
-        return app(MemberRepository::class)->cache('get-team-member', null, $params)->mode('mask')->getTeamMembers(get_parse_query_args($params));
     }
 }
