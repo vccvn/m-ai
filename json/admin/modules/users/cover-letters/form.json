@@ -1,0 +1,25 @@
+{
+    "inputs": {
+        "user_id": {
+            "type": "crazyselect",
+            "label": "Nhà cung cấp",
+            "@select-type": "search",
+            "@search-route": "admin.users.user-option",
+            "call": "get_user_options",
+            "params": [
+                {
+                    "id": ":defval",
+                    "type": "user"
+                }
+            ]
+        },
+        "message": {
+            "type": "text",
+            "label": "Message",
+            "placeholder": "Nhập Message"
+        }
+    },
+    "config": {
+        "name": null
+    }
+}

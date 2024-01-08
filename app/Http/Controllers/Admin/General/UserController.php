@@ -169,6 +169,19 @@ class UserController extends AdminController
 
         return $this->json(compact(...$this->apiSystemVars));
     }
+    public function getUserOptions(Request $request)
+    {
+        extract($this->apiDefaultData);
+
+        if ($options = $this->repository->where('users.type', User::USER)->getUserSelectOptions($request, ['@limit' => 10])) {
+            $data = $options;
+            $status = true;
+        } else {
+            $message = 'Không có kết quả phù hợp';
+        }
+
+        return $this->json(compact(...$this->apiSystemVars));
+    }
 
     /**
      * tim kiếm thông tin người dùng

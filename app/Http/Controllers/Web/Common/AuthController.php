@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Web\Common;
 use App\Http\Controllers\Web\WebController;
 use App\Models\User;
 use App\Repositories\Accounts\AgentRepository;
+use App\Repositories\Accounts\CoverLetterRepository;
 use App\Repositories\Accounts\WalletRepository;
 use App\Repositories\Emails\EmailTokenRepository;
 use App\Repositories\Users\UserRepository;
 use App\Services\Mailers\Mailer;
+use App\Services\Mailers\MailNotification;
 use App\Validators\Account\SignUpValidator;
 use App\Validators\Auth\Login;
 use App\Validators\Auth\PasswordReset;
@@ -16,6 +18,7 @@ use App\Validators\Auth\Verify;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
@@ -52,10 +55,9 @@ class AuthController extends WebController
         UserRepository $UserRepository,
         EmailTokenRepository $EmailTokenRepository,
         protected AgentRepository $agentRepository,
-        protected WalletRepository $walletRepository
-
-    )
-    {
+        protected WalletRepository $walletRepository,
+        protected CoverLetterRepository $coverLetterRepository
+    ) {
         $this->middleware('guest')->except('logout');
         $this->repository = $UserRepository;
         $this->repository->staffQuery();
@@ -101,7 +103,7 @@ class AuthController extends WebController
         } else {
             $data = $validator->inputs();
             $data['status'] = 0;
-            $data['type'] = $request->register_agent ? User::AGENT : User::USER;
+            $data['type'] = User::USER;
             // $data['name'] = $this->repository->getUsernameByEmail($data['email']);
             $data['username'] = $this->repository->getUsernameByEmail($data['email']);
             $data['phone_number'] = $this->repository->getUniquePhone('098');
@@ -110,10 +112,25 @@ class AuthController extends WebController
                     $data['agent_id'] = $refUser->id;
                 }
             }
-            if (!($user = $this->repository->create($data))) {
-                $errors['email.unknow'] = __("Unknow Error");
-            } else {
-                return $this->sendVerifyEmailByUser($user, __('account.verify_message'));
+            DB::beginTransaction();
+            try {
+                //code...
+                if (!($user = $this->repository->create($data))) {
+                    $errors['email.unknow'] = __("Unknow Error");
+                } else {
+
+                    $send = $this->sendVerifyEmailByUser($user, __('account.verify_message'));
+                    if($request->register_agent){
+                        $this->coverLetterRepository->create([
+                            'user_id' => $user->id
+                        ]);
+                    }
+
+                }
+                DB::commit();
+            } catch (\Throwable $th) {
+                //throw $th;
+                DB::rollBack();
             }
         }
 
@@ -225,11 +242,10 @@ class AuthController extends WebController
             'status' => 1,
             'expired_at' => Carbon::now()->toDateTimeString()
         ]);
-        if($user->type == User::AGENT){
-            $this->agentRepository->createDefaultAgent($user->id);
-
-        }
         $this->walletRepository->createDefaultWallet($user->id);
+        if($cover = $this->coverLetterRepository->first(['user_id' => $user->id])){
+            MailNotification::subject($user->name . ' Vừa nộp đơn đăng ký làm dại lý');
+        }
         return redirect()->route('web.alert')->with([
             'type'    => 'success',
             'message' => __('account.verify_success'),

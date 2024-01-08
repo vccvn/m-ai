@@ -41,6 +41,8 @@ class TestSystem extends Command
     {
         $this->info("Test:...");
         try {
+            $a = -1; $b=0;$c = $a.$b; echo $c;
+            die;
             $vars = [];
             $text = '{abc} tesrt {{yy}} Haha {@test(:a,:b,$a,@abc)}';
             $varCount = preg_match_all('/\{([^@\{][A-z0-9_]+)\}/', $text, $matches);

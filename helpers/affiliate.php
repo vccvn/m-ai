@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CoverLetter;
 use App\Models\User;
 use App\Repositories\Accounts\AgentRepository;
 use App\Repositories\Accounts\WalletRepository;
@@ -93,5 +94,11 @@ if(!function_exists('get_user_service_expired')){
         return false;
 
 
+    }
+}
+
+if(!function_exists('get_cover_letter_status_options')){
+    function get_cover_letter_status_options($user_id, $format = null){
+        return CoverLetter::getStatusOptions();
     }
 }

@@ -70,11 +70,11 @@ class UserRepository extends BaseRepository
 
     protected $columns = [
         'id' => 'users.id',
-        'full_name' => 'users.full_name',
+        'name' => 'users.name',
         'email' => 'users.email',
         'username' => 'users.username',
         'phone_number' => 'users.phone_number',
-        'level' => 'users.type',
+        'type' => 'users.type',
         'status' => 'users.status',
 
     ];

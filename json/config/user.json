@@ -118,7 +118,7 @@
         },
         "account": {
             "title": "Thông tin Đăng nhập",
-            "slug": "thong-tin-đăng nhập",
+            "slug": "thong-tin-dang-nhap",
             "inputs": {
                 "username": {
                     "type": "text",
