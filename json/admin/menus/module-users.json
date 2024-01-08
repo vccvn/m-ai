@@ -17,6 +17,13 @@
                         "icon": "list-ul"
                     },
                     {
+                        "text": "Đơn xét duyệt",
+                        "title": "Danh sách Đơn",
+                        "active_key": "cover-letters",
+                        "route": "admin.users.cover-letters",
+                        "icon": "file-word"
+                    },
+                    {
                         "text": "Sổ đen",
                         "title": "Người dùng bị chặn",
                         "active_key": "trash",
