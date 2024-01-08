@@ -131,6 +131,7 @@ class AuthController extends WebController
             } catch (\Throwable $th) {
                 //throw $th;
                 DB::rollBack();
+                $errors['action'] = $th->getMessage();
             }
         }
 
