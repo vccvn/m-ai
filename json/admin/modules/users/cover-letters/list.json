@@ -44,7 +44,7 @@
             {
                 "title": "Họ tên",
                 "class": "min-120 max-200",
-                "text":"name"
+                "text":":name"
             },
             {
                 "title": "Email",
