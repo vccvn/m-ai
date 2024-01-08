@@ -10,6 +10,11 @@
             "label": "Mô tả",
             "placeholder": "Nhập Mô tả"
         },
+        "feature_text": {
+            "type": "textarea",
+            "label": "Đặt tính nổi bật",
+            "placeholder": "Mỗi ý một dòng\nDùng [t] để dùng ký hiệu ✓ \nDùng [f] hoặc [x] để dùng ký hiệu 𐄂"
+        },
         "quantity": {
             "type": "number",
             "label": "Số tháng",

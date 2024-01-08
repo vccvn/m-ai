@@ -24,6 +24,7 @@ class SystemPackageValidator extends BaseValidator
 
             'name' => 'required|string|max:191',
             'description' => 'mixed|max:800',
+            'feature_text' => 'mixed',
             'quantity' => 'required|numeric|min:1',
             'wholesale_price' => 'required|numeric|min:0|max:999999999',
             'retail_price' => 'required|numeric|min:0|max:999999999',

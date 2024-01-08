@@ -28,6 +28,7 @@ use App\Services\Mailers\Mailer;
 use App\Services\Mailers\MailNotification;
 use App\Services\Payments\AlePayResponse;
 use App\Services\Payments\AlePayService;
+use App\Services\Users\UserService;
 use Carbon\Carbon;
 use Gomee\Files\Filemanager;
 use Illuminate\Http\JsonResponse;
@@ -84,7 +85,8 @@ class PaymentService extends Service
         Filemanager $filemanager,
         AgentRepository $agentRepository,
         CommissionRepository $commissionRepository,
-        WalletRepository $walletRepository
+        WalletRepository $walletRepository,
+        protected UserService $userService
     ) {
         // $this->repository                 = $repository;
         $this->userRepository             = $userRepository;
@@ -516,13 +518,7 @@ class PaymentService extends Service
                     // dd($agent, $package);
                     $agent->save();
                 }else{
-                    $time = strtotime($user->expired_at);
-                    if($time < time())
-                        $datetime = Carbon::now()->addMonths($package?$package->quantity:0);
-                    else
-                        $datetime = Carbon::parse($user->expired_at)->addMonths($package?$package->quantity:0);
-                    $user->expired_at = $datetime->toDateTimeString();
-                    $user->save();
+                    $update = $this->userService->addMonth($package?$package->quantity:0);
 
                 }
                 $this->plusMoney($user, $payment->amount, 0);
@@ -582,8 +578,11 @@ class PaymentService extends Service
         if (!$percent || $percent <= 0)
             return false;
         $wallet = $this->walletRepository->createDefaultWallet($agentUser->id);
-        $wallet->balance += $percent * $amount / 100;
+        $money = $percent * $amount / 100;
+        $wallet->balance += $money;
         $wallet->save();
+        $agent->revenue+= $money;
+        $agent->save();
         return $this->plusMoney($agent, $amount, $level + 1);
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AgentAccount;
 use App\Models\CoverLetter;
 use App\Models\User;
 use App\Repositories\Accounts\AgentRepository;
@@ -29,6 +30,12 @@ if(!function_exists('get_agent_policy')){
 }
 
 if(!function_exists('get_agent_account')){
+    /**
+     * get agent account
+     *
+     * @param int $user_id
+     * @return AgentAccount
+     */
     function get_agent_account($user_id){
         static $containers = [];
         if(!array_key_exists($user_id, $containers)){

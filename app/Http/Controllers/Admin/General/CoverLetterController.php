@@ -72,7 +72,7 @@ class CoverLetterController extends AdminController
             $mailConfig = [
                 '-10' => [
                     'subject' => 'Thông báo tình trạng đơn đăng ký làm đại lý',
-                    'content' => 'Rất buồn khi phải thông báo với bạn rằng chúng tôi từ chối đơn set duyệt của bạn'
+                    'content' => 'Rất buồn khi phải thông báo với bạn rằng chúng tôi từ chối đơn xét duyệt của bạn'
                 ],
                 '-11' => [
                     'subject' => 'Thông báo tình trạng đơn đăng ký làm đại lý',

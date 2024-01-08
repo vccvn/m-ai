@@ -16,16 +16,23 @@ Route::name('payments.')->controller(PaymentController::class)->group(function()
      * -------------------------------------------------------------------------------------------------------------------------------
      */
 
-    Route::get('thanh-toan-chuyen-khoan',                      'transfer'              )->name('transfer');
-    Route::get('check-order-payment',                           'checkOrderPayment'     )->name('check-order');
-    Route::post('check-order-payment',                          'checkOrderPayment'     );
-    Route::post('verify-transfer',                              'verifyTransfer'        )->name('verify-transfer');
+    Route::get('thanh-toan-chuyen-khoan',                      'transfer'                    )->name('transfer');
+    Route::get('check-order-payment',                          'checkOrderPayment'           )->name('check-order');
+    Route::post('check-order-payment',                         'checkOrderPayment'           );
+    Route::post('verify-transfer',                             'verifyTransfer'              )->name('verify-transfer');
 
 
 });
 
-Route::controller(PaymentServiceController::class)->group(function () {
-    Route::any('payment/cancel', 'cancelTransaction')->name('payments.cancel');
-    Route::any('payment/complete', 'completeTransaction')->name('payments.complete');
-    Route::any('payment/alepay-webhook', 'alepayWebhook')->name('payments.alepay-webhook');
+Route::controller(PaymentServiceController::class)->middleware('web.auth')->name('payments.')->group(function () {
+    Route::any('pay-options',                                  'payOptions'                  )->name('options');
+    Route::post('payment/use-from-my-account',                 'useMonthFromMyAccount'       )->name('use-from-account');
+    Route::post('payment/buy-package',                         'buyPackage'                  )->name('buy-package');
+
 });
+Route::controller(PaymentServiceController::class)->name('payments.')->group(function () {
+    Route::any('payment/cancel',                               'cancelTransaction'           )->name('cancel');
+    Route::any('payment/complete',                             'completeTransaction'         )->name('complete');
+    Route::any('payment/alepay-webhook',                       'alepayWebhook'               )->name('alepay-webhook');
+});
+// useMonthFromMyAccount

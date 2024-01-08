@@ -10,8 +10,8 @@ use App\Models\User;
 use Gomee\Masks\Mask;
 /**
  * user class
- * @property string $agent_id
- * @property string $id
+ * @property int $agent_id
+ * @property int $id
  * @property string $name Name
  * @property string $gender Gender
  * @property string $birthday Birthday
@@ -30,8 +30,9 @@ use Gomee\Masks\Mask;
  * @property array $account_data Account Data
  * @property integer $status Status
  * @property integer $trashed_status Trashed Status
+ * @property string $ref_code ma gioi thieu
+ * @property-read string $affiliate_code ma marketing
  * @property Carbon $expired_at
- * @property UserHobby[] $userHobbies
  * @property Region $region
  * @property integer $trashed_status
  * @property-read AgentPaymentLog[] $agentPaymentUnreportedLogs

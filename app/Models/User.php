@@ -34,6 +34,8 @@ use Laravel\Passport\HasApiTokens;
  * @property array $account_data Account Data
  * @property integer $status Status
  * @property integer $trashed_status Trashed Status
+ * @property string $ref_code ma gioi thieu
+ * @property-read string $affiliate_code ma marketing
  * @property Carbon $expired_at
  * @property UserHobby[] $userHobbies
  * @property Region $region

@@ -15,6 +15,7 @@ use Gomee\Helpers\Arr;
 use App\Repositories\Users\UserRepository;
 use App\Services\Encryptions\HashService;
 use App\Services\Mailers\Mailer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -55,57 +56,23 @@ class UserService extends Service
         $this->init();
     }
 
-
-    public function encryptCIScan($filename = null)
+    public function addMonth($user_id, $month = 0)
     {
-        if ($filename) {
-            $parts = explode('.', $filename);
-            $ext = array_pop($parts);
-            if ($ext != User::SCAN_ENCRYPT_FILE_EXTENSION) {
-                $parts[] = User::SCAN_ENCRYPT_FILE_EXTENSION;
-                $newFile = md5(uniqid(). rand(0, 000000). '-'. microtime(true)) . '.' . User::SCAN_ENCRYPT_FILE_EXTENSION;
-                if (file_exists($f = storage_path('users/cccd/' . $filename))) {
-                    $path = $f;
-                } elseif (file_exists($f = public_path(content_path('users/cccd/' . $filename)))) {
-                    $path = $f;
-                } else return $filename;
-                $type = pathinfo($path, PATHINFO_EXTENSION);
-                $data = file_get_contents($path);
-                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                $encrypt = HashService::encrypt($base64);
-
-                file_put_contents($new = storage_path('users/cccd/' . $newFile), gzcompress($encrypt));
-                if (file_exists($new)) {
-                    unlink($path);
-                    return $newFile;
-                }
-            }
-        }
-        return $filename;
-    }
-
-    public function decryptCIScan($filename = null)
-    {
-        if ($filename) {
-            $parts = explode('.', $filename);
-            $ext = array_pop($parts);
-            if ($ext == User::SCAN_ENCRYPT_FILE_EXTENSION) {
-                if (file_exists($f = storage_path('users/cccd/' . $filename))) {
-                    try {
-                        $data = file_get_contents($f);
-                        $encrypt = @gzuncompress($data);
-                        $base64 = HashService::decrypt($encrypt);
-                        return $this->filemanager->getBase64Data($base64);
-                    } catch (NotReportException $th) {
-                        //throw $th;
-                    }
-                }
-            }elseif (file_exists($f = public_path(content_path('users/cccd/' . $filename)))) {
-                $type = pathinfo($f, PATHINFO_EXTENSION);
-                $data = file_get_contents($f);
-                return new Arr(compact('type', $data));
-            }
-        }
-        return null;
+        if (!$month || $month < 1)
+            return false;
+        elseif (is_a($user_id, User::class))
+            $user = $user_id;
+        elseif (is_a($user_id, User::class))
+            $user = $user_id;
+        elseif ($u = $this->repository->find($user_id))
+            $user = $u;
+        else
+            return false;
+        $time = strtotime($user->expired_at);
+        if ($time < time())
+            $datetime = Carbon::now()->addMonths($month);
+        else
+            $datetime = Carbon::parse($user->expired_at)->addMonths($month);
+        return $this->update($user->id, ['expired_at' => $datetime->toDateTimeString()]);
     }
 }

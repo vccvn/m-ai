@@ -25,6 +25,7 @@ class ServicePackage extends Model
         'role',
         'name',
         'description',
+        'feature_text',
         'quantity',
         'wholesale_price',
         'retail_price',
