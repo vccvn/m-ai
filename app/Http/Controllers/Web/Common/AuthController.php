@@ -128,6 +128,7 @@ class AuthController extends WebController
 
                 }
                 DB::commit();
+                return $send;
             } catch (\Throwable $th) {
                 //throw $th;
                 DB::rollBack();
