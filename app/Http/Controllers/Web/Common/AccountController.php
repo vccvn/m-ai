@@ -113,6 +113,7 @@ class AccountController extends WebController
         if ($false) {
             return $this->view('errors.404');
         }
+        $settings->remove('customer');
         // lấy data phù hợp với tab
 
         $data = ($tab == 'customer') ? (

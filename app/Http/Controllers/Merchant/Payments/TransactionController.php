@@ -152,7 +152,12 @@ class TransactionController extends MerchantController
         } elseif (!($method = $this->methodRepository->first($request->payment_method_id ? ['id' => $request->payment_method_id] : []))) {
             $message = 'Phương thức thanh toán không hợp lệ';
         }
-        elseif($paymentData = $this->paymentService->createServicePayment($package, $method, $user, ['success_redirect_url' => $request->success_redirect_url, 'cancel_redirect_url' => $request->cancel_redirect_url, 'error_redirect_url' => $request->error_redirect_url])){
+        elseif($paymentData = $this->paymentService->createServicePayment($package, $method, $user, [
+            'success_redirect_url' => route('merchant.payments.create'),
+            'cancel_redirect_url' => route('merchant.payments.create'),
+            'error_redirect_url' => route('merchant.payments.create'),
+            'role' => User::USER
+        ])){
             return redirect($paymentData['payment']['checkout_url']);
             $status = true;
             $data = $paymentData;

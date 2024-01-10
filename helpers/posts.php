@@ -136,37 +136,37 @@ if (!function_exists('get_post_category_map')) {
     }
 }
 
-if (!function_exists('get_project_category')) {
-    /**
-     * lấy mục nội dung
-     * @param array $params
-     * @return \App\Models\Category
-     */
-    function get_project_category(array $params = [])
-    {
-        if ($category = app(ProjectsCategoryRepository::class)->avaliableCategory()->first(get_parse_query_args($params))) {
-            return new CategoryMask($category);
-        }
-        return null;
-    }
-}
+// if (!function_exists('get_project_category')) {
+//     /**
+//      * lấy mục nội dung
+//      * @param array $params
+//      * @return \App\Models\Category
+//      */
+//     function get_project_category(array $params = [])
+//     {
+//         if ($category = app(ProjectsCategoryRepository::class)->avaliableCategory()->first(get_parse_query_args($params))) {
+//             return new CategoryMask($category);
+//         }
+//         return null;
+//     }
+// }
 
 
 
-if (!function_exists('get_project_categories')) {
-    /**
-     * lấy mục nội dung
-     * @param array $params
-     * @return \App\Models\Category[]
-     */
-    function get_project_categories(array $params = [])
-    {
-        if (count($categories = app(ProjectsCategoryRepository::class)->mode('mask')->avaliableCategory()->getCategories(get_parse_query_args($params)))) {
-            return $categories;
-        }
-        return [];
-    }
-}
+// if (!function_exists('get_project_categories')) {
+//     /**
+//      * lấy mục nội dung
+//      * @param array $params
+//      * @return \App\Models\Category[]
+//      */
+//     function get_project_categories(array $params = [])
+//     {
+//         if (count($categories = app(ProjectsCategoryRepository::class)->mode('mask')->avaliableCategory()->getCategories(get_parse_query_args($params)))) {
+//             return $categories;
+//         }
+//         return [];
+//     }
+// }
 
 if (!function_exists('get_posts')) {
     /**

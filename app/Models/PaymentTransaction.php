@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $transaction_id Transaction Id
  * @property string $transaction_code Transaction Code
  * @property string $type Type
+ * @property string $role Role
  * @property string $order_code Order Code
  * @property string $ref_code Ref Code
  * @property PaymentMethod $method Method
@@ -62,6 +63,7 @@ class PaymentTransaction extends Model
         'transaction_id',
         'transaction_code',
         'type',
+        'role',
         'order_code',
         'ref_code',
         'method',

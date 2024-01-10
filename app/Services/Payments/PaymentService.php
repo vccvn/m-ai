@@ -229,7 +229,7 @@ class PaymentService extends Service
     {
         $data = $this->transactionRepository->updatePaymentStatus($request, false, $message = 'Giao dịch đã bị huỷ');
         $status = $data ? true : false;
-        return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('error', $message);
+        return ($data && $data->cancel_redirect_url ? redirect(url_merge($data->cancel_redirect_url, ['transaction_code' => $request->transactionCode])) : redirect()->route('web.payments.options', ['transaction_code' => $request->transactionCode]))->with('error', $message);
 
 
         if ($data && $data->method && $data->method->method == PaymentMethod::PAYMENT_ALEPAY) {
@@ -252,7 +252,6 @@ class PaymentService extends Service
         $message = '';
         $redirect = null;
         if (!$request->transactionCode || !($pr = $this->transactionRepository->with('method')->first(['transaction_code' => $request->transactionCode]))) {
-
         } elseif ($request->errorCode != '000') {
             $message = $this->alepayService->getMessage($request->errorCode);
             $this->transactionRepository->updatePaymentStatus($request, false, $message);
@@ -267,48 +266,58 @@ class PaymentService extends Service
         } elseif (!$response->isSuccess || $response->status != "000") {
             $message = $response->message;
             $this->transactionRepository->updatePaymentStatus($response, false, $message);
-        }
-        elseif($pr->status == PaymentTransaction::STATUS_COMPLETED){
+        } elseif ($pr->status == PaymentTransaction::STATUS_COMPLETED) {
             $package = $this->packageRepository->find($pr->order_id);
 
             // dd("1", $pr);
-            if ($pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY) {
-                return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
-                // $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
-                // return redirect($url);
+            // if ($pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY) {
+            //     return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+            //     // $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
+            //     // return redirect($url);
+            // }
+            if ($pr->success_redirect_url) {
+                if ($pr->success_redirect_url == route('web.account.info')) {
+                    return redirect()->route('web.account.info', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công');
+                }
+                return redirect(url_merge($pr->success_redirect_url, ['transaction_code' => $request->transactionCode]))->with('success', 'Bạn đã thanh toán thành công');
             }
-            return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công');
-        }
-
-        elseif (!($payment = $this->transactionRepository->updatePaymentStatus($response, true))) {
+            return redirect()->route('web.account.info', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công');
+        } elseif (!($payment = $this->transactionRepository->updatePaymentStatus($response, true))) {
             $redirect = $pr->error_redirect_url;
 
             $message = $this->errorMessage ?? 'Lỗi hệ thống. chúng tôi sẽ xác minh giao dịch và thông báo cho bạn khi hoàn tất';
             // $this->transactionRepository->updatePaymentStatus($response, false, $message);
-        }
-        elseif (!$this->onTransactionCompleted($payment)) {
+        } elseif (!$this->onTransactionCompleted($payment)) {
             # code...
             $message = $this->errorMessage ?? 'Lỗi hệ thống. chúng tôi sẽ xác minh giao dịch và thông báo cho bạn khi hoàn tất';
-
-        }
-        else {
+        } else {
             $redirect = $pr->success_redirect_url;
             $package = $this->packageRepository->find($payment->order_id);
             // dd("2", $payment);
             // $request->session()->put('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
             // $this->onTransactionCompleted($payment);
-            if ($pr->method && $pr->method->method == PaymentMethod::PAYMENT_ALEPAY) {
-                return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
-                // $url = url_merge($redirect ? $redirect : ($this->alepayConfig && $this->alepayConfig->return_url ? $this->alepayConfig->return_url :  url('/')), ['transaction_code' => $request->transactionCode]);
-                // return redirect($url);
+
+            if ($pr->success_redirect_url) {
+                if ($pr->success_redirect_url == route('web.account.info')) {
+                    return redirect()
+                        ->route('web.account.info', ['transaction_code' => $request->transactionCode])
+                        ->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+                } elseif ($pr->success_redirect_url == route('merchant.payments.transactions.create')) {
+                    return redirect()
+                        ->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])
+                        ->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+                }
+
+                return redirect(url_merge($pr->success_redirect_url, ['transaction_code' => $request->transactionCode]))->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
             }
+            return redirect()->route('web.account.info', ['transaction_code' => $request->transactionCode])->with('success', 'Bạn đã thanh toán thành công và được cộng thêm ' . $package->quantity . ' tháng sử dụng');
         }
         // dd("3");
 
         if ($redirect)
             return redirect(url_merge($redirect, ['transaction_code' => $request->transactionCode]));
 
-        return redirect()->route('merchant.payments.transactions.create', ['transaction_code' => $request->transactionCode])
+        return redirect()->route('web.payments.options', ['transaction_code' => $request->transactionCode])
             ->with('error', $message);
     }
 
@@ -378,10 +387,11 @@ class PaymentService extends Service
      */
     public function createServicePaymentTransaction($user, $package, $method, $advance = [])
     {
+        $role = $advance['role'] ?? User::USER;
         $paymentData = new Arr([
             'orderCode' => strtoupper(uniqid()),
             'customMerchantId' => 'm-ai-' . $user->id,
-            'amount' => (int) ($user->type == User::AGENT ? $package->wholesale_price : $package->retail_price),
+            'amount' => (int) ($user->type == User::AGENT && $role == User::AGENT ? $package->wholesale_price : $package->retail_price),
             'currency' => $package->currency,
             'orderDescription' => 'Đăng ký ' . $package->name,
             'totalItem' => $package->quantity,
@@ -389,7 +399,7 @@ class PaymentService extends Service
             'cancelUrl' => route('web.payments.cancel'),
             'buyerName' => $user->name,
             'buyerEmail' => $user->email,
-            'buyerPhone' => $user->phone ?? "0987123456",
+            'buyerPhone' => $user->phone_number ?? "0987123456",
             'buyerAddress' => 'So 1 Dai Co Viet',
             'buyerCity' => 'Hà Nội',
             'buyerCountry' => 'Việt Nam',
@@ -402,9 +412,6 @@ class PaymentService extends Service
         // tạo request của ale pay
         $aleResponse = $this->alepayService->createPaymentRequest($paymentData->all());
         if ($aleResponse->isSuccess) {
-            // $paymentData->transactionCode = $aleResponse->transactionCode;
-            // $paymentData->currentConnectCount = $user->connect_count;
-            // $paymentData->packageConnectCount = $package->connect_count;
             $paymentRequest = $this->transactionRepository->create(array_merge((array) $advance, [
                 'type' => PaymentTransaction::TYPE_BUY_SERVICE,
                 'order_id' => $package->id,
@@ -511,15 +518,14 @@ class PaymentService extends Service
         if ($payment->type == PaymentTransaction::TYPE_BUY_SERVICE) {
             if (!($user = $this->userRepository->find($payment->user_id)))
                 $message = 'Không thấy user';
-            else{
+            else {
                 $package = $this->packageRepository->find($payment->order_id);
-                if($user->type == User::AGENT && $agent = get_agent_account($user->id)){
-                    $agent->month_balance += ($package)?$package->quantity:0;
+                if ($user->type == User::AGENT && ($agent = get_agent_account($user->id)) && $payment->role == User::AGENT) {
+                    $agent->month_balance += ($package) ? $package->quantity : 0;
                     // dd($agent, $package);
                     $agent->save();
-                }else{
-                    $update = $this->userService->addMonth($package?$package->quantity:0);
-
+                } else {
+                    $update = $this->userService->addMonth($user->id, $package ? $package->quantity : 0);
                 }
                 $this->plusMoney($user, $payment->amount, 0);
                 return true;
@@ -581,7 +587,7 @@ class PaymentService extends Service
         $money = $percent * $amount / 100;
         $wallet->balance += $money;
         $wallet->save();
-        $agent->revenue+= $money;
+        $agent->revenue += $money;
         $agent->save();
         return $this->plusMoney($agent, $amount, $level + 1);
     }

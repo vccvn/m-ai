@@ -2,10 +2,11 @@
 
 namespace App\Web;
 
+use Countable;
 use Gomee\Helpers\Arr;
 use Illuminate\Support\Facades\View;
 
-class HtmlComponentList
+class HtmlComponentList implements Countable
 {
     protected $components = [];
     protected $renderedComponents = '';
@@ -147,6 +148,12 @@ class HtmlComponentList
         $this->renderedComponents = $a;
         return $a;
     }
+
+    public function count(): int
+    {
+        return count($this->componentList);
+    }
+
 
     public function __get($name)
     {

@@ -32,10 +32,11 @@ class IconGetClass extends Command
             $expression = '/\.'. $this->argument('prefix') .'\-([^\:]+)\:before/i';
             echo "$expression\n";
             preg_match_all($expression, $content, $matches);
-            print_r($matches[1]);
+            print_r($matches);
+            // return 0;
             if($matches[2]){
                 $data = [
-                    'bx' => [],
+                    'flaticon' => [],
                     'bxs' => [],
                     'bxl' => []
                 ];

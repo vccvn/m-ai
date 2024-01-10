@@ -33,6 +33,41 @@
     z-index: 100;
 }
 
+.side-nav-responsive{
+    .acc-buttons{
+        position: absolute;
+        z-index: 999;
+        right: 102px ;
+        top: 12px;
+        a{
+            display: inline-block;
+            padding-left: 12px;
+            padding-right: 12px;
+            color: #ff3900;
+            height: 30px;
+            line-height: 30px;
+            &:not(:last-child){
+                border-right: 0.1px dotted #ff3900;
+            }
+
+        }
+    }
+}
+.container-max-2{
+    .acc-buttons{
+        a{
+            display: inline-block;
+            padding-left: 12px;
+            padding-right: 12px;
+            color: #fff;
+            &:not(:last-child){
+                border-right: 0.1px dotted #fff;
+            }
+
+        }
+    }
+}
+
 .inner-banner {
     &.banner-size-small {
         height: 174px;

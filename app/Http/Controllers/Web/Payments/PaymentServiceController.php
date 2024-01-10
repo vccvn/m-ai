@@ -119,7 +119,7 @@ class PaymentServiceController extends WebController
         extract($this->apiDefaultData);
         $user = $this->userRepository->first(['id' => $request->user()->id]);
 
-        $validator = $this->repository->validator($request, ServicePaymentValidator::class);
+        $validator = $this->transactionRepository->validator($request, ServicePaymentValidator::class);
         if (!$validator->success()) {
             $message = 'Dữ liệu gửi lên không hợp lệ';
             $errors = $validator->errors();
@@ -129,11 +129,16 @@ class PaymentServiceController extends WebController
             $message = 'Số dư của đại lý của bạn không đủ để thực hiện giao dịch';
         elseif ($package->wholesale_price == 0) {
             $this->agentRepository->updateMonthBalance($user->id, $package->quantity);
-            return redirect()->route('merchant.payments.transactions.list')->with('success', 'Chúc mừng bạn đã được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+            return redirect()->route('web.account.info')->with('success', 'Chúc mừng bạn đã được cộng thêm ' . $package->quantity . ' tháng sử dụng');
         } elseif (!($method = $this->methodRepository->first($request->payment_method_id ? ['id' => $request->payment_method_id] : []))) {
             $message = 'Phương thức thanh toán không hợp lệ';
         }
-        elseif($paymentData = $this->paymentService->createServicePayment($package, $method, $user, ['success_redirect_url' => $request->success_redirect_url, 'cancel_redirect_url' => $request->cancel_redirect_url, 'error_redirect_url' => $request->error_redirect_url])){
+        elseif($paymentData = $this->paymentService->createServicePayment($package, $method, $user, [
+            'success_redirect_url' => route('web.account.info'),
+            'cancel_redirect_url' => route('web.payments.detail', ['id' => $package->id]),
+            'error_redirect_url' => route('web.payments.options'),
+            'role' => User::USER
+        ])){
             return redirect($paymentData['payment']['checkout_url']);
             $status = true;
             $data = $paymentData;
@@ -158,7 +163,7 @@ class PaymentServiceController extends WebController
             return $redirect('error', 'Số tháng không hợp lệ');
         if($month > $agent->month_balance)
             return $redirect('error', 'Số tháng không được vượt quá số dư của bạn')->withErrors(['month' => 'Số dư của bạn chỉ còn ' . $agent->month_balance . ' tháng']);
-        if(!$this->userService->addMonth($month))
+        if(!$this->userService->addMonth($user->id, $month))
             return $redirect('error', 'Không thể gia hạn sử dụng AI');
         $agent->month_balance-=$month;
         $agent->save();

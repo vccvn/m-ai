@@ -73,6 +73,6 @@ class UserService extends Service
             $datetime = Carbon::now()->addMonths($month);
         else
             $datetime = Carbon::parse($user->expired_at)->addMonths($month);
-        return $this->update($user->id, ['expired_at' => $datetime->toDateTimeString()]);
+        return $this->repository->update($user->id, ['expired_at' => $datetime->toDateTimeString()]);
     }
 }

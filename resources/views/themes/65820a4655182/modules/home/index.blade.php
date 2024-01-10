@@ -1,5 +1,7 @@
 @extends($_layout . 'home')
 @section('content')
+
+    {!! $html->home_area->components !!}
     <div class="banner-area-two">
         <div class="container-fluid">
             <div class="container-max-2">

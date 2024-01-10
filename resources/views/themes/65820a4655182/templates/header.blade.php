@@ -16,7 +16,7 @@
 <div class="navbar-area">
 
     <div class="mobile-nav">
-        <a href="{{route('home')}}" class="logo">
+        <a href="{{ route('home') }}" class="logo">
             <img src="{{ $mobile_logo }}" class="logo-one" alt="Logo">
             <img src="{{ $desktop_logo }}" class="logo-two" alt="Logo">
         </a>
@@ -25,9 +25,15 @@
     <div class="main-nav nav-bar-two">
         <div class="container-fluid">
             <nav class="container-max-2 navbar navbar-expand-md navbar-light ">
-                <a class="navbar-brand" href="{{route('home')}}">
-                    <img src="{{ $desktop_logo }}" alt="{{$siteinfo->site_name}}">
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    <img src="{{ $desktop_logo }}" alt="{{ $siteinfo->site_name }}">
                 </a>
+                <div class="acc-buttons">
+                    <a href="{{route('merchant.dashboard')}}" class="acc-btn acc-agent">Đại lý</a>
+                    <a href="{{route('web.account')}}" class="acc-btn acc-user">Thành viên</a>
+
+                </div>
+
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav m-auto">
                         <li class="nav-item">
@@ -150,7 +156,7 @@
                         @endif
                         <div class="side-item">
                             <div class="user-btn">
-                                <a href="#">
+                                <a href="{{ route('web.account.info') }}">
                                     <i class="flaticon-contact"></i>
                                 </a>
                             </div>
@@ -163,9 +169,9 @@
                                         {{-- <i class="bx bx-money"></i> --}}
                                         @php
                                             $text = $header->addon_button_text('100.000đ');
-                                            if($user = auth()->user()){
+                                            if ($user = auth()->user()) {
                                                 $wallet = get_user_wallet($user->id);
-                                                if($wallet){
+                                                if ($wallet) {
                                                     $text = get_price_format($wallet->balance, 'VND');
                                                 }
                                             }
@@ -182,6 +188,12 @@
     </div>
     <div class="side-nav-responsive">
         <div class="container">
+            <div class="acc-buttons">
+                <a href="{{route('merchant.dashboard')}}" class="acc-btn acc-agent">Đại lý</a>
+                <a href="{{route('web.account')}}" class="acc-btn acc-user">Thành viên</a>
+
+            </div>
+
             <div class="dot-menu">
                 <div class="circle-inner">
                     <div class="circle circle-one"></div>
@@ -209,8 +221,16 @@
                             <div class="side-item">
                                 <div class="nav-add-btn">
                                     <a href="{{ $header->addon_button_link('/ai') }}" class="nav-menu-btn border-radius">
-                                        {{ $header->addon_button_text('Dùng thử') }}
-                                        <i class="bx bx-plus"></i>
+                                        @php
+                                            $text = $header->addon_button_text('100.000đ');
+                                            if ($user = auth()->user()) {
+                                                $wallet = get_user_wallet($user->id);
+                                                if ($wallet) {
+                                                    $text = get_price_format($wallet->balance, 'VND');
+                                                }
+                                            }
+                                        @endphp
+                                        {{ $text }}
                                     </a>
                                 </div>
                             </div>
