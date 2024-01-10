@@ -156,7 +156,7 @@ class TransactionController extends MerchantController
             'success_redirect_url' => route('merchant.payments.create'),
             'cancel_redirect_url' => route('merchant.payments.create'),
             'error_redirect_url' => route('merchant.payments.create'),
-            'role' => User::USER
+            'role' => User::AGENT
         ])){
             return redirect($paymentData['payment']['checkout_url']);
             $status = true;

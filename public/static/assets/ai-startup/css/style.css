@@ -9,7 +9,7 @@ This files table contents are outlined below>>>>>
 
 *******************************************
 *******************************************
-** - Default Btn Style 
+** - Default Btn Style
 ** - Section Title Style
 ** - Navbar Area Style
 ** - Main Banner Area CSS  Style
@@ -39,7 +39,7 @@ This files table contents are outlined below>>>>>
 ** - Footer Area Style
 ** - 404 Error Area Style
 ** - Coming Soon Area Style
-** - Page-navigation Area Style 
+** - Page-navigation Area Style
 ** - Preloader CSS Style
 ** - Back To Top Button Style
 ** - Animation CSS Style
@@ -153,7 +153,7 @@ img {
 }
 
 /*================================
-Default Btn Style 
+Default Btn Style
 ===================================*/
 .default-btn {
   padding: 12px 65px 12px 27px;
@@ -265,7 +265,7 @@ Default Btn Style
 Default Btn Style End
 ===================================*/
 /*================================
-Section Title Style 
+Section Title Style
 ===================================*/
 .section-title span {
   line-height: 0;
@@ -1176,7 +1176,7 @@ Search Overlay CSS
 Search Overlay CSS End
 =================================*/
 /*==================================
-Main Banner Area CSS 
+Main Banner Area CSS
 =================================*/
 .banner-area {
   position: relative;
@@ -1878,7 +1878,7 @@ Inner Banner
 Inner Banner End
 ==================================*/
 /*==================================
-Brand Area 
+Brand Area
 =================================*/
 .brand-area {
   position: relative;
@@ -2384,7 +2384,7 @@ About Area
 About Area End
 =================================*/
 /*==================================
-Schedule Area 
+Schedule Area
 =================================*/
 .schedule-width {
   position: relative;
@@ -2443,7 +2443,7 @@ Schedule Area
 Schedule Area End
 =================================*/
 /*==================================
-Serve Area 
+Serve Area
 =================================*/
 .serve-content {
   max-width: 630px;
@@ -2535,7 +2535,7 @@ Serve Area
 Serve Area End
 =================================*/
 /*==================================
-Counter Area 
+Counter Area
 =================================*/
 .counter-area {
   background-image: url(../img/shape/counter-bg.png);
@@ -2715,7 +2715,7 @@ Progress Area
 Progress Area End
 =================================*/
 /*==================================
-Seo Area 
+Seo Area
 =================================*/
 .seo-area {
   position: relative;
@@ -2827,7 +2827,7 @@ Seo Area
 Seo Area End
 =================================*/
 /*==================================
-Service Area 
+Service Area
 =================================*/
 .service-area {
   position: relative;
@@ -3387,7 +3387,7 @@ Service Area
 Service Area End
 =================================*/
 /*==================================
-Service Details Area 
+Service Details Area
 =================================*/
 .service-left {
   margin-bottom: 30px;
@@ -3709,10 +3709,10 @@ Service Details Area
 }
 
 /*==================================
-Service Details Area End 
+Service Details Area End
 =================================*/
 /*==================================
-Case Studies Area 
+Case Studies Area
 =================================*/
 .case-studies-content .images-top {
   margin-bottom: 30px;
@@ -3788,7 +3788,7 @@ Case Studies Area
 }
 
 /*==================================
-Case Studies Area End 
+Case Studies Area End
 =================================*/
 /*==================================
 History Area
@@ -3902,7 +3902,7 @@ History Area
 History Area End
 =================================*/
 /*==================================
-Courses Area 
+Courses Area
 =================================*/
 .courses-area .section-title p {
   max-width: 720px;
@@ -4536,7 +4536,7 @@ Courses Area End
  Course Details Area Style End
 ===============================*/
 /*==================================
-Work Area 
+Work Area
 =================================*/
 .work-area {
   background-image: url(../img/work-bg.png);
@@ -4624,6 +4624,8 @@ Work Area
 .work-item-list ul li {
   display: block;
   float: right;
+  width: 100%;
+  text-align: right;
   margin-bottom: 30px;
 }
 
@@ -4677,6 +4679,7 @@ Work Area
 .work-item-list-2 ul li {
   display: block;
   float: left;
+  width: 100%;
   margin-bottom: 30px;
 }
 
@@ -4731,7 +4734,7 @@ Work Area
 Work Area End
 =================================*/
 /*==================================
-Mission Area 
+Mission Area
 =================================*/
 .mission-area {
   padding-bottom: 50px;
@@ -4859,7 +4862,7 @@ Mission Area
 Mission Area End
 =================================*/
 /*==================================
-Pricing Area 
+Pricing Area
 =================================*/
 .pricing-area {
   position: relative;
@@ -5077,7 +5080,7 @@ Pricing Area
 Pricing Area End
 =================================*/
 /*==================================
-Team Area 
+Team Area
 =================================*/
 .team-area {
   position: relative;
@@ -5531,7 +5534,7 @@ Team Area
 Team Area End
 =================================*/
 /*==================================
-Testimonial Area 
+Testimonial Area
 =================================*/
 .testimonial-area {
   background-image: url(../img/testimonial/testimonial-bg.jpg);
@@ -5881,7 +5884,7 @@ Testimonial Area
 Testimonial Area End
 =================================*/
 /*==================================
-Blog Area 
+Blog Area
 =================================*/
 .blog-area {
   position: relative;
@@ -6831,7 +6834,7 @@ Project Area
 Project Area End
 =================================*/
 /*==================================
-Faq Area 
+Faq Area
 =================================*/
 .faq-accordion {
   max-width: 100%;
@@ -6943,7 +6946,7 @@ Faq Area End
 }
 
 /*==================================
-Contact Area 
+Contact Area
 =================================*/
 .contact-area {
   padding-top: 50px;
@@ -7203,7 +7206,7 @@ Contact Area
 Contact Area End
 =================================*/
 /*==================================
-User All Area 
+User All Area
 =================================*/
 .user-all-img {
   margin-bottom: 30px;
@@ -7266,7 +7269,7 @@ User All Area End
 }
 
 /*==================================
-Footer Area 
+Footer Area
 =================================*/
 .footer-bg {
   background-image: url(../img/shape/footer-bg.png);
@@ -7590,8 +7593,8 @@ Footer Area End
 /*=================================
 404 Error Area End
 ===================================*/
-/*================================== 
-Coming Soon Area 
+/*==================================
+Coming Soon Area
 ====================================*/
 .coming-soon-area {
   position: relative;
@@ -7779,7 +7782,7 @@ Coming Soon Area
   color: #dc3545 !important;
 }
 
-/*================================== 
+/*==================================
 Coming Soon Area End
 ====================================*/
 /*=================================
@@ -7826,7 +7829,7 @@ Page-navigation Area Style
 Page-navigation Area Style
 ====================================*/
 /*==================================
-Preloader CSS 
+Preloader CSS
 =====================================*/
 .preloader {
   position: fixed;
@@ -7853,7 +7856,7 @@ Preloader CSS
 Preloader CSS End
 =====================================*/
 /*==================================
-Back To Top Button 
+Back To Top Button
 =====================================*/
 #toTop {
   position: fixed;
@@ -7890,7 +7893,7 @@ Back To Top Button
 }
 
 /*==============================
-Back To Top Button 
+Back To Top Button
 =================================*/
 /*==================================
 Animation CSS

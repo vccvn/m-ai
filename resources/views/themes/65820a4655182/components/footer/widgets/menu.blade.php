@@ -1,7 +1,7 @@
 
-<div class="col-lg-2 col-sm-5">
+<div class="col-lg-{{$data->col_lg(2)}} col-sm-{{$data->col_sm(6)}}">
     <div class="footer-widget">
-        <h3>Resources</h3>
+        <h3>{{$data->title('Liên kết')}}</h3>
         <ul class="footer-list">
             <li>
                 <a href="#">Our Scientists</a>
@@ -19,5 +19,10 @@
                 <a href="#">eCommerce</a>
             </li>
         </ul>
+        {!!
+            $helper->getCustomMenu(['id' => $data->menu_id], 1, [
+                'class' => $data->menu_class . ' footer-list'
+            ])
+        !!}
     </div>
 </div>
