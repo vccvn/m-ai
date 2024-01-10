@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Payments;
 
 use App\Http\Controllers\Web\WebController;
 use App\Models\User;
+use App\Repositories\Accounts\AgentRepository;
 use App\Repositories\Payments\MethodRepository;
 use App\Repositories\Payments\PackageRepository;
 use Illuminate\Http\Request;
@@ -60,7 +61,8 @@ class PaymentServiceController extends WebController
         AlePayService $alepayService,
         PaymentService $paymentService,
         Filemanager $filemanager,
-        protected UserService $userService
+        protected UserService $userService,
+        protected AgentRepository $agentRepository
     ) {
         $this->alepayService          = $alepayService;
         $this->userRepository         = $userRepository;
@@ -125,10 +127,10 @@ class PaymentServiceController extends WebController
             $errors = $validator->errors();
         } elseif (!($package = $this->packageRepository->first($request->order_id ? ['id' => $request->order_id] : ['@orderBy' => ['price', 'ASC']])))
             $message = 'Không có gói thanh toán nào dc cấu hình';
-        elseif($package->role == User::AGENT && !$this->agentRepository->checkAgentMonthBalance($package->agent_id, $package->quantity))
-            $message = 'Số dư của đại lý của bạn không đủ để thực hiện giao dịch';
-        elseif ($package->wholesale_price == 0) {
-            $this->agentRepository->updateMonthBalance($user->id, $package->quantity);
+        // elseif($package->role == User::AGENT && !$this->agentRepository->checkAgentMonthBalance($package->agent_id, $package->quantity))
+        //     $message = 'Số dư của đại lý của bạn không đủ để thực hiện giao dịch';
+        elseif ($package->retail_price == 0) {
+            $this->userService->addMonth($user->id, $package->quantity);
             return redirect()->route('web.account.info')->with('success', 'Chúc mừng bạn đã được cộng thêm ' . $package->quantity . ' tháng sử dụng');
         } elseif (!($method = $this->methodRepository->first($request->payment_method_id ? ['id' => $request->payment_method_id] : []))) {
             $message = 'Phương thức thanh toán không hợp lệ';
