@@ -118,6 +118,16 @@ $(() => {
 
     }
 
+    const checkExpired = () => {
+        if (window.__EXPIRED_AT__ != "" && window.__EXPIRED_AT__.length) {
+            return true;
+        }
+        App.Swal.warning('BẠn đã hết thời hạn sử dụng dịch vụ hoặc chưa đăng ký gói AI nào!', null, () => {
+            top.location.href = window.__PAY_OPTION_URL__;
+        })
+        return false;
+    }
+
     let contentWindow = null;
     let isInited = false;
     const initDefault = (prompt_id, topic_id) => {
@@ -146,12 +156,12 @@ $(() => {
     const setChatData = (prompt_id) => window.getContentWindow().setPromptChat(prompt_id);
 
     function openChat(prompt_id, topic_id, turn) {
+        if (!checkExpired())
+            return false;
         $AIPageContentAndFooter.addClass('d-none');
         $chatPreloader.removeClass('d-none');
-        console.log("open Chat")
 
         if (!contentWindow || !isInited) {
-            console.log("not init")
             if (!isInited) initDefault();
             if (!turn) turn = 0;
             if (turn > 4) return 0;
@@ -181,11 +191,10 @@ $(() => {
     renderNav();
     // initDefault();
     $(window).on('load', e => {
-        console.log("loaded")
         initDefault()
     });
     setTimeout(() => {
-        if(!isInited) initDefault();
+        if (!isInited) initDefault();
     }, 2000);
 
     $(document).on('click', ".topic-page .topic-nav-item", function (e) {

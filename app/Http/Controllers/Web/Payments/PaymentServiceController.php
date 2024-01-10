@@ -16,6 +16,7 @@ use App\Repositories\Users\UserRepository;
 use App\Services\Payments\AlePayService;
 use App\Services\Payments\PaymentService;
 use App\Services\Users\UserService;
+use App\Validators\Payments\ServicePaymentValidator;
 use Gomee\Files\Filemanager;
 
 /**
@@ -104,6 +105,44 @@ class PaymentServiceController extends WebController
         return $this->viewModule('pay-options', ['user' => $user, 'packages' => $packages]);
 
 
+    }
+
+    public function packageDetail(Request $request, $id = null){
+        $id = $id?$id:$request->id;
+        if(!$id || !($package = $this->packageRepository->detail($id)))
+            return redirect()->route('web.payments.pay-options')->with('warning', 'Gói bạn chọn không tồn tại');
+        return $this->viewModule('pay-detail', ['package' => $package]);
+
+    }
+
+    public function pay(Request $request){
+        extract($this->apiDefaultData);
+        $user = $this->userRepository->first(['id' => $request->user()->id]);
+
+        $validator = $this->repository->validator($request, ServicePaymentValidator::class);
+        if (!$validator->success()) {
+            $message = 'Dữ liệu gửi lên không hợp lệ';
+            $errors = $validator->errors();
+        } elseif (!($package = $this->packageRepository->first($request->order_id ? ['id' => $request->order_id] : ['@orderBy' => ['price', 'ASC']])))
+            $message = 'Không có gói thanh toán nào dc cấu hình';
+        elseif($package->role == User::AGENT && !$this->agentRepository->checkAgentMonthBalance($package->agent_id, $package->quantity))
+            $message = 'Số dư của đại lý của bạn không đủ để thực hiện giao dịch';
+        elseif ($package->wholesale_price == 0) {
+            $this->agentRepository->updateMonthBalance($user->id, $package->quantity);
+            return redirect()->route('merchant.payments.transactions.list')->with('success', 'Chúc mừng bạn đã được cộng thêm ' . $package->quantity . ' tháng sử dụng');
+        } elseif (!($method = $this->methodRepository->first($request->payment_method_id ? ['id' => $request->payment_method_id] : []))) {
+            $message = 'Phương thức thanh toán không hợp lệ';
+        }
+        elseif($paymentData = $this->paymentService->createServicePayment($package, $method, $user, ['success_redirect_url' => $request->success_redirect_url, 'cancel_redirect_url' => $request->cancel_redirect_url, 'error_redirect_url' => $request->error_redirect_url])){
+            return redirect($paymentData['payment']['checkout_url']);
+            $status = true;
+            $data = $paymentData;
+        }
+        else {
+            $message = $this->paymentService->getErrorMessage();
+        }
+
+        return redirect()->back()->withInput()->with('error', $message);
     }
 
     public function useMonthFromMyAccount(Request $request)

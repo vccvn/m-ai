@@ -28,9 +28,11 @@ Route::controller(PaymentServiceController::class)->middleware('web.auth')->name
     Route::any('pay-options',                                  'payOptions'                  )->name('options');
     Route::post('payment/use-from-my-account',                 'useMonthFromMyAccount'       )->name('use-from-account');
     Route::post('payment/buy-package',                         'buyPackage'                  )->name('buy-package');
+    Route::post('pay',                                         'pay'                         )->name('pay');
 
 });
 Route::controller(PaymentServiceController::class)->name('payments.')->group(function () {
+    Route::any('package-detail/{id?}',                         'packageDetail'               )->name('package-detail');
     Route::any('payment/cancel',                               'cancelTransaction'           )->name('cancel');
     Route::any('payment/complete',                             'completeTransaction'         )->name('complete');
     Route::any('payment/alepay-webhook',                       'alepayWebhook'               )->name('alepay-webhook');

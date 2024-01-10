@@ -105,7 +105,7 @@ class UserValidator extends BaseValidator
             'status'              => 'user_status',
             // 'upload_count'       => 'numeric|min:0|max:9000000',  //
 
-            'affiliate_code'      => 'required|string|max:16', //
+            'affiliate_code'      => 'required|string|max:16|unique_attr', //
             'ref_code'            => 'mixed', //
             // 'wallet_balance'      => 'numeric|min:0|max:99999999',  //
             // 'agent_discount'      => 'numeric|min:0|max:100',  //
