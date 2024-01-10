@@ -156,7 +156,7 @@ class PaymentServiceController extends WebController
             return $redirect('error', 'Bạn không phải đại lý. Không thể sử dụng chức năng này');
         if (!$request->month || !($month = to_number($request->month)) || $month < 1)
             return $redirect('error', 'Số tháng không hợp lệ');
-        if($month < $agent->month_balance)
+        if($month > $agent->month_balance)
             return $redirect('error', 'Số tháng không được vượt quá số dư của bạn')->withErrors(['month' => 'Số dư của bạn chỉ còn ' . $agent->month_balance . ' tháng']);
         if(!$this->userService->addMonth($month))
             return $redirect('error', 'Không thể gia hạn sử dụng AI');

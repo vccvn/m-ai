@@ -26,6 +26,7 @@ Route::name('payments.')->controller(PaymentController::class)->group(function()
 
 Route::controller(PaymentServiceController::class)->middleware('web.auth')->name('payments.')->group(function () {
     Route::any('pay-options',                                  'payOptions'                  )->name('options');
+    Route::any('pay-detail',                                   'packageDetail'                  )->name('detail');
     Route::post('payment/use-from-my-account',                 'useMonthFromMyAccount'       )->name('use-from-account');
     Route::post('payment/buy-package',                         'buyPackage'                  )->name('buy-package');
     Route::post('pay',                                         'pay'                         )->name('pay');
