@@ -224,13 +224,13 @@ $(function () {
         return $chatList.find('#message-block-' + uuid);
     }
 
-    const pushChatMessage = ($chatBlock, role, message) => {
+    const pushChatMessage = ($chatBlock, role, message, id) => {
         if (!$chatBlock) return false;
         if (App.isString($chatBlock))
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        $chatBlock.append(App.str.eval(htmlTemplates[role + "MessageItem"], { role, message, name: role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__ }));
+        $chatBlock.append(App.str.eval(htmlTemplates[role + "MessageItem"], { role, message, name: role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__ , id:id?id:''}));
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
@@ -242,7 +242,7 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        messages.map(message => App.isObject(message) && $chatBlock.append(App.str.eval(htmlTemplates[message.role + "MessageItem"], { role: message.role, message: message.message, name: message.role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: message.role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__ })));
+        messages.map(message => App.isObject(message) && $chatBlock.append(App.str.eval(htmlTemplates[message.role + "MessageItem"], { role: message.role, message: message.message, name: message.role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: message.role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__, id: message.id || '' })));
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();

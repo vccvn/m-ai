@@ -41,10 +41,10 @@ if (!$config->use_trash) {
     $btn_tooltip = 'Xóa';
 }
 $can_edit = $config->has('can_edit') ? $config->can_edit : true;
-$can_edit = $can_edit && check_current_user_permission($route_name_prefix . $config->package . '.update');
+$can_edit = $can_edit;// && check_current_user_permission($route_name_prefix . $config->package . '.update');
 
-$can_delete = $config->can_delete !== false && check_current_user_permission($route_name_prefix . $config->package . '.' . ($list_group == 'trash' ? 'delete' : (!$config->use_trash ? 'delete' : 'move-to-trash')));
-$can_restore = $config->use_trash && $list_group == 'trash' && check_current_user_permission($route_name_prefix . $config->package . '.restore');
+$can_delete = $config->can_delete !== false;// && check_current_user_permission($route_name_prefix . $config->package . '.' . ($list_group == 'trash' ? 'delete' : (!$config->use_trash ? 'delete' : 'move-to-trash')));
+$can_restore = $config->use_trash && $list_group == 'trash';// && check_current_user_permission($route_name_prefix . $config->package . '.restore');
 
 $show_ext_btn = false;
 $buttons = [];
@@ -53,16 +53,16 @@ if ($btns = $config->get('buttons')) {
     $show_ext_btn = true;
     // $buttons = $btns;
     foreach ($btns as $key => $button) {
-        if (array_key_exists('route', $button)) {
-            $rr = $button['route'];
-            if ($rr && ($r = substr($rr, 0, 1) == '.' ? $route_name_prefix . $config->package . $rr : $rr)) {
-                if (check_current_user_permission($r)) {
-                    $buttons[] = $button;
-                }
-            }
-        } else {
+        // if (array_key_exists('route', $button)) {
+        //     $rr = $button['route'];
+        //     if ($rr && ($r = substr($rr, 0, 1) == '.' ? $route_name_prefix . $config->package . $rr : $rr)) {
+        //         if (check_current_user_permission($r)) {
+        //             $buttons[] = $button;
+        //         }
+        //     }
+        // } else {
             $buttons[] = $button;
-        }
+        // }
     }
 }
 $tools = [];
