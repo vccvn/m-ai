@@ -8,6 +8,7 @@ use App\Masks\GPT\CriteriaCollection;
 use App\Models\GPTCriteria;
 use App\Validators\GPT\CriteriaValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * @method CriteriaCollection<CriteriaMask>|GPTCriteria[] filter(Request $request, array $args = []) lấy danh sách GPTCriteria được gán Mask
@@ -28,7 +29,7 @@ class CriteriaRepository extends BaseRepository
 {
     /**
      * class chứ các phương thức để validate dử liệu
-     * @var string $validatorClass 
+     * @var string $validatorClass
      */
     protected $validatorClass = CriteriaValidator::class;
     /**
@@ -53,6 +54,40 @@ class CriteriaRepository extends BaseRepository
     public function getModel()
     {
         return \App\Models\GPTCriteria::class;
+    }
+    public function getInputName($str=null, $id=null, $col = null, $value=null)
+    {
+        if(!$str && $id==null) return null;
+        if(!$str) return null;
+        $aslug = strtoupper(Str::slug($str, '_'));
+        $slug = null;
+        $i = 1;
+        $c = '';
+        $s = true;
+        $args = [];
+        if($col){
+            $args[$col] = $value;
+        }
+        do{
+            $sl = $aslug.$c;
+            $args['name'] = $sl;
+
+            if($pf = $this->first($args)){
+                if($id && $pf->{$pf->getKeyName()} == $id){
+                    $slug = $sl;
+                    $s = false;
+                    break;
+                }
+                $c='_'.$i;
+            }else{
+                $slug = $sl;
+                $s = false;
+                break;
+            }
+
+            $i++;
+        }while($s);
+        return $slug;
     }
 
 }

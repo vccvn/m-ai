@@ -19,7 +19,7 @@ class CriteriaValidator extends BaseValidator
 
         return [
 
-            'label' => 'required|string|max:150|unique_prop',
+            'label' => 'required|string|max:150',
             'type' => 'required|string|in_list:text,textarea,number',
             'description' => 'max:150',
             'placeholder' => 'max:150',

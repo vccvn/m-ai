@@ -12,17 +12,26 @@
         {{-- <figure class="avatar ms-1">
             <img src="{{ai_startup_asset('chat/assets/img/avatar/avatar-8.jpg')}}" class="rounded-circle" alt="image">
         </figure> --}}
+        @php
+            $user = get_login_user();
+        @endphp
         <div class="mt-1">
-            <h5>123 tin</h5>
+            <h5 id="chat-header-title">123 tin</h5>
             <small class="online">
-                Hạn sử dụng đến hết ngày 1/2/34
+                @if ($userExpiredAt = $user->getServiceExpiredInfo('d/m/Y'))
+                    Hạn sử dụng đến ngày {{$userExpiredAt}}
+                @else
+                    <span class="text-danger">
+                        Bạn đã hết thời gian sử dụng M.AI
+                    </span>
+                @endif
             </small>
         </div>
     </div>
     <div class="chat-options">
         <ul class="list-inline">
             <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Search">
-                <a href="javascript:void(0)" class="btn btn-outline-light chat-search-btn" >
+                <a href="javascript:void(0)" class="btn btn-outline-light chat-search-btn">
                     <i class="fas fa-search"></i>
                 </a>
             </li>
