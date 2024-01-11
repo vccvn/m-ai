@@ -13,6 +13,7 @@ use App\Repositories\Users\UserRepository;
 use App\Services\Encryptions\HashService;
 use App\Services\Mailers\Mailer;
 use App\Services\Users\UserService;
+use App\Validators\Users\AgentUserValidator;
 use Carbon\Carbon;
 
 /**
@@ -42,7 +43,7 @@ class UserController extends MerchantController
      */
     public function __construct(UserRepository $UserRepository, UserService $service, protected AgentRepository $agentRepository)
     {
-        $this->repository = $UserRepository;
+        $this->repository = $UserRepository->setValidatorClass(AgentUserValidator::class);
         $this->service = $service;
         $this->init();
     }
@@ -53,7 +54,7 @@ class UserController extends MerchantController
         $user = $request->user();
         $vendor_id = get_web_data('merchant_id',  $user->id);
         // $data->vendor_id = get_web_data('merchant_id',  $vendor_id);
-        $this->repository->where('users.agent_id', $vendor_id);
+        $this->repository->where('users.agent_id', $user->id);
     }
 
     public function beforeGetListView(Request $request, $data)
@@ -90,22 +91,21 @@ class UserController extends MerchantController
     protected function beforeSave(Request $request, $data)
     {
         $this->uploadImageAttachFile($request, $data, 'avatar', get_content_path('users/avatar'));
-
-
-
     }
 
     /**
      * can thiệp sau khi luu
      * @param Request $request
-     * @param Model $model dũ liệu đã được luu
+     * @param User $user dũ liệu đã được luu
      * @return void
      */
-    protected function afterSave(Request $request, $model)
+    protected function afterSave(Request $request, $user)
     {
         // luu thong tin pro file
         // $this->profiles->saveProfile($model->id, $this->data);
-
+        if ($user->type == User::AGENT) {
+            $this->agentRepository->updateAgent($user->id, $request->agent_policy_id);
+        }
     }
 
     public function changeStatus(Request $request)
