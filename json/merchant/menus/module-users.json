@@ -23,13 +23,7 @@
                         "route": "merchant.users.create",
                         "icon": "user-plus"
                     },
-                    {
-                        "text": "Danh sách Đại lý",
-                        "title": "Danh sách đại lý",
-                        "active_key": "agent",
-                        "route": "merchant.users.agent",
-                        "icon": "list-ul"
-                    },
+
                     {
                         "text": "Sổ đen",
                         "title": "Người dùng bị chặn",

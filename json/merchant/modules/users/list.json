@@ -9,9 +9,7 @@
     "data": {
         "types": {
             "user": "Người dùng phổ thông",
-            "customer": "Khách hàng",
-            "shopowner": "Chủ web / shop",
-            "admin": "Người quản trị hệ thông"
+            "agent": "Đại lý"
         },
         "status": {
             "1": "Kích hoạt",
@@ -101,11 +99,6 @@
                 }
             },
 
-            "trust_score": {
-                "title": "Tin cậy",
-                "class": "text-center",
-                "text": ":trust_score"
-            },
             "status": {
                 "title": "Trạng thái",
                 "class": "min-100 text-center",

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Merchant\MerchantController;
 use App\Models\User;
+use App\Repositories\Accounts\AgentRepository;
 use Gomee\Helpers\Arr;
 use App\Repositories\Users\UserRepository;
 use App\Services\Encryptions\HashService;
@@ -39,7 +40,7 @@ class UserController extends MerchantController
      *
      * @return void
      */
-    public function __construct(UserRepository $UserRepository, UserService $service)
+    public function __construct(UserRepository $UserRepository, UserService $service, protected AgentRepository $agentRepository)
     {
         $this->repository = $UserRepository;
         $this->service = $service;
@@ -50,9 +51,9 @@ class UserController extends MerchantController
     public function beforeGetListData(Request $request)
     {
         $user = $request->user();
-        $vendor_id = get_web_data('merchant_id',  $user->type == User::MERCHANT ? $user->id : $user->owner_id);
+        $vendor_id = get_web_data('merchant_id',  $user->id);
         // $data->vendor_id = get_web_data('merchant_id',  $vendor_id);
-        $this->repository->where('users.owner_id', $vendor_id);
+        $this->repository->where('users.agent_id', $vendor_id);
     }
 
     public function beforeGetListView(Request $request, $data)
@@ -66,6 +67,13 @@ class UserController extends MerchantController
         add_js_data('user_custom_urls', [
             'reset2fa_url' => $this->getModuleRoute('reset2fa')
         ]);
+    }
+
+    public function beforeCreate($request, $data)
+    {
+        $user = $request->user();
+        $data->ref_code = $user->affiliate_code;
+        $data->agent_id = $user->id;
     }
 
     public function beforeUpdate($request, $data, $model)
@@ -82,30 +90,9 @@ class UserController extends MerchantController
     protected function beforeSave(Request $request, $data)
     {
         $this->uploadImageAttachFile($request, $data, 'avatar', get_content_path('users/avatar'));
-        $trust_score = 0;
-        if ($data->is_verified_phone)
-            $trust_score += User::TRUST_PHONE_SCORE;
-        if ($data->is_verified_email)
-            $trust_score += User::TRUST_EMAIL_SCORE;
-        if ($data->is_verified_identity)
-            $trust_score += User::TRUST_EKYC_SCORE;
-        if ($this->user && $this->user->hasPayment)
-            $trust_score += User::TRUST_PAY_SCORE;
-        $data->trust_score = $trust_score;
 
-        if ($this->user) {
-            if ($this->user->type != $data->type && in_array($data->type, [User::MERCHANT, User::AGENT_LV1, User::AGENT_LV2])) {
-                $data->agent_expired_at = Carbon::now()->addMonths(discount_setting($data->type.'_contract_renew', 1))->toDateTimeString('millisecond');
-            }
-        }elseif (in_array($data->type, [User::MERCHANT, User::AGENT_LV1, User::AGENT_LV2])) {
-                $data->agent_expired_at = Carbon::now()->addMonths(discount_setting($data->type.'_contract_renew', 1))->toDateTimeString('millisecond');
-        }
 
-        $data->account_data = $data->copy([
-            "bank_name",
-            "bank_account_name",
-            "bank_account_number"
-        ]);
+
     }
 
     /**
@@ -212,45 +199,5 @@ class UserController extends MerchantController
         }
 
         return $this->json(compact(...$this->apiSystemVars));
-    }
-
-    public function updateEncData(Request $request)
-    {
-        $data = [];
-        if (count($users = $this->repository->get())) {
-            foreach ($users as $i => $user) {
-                // if ($user->ci_card_number && strlen($user->ci_card_number) < 20) {
-                //     $user->ci_card_number = HashService::encrypt($user->ci_card_number);
-                //     if ($user->ci_card_front_scan && $fsc = $this->service->encryptCIScan($user->ci_card_front_scan)) {
-                //         $user->ci_card_front_scan = $fsc;
-                //     }
-                //     if ($user->ci_card_back_scan && $bsc = $this->service->encryptCIScan($user->ci_card_back_scan)) {
-                //         $user->ci_card_back_scan = $bsc;
-                //     }
-                //     $user->save();
-                //     echo "Đã mã hoá thông tin user $user->id \n";
-
-                // }else
-                if ($user->ci_card_number && strlen($user->ci_card_number) > 40) {
-                    $ci = HashService::decrypt($user->ci_card_number);
-                    $user->ci_card_number = HashService::decrypt($user->ci_card_number);
-                    if (strlen($ci) > 40) {
-                        $ci = HashService::decrypt($ci);
-                        $user->ci_card_number = $ci;
-
-                        $user->save();
-                    }
-                }
-                // $data[] = [
-                //     'name' => $user->name,
-                //     'username' => $user->username,
-                //     'ci_card_number' => $user->get,
-                //     'ci_card_front_scan' => $user->ci_card_front_scan,
-                //     'ci_card_back_scan' => $user->ci_card_back_scan,
-
-                // ];
-            }
-        }
-        return $data;
     }
 }

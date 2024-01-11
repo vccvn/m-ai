@@ -69,7 +69,10 @@
             "type": "crazyselect",
             "label": "Loại user",
             "required": "true",
-            "call": "get_customer_type_options"
+            "data": {
+                "user": "Người dùng phổ thông",
+                "agent": "Đại lý"
+            }
         },
         "affiliate_code": {
             "type": "text",
@@ -102,25 +105,22 @@
             "placeholder": "Nhập Hạn hợp đồng",
             "data-format": "yyyy-mm-dd hh:ii:ss"
         },
-        "connect_count": {
+        "upload_count": {
             "type": "number",
-            "label": "Số lượt kết nối",
+            "label": "Số lượt tải lên",
             "min": 0,
             "step": 1
         },
-
         "bank_name": {
             "type": "text",
             "label": "Tên ngân hàng",
             "placeholder": "Nhập tên ngân hàng"
         },
-
         "bank_account_name": {
             "type": "text",
             "label": "Chủ tài khoản ngân hàng",
             "placeholder": "Nhập tên chủ tài khoãn"
         },
-
         "bank_account_number": {
             "type": "text",
             "label": "Số tài khoản",
@@ -131,7 +131,6 @@
             "label": "Lý do",
             "placeholder": "Nhập Lý do"
         },
-
         "country_code": {
             "type": "crazyselect",
             "label": "Mã Quốc gia",
@@ -217,10 +216,10 @@
             "label": "Địa chỉ",
             "placeholder": "Nhập địa chỉ..."
         },
-        "identity_card_id": {
-            "type": "text",
-            "label": "CCCD",
-            "placeholder": "Nhập CCCD..."
+        "agent_policy_id": {
+            "type": "select",
+            "label": "Chính sách cho đại lý",
+            "call": "get_agent_policy_options"
         },
         "is_verified_phone_number": {
             "type": "switch",
@@ -250,56 +249,31 @@
                     "gender",
                     "birthday",
                     "email",
-                    "phone_number",
-                    "mbti"
+                    "phone_number"
                 ]
             },
             {
                 "class": "col-md-6",
                 "inputs": [
-                    "avatar"
-                ]
-            },
-            {
-                "class": "col-md-6",
-                "inputs": [
-                    "locale",
-                    "country_code",
-                    "region_id",
-                    "address",
-                    "bio",
-                    "reason",
-                    "agent_discount",
-                    "connect_count",
-                    "identity_card_id",
-                    "is_verified_phone_number",
-                    "is_verified_email",
-                    "is_verified_identity"
+                    "avatar",
+                    "status"
                 ]
             },
             {
                 "title": "Th\u00f4ng tin t\u00e0i kho\u1ea3n",
                 "class": "col-md-6",
                 "inputs": [
-                    "type",
-                    "agent_expired_at",
-                    "status",
-                    "affiliate_code",
-                    "ref_code",
-                    "wallet_balance",
-                    "agent_discount",
                     "username",
                     "password",
                     "password_confirmation"
                 ]
             },
             {
-                "title": "Thông tin ngân hàng ",
                 "class": "col-md-6",
                 "inputs": [
-                    "bank_name",
-                    "bank_account_name",
-                    "bank_account_number"
+                    "type",
+                    "agent_policy_id",
+                    "affiliate_code"
                 ]
             }
         ],

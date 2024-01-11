@@ -8,6 +8,6 @@
             "permiss": "merchant.dashboard",
             "icon": "tachometer-alt"
         },
-        "@modules": ["payments"]
+        "@modules": ["users","payments"]
     }
 }
