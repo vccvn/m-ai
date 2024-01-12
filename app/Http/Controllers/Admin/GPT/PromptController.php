@@ -72,4 +72,7 @@ class PromptController extends AdminController
         $data->prompt_config = $c['text']??'';
     }
 
+    public function getImportForm(Request $request) {
+        return $this->viewModule('import');
+    }
 }

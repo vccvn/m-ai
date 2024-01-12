@@ -1,11 +1,10 @@
 <?php
 namespace App\Services\GPT;
-
-use App\Excels\PromptImporter;
 use App\Models\GPTPrompt;
 use App\Repositories\GPT\CriteriaRepository;
 use App\Repositories\GPT\PromptRepository;
 use App\Repositories\GPT\TopicRepository;
+use App\Tools\PromptImporter;
 use Gomee\Html\Dom\HtmlDomParser;
 use Illuminate\Http\Request;
 

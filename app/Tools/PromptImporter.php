@@ -6,10 +6,17 @@ use App\Engines\Excel;
 use Gomee\Helpers\Arr;
 use Gomee\Tools\Office\SmartSheet;
 
+/**
+ * @method PromptRow[]|array[] getSheetData($sheetIndex = null, $options = []) Lấy dữ liệu trang tính
+ */
 class PromptImporter extends SmartSheet
 {
 
+
     const IMPORT_SHEET_INDEX = 0;
+
+    protected $rowClass = PromptRow::class;
+
     /**
      * cac tuoc tinh sheet user
      *

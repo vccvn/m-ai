@@ -26,9 +26,16 @@
                     {
                         "text": "Prompt",
                         "title": "Danh sách prompt",
-                        "active_key": "trash",
+                        "active_key": "gpt.prompt",
                         "route": "admin.gpt.prompts.list",
                         "icon": "book-open"
+                    },
+                    {
+                        "text": "Nhập Prompt",
+                        "title": "Nhập prompt",
+                        "active_key": "import-form",
+                        "route": "admin.gpt.prompts.import-form",
+                        "icon": "file-excel"
                     }
                 ]
             }

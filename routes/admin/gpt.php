@@ -40,13 +40,16 @@ Route::prefix('topics')->name('.topics')->controller(TopicController::class)->gr
 
 
 Route::prefix('prompts')->name('.prompts')->controller(PromptController::class)->group(function () use ($master) {
-    $warehouseMaster = admin_routes(
+    $promptMaster = admin_routes(
         // khai bao route
         null, true, true,
         // khai bao module
         true, null, "Quản lý các prompt", "Cho phép quản lý Các prompt",
         $master
     );
+
+    $promptMaster->addActionByRouter(Route::get('import.html', 'getImportForm')->name('.import-form'), ['create', 'update'], 'Import Form');
+
 });
 Route::prefix('criteria')->name('.criteria')->controller(CriteriaController::class)->group(function () use ($master) {
     $warehouseMaster = admin_routes(
