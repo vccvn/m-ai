@@ -2,27 +2,26 @@
 function addAiPromptEditor($content) {
     var tinyEditor;
     var h = 300;
-    var $content = $('textarea.ai-prompt');
+    // var $content = $('textarea.ai-prompt');
     if ($content.attr('height')) {
         h = $content.attr('height');
     }
 
     var options = {
-        selector: 'textarea.ai-prompt',
+        selector: '#' + $content.attr('id'),
         branding: false,
         language: "vi",
         height: h,
         plugins: [
-            'print preview powerpaste importcss searchreplace autolink autosave save directionality ',
-            'visualblocks visualchars fullscreen image link media  template codesample table ',
-            'charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists  wordcount  a11ychecker ',
-            'imagetools textpattern noneditable help formatpainter charmap mentions emoticons noneditable'
+            'autosave save directionality ',
+            'visualblocks visualchars ',
+            'textpattern noneditable'
             // "advlist autolink link image lists charmap print preview hr anchor pagebreak",
             // "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
             // "table contextmenu directionality emoticons paste textcolor code openGallery" advcode
         ],
         mobile: {
-            plugins: 'print preview powerpaste importcss searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media  template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists  wordcount  a11ychecker textpattern noneditable help formatpainter charmap mentions emoticons noneditable'
+            plugins: 'autosave save directionality noneditable'
         },
         image_advtab: true,
         relative_urls: false,
@@ -61,17 +60,16 @@ if ($('textarea.ai-prompt').length) {
         const element = $content[index];
         addAiPromptEditor($(element));
     }
-    console.log($content);
 
 }
-window.addNonEditableBlock = function(id, text){
+window.addNonEditableBlock = function (id, text) {
     var $editor = tinymce.activeEditor;
-    var content = '<span class="mceNonEditable criteria-tag" role="criteria" data-id="'+id+'">[' + text + ']</span>';
+    var content = '<span class="mceNonEditable criteria-tag" role="criteria" data-id="' + id + '">[' + text + ']</span>';
     $editor.execCommand('mceInsertContent', false, content);
 }
 
-$(function(){
-    $(document).on("click", ".criteria-list .criteria-item", function(e){
+$(function () {
+    $(document).on("click", ".criteria-list .criteria-item", function (e) {
         e.preventDefault();
         window.addNonEditableBlock($(this).data('id'), $(this).data('label'));
     })

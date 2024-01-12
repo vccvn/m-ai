@@ -46,7 +46,7 @@ class TopUserWeekly extends Excel
 
     }
 
-    public function getIndeexes()
+    public function getIndexes()
     {
         return [
             'user' => static::USERS_SHEET_INDEX
@@ -126,7 +126,7 @@ class TopUserWeekly extends Excel
 
     public function setDefaultDateTitleAll($date = null)
     {
-        $indexes = $this->getIndeexes();
+        $indexes = $this->getIndexes();
         foreach ($indexes as $index) {
             $this->setDefaultDateTitle($index, $date);
         }
@@ -135,7 +135,7 @@ class TopUserWeekly extends Excel
 
     public function __call($method, $arguments)
     {
-        $indexes = $this->getIndeexes();
+        $indexes = $this->getIndexes();
         $mt = strtolower($method);
         foreach ($indexes as $key => $index) {
             if (count($mts = explode($key, $mt)) == 2) {

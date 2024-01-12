@@ -47,7 +47,7 @@ class ReportPaymentDownloader extends Excel
         $this->filename = $this->path;
     }
 
-    public function getIndeexes()
+    public function getIndexes()
     {
         return [
             'report' => static::REPORT_SHEET_INDEX,
@@ -143,7 +143,7 @@ class ReportPaymentDownloader extends Excel
 
     public function setDefaultDateTitleAll($date = null)
     {
-        $indexes = $this->getIndeexes();
+        $indexes = $this->getIndexes();
         foreach ($indexes as $index) {
             $this->setDefaultDateTitle($index, $date);
         }
@@ -152,7 +152,7 @@ class ReportPaymentDownloader extends Excel
 
     public function __call($method, $argments)
     {
-        $indexes = $this->getIndeexes();
+        $indexes = $this->getIndexes();
         $mt = strtolower($method);
         foreach ($indexes as $key => $index) {
             if (count($mts = explode($key, $mt)) == 2) {

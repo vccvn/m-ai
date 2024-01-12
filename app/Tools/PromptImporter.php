@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Excels;
+namespace App\Tools;
 
 use App\Engines\Excel;
 use Gomee\Helpers\Arr;
+use Gomee\Tools\Office\SmartSheet;
 
-class ImportPlaceData extends Excel
+class PromptImporter extends SmartSheet
 {
 
     const IMPORT_SHEET_INDEX = 0;
@@ -18,8 +19,10 @@ class ImportPlaceData extends Excel
         'title' => 'Nhập liệu từ file',
         'data_row_start' => 2,
         'columns' => [
-            'region_name'           => 'Tên tỉnh thành',
-            'name'                  => 'Tên địa điểm'
+            'topic_id'              => 'Mã Chủ đề',
+            'name'                  => 'Tên Prompt',
+            'description'           => 'Mô tả',
+            'prompt'                => 'Nội dung prompt',
         ]
     ];
 
@@ -61,7 +64,7 @@ class ImportPlaceData extends Excel
         return $this;
     }
 
-    public function __call($method, $argments)
+    public function __call($method, $arguments)
     {
         $indexes = $this->getIndexes();
         $mt = strtolower($method);
@@ -70,12 +73,12 @@ class ImportPlaceData extends Excel
                 if (in_array($mts[0], ['set', 'add'])) {
                     if (in_array($mts[1], ['datetitle', 'title'])) {
                         if ($mts[1] == 'title') {
-                            $this->setSheetTitle($index, ...$argments);
+                            $this->setSheetTitle($index, ...$arguments);
                         } else {
-                            $this->setDefaultDateTitle($index, ...$argments);
+                            $this->setDefaultDateTitle($index, ...$arguments);
                         }
                     } elseif (in_array($mts[1], ['s', 'list', ''])) {
-                        $this->addRows($index, ...$argments);
+                        $this->addRows($index, ...$arguments);
                     }
 
                     return $this;

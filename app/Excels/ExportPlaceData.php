@@ -36,7 +36,7 @@ class ExportPlaceData extends Excel
         $this->setup($filename, $this->_options, true);
     }
 
-    public function getIndeexes()
+    public function getIndexes()
     {
         return [
             'import' => static::IMPORT_SHEET_INDEX,
@@ -54,7 +54,7 @@ class ExportPlaceData extends Excel
 
     public function setDefaultDateTitleAll($date = null)
     {
-        $indexes = $this->getIndeexes();
+        $indexes = $this->getIndexes();
         foreach ($indexes as $index) {
             $this->setDefaultDateTitle($index, $date);
         }
@@ -63,7 +63,7 @@ class ExportPlaceData extends Excel
 
     public function __call($method, $argments)
     {
-        $indexes = $this->getIndeexes();
+        $indexes = $this->getIndexes();
         $mt = strtolower($method);
         foreach ($indexes as $key => $index) {
             if (count($mts = explode($key, $mt)) == 2) {

@@ -1,9 +1,11 @@
 <?php
 namespace App\Services\GPT;
 
+use App\Excels\PromptImporter;
 use App\Models\GPTPrompt;
 use App\Repositories\GPT\CriteriaRepository;
 use App\Repositories\GPT\PromptRepository;
+use App\Repositories\GPT\TopicRepository;
 use Gomee\Html\Dom\HtmlDomParser;
 use Illuminate\Http\Request;
 
@@ -14,13 +16,15 @@ class PromptService{
         'inputs' => [],
         'text' => ''
     ];
+
+    protected $errorMessage = '';
     /**
      * prompt
      *
      * @var GPTPrompt
      */
     protected $prompt = null;
-    public function __construct(protected CriteriaRepository $criteriaRepository, protected PromptRepository $promptRepository){}
+    public function __construct(protected CriteriaRepository $criteriaRepository, protected PromptRepository $promptRepository, protected TopicRepository $topicRepository){}
 
     /**
      * lay prompt hiện tại
@@ -145,4 +149,50 @@ class PromptService{
         $content = html_entity_decode($content);
         return compact('content', 'message');
     }
+
+    public function importFromExcelFile($file, $topic_id = 0) {
+        $this->errorMessage = '';
+        $importer = new PromptImporter($file);
+        $list = $importer->getSheetData();
+        if(!count($list)){
+            $this->errorMessage = 'Không có dữ liệu';
+            return false;
+        }
+
+        $topicIDS = [$topic_id];
+        $checkList = [];
+        $success = 0;
+        $failed = 0;
+        $promptNeedToCreates = [];
+        // lọc dữ liệu đầu vào
+        foreach ($list as $promptData) {
+            $text = $promptData['prompt']??null;
+            $name = $promptData['name']??null;
+            if(!($text = trim($text)) || !$name){
+                $failed++;
+                continue;
+            }
+            $promptData['prompt'] = $text;
+            $topid = $promptData['topic_id']??null;
+            if($topid){
+                if(!in_array($topid, $checkList))
+                $checkList[] = $topid;
+            }
+            else{
+                $promptData['topic_id'] = $topic_id;
+            }
+            $promptNeedToCreates[] = $promptData;
+
+        }
+
+        // kiểm tra topic
+        if(count($topicIDS) && count($topics = $this->topicRepository->select('id')->get(['id' => $checkList]))){
+            foreach ($topics as $topic) {
+                $topicIDS[] = $topic->id;
+            }
+        }
+    }
+
+
+
 }
