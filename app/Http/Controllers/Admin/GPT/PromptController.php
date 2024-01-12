@@ -10,6 +10,7 @@ use Gomee\Helpers\Arr;
 use App\Repositories\GPT\PromptRepository;
 use App\Services\GPT\PromptService;
 use App\Services\GPT\TopicService;
+use App\Validators\GPT\PromptImportValidator;
 
 /**
  * @property-read PromptService $promptService
@@ -44,7 +45,7 @@ class PromptController extends AdminController
 
     public function beforeGetListData($request)
     {
-        if($topic = $this->topicService->getActiveTopic()){
+        if ($topic = $this->topicService->getActiveTopic()) {
             $this->repository->where('topic_id', $topic->id);
         }
     }
@@ -69,10 +70,24 @@ class PromptController extends AdminController
     {
         $c = $this->promptService->analyticHtmlPrompt($data->prompt);
         $data->config = $c;
-        $data->prompt_config = $c['text']??'';
+        $data->prompt_config = $c['text'] ?? '';
     }
 
-    public function getImportForm(Request $request) {
+    public function getImportForm(Request $request)
+    {
         return $this->viewModule('import');
+    }
+
+    public function import(Request $request)
+    {
+        $validator = $this->repository->validator($request, PromptImportValidator::class);
+        $back = redirect()->back()->withInput();
+        if (!$validator->success())
+            return $back->withErrors($validator->errors())->with('error', 'Thông tin nhập liệu không hợp lệ');
+        if (!($file = $this->uploadFile($request, 'import_file', null, storage_path('data/prompts'))))
+            return $back->with('error', 'Không thể tải lên file nhập liệu');
+        if (!($importData = $this->promptService->importFromExcelFile($file->filepath, $request->topic_id)))
+            return $back->with('error', $this->promptService->getErrorMessage());
+        return $back->with('success', 'Đã thêm thành công ' . $importData['success'] . ' prompt!');
     }
 }

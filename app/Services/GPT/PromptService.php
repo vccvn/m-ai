@@ -17,6 +17,8 @@ class PromptService{
     ];
 
     protected $errorMessage = '';
+    protected $criteriaListById = [];
+    protected $criteriaListByName = [];
     /**
      * prompt
      *
@@ -24,6 +26,10 @@ class PromptService{
      */
     protected $prompt = null;
     public function __construct(protected CriteriaRepository $criteriaRepository, protected PromptRepository $promptRepository, protected TopicRepository $topicRepository){}
+
+    public function getErrorMessage(){
+        return $this->errorMessage;
+    }
 
     /**
      * lay prompt hiện tại
@@ -41,7 +47,8 @@ class PromptService{
         for ($i=0; $i < $t; $i++) {
             $s = $matches[0][$i];
             $id = $matches[1][$i];
-            if($criteria = $this->criteriaRepository->find($id)){
+            if($criteria = $this->getCriterialById($id)){
+                // dump($criteria->toArray());
                 $mark = "[@criteria:{$criteria->id}]";
                 $this->data['criteria'][] = $criteria->id;
                 $this->data['map'][$criteria->name] = $mark;
@@ -67,6 +74,8 @@ class PromptService{
         ];
         return $d;
     }
+
+
 
     /**
      * lấy prompt
@@ -183,6 +192,10 @@ class PromptService{
             $promptNeedToCreates[] = $promptData;
 
         }
+        if(count($promptNeedToCreates) == 0){
+            $this->errorMessage = 'Không có dữ liệu hoặc dữ liệu không hợp lệ';
+            return false;
+        }
 
         // kiểm tra topic
         if(count($topicIDS) && count($topics = $this->topicRepository->select('id')->get(['id' => $checkList]))){
@@ -190,8 +203,77 @@ class PromptService{
                 $topicIDS[] = $topic->id;
             }
         }
+
+        // dd($promptNeedToCreates);
+        foreach ($promptNeedToCreates as $p) {
+            if(!in_array($p['topic_id'], $topicIDS))
+                $p['topic_id'] = $topic_id;
+            $create = $this->createPrompt($p);
+            if($create) $success++;
+        }
+        return ['success' => $success, 'failed' => $failed];
+    }
+
+    public function createPrompt($data) {
+        $data['prompt'] = $this->checkCriteria($data['prompt']);
+        $c = $this->analyticHtmlPrompt($data['prompt']);
+        $data['config'] = $c;
+        $data['prompt_config'] = $c['text'] ?? '';
+        return $this->promptRepository->create($data);
     }
 
 
+    protected function checkCriteria($prompt, $type = 1, $promptSecret = null){
+        $expression = $type == 1?'/\[([^\]]*)\]/i':'/\{([^\}]*)\}/i';
+        preg_match_all($expression, $prompt, $matches);
+        if(!$promptSecret) $promptSecret = $prompt;
+        if(count($matches[1]))
+        foreach ($matches[1] as $i => $key) {
+            $label = null;
+            $name = $key;
+            if(count($p = explode(':', $key)) > 1){
+                $name = array_shift($p);
+                $label = implode(':', $p);
+            }
+            if(!($criteria = $this->getCriterialByName($name)))
+                $criteria = $this->addCriteria($name, $label);
+            if(!$criteria)
+                continue;
+            $promptSecret = str_replace($matches[0][$i], '<span class="mceNonEditable criteria-tag" role="criteria" data-id="' .$criteria->id. '">[' .$criteria->label. ']</span>', $promptSecret);
+        }
+        return $type == 2 ? $promptSecret : $this->checkCriteria($prompt, 2, $promptSecret);
+    }
+
+    protected function getCriterialById($id){
+        if(array_key_exists($id, $this->criteriaListById))
+            return $this->criteriaListById[$id];
+        if(!($criteria = $this->criteriaRepository->find($id)))
+            return null;
+        $this->criteriaListById[$criteria->id] = $criteria;
+        $this->criteriaListByName[$criteria->name] = $criteria;
+        return $criteria;
+    }
+    protected function getCriterialByName($name){
+        $name = strtoupper(str_slug($name, '_'));
+        if(array_key_exists($name, $this->criteriaListByName))
+            return $this->criteriaListByName[$name];
+        if(!($criteria = $this->criteriaRepository->first(['name' => $name])))
+            return null;
+        $this->criteriaListById[$criteria->id] = $criteria;
+        $this->criteriaListByName[$criteria->name] = $criteria;
+        return $criteria;
+    }
+
+    public function addCriteria($name, $label = null){
+        if(!($criteria = $this->getCriterialByName($name))){
+            if(!$label)
+                $label = ucwords(str_replace(['_', '-'], [' ', ' '], $name));
+            $name = $name = strtoupper(str_slug($name, '_'));
+            $criteria = $this->criteriaRepository->create(['name' => $name, 'label' => $label, 'type' => 'text']);
+            $this->criteriaListById[$criteria->id] = $criteria;
+            $this->criteriaListByName[$criteria->name] = $criteria;
+        }
+        return $criteria;
+    }
 
 }

@@ -28,8 +28,9 @@ class PromptImporter extends SmartSheet
         'columns' => [
             'topic_id'              => 'Mã Chủ đề',
             'name'                  => 'Tên Prompt',
-            'description'           => 'Mô tả',
             'prompt'                => 'Nội dung prompt',
+            'description'           => 'Mô tả',
+            'placeholder'           => 'Hướng dẫn nhập liệu'
         ]
     ];
 

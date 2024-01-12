@@ -48,7 +48,8 @@ Route::prefix('prompts')->name('.prompts')->controller(PromptController::class)-
         $master
     );
 
-    $promptMaster->addActionByRouter(Route::get('import.html', 'getImportForm')->name('.import-form'), ['create', 'update'], 'Import Form');
+    $promptMaster->addActionByRouter(Route::get('nhap-lieu.html', 'getImportForm')->name('.import-form'), ['create', 'update'], 'Import Form');
+    $promptMaster->addActionByRouter(Route::post('import', 'import')->name('.import'), ['create', 'update'], 'Import');
 
 });
 Route::prefix('criteria')->name('.criteria')->controller(CriteriaController::class)->group(function () use ($master) {
