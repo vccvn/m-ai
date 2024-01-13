@@ -224,13 +224,14 @@ class PromptService{
 
 
     protected function checkCriteria($prompt, $type = 1, $promptSecret = null){
-        $expression = $type == 1?'/\[([^\]]*)\]/i':'/\{([^\}]*)\}/i';
+        $expression = $type == 1?'/\[([^\]]+)\]/i':'/\{([^\}]+)\}/i';
         preg_match_all($expression, $prompt, $matches);
         if(!$promptSecret) $promptSecret = $prompt;
         if(count($matches[1]))
         foreach ($matches[1] as $i => $key) {
             $label = ucfirst($key);
             $name = $key;
+            if(!$name) continue;
             if(count($p = explode(':', $key)) > 1){
                 $name = array_shift($p);
                 $label = implode(':', $p);

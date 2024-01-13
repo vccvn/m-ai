@@ -51,7 +51,7 @@ class Regex extends Command
         echo "Subject: $subject \n";
         preg_match_all($pattern, $subject, $matches);
         print_r($matches);
-        echo $this->💕();
+        // echo $this->💕();
         return Command::SUCCESS;
     }
 
