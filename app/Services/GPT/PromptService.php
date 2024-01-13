@@ -229,7 +229,7 @@ class PromptService{
         if(!$promptSecret) $promptSecret = $prompt;
         if(count($matches[1]))
         foreach ($matches[1] as $i => $key) {
-            $label = null;
+            $label = ucfirst($key);
             $name = $key;
             if(count($p = explode(':', $key)) > 1){
                 $name = array_shift($p);
