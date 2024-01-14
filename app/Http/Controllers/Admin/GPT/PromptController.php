@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\GPT;
 
 use App\Http\Controllers\Admin\AdminController;
-
+use App\Models\GPTPrompt;
 use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
 
@@ -71,6 +71,18 @@ class PromptController extends AdminController
         $c = $this->promptService->analyticHtmlPrompt($data->prompt);
         $data->config = $c;
         $data->prompt_config = $c['text'] ?? '';
+    }
+
+    /**
+     * hanh dong sau khi luu thanh cong
+     *
+     * @param Request $request
+     * @param GPTPrompt $result
+     * @return void
+     */
+    public function afterSave($request, $result)
+    {
+        $this->promptService->updatePromptTopicMap($result->id, $result->topic_id);
     }
 
     public function getImportForm(Request $request)

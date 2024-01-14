@@ -5,6 +5,7 @@ namespace App\Services\GPT;
 use App\Models\GPTPrompt;
 use App\Repositories\GPT\CriteriaRepository;
 use App\Repositories\GPT\PromptRepository;
+use App\Repositories\GPT\PromptTopicRepository;
 use App\Repositories\GPT\TopicRepository;
 use App\Tools\PromptImporter;
 use Gomee\Html\Dom\HtmlDomParser;
@@ -22,19 +23,33 @@ class PromptService
     protected $errorMessage = '';
     protected $criteriaListById = [];
     protected $criteriaListByName = [];
+
+    protected $topicMap = [];
     /**
      * prompt
      *
      * @var GPTPrompt
      */
     protected $prompt = null;
-    public function __construct(protected CriteriaRepository $criteriaRepository, protected PromptRepository $promptRepository, protected TopicRepository $topicRepository)
-    {
+    public function __construct(
+        protected CriteriaRepository $criteriaRepository,
+        protected PromptRepository $promptRepository,
+        protected TopicRepository $topicRepository,
+        protected PromptTopicRepository $promptTopicRepository
+    ) {
     }
 
     public function getErrorMessage()
     {
         return $this->errorMessage;
+    }
+
+    public function getTopicMap($topic_id)
+    {
+        if (array_key_exists($topic_id, $this->topicMap))
+            return $this->topicMap[$topic_id];
+        $this->topicMap[$topic_id] = ($topic = $this->topicRepository->find($topic_id)) ? $topic->getMap() : [];
+        return $this->topicMap[$topic_id];
     }
 
     /**
@@ -50,6 +65,32 @@ class PromptService
     {
         //
         $expression = '/<span\s[^>]*\s*role=\"criteria\"[^>]*\s*data-id=\"([^\"]+)\"[^>]*>([^<]+)*<\/span>/';
+        $content2 = $content;
+
+        $criterialMap = [];
+
+
+        preg_match_all($expression, $content, $matches);
+        $t = count($matches[0]);
+        for ($i = 0; $i < $t; $i++) {
+            $s = $matches[0][$i];
+            $mark = '<criteria key="' . $i . '">' . $i . '</criteria>';
+            $criterialMap[$mark] = $s;
+            $content2 = str_replace($s, $mark, $content2);
+        }
+
+        $content2 = $this->checkCriteria($content2);
+
+
+        if($criterialMap){
+            foreach ($criterialMap as $key => $value) {
+                $content2 = str_replace($key, $value, $content2);
+            }
+        }
+        $content = $content2;
+
+
+
         preg_match_all($expression, $content, $matches);
         $t = count($matches[0]);
         for ($i = 0; $i < $t; $i++) {
@@ -123,6 +164,9 @@ class PromptService
         return $inputs;
     }
 
+    public function updatePromptTopicMap($prompt_id, $topic_id) {
+        return $this->promptTopicRepository->updatePromptTopics($prompt_id, $this->getTopicMap($topic_id));
+    }
 
     public function getPromptDataFilled(Request $request)
     {
@@ -220,11 +264,21 @@ class PromptService
             if (!in_array($p['topic_id'], $topicIDS))
                 $p['topic_id'] = $topic_id;
             $create = $this->createPrompt($p);
-            if ($create) $success++;
+            if ($create) {
+                $success++;
+                $this->promptTopicRepository->updatePromptTopics($create->id, $this->getTopicMap($create->topic_id));
+
+            }
         }
         return ['success' => $success, 'failed' => $failed];
     }
 
+    /**
+     * create prompt
+     *
+     * @param array $data
+     * @return GPTPrompt
+     */
     public function createPrompt($data)
     {
         $data['prompt'] = $this->checkCriteria($data['prompt']);
@@ -296,4 +350,16 @@ class PromptService
         }
         return $criteria;
     }
+
+
+    public function updateAllPrompt() {
+        $this->promptRepository->chunkById(50, function($prompts){
+            foreach ($prompts as $prompt) {
+                $prompt->slug = str_slug($prompt->name);
+                $prompt->save();
+                $this->updatePromptTopicMap($prompt->id, $prompt->topic_id);
+            }
+        });
+    }
+
 }

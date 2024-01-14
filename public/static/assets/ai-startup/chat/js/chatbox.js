@@ -451,16 +451,18 @@ $(function () {
 
     const parseMessageContent = (data, replace) => {
         let message = '';
-        if (data.prompt_id && data.prompt_name) {
+        if (data.prompt_id && data.prompt_name && data.use_criteria) {
             message = "<h5>" + data.prompt_name + "</h5>\r\n";
         }
         let keys = Object.keys(data.criteria ? data.criteria : {});
-        if (keys.length) {
+        if (keys.length && data.use_criteria) {
             keys.map(k => {
                 message += '<p><strong>' + CRITERIA_LABELS[k] + ': </strong> ' + data.criteria[k] + '</p>' + "\r\n";
             });
-            if (data.message && data.message.length)
+            if (data.message && data.message.length){
                 message += "<br>";
+                message+="<strong>Thông tin liên quan:</strong><br>"
+            }
         }
         message += data.message;
         return message;
@@ -481,7 +483,8 @@ $(function () {
             prompt_name: data.prompt_name,
             criteria: getCriteriaData(),
             message_uuid: App.str.rand(32),
-            use_criteria: data.use_criteria
+            use_criteria: data.use_criteria,
+            firstChat: data.firstChat
         };
 
         currentChatData = {
@@ -518,7 +521,8 @@ $(function () {
             prompt_name: data.prompt_name,
             criteria: getCriteriaData(),
             message_uuid: App.str.rand(32),
-            use_criteria: data.use_criteria
+            use_criteria: data.use_criteria,
+            firstChat: data.firstChat
         }
         currentChatData = {
             id: data.id,

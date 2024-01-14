@@ -55,7 +55,8 @@ class PromptRepository extends BaseRepository
         return \App\Models\GPTPrompt::class;
     }
 
-    public function init() {
+    public function init()
+    {
         $this->setJoinable([
             ['leftJoin', 'gpt_topics', 'gpt_topics.id', '=', 'gpt_prompts.topic_id']
         ]);
@@ -75,5 +76,10 @@ class PromptRepository extends BaseRepository
             $columns[$col] = 'gpt_prompts.' . $col;
         }
         $this->setSortable($columns);
+    }
+
+    public function beforeSave($data, $id = null)
+    {
+        if (array_key_exists('name', $data)) $data['slug'] = str_slug($data['name']);
     }
 }
