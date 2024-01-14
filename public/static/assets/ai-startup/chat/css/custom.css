@@ -105,15 +105,18 @@
   position: absolute;
   top: -32px;
   left: -25px;
-  padding: 6px 12px;
-  display: inline-block;
   align-items: center;
   align-content: center;
-  background-color: #eeeeee;
+  display: flex;
+}
+
+.message-wrapper .chat-message-block .chat-message-header .prompt-top-label .label-box {
+  padding: 6px 12px;
+  display: inline-block;
   color: #5a078b;
+  background-color: #eeeeee;
   font-size: 12px;
   z-index: 100;
-  position: relative;
   border-radius: 15px;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -126,6 +129,12 @@
   color: #000;
   text-decoration: none;
   margin-left: 6px;
+}
+
+.message-wrapper .chat-message-block .chat-message-header .prompt-top-label .criteria-toggle-button {
+  margin-left: 10px;
+  cursor: pointer;
+  padding: 5px 10px;
 }
 
 .message-wrapper .chat-message-block .chat-message-body {
@@ -213,13 +222,21 @@
   padding-bottom: 0;
 }
 
-.message-wrapper.has-criteria .message-input {
-  min-height: 46px;
-}
-
 .message-wrapper.has-criteria .message-input:hover, .message-wrapper.has-criteria .message-input:focus {
   box-shadow: 0px 4px 4px #f5f8ff;
   padding-left: 10px;
+}
+
+.message-wrapper.has-criteria .criteria-wrapper {
+  display: none;
+}
+
+.message-wrapper.has-criteria.ot-criteria .message-input, .message-wrapper.has-criteria.show-criteria .message-input {
+  min-height: 46px;
+}
+
+.message-wrapper.has-criteria.ot-criteria .criteria-wrapper, .message-wrapper.has-criteria.show-criteria .criteria-wrapper {
+  display: block;
 }
 
 .chat-message-form {
@@ -265,8 +282,8 @@
 }
 
 .chat .chat-body .messages .chats.user .message-content {
-  background-color: #e8efff;
-  color: #232323;
+  background-color: #5a078b;
+  color: #fff;
   border-radius: 20px 20px 0 20px;
   -webkit-border-radius: 20px 20px 0 20px;
   -moz-border-radius: 20px 20px 0 20px;
@@ -328,6 +345,10 @@
 
 .chat .chat-body .messages .chats.user .message-content .chat-time .time i {
   color: #a3c2ff;
+}
+
+.darkmode .chat .chat-body .messages .chats.chat-right .message-content {
+  background-color: #8480ff;
 }
 
 .chat-history-item {

@@ -132,9 +132,11 @@ class PromptService
         $__mess = str_replace("<br/>", "\r\n", $__mess);
         $__mess = str_replace("<br />", "\r\n", $__mess);
         $__mess = trim(strip_tags($__mess));
-        if (!($prompt = $this->getPrompt($request->prompt_id))) {
+        $messageContent = $request->message;
+        $messageContent = preg_replace('/\sstyle=\"[^\"]\"/i', '', $messageContent);
+        if (!($prompt = $this->getPrompt($request->prompt_id)) || $request->use_criteria != 1) {
 
-            return ['content' => $__mess, 'message' => $request->message];
+            return ['content' => $__mess, 'message' => $messageContent];
         }
 
         $content = $prompt->prompt_config;
@@ -156,7 +158,7 @@ class PromptService
         }
         $message_label = $prompt->message_label ?? 'Thông tin liên quan';
         $message .= "<div class=\"message-info\">{$message_label}</div>\r\n";
-        $message .= "<div class=\"message-detail\">{$request->message}</div>\r\n";
+        $message .= "<div class=\"message-detail\">{$messageContent}</div>\r\n";
 
 
         if (preg_match('/\[\]/', $content)) {

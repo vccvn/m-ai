@@ -37,9 +37,21 @@
 </script>
 
 <script type="text/template" id="prompt-top-label-template">
-    <div class="prompt-top-label">{$name} <a href="#">X</a></div>
+    <div class="prompt-top-label">
+        <span class="label-box">
+            {$name} <a href="#">X</a>
+        </span>
+        {$button}
+    </div>
 </script>
 
+<script type="text/template" id="prompt-top-toggle-buuton-template">
+    <span class="toggle-button criteria-toggle-button">
+        <span class="material-icons">
+            arrow_downward
+        </span>
+    </span>
+</script>
 
 <script type="text/template" id="prompt-criteria-textarea-template">
     <textarea name="criteria[{$name}]" id="prompt-{$name}" class="inp-criteria" data-name="{$name}" placeholder="{$placeholder}"></textarea>

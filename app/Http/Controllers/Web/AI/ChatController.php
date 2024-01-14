@@ -80,7 +80,7 @@ class ChatController extends WebController
                 'message' => $messageData['message']
             ];
 
-            $userMessage = $this->messageRepository->create($cmLog);
+
             $messages = $chat->toGPT();
             $messages[] = $cm;
 
@@ -89,7 +89,7 @@ class ChatController extends WebController
             if (!$data) {
                 if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
                     $chat = $this->chatService->createChat($user->id, $request->prompt_id);
-                    $userMessage = $this->messageRepository->create($cmLog);
+                    // $userMessage = $this->messageRepository->create($cmLog);
                     $messages = $chat->toGPT();
                     $messages[] = $cm;
 
@@ -101,10 +101,10 @@ class ChatController extends WebController
                 $message = $this->chatService->getErrorMessage();
                 return $this->json(compact(...$this->apiSystemVars));
             }
+            $userMessage = $this->messageRepository->create($cmLog);
             $content = $data['content'];
             if (strip_tags($data['content']) == $data['content']) {
-                $contentArrays = explode("
-", $content);
+                $contentArrays = nl2array($content, false);
                 $data['message'] = implode("<br>", array_map(function ($ln) {
                     $i = 0;
                     $s = '';

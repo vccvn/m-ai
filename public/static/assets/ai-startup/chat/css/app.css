@@ -1780,10 +1780,10 @@ ul.list-inline .list-inline-item {
 }
 
 .chat .chat-body .messages .chats .message-content {
-	background-color: #5A078B;
+	background-color: #f9fafb;
 	border-radius: 20px 20px 20px 0;
 	padding: 14px 20px;
-	color: #fff;
+	color: #232323;
 	font-weight: 500;
 }
 
@@ -1796,8 +1796,8 @@ ul.list-inline .list-inline-item {
 }
 
 .chat .chat-body .messages .chats.chats-right .message-content {
-	background-color: #E8EFFF;
-	color: #232323;
+    background-color: #5A078B;
+	color: #fff;
 	border-radius: 20px 20px 0 20px;
 }
 
@@ -5987,7 +5987,7 @@ p:last-child {
 }
 
 .darkmode .chat .chat-body .messages .chats .message-content {
-	background-color: #8480FF;
+	background-color: #f9fafb;
 }
 
 .darkmode .chat .chat-body .messages .chat-profile-name h6 {
@@ -6463,7 +6463,7 @@ p:last-child {
 .darkmode .chat-menus > ul > li > a > span,
 .darkmode .bottom-menus > ul > li > a > span {
 	background-color: #36404A;
-	box-shadow: none; 
+	box-shadow: none;
 }
 
 .darkmode .chat-menus ul li a span.material-icons,

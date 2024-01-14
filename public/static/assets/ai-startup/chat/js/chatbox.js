@@ -5,11 +5,14 @@ $(function () {
         prompt_name: '',
         id: null,
         message: '',
+        use_criteria: 0,
         chat_name: App.date('H:i', +7),
         name: window.__USER_NAME__,
         uuid: App.str.rand(32),
         hasCriteria: false,
-        criteriaTotal: 0
+        criteriaTotal: 0,
+        showCriteria: false,
+        isFirstChat: true,
     };
 
     let chats = {};
@@ -32,6 +35,7 @@ $(function () {
         criteriaWrapper: $('#prompt-criteria-input-wrapper-template').html(),
         criteriaInput: $('#prompt-criteria-input-template').html(),
         criteriaTextarea: $('#prompt-criteria-textarea-template').html(),
+        criteriaToggleButton: $('#prompt-top-toggle-buuton-template').html(),
     };
     const tempElement = document.createElement('div');
     const $form = $('#chat-message-form');
@@ -131,6 +135,7 @@ $(function () {
     }
 
     const newChat = (prompt_id, chat_id) => {
+        chatData.isFirstChat = true;
         let pid = 0;
         if (prompt_id) {
             let n = Number(prompt_id);
@@ -149,7 +154,13 @@ $(function () {
         chatData.prompt_name = '';
         chatData.hasCriteria = false;
         chatData.criteriaTotal = 0;
+        chatData.showCriteria = false;
+        chatData.use_criteria = 0;
+
+
         $messageWrapper.removeClass('has-criteria');
+        $messageWrapper.removeClass('show-criteria');
+        $messageWrapper.removeClass('ot-criteria');
 
         $criteriaWrapper.html('');
         $messageHeader.html("");
@@ -164,13 +175,17 @@ $(function () {
         chatData.chat_name = name;
         chatData.prompt_name = name;
         App.Swal.showLoading();
+
+        $messageWrapper.removeClass('show-criteria');
         App.api.post(INPUT_URL, { prompt_id: id })
             .then(rs => {
                 App.Swal.hideLoading();
-                // console.log(rs.data);
+                console.log(rs.data);
                 if (rs.status && rs.data && rs.data.inputs && rs.data.inputs.length) {
                     chatData.hasCriteria = true;
                     chatData.criteriaTotal = rs.data.inputs.length;
+                    chatData.use_criteria = 1;
+
                     let htmlInputs = rs.data.inputs.map(inp => {
                         CRITERIA_LABELS[inp.name] = inp.label;
                         inp.placeholder = inp.placeholder ? inp.placeholder : 'Nhập ' + inp.label;
@@ -191,7 +206,12 @@ $(function () {
                         + App.str.eval(
                             htmlTemplates.criteriaWrapper, { id: 0, htmlInput: '', label: "Message" }
                         );
-                    $messageHeader.html(App.str.eval(htmlTemplates.promptTopLabel, { name: rs.data.prompt.name }));
+                    $messageHeader.html(
+                        App.str.eval(htmlTemplates.promptTopLabel, {
+                            name: rs.data.prompt.name,
+                            button: htmlTemplates.criteriaToggleButton
+                        })
+                    );
                     $criteriaWrapper.html(htmlInputs);
                     setMessagePlaceholder(rs.data.prompt.placeholder || placeholder || "Nhập thêm nội dung bạn muốn để AI đưa ra thông tin chính xác hơn")
                     let $ta = $criteriaWrapper.find('textarea');
@@ -199,8 +219,16 @@ $(function () {
                         addElementToCheckHeight($ta);
                     }
                     $messageWrapper.addClass('has-criteria');
+                    $messageWrapper.addClass('ot-criteria');
+
+
+
                 } else {
-                    $messageHeader.prepend(App.str.eval(htmlTemplates.promptTopLabel, { id, name }));
+                    $messageHeader.prepend(App.str.eval(htmlTemplates.promptTopLabel, {
+                        id,
+                        name,
+                        button: ""
+                    }));
                     setMessagePlaceholder(placeholder ? placeholder : 'Nhập ' + name);
                 }
                 updateChatBodyPaddingBottom()
@@ -230,12 +258,12 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        $chatBlock.append(App.str.eval(htmlTemplates[role + "MessageItem"], { role, message, name: role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__ , id:id?id:''}));
+        $chatBlock.append(App.str.eval(htmlTemplates[role + "MessageItem"], { role, message, name: role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__, id: id ? id : '' }));
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
-
     }
+
     const pushChatMessageList = ($chatBlock, messages) => {
         if (!$chatBlock || !App.isArray(messages)) return false;
         if (App.isString($chatBlock))
@@ -248,7 +276,35 @@ $(function () {
         window.updateChatScroll();
     }
 
-    const setPrompt = (id, name, placeholder) => {
+
+    const checkToggleButton = () => {
+        let $button = $('.criteria-toggle-button');
+        if (!$button.length)
+            return;
+
+        if (chatData.showCriteria) {
+            $button.html('<span class="material-icons">arrow_downward</span>');
+        }else{
+            $button.html('<span class="material-icons">arrow_upward</span>');
+        }
+
+        updateChatBodyPaddingBottom();
+        window.updateChatScroll();
+    }
+    const toggleCriteriaBlock = () => {
+        if (chatData.showCriteria) {
+            chatData.use_criteria = 0;
+            chatData.showCriteria = false;
+            $messageWrapper.removeClass('show-criteria');
+        } else {
+            chatData.use_criteria = 1;
+            chatData.showCriteria = true;
+            $messageWrapper.addClass('show-criteria');
+        }
+        checkToggleButton()
+
+    }
+    const setPrompt = (id, name, placeholder, hasCriteria) => {
         let pid = 0;
         if (id) {
             let n = Number(id);
@@ -260,7 +316,8 @@ $(function () {
 
         chatData.prompt_id = pid;
         if (name) {
-            $messageHeader.prepend(App.str.eval(htmlTemplates.promptTopLabel, { id, name }));
+            let button = hasCriteria ? htmlTemplates.criteriaToggleButton : "";
+            $messageHeader.prepend(App.str.eval(htmlTemplates.promptTopLabel, { id, name, button }));
             // setMessagePlaceholder(placeholder ? placeholder : 'Nhập ' + name);
             setMessagePlaceholder(placeholder ? placeholder : "Nhập thêm nội dung bạn muốn để AI đưa ra thông tin chính xác hơn")
         }
@@ -271,6 +328,8 @@ $(function () {
     const renderInputs = (inputs) => {
         chatData.hasCriteria = true;
         chatData.criteriaTotal = inputs.length;
+        chatData.showCriteria = true;
+        chatData.use_criteria = 1;
         let htmlInputs = inputs.map(inp => {
             CRITERIA_LABELS[inp.name] = inp.label;
             inp.placeholder = inp.placeholder ? inp.placeholder : 'Nhập ' + inp.label;
@@ -297,6 +356,8 @@ $(function () {
             addElementToCheckHeight($ta);
         }
         $messageWrapper.addClass('has-criteria');
+
+        $messageWrapper.addClass('ot-criteria');
     }
     const addReplyWritting = (uuid) => {
         let $chatBlock = $('#message-block-' + uuid);
@@ -310,6 +371,13 @@ $(function () {
     }
 
     function sendMessage(data) {
+        if(chatData.isFirstChat){
+            chatData.isFirstChat = false;
+            $messageWrapper.removeClass('ot-criteria');
+            if(chatData.hasCriteria){
+                toggleCriteriaBlock();
+            }
+        }
         isSending = true;
         addReplyWritting(data.uuid);
         App.api.post(SEND_URL, data)
@@ -412,7 +480,8 @@ $(function () {
             uuid: data.uuid,
             prompt_name: data.prompt_name,
             criteria: getCriteriaData(),
-            message_uuid: App.str.rand(32)
+            message_uuid: App.str.rand(32),
+            use_criteria: data.use_criteria
         };
 
         currentChatData = {
@@ -448,7 +517,8 @@ $(function () {
             uuid: data.uuid,
             prompt_name: data.prompt_name,
             criteria: getCriteriaData(),
-            message_uuid: App.str.rand(32)
+            message_uuid: App.str.rand(32),
+            use_criteria: data.use_criteria
         }
         currentChatData = {
             id: data.id,
@@ -484,7 +554,7 @@ $(function () {
                 )
             )
         );
-        console.log(cond, chatData, criteria);
+        // console.log(cond, chatData, criteria);
         if (cond) {
             // console.log('không làm gì');
             if (clean) {
@@ -497,17 +567,30 @@ $(function () {
                 }, 20);
             }
         }
-        else if (chatData.hasCriteria && Object.keys(criteria).length < chatData.criteriaTotal) {
+        else if (chatData.hasCriteria && chatData.use_criteria == 1 && Object.keys(criteria).length < chatData.criteriaTotal) {
             App.Swal.warning("Vui lòng nhập đầy dủ các tiêu chí ");
         }
         else {
+            let data = Object.assign({}, chatData);
+            if(data.isFirstChat && chatData.hasCriteria && chatData.criteriaTotal > 0){
+                data.use_criteria = 1;
+            }
             chatData.message = App.str.replace(message, '&nbsp;', ' ');
             if (typeof chats[chatData.uuid] == "undefined" || chatData.type != "continue") {
-                createChat(chatData);
+                createChat(data);
             } else {
-                updateChat(chatData);
+                updateChat(data);
             }
+            if(chatData.isFirstChat){
+                chatData.isFirstChat = false;
 
+
+                $messageWrapper.removeClass('ot-criteria');
+
+                if(chatData.hasCriteria){
+                    toggleCriteriaBlock();
+                }
+            }
             setMessageContent('');
             clearMessageContent();
             if (!chatData.hasCriteria)
@@ -521,16 +604,21 @@ $(function () {
 
 
     const init = () => {
+        $messageWrapper.removeClass('ot-criteria');
+
+        $messageWrapper.removeClass('show-criteria');
+        chatData.isFirstChat = true;
         const DATA = window.__CHAT_DATA__;
         if (!DATA && typeof DATA != "object") {
             return;
         }
         if (DATA.prompt && DATA.prompt.id) {
-            setPrompt(DATA.prompt.id, DATA.prompt.name, DATA.prompt.placeholder);
+            setPrompt(DATA.prompt.id, DATA.prompt.name, DATA.prompt.placeholder, DATA.inputs && DATA.inputs.length);
         }
         if (DATA.inputs && DATA.inputs.length) {
             renderInputs(DATA.inputs);
             chatData.criteriaTotal = DATA.inputs.length;
+
         }
         if (DATA.chat && DATA.chat.id) {
             chatData.id = DATA.chat.id;
@@ -644,7 +732,12 @@ $(function () {
     $(document).on('click', '.chat-history-item', function (e) {
         e.preventDefault();
         openChat({ id: $(this).data('id') });
-    })
+    });
+
+    $(document).on("click", ".criteria-toggle-button", e => {
+        e.preventDefault();
+        toggleCriteriaBlock();
+    });
 
     init();
 
