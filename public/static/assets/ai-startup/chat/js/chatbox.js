@@ -85,6 +85,17 @@ $(function () {
     const strpTags = str => {
         tempElement.innerHTML = str;
         // console.log(tempElement);
+        try {
+            let elements = tempElement.querySelectorAll('[style]');
+            if (elements.length) {
+                for (let index = 0; index < elements.length; index++) {
+                    const element = elements[index];
+                    if(element.style) element.setAttribute("style", "");
+                }
+            }
+        } catch (error) {
+
+        }
         const stringWithoutTags = tempElement.textContent || tempElement.innerText || '';
         // console.log(stringWithoutTags);
         const ss = stringWithoutTags.replace(/<[^>]*>/g, '');
@@ -284,7 +295,7 @@ $(function () {
 
         if (chatData.showCriteria) {
             $button.html('<span class="material-icons">arrow_downward</span>');
-        }else{
+        } else {
             $button.html('<span class="material-icons">arrow_upward</span>');
         }
 
@@ -371,10 +382,10 @@ $(function () {
     }
 
     function sendMessage(data) {
-        if(chatData.isFirstChat){
+        if (chatData.isFirstChat) {
             chatData.isFirstChat = false;
             $messageWrapper.removeClass('ot-criteria');
-            if(chatData.hasCriteria){
+            if (chatData.hasCriteria) {
                 toggleCriteriaBlock();
             }
         }
@@ -459,9 +470,9 @@ $(function () {
             keys.map(k => {
                 message += '<p><strong>' + CRITERIA_LABELS[k] + ': </strong> ' + data.criteria[k] + '</p>' + "\r\n";
             });
-            if (data.message && data.message.length){
+            if (data.message && data.message.length) {
                 message += "<br>";
-                message+="<strong>Thông tin liên quan:</strong><br>"
+                message += "<strong>Thông tin liên quan:</strong><br>"
             }
         }
         message += data.message;
@@ -484,7 +495,7 @@ $(function () {
             criteria: getCriteriaData(),
             message_uuid: App.str.rand(32),
             use_criteria: data.use_criteria,
-            firstChat: data.firstChat
+            isFirstChat: data.isFirstChat
         };
 
         currentChatData = {
@@ -522,7 +533,7 @@ $(function () {
             criteria: getCriteriaData(),
             message_uuid: App.str.rand(32),
             use_criteria: data.use_criteria,
-            firstChat: data.firstChat
+            isFirstChat: data.isFirstChat
         }
         currentChatData = {
             id: data.id,
@@ -558,6 +569,9 @@ $(function () {
                 )
             )
         );
+        if (chatData.isFirstChat && chatData.hasCriteria) {
+            chatData.use_criteria == 1;
+        }
         // console.log(cond, chatData, criteria);
         if (cond) {
             // console.log('không làm gì');
@@ -575,23 +589,23 @@ $(function () {
             App.Swal.warning("Vui lòng nhập đầy dủ các tiêu chí ");
         }
         else {
+            chatData.message = App.str.replace(message, '&nbsp;', ' ');
             let data = Object.assign({}, chatData);
-            if(data.isFirstChat && chatData.hasCriteria && chatData.criteriaTotal > 0){
+            if (data.isFirstChat && chatData.hasCriteria && chatData.criteriaTotal > 0) {
                 data.use_criteria = 1;
             }
-            chatData.message = App.str.replace(message, '&nbsp;', ' ');
             if (typeof chats[chatData.uuid] == "undefined" || chatData.type != "continue") {
                 createChat(data);
             } else {
                 updateChat(data);
             }
-            if(chatData.isFirstChat){
+            if (chatData.isFirstChat) {
                 chatData.isFirstChat = false;
 
 
                 $messageWrapper.removeClass('ot-criteria');
 
-                if(chatData.hasCriteria){
+                if (chatData.hasCriteria) {
                     toggleCriteriaBlock();
                 }
             }
