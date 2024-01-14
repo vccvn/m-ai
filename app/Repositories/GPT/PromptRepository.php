@@ -76,6 +76,7 @@ class PromptRepository extends BaseRepository
             $columns[$col] = 'gpt_prompts.' . $col;
         }
         $this->setSortable($columns);
+        $this->perPage = 50;
     }
 
     public function beforeSave($data, $id = null)
