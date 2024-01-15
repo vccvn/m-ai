@@ -5,6 +5,8 @@
         align-items: center;
         align-content: center;
         .title {
+            cursor: pointer;
+            padding: 10px 20px;
             i {
                 transition: all 0.2s;
                 -moz-transition: all 0.2s;

@@ -5,6 +5,11 @@
   align-content: center;
 }
 
+.bonus-info .bonus-header .title {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
 .bonus-info .bonus-header .title i {
   transition: all 0.2s;
   -moz-transition: all 0.2s;

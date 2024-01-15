@@ -108,7 +108,7 @@
 
 @endsection
 @php
-    add_css_link('/static/features/gpt/prompts/quick-add.min.css');
+    add_css_link('/static/features/gpt/prompts/quick-add.min.css?v=1');
 @endphp
 @section('js')
     <script>
