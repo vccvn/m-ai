@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
 
 use App\Repositories\GPT\PromptRepository;
+use App\Services\GPT\ChatService;
 use App\Services\GPT\PromptService;
 use App\Services\GPT\TopicService;
 use App\Validators\GPT\PromptImportValidator;
@@ -35,10 +36,9 @@ class PromptController extends AdminController
      *
      * @return void
      */
-    public function __construct(PromptRepository $repository, PromptService $promptService, protected TopicService $topicService)
+    public function __construct(PromptRepository $repository, protected PromptService $promptService, protected TopicService $topicService, protected ChatService $chatService)
     {
         $this->repository = $repository;
-        $this->promptService = $promptService;
         $this->init();
         $this->activeMenu('gpt');
     }
@@ -48,6 +48,7 @@ class PromptController extends AdminController
         if ($topic = $this->topicService->getActiveTopic()) {
             $this->repository->where('topic_id', $topic->id);
         }
+
     }
 
     public function beforeGetListView($request, $data)
@@ -101,5 +102,19 @@ class PromptController extends AdminController
         if (!($importData = $this->promptService->importFromExcelFile($file->filepath, $request->topic_id)))
             return $back->with('error', $this->promptService->getErrorMessage());
         return $back->with('success', 'Đã thêm thành công ' . $importData['success'] . ' prompt!');
+    }
+
+    public function getQuickAddForm(Request $request){
+        return $this->viewModule('quick-add');
+    }
+
+    public function quickAdd(Request $request){
+        extract($this->apiDefaultData);
+
+        if(!($promptContent = trim($request->prompt)))
+            $message = 'Nội dung prompt không được bỏ trống';
+        elseif(!$request->topic_id || !($topic = $this->topicService->first(['id' => $request->topic_id])))
+            $message = 'Chủ đề không hợp lệ';
+        return $this->json(compact(...$this->apiSystemVars));
     }
 }

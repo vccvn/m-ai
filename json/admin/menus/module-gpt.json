@@ -36,6 +36,13 @@
                         "active_key": "import-form",
                         "route": "admin.gpt.prompts.import-form",
                         "icon": "file-excel"
+                    },
+                    {
+                        "text": "Thêm nhanh",
+                        "title": "Thêm nhanh",
+                        "active_key": "quick-add-form",
+                        "route": "admin.gpt.prompts.quick-add-form",
+                        "icon": "bolt"
                     }
                 ]
             }

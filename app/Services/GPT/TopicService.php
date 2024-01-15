@@ -1,13 +1,7 @@
 <?php
 namespace App\Services\GPT;
 
-use App\Models\GPTPrompt;
-use App\Repositories\GPT\CriteriaRepository;
-use App\Repositories\GPT\PromptRepository;
 use App\Repositories\GPT\TopicRepository;
-use Gomee\Html\Dom\HtmlDomParser;
-use Illuminate\Http\Request;
-
 class TopicService{
     protected static $activeTopicID = null;
     protected static $activeTopic = null;
@@ -34,4 +28,6 @@ class TopicService{
     {
         return $this->topicRepository->{$name}(...$arguments);
     }
+
+
 }
