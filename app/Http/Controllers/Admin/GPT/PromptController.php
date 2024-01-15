@@ -125,7 +125,7 @@ class PromptController extends AdminController
     {
         $user = $request->user();
         $promptCount = $this->repository->count(['user_id' => $user->id]);
-        return $this->viewModule('quick-add', ['user' => $user, 'promptCount']);
+        return $this->viewModule('quick-add', ['user' => $user, 'promptCount'=>$promptCount]);
     }
 
 
