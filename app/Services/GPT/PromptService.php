@@ -375,7 +375,7 @@ class PromptService
                 'description: là phần mô tả và giải thích nội dung và tác dụng của prompt một cách xúc tích dễ hiểu không được vượt quá 36 từ,',
                 'placeholder: là gợi ý nhập thông tin cho prompt trong ô chat không vượt quá 10 từ, ví dụ: bạn có thể nhập thông tin bổ sung.',
                 'suggest: là gợi ý tối ưu hơn cho prompt vừa phân tích.',
-                'Và tôi chỉ cần kết quả trả về là json không thừa không thiếu',
+                'Và tôi chỉ cần kết quả trả về là json không thừa không thiếu và nếu là ngôn ngữ nào không phải tiếng Việt thì hãy dịch sang tiếng Việt.',
                 'Nội dung prompt cần phân tích như sau: "[]"'
             ]);
             $content = str_replace('[]', $prompt, $promptChat);
