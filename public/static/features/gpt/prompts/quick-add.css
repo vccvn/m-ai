@@ -11,6 +11,7 @@
 }
 
 .bonus-info .bonus-header .title i {
+  position: relative;
   transition: all 0.2s;
   -moz-transition: all 0.2s;
   -ms-transition: all 0.2s;

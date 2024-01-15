@@ -158,7 +158,8 @@
                     App.Swal.warning("Vui lòng chọn chủ đề");
                 else if (!prompt_content || prompt_content.trim() == "")
                     App.Swal.warning("Vui lòng nhập nội dung prompt");
-                else
+                else{
+                    App.Swal.showLoading("Đang xử lý! Vui lòng chờ giât lát");
                     App.api.post("{{ route('admin.gpt.prompts.quick-add') }}", {
                         topic_id,
                         name,
@@ -182,7 +183,7 @@
                     .catch(e => {
                         App.Swal.error('Lỗi hệ thống.\n Vui lòng thử lại sau giây lát')
                         console.log(e.message)
-                    })
+                    })}
 
             });
 
