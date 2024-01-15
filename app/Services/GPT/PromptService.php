@@ -35,8 +35,8 @@ class PromptService
         protected CriteriaRepository $criteriaRepository,
         protected PromptRepository $promptRepository,
         protected TopicRepository $topicRepository,
-        protected PromptTopicRepository $promptTopicRepository,
-        protected ChatService $chatService
+        protected PromptTopicRepository $promptTopicRepository
+        // protected ChatService $chatService
     ) {
     }
 
@@ -379,7 +379,7 @@ class PromptService
                 'Nội dung prompt cần phân tích như sau: "[]"'
             ]);
             $content = str_replace('[]', $prompt, $promptChat);
-            $d = $this->chatService->sendMessages([
+            $d = app(ChatService::class)->sendMessages([
                 ['role' => 'user', 'content' => $content]
             ]);
 
