@@ -192,9 +192,11 @@
                         })
                         .then(rs => {
                             if (rs.status) {
+
+                                App.Swal.hideLoading();
                                 // App.Swal.success("Đã thêm mới prompt thành công");
 
-                                toastr.success("Đã thêm prompt ["+rs.data.name+"] thành công");
+                                toastr.success("Đã thêm prompt [" + rs.data.name + "] thành công");
                                 $promptContent.val('');
                                 $promptName.val('');
                                 $description.val('');
