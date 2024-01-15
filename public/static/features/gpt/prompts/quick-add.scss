@@ -14,12 +14,12 @@
             }
         }
     }
-    .bonus-buttons,
+    .buttons,
     .bonus-body {
         display: none;
     }
     &.show {
-        .bonus-buttons,
+        .buttons,
         .bonus-body {
             display: block;
         }

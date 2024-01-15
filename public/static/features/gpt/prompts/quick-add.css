@@ -13,12 +13,12 @@
   -webkit-transition: all 0.2s;
 }
 
-.bonus-info .bonus-buttons,
+.bonus-info .buttons,
 .bonus-info .bonus-body {
   display: none;
 }
 
-.bonus-info.show .bonus-buttons,
+.bonus-info.show .buttons,
 .bonus-info.show .bonus-body {
   display: block;
 }
