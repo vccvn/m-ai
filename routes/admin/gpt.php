@@ -52,6 +52,7 @@ Route::prefix('prompts')->name('.prompts')->controller(PromptController::class)-
     $promptMaster->addActionByRouter(Route::post('import', 'import')->name('.import'), ['create', 'update'], 'Import');
     $promptMaster->addActionByRouter(Route::get('them-nhanh.html', 'getQuickAddForm')->name('.quick-add-form'), ['create', 'update'], 'Import Form');
     $promptMaster->addActionByRouter(Route::post('quick-add', 'quickAdd')->name('.quick-add'), ['create', 'update'], 'Import');
+    $promptMaster->addActionByRouter(Route::post('analytics', 'analytics')->name('.analytics'), ['create', 'update'], 'Import');
 
 });
 Route::prefix('criteria')->name('.criteria')->controller(CriteriaController::class)->group(function () use ($master) {

@@ -1,0 +1,34 @@
+.bonus-info {
+    .bonus-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        .title {
+            i {
+                transition: all 0.2s;
+                -moz-transition: all 0.2s;
+                -ms-transition: all 0.2s;
+                -o-transition: all 0.2s;
+                -webkit-transition: all 0.2s;
+            }
+        }
+    }
+    .bonus-buttons,
+    .bonus-body {
+        display: none;
+    }
+    &.show {
+        .bonus-buttons,
+        .bonus-body {
+            display: block;
+        }
+        .bonus-header .title i {
+            transform: translate(180deg);
+            -webkit-transform: translate(180deg);
+            -moz-transform: translate(180deg);
+            -ms-transform: translate(180deg);
+            -o-transform: translate(180deg);
+        }
+    }
+}

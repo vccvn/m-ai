@@ -35,7 +35,8 @@ class PromptService
         protected CriteriaRepository $criteriaRepository,
         protected PromptRepository $promptRepository,
         protected TopicRepository $topicRepository,
-        protected PromptTopicRepository $promptTopicRepository
+        protected PromptTopicRepository $promptTopicRepository,
+        protected ChatService $chatService
     ) {
     }
 
@@ -214,7 +215,7 @@ class PromptService
         return compact('content', 'message');
     }
 
-    public function importFromExcelFile($file, $topic_id = 0)
+    public function importFromExcelFile($file, $topic_id = 0, $user_id = 0)
     {
         $this->errorMessage = '';
         $importer = new PromptImporter($file);
@@ -232,6 +233,7 @@ class PromptService
         // lọc dữ liệu đầu vào
         foreach ($list as $promptData) {
             $text = $promptData['prompt'] ?? null;
+            // $text = html_entity_decode($text);
             $name = $promptData['name'] ?? null;
             if (!($text = trim($text)) || !$name) {
                 $failed++;
@@ -245,6 +247,7 @@ class PromptService
             } else {
                 $promptData['topic_id'] = $topic_id;
             }
+            $promptData['user_id'] = $user_id;
             $promptNeedToCreates[] = $promptData;
         }
         if (count($promptNeedToCreates) == 0) {
@@ -289,17 +292,18 @@ class PromptService
     }
 
 
-    protected function checkCriteria($prompt, $type = 1, $promptSecret = null)
+    public function checkCriteria($prompt, $type = 1, $promptSecret = null)
     {
         $expression = $type == 1 ? '/\[([^\]]+)\]/i' : '/\{([^\}]+)\}/i';
         preg_match_all($expression, $prompt, $matches);
         if (!$promptSecret) $promptSecret = $prompt;
         if ($t = count($matches[1]))
             foreach ($matches[1] as $i => $key) {
+                $key = html_entity_decode($key);
                 $label = ucfirst($key);
                 $name = $key;
                 if (!$name) continue;
-                if (in_array($s = str_slug($name), ['chi-tiet', 'mo-ta-chi-tiet']) && $i == $t - 1) {
+                if (in_array($s = str_slug($name), ['chi-tiet', 'mo-ta-chi-tiet', 'thong-tin-chi-tiet']) && $i == $t - 1) {
                     $promptSecret = str_replace($matches[0][$i], '[]', $promptSecret);
                     continue;
                 }
@@ -360,6 +364,35 @@ class PromptService
                 $this->updatePromptTopicMap($prompt->id, $prompt->topic_id);
             }
         });
+    }
+
+    public function analyticPrompt($prompt)  {
+        try {
+            $promptChat = implode("\n", [
+                'phân tích prompt và trả về dử liệu định dạng json với 4 key là name, description, placeholder, suggest. ',
+                'cụ thể như sau:',
+                'name: là tên prompt khoảng 10 từ dựa trên nội dung và tác dụng của prompt,',
+                'description: là phần mô tả và giải thích nội dung và tác dụng của prompt một cách xúc tích dễ hiểu không được vượt quá 36 từ,',
+                'placeholder: là gợi ý nhập thông tin chi tiết cho prompt trong ô chat.',
+                'suggest: là gợi ý tối ưu hơn cho prompt vừa phân tích.',
+                'Và tôi chỉ cần kết quả trả về là json không thừa không thiếu',
+                'Nội dung prompt cần phân tích như sau: "[]"'
+            ]);
+            $content = str_replace('[]', $prompt, $promptChat);
+            $d = $this->chatService->sendMessages([
+                ['role' => 'user', 'content' => $content]
+            ]);
+
+            if($d && array_key_exists('content', $d)){
+                $a = json_decode($d['content'], true);
+                if($a && array_key_exists('name', $a)){
+                    return $a;
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return null;
     }
 
 }

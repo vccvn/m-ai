@@ -24,6 +24,8 @@ class PromptController extends AdminController
 
     protected $flashMode = true;
 
+    protected $analyticData = null;
+
     /**
      * repository chinh
      *
@@ -36,8 +38,12 @@ class PromptController extends AdminController
      *
      * @return void
      */
-    public function __construct(PromptRepository $repository, protected PromptService $promptService, protected TopicService $topicService, protected ChatService $chatService)
-    {
+    public function __construct(
+        PromptRepository $repository,
+        protected PromptService $promptService,
+        protected TopicService $topicService,
+        protected ChatService $chatService
+    ) {
         $this->repository = $repository;
         $this->init();
         $this->activeMenu('gpt');
@@ -48,7 +54,6 @@ class PromptController extends AdminController
         if ($topic = $this->topicService->getActiveTopic()) {
             $this->repository->where('topic_id', $topic->id);
         }
-
     }
 
     public function beforeGetListView($request, $data)
@@ -59,6 +64,18 @@ class PromptController extends AdminController
         ]);
     }
 
+    /**
+     * xu ly truoc khi luu
+     *
+     * @param Request $request
+     * @param Arr $data
+     * @param GPTPrompt $old
+     * @return mixed
+     */
+    public function beforeCreate($request, $data)
+    {
+        $data->user_id = $request->user()->id;
+    }
     /**
      * xu ly truoc khi luu
      *
@@ -99,22 +116,65 @@ class PromptController extends AdminController
             return $back->withErrors($validator->errors())->with('error', 'Thông tin nhập liệu không hợp lệ');
         if (!($file = $this->uploadFile($request, 'import_file', null, storage_path('data/prompts'))))
             return $back->with('error', 'Không thể tải lên file nhập liệu');
-        if (!($importData = $this->promptService->importFromExcelFile($file->filepath, $request->topic_id)))
+        if (!($importData = $this->promptService->importFromExcelFile($file->filepath, $request->topic_id, $request->user()->id)))
             return $back->with('error', $this->promptService->getErrorMessage());
         return $back->with('success', 'Đã thêm thành công ' . $importData['success'] . ' prompt!');
     }
 
-    public function getQuickAddForm(Request $request){
+    public function getQuickAddForm(Request $request)
+    {
         return $this->viewModule('quick-add');
     }
 
-    public function quickAdd(Request $request){
+
+    public function quickAdd(Request $request)
+    {
         extract($this->apiDefaultData);
 
-        if(!($promptContent = trim($request->prompt)))
+        if (
+            !($promptContent = trim($request->prompt))
+            || !($p = nl2br($promptContent)) ||
+            !($promptText = $this->promptService->checkCriteria($p))
+        )
             $message = 'Nội dung prompt không được bỏ trống';
-        elseif(!$request->topic_id || !($topic = $this->topicService->first(['id' => $request->topic_id])))
+        elseif (!$request->topic_id || !($topic = $this->topicService->first(['id' => $request->topic_id])))
             $message = 'Chủ đề không hợp lệ';
+        elseif (!$request->name && !($this->analyticData = $this->promptService->analyticPrompt($promptText)))
+            $message = 'Không thể phân tích prompt';
+        elseif (
+            !($c = $this->promptService->analyticHtmlPrompt($promptText))
+            || !($createData = [
+                'prompt' => $promptText,
+                'prompt_config' => $c['text'] ?? '',
+                'name' => $request->name ?? ($this->analyticData ? ($this->analyticData['name'] ?? '') : ''),
+                'description' => $request->description ?? ($this->analyticData ? ($this->analyticData['description'] ?? '') : ''),
+                'placeholder' => $request->placeholder ?? ($this->analyticData ? ($this->analyticData['placeholder'] ?? '') : ''),
+                'config' => $c,
+                'user_id' => $request->user()->id
+            ])
+        )
+            $message = 'Dữ liệu nhập vào không hợp lệ';
+        elseif (!($data = $this->repository->create($createData)))
+            $message = 'Không thể khởi tão prompt';
+        else {
+            $status = true;
+            $message = 'Đã tạo prompt thành công';
+            $this->promptService->updatePromptTopicMap($data->id, $data->topic_id);
+        }
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
+    public function analytics(Request $request)
+    {
+        extract($this->apiDefaultData);
+
+        if (!($promptContent = trim($request->prompt)))
+            $message = 'Nội dung prompt không được bỏ trống';
+        elseif (!($data = $this->promptService->analyticPrompt($promptContent)))
+            $message = 'Không vó kết quả phân tích prompt';
+        else
+            $status = true;
+
         return $this->json(compact(...$this->apiSystemVars));
     }
 }

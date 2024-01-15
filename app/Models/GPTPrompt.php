@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GPTPrompt extends Model
 {
     public $table = 'gpt_prompts';
-    public $fillable = ['topic_id', 'name', 'slug', 'keywords', 'description', 'prompt', 'prompt_config', 'config', 'placeholder', 'message_required', 'trashed_status'];
+    public $fillable = ['user_id', 'topic_id', 'name', 'slug', 'keywords', 'description', 'prompt', 'prompt_config', 'config', 'placeholder', 'message_required', 'trashed_status'];
 
     public $casts = [
         'config' => 'json'
