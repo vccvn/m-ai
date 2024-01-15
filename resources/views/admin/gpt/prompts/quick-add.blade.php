@@ -77,7 +77,7 @@
                                     <div class="form-group">
                                         <label for="prompt-name">Tên prompt (tuỳ chọn)</label>
                                         <div class="input-group">
-                                            <textarea name="name" id="prompt-namr" class="form-control m-input" placeholder="ví dụ: Tảo bảng thống kê"></textarea>
+                                            <input type="text" name="name" id="prompt-namr" class="form-control m-input" placeholder="ví dụ: Tảo bảng thống kê">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="prompt-placeholder">Nội dung placeholder</label>
                                         <div class="input-group">
-                                            <textarea name="placeholder" id="prompt-placeholder" class="form-control m-input" placeholder="Nhập nội dung placeholder"></textarea>
+                                            <input type="text" name="placeholder" id="prompt-placeholder" class="form-control m-input" placeholder="Nhập nội dung placeholder">
                                         </div>
                                     </div>
                                 </div>

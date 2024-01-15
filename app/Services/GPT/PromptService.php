@@ -373,7 +373,7 @@ class PromptService
                 'cụ thể như sau:',
                 'name: là tên prompt khoảng 10 từ dựa trên nội dung và tác dụng của prompt,',
                 'description: là phần mô tả và giải thích nội dung và tác dụng của prompt một cách xúc tích dễ hiểu không được vượt quá 36 từ,',
-                'placeholder: là gợi ý nhập thông tin cho prompt trong ô chat dựa trên tên và tác dụng của prompt và không vượt quá 10 từ, ví dụ: bạn có thể nhập thông tin bổ sung.',
+                'placeholder: là gợi ý nhập thông tin cho prompt trong ô chat không vượt quá 10 từ, ví dụ: bạn có thể nhập thông tin bổ sung.',
                 'suggest: là gợi ý tối ưu hơn cho prompt vừa phân tích.',
                 'Và tôi chỉ cần kết quả trả về là json không thừa không thiếu',
                 'Nội dung prompt cần phân tích như sau: "[]"'
