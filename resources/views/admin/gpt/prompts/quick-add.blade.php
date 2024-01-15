@@ -110,7 +110,7 @@
                 else if(!prompt_content || prompt_content.trim() == "")
                     App.Swal.warning("Vui lòng nhập nội dung prompt");
                 else
-                    App.api.post("{{route('admin.gpt.promptd.quick-add')}}", {topic_id, name, prompt: prompt_content, description, placeholder})
+                    App.api.post("{{route('admin.gpt.prompts.quick-add')}}", {topic_id, name, prompt: prompt_content, description, placeholder})
                         .then(rs => {
                             if(rs.status){
                                 App.Swal.success("Đã thêm mới prompt thành công");
