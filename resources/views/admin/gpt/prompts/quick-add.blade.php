@@ -14,9 +14,9 @@
     <div class="row mt-4 mt-5">
         <div class="col-sm-8 col-md-8 col-lg-8 ml-auto mr-auto">
             <div class="mb-3">
-                Họ tên : {{$user->name}}
+                Họ tên : {{ $user->name }}
                 <br>
-                Số Prompt đã tạo: <span class="prompt-count">{{$promptCount}}</span>
+                Số Prompt đã tạo: <span class="prompt-count">{{ $promptCount }}</span>
             </div>
             <!--begin::Portlet-->
             <div class="m-portlet">
@@ -117,34 +117,57 @@
 @section('js')
     <script>
         $(function() {
-            let promptCount = {{$promptCount}};
+            let promptCount = {{ $promptCount }};
             let $topicId = $('#topic_id');
             let $promptContent = $('#prompt-content');
             let $promptName = $('#prompt-name');
             let $description = $('#prompt-description');
             let $placeholder = $('#prompt-placeholder');
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
 
             function generateInfo() {
                 let promptContent = $promptContent.val();
-                if(promptContent.trim() == '') return App.Swal.warning('Vui lòng nhập nội dung');
+                if (promptContent.trim() == '') return App.Swal.warning('Vui lòng nhập nội dung');
                 App.Swal.showLoading();
-                App.api.post("{{route('admin.gpt.prompts.analytics')}}", {prompt: promptContent})
-                .then(rs => {
-                    App.Swal.hideLoading();
-                    if(rs.status){
-                        let data = rs.data;
-                        let {name, description, placeholder} = data;
-                        if(name) $promptName.val(name);
-                        if(description) $description.val(description);
-                        if(placeholder) $placeholder.val(placeholder);
-                    }else{
-                        App.Swal.warning(rs.message);
-                    }
-                })
-                .catch(e => {
-                    App.Swal.hideLoading();
-                    App.Swal.error("Lỗi không xác định");
-                })
+                App.api.post("{{ route('admin.gpt.prompts.analytics') }}", {
+                        prompt: promptContent
+                    })
+                    .then(rs => {
+                        App.Swal.hideLoading();
+                        if (rs.status) {
+                            let data = rs.data;
+                            let {
+                                name,
+                                description,
+                                placeholder
+                            } = data;
+                            if (name) $promptName.val(name);
+                            if (description) $description.val(description);
+                            if (placeholder) $placeholder.val(placeholder);
+                        } else {
+                            App.Swal.warning(rs.message);
+                        }
+                    })
+                    .catch(e => {
+                        App.Swal.hideLoading();
+                        App.Swal.error("Lỗi không xác định");
+                    })
             }
             $('#quick-add-form').on('submit', function(e) {
                 e.preventDefault();
@@ -158,32 +181,35 @@
                     App.Swal.warning("Vui lòng chọn chủ đề");
                 else if (!prompt_content || prompt_content.trim() == "")
                     App.Swal.warning("Vui lòng nhập nội dung prompt");
-                else{
+                else {
                     App.Swal.showLoading();
                     App.api.post("{{ route('admin.gpt.prompts.quick-add') }}", {
-                        topic_id,
-                        name,
-                        prompt: prompt_content,
-                        description,
-                        placeholder
-                    })
-                    .then(rs => {
-                        if (rs.status) {
-                            App.Swal.success("Đã thêm mới prompt thành công");
-                            $promptContent.val('');
-                            $promptName.val('');
-                            $description.val('');
-                            $placeholder.val('');
-                            promptCount++;
-                            $('.prompt-count').html(promptCount);
-                        } else {
-                            App.Swal.warning(rs.message);
-                        }
-                    })
-                    .catch(e => {
-                        App.Swal.error('Lỗi hệ thống.\n Vui lòng thử lại sau giây lát')
-                        console.log(e.message)
-                    })}
+                            topic_id,
+                            name,
+                            prompt: prompt_content,
+                            description,
+                            placeholder
+                        })
+                        .then(rs => {
+                            if (rs.status) {
+                                // App.Swal.success("Đã thêm mới prompt thành công");
+
+                                toastr.success("Đã thêm prompt ["+rs.data.name+"] thành công");
+                                $promptContent.val('');
+                                $promptName.val('');
+                                $description.val('');
+                                $placeholder.val('');
+                                promptCount++;
+                                $('.prompt-count').html(promptCount);
+                            } else {
+                                App.Swal.warning(rs.message);
+                            }
+                        })
+                        .catch(e => {
+                            App.Swal.error('Lỗi hệ thống.\n Vui lòng thử lại sau giây lát')
+                            console.log(e.message)
+                        })
+                }
 
             });
 
