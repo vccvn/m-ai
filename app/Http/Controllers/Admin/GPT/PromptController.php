@@ -151,7 +151,7 @@ class PromptController extends AdminController
                 'prompt_config' => $c['text'] ?? '',
                 'name' => $request->name ?? ($this->analyticData ? ($this->analyticData['name'] ?? '') : ''),
                 'description' => $request->description ?? ($this->analyticData ? ($this->analyticData['description'] ?? '') : ''),
-                'placeholder' => $request->placeholder ?? null,// ($this->analyticData ? ($this->analyticData['placeholder'] ?? '') : ''),
+                'placeholder' => $request->placeholder ?? ($this->analyticData ? ($this->analyticData['placeholder'] ?? '') : ''),
                 'config' => $c,
                 'user_id' => $request->user()->id
             ])
