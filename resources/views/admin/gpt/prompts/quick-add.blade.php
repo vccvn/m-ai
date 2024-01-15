@@ -11,9 +11,13 @@
 
 
 
-    <div class="row mt-4 mt-5 pt-4">
-        <div class="col-sm-8 col-md-7 col-lg-6 ml-auto mr-auto">
-
+    <div class="row mt-4 mt-5">
+        <div class="col-sm-8 col-md-8 col-lg-8 ml-auto mr-auto">
+            <div class="mb-3">
+                Họ tên : {{$user->name}}
+                <br>
+                Số Prompt đã tạo: <span class="prompt-count">{{$promptCount}}</span>
+            </div>
             <!--begin::Portlet-->
             <div class="m-portlet">
                 <div class="m-portlet__head">
@@ -113,6 +117,7 @@
 @section('js')
     <script>
         $(function() {
+            let promptCount = {{$promptCount}};
             let $topicId = $('#topic_id');
             let $promptContent = $('#prompt-content');
             let $promptName = $('#prompt-name');
@@ -144,11 +149,11 @@
             $('#quick-add-form').on('submit', function(e) {
                 e.preventDefault();
                 // let fd = new FormData(this);
-                let topic_id = $('#topic_id').val();
-                let prompt_content = $('#prompt-content').val();
-                let name = $('#prompt-name').val();
-                let description = $('#prompt-description').val();
-                let placeholder = $('#prompt-placeholder').val();
+                let topic_id = $topicId.val();
+                let prompt_content = $promptContent.val();
+                let name = $promptName.val();
+                let description = $description.val();
+                let placeholder = $placeholder.val();
                 if (!topic_id || topic_id == 0 || topic_id == "0")
                     App.Swal.warning("Vui lòng chọn chủ đề");
                 else if (!prompt_content || prompt_content.trim() == "")
@@ -164,10 +169,12 @@
                     .then(rs => {
                         if (rs.status) {
                             App.Swal.success("Đã thêm mới prompt thành công");
-                            $('#prompt-content').val('');
-                            $('#prompt-name').val('');
-                            $('#prompt-description').val('');
-                            $('#prompt-placeholder').val('');
+                            $promptContent.val('');
+                            $promptName.val('');
+                            $description.val('');
+                            $placeholder.val('');
+                            promptCount++;
+                            $('.prompt-count').html(promptCount);
                         } else {
                             App.Swal.warning(rs.message);
                         }

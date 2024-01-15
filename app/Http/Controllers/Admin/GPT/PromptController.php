@@ -123,7 +123,9 @@ class PromptController extends AdminController
 
     public function getQuickAddForm(Request $request)
     {
-        return $this->viewModule('quick-add');
+        $user = $request->user();
+        $promptCount = $this->repository->count(['user_id' => $user->id]);
+        return $this->viewModule('quick-add', ['user' => $user, 'promptCount']);
     }
 
 
