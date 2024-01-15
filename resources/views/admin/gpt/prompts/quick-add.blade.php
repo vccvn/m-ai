@@ -127,7 +127,7 @@
             function generateInfo() {
                 let promptContent = $promptContent.val();
                 if(promptContent.trim() == '') return App.Swal.warning('Vui lòng nhập nội dung');
-                App.Swal.showLoading("Đang xử lý! Vui lòng chờ giât lát");
+                App.Swal.showLoading();
                 App.api.post("{{route('admin.gpt.prompts.analytics')}}", {prompt: promptContent})
                 .then(rs => {
                     App.Swal.hideLoading();
@@ -159,7 +159,7 @@
                 else if (!prompt_content || prompt_content.trim() == "")
                     App.Swal.warning("Vui lòng nhập nội dung prompt");
                 else{
-                    App.Swal.showLoading("Đang xử lý! Vui lòng chờ giât lát");
+                    App.Swal.showLoading();
                     App.api.post("{{ route('admin.gpt.prompts.quick-add') }}", {
                         topic_id,
                         name,

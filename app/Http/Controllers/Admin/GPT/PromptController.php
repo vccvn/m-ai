@@ -146,11 +146,12 @@ class PromptController extends AdminController
         elseif (
             !($c = $this->promptService->analyticHtmlPrompt($promptText))
             || !($createData = [
+                'topic_id' => $request->topic_id,
                 'prompt' => $promptText,
                 'prompt_config' => $c['text'] ?? '',
                 'name' => $request->name ?? ($this->analyticData ? ($this->analyticData['name'] ?? '') : ''),
                 'description' => $request->description ?? ($this->analyticData ? ($this->analyticData['description'] ?? '') : ''),
-                'placeholder' => $request->placeholder ?? ($this->analyticData ? ($this->analyticData['placeholder'] ?? '') : ''),
+                'placeholder' => $request->placeholder ?? null,// ($this->analyticData ? ($this->analyticData['placeholder'] ?? '') : ''),
                 'config' => $c,
                 'user_id' => $request->user()->id
             ])
