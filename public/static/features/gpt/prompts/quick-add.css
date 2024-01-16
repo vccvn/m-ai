@@ -30,9 +30,9 @@
 }
 
 .bonus-info.show .bonus-header .title i {
-  transform: relative(180deg);
-  -webkit-transform: relative(180deg);
-  -moz-transform: relative(180deg);
-  -ms-transform: relative(180deg);
-  -o-transform: relative(180deg);
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
