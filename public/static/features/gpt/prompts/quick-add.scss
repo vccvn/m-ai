@@ -27,11 +27,11 @@
             display: block;
         }
         .bonus-header .title i {
-            transform: translate(180deg);
-            -webkit-transform: translate(180deg);
-            -moz-transform: translate(180deg);
-            -ms-transform: translate(180deg);
-            -o-transform: translate(180deg);
-        }
+            transform: relative(180deg);
+            -webkit-transform: relative(180deg);
+            -moz-transform: relative(180deg);
+            -ms-transform: relative(180deg);
+            -o-transform: relative(180deg);
+}
     }
 }
