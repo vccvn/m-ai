@@ -372,8 +372,8 @@ class PromptService
                 'phân tích prompt và trả về dử liệu định dạng json với 4 key là name, description, placeholder, suggest. ',
                 'cụ thể như sau:',
                 'name: là tên prompt khoảng 10 từ dựa trên nội dung và tác dụng của prompt,',
-                'description: là phần mô tả và giải thích nội dung và tác dụng của prompt một cách xúc tích dễ hiểu không được vượt quá 36 từ,',
-                'placeholder: là gợi ý nhập thông tin cho prompt trong ô chat không vượt quá 10 từ, ví dụ: bạn có thể nhập thông tin bổ sung.',
+                'description: là phần mô tả và giải thích tác dụng của prompt một cách xúc tích dễ hiểu không được vượt quá 36 từ,',
+                'placeholder: là gợi ý nhập thông tin cho prompt trong ô chat không vượt quá 10 từ, ví dụ: bạn có thể nhập thông tin bổ sung. thêm ',
                 'suggest: là gợi ý tối ưu hơn cho prompt vừa phân tích.',
                 'Và tôi chỉ cần kết quả trả về là json không thừa không thiếu và nếu là ngôn ngữ nào không phải tiếng Việt thì hãy dịch sang tiếng Việt.',
                 'Nội dung prompt cần phân tích như sau: "[]"'
