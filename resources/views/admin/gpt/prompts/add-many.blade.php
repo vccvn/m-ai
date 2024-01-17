@@ -213,6 +213,8 @@
 
                                 if(rs.data.failed > 0){
                                     App.Swal.warning('Có ' + rs.data.failed + " chưa dc thêm")
+                                }else{
+                                    $inputPrompts.val('');
                                 }
 
                                 promptCount + rs.data.success;
