@@ -166,7 +166,7 @@
                                 let pl = data.map(p => {
                                     i++;
                                     p.i = i;
-                                    App.str.eval(prommptGroupTemplate, p)
+                                   return App.str.eval(prommptGroupTemplate, p)
                                 }).join('');
                                 $('.prompt-list').html(pl);
                             }

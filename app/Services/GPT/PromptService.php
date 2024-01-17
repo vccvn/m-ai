@@ -428,6 +428,7 @@ class PromptService
                 try {
                     $d = $this->analyticPrompt($p);
                     if($d) {
+                        $d['prompt'] = implode("\n", $promptData);
                         $data[] = $d;
                     }
                 } catch (\Throwable $th) {
