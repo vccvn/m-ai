@@ -43,6 +43,13 @@
                         "active_key": "quick-add-form",
                         "route": "admin.gpt.prompts.quick-add-form",
                         "icon": "bolt"
+                    },
+                    {
+                        "text": "Nhập Danh Sách",
+                        "title": "Thêm nhanh danh sách",
+                        "active_key": "add-many",
+                        "route": "admin.gpt.prompts.add-many-form",
+                        "icon": "cubes"
                     }
                 ]
             }
