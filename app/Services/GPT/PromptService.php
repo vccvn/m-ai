@@ -383,6 +383,7 @@ class PromptService
             ]);
             $content = str_replace('[]', $prompt, $promptChat);
             $d = app(ChatService::class)->sendMessages([
+                ['role' => 'system', 'content' => 'Tất cả kết quả trả về nếu có các từ như "ChatGPT", "chat gpt", "Chat GPT" hoặc các từ tương tự thì hãy thay bằng từ "Chuyên gia AI" hoặc "M.Ai". '],
                 ['role' => 'user', 'content' => $content]
             ]);
 
