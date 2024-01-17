@@ -186,7 +186,7 @@
                 let topic_id = $topicId.val();
                 if (!topic_id || topic_id == 0 || topic_id == "0")
                     App.Swal.warning("Vui lòng chọn chủ đề");
-                else if (!prompt_content || prompt_content.trim() == "")
+                else if (!$('.inp-prompt-name').length)
                     App.Swal.warning("Vui lòng nhập nội dung prompt");
                 else {
                     App.Swal.showLoading();
