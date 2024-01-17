@@ -407,7 +407,7 @@ class PromptService
         $promptList = [];
         foreach ($list as $line) {
             $a = trim($line);
-            if($line == ""){
+            if($line != ""){
                 if(!$inPrompt) {
                     $i++;
                     $promptList[$i] = [];
@@ -419,8 +419,8 @@ class PromptService
                 $inPrompt = false;
             }
         }
-        header("Content-Type: application/json");
-        die(json_encode($promptList));
+        // header("Content-Type: application/json");
+        // die(json_encode($promptList));
         if(count($promptList)){
             $data = [];
             foreach ($promptList as $key => $promptData) {
