@@ -89,6 +89,10 @@ class PromptController extends AdminController
         $c = $this->promptService->analyticHtmlPrompt($data->prompt);
         $data->config = $c;
         $data->prompt_config = $c['text'] ?? '';
+        $display_content = $c['display_content']??'';
+        if($display_content) {
+            $data->prompt = $display_content;
+        }
     }
 
     /**

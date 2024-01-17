@@ -90,7 +90,7 @@ class PromptService
         }
         $content = $content2;
 
-
+        $display_content = $content;
 
         preg_match_all($expression, $content, $matches);
         $t = count($matches[0]);
@@ -112,15 +112,18 @@ class PromptService
                 $content = str_replace($s, $mark, $content);
             }
         }
+
         $content = str_replace("/p><p", "/p>\r\n<p", $content);
         $content = str_replace(["<br>", "<br />"], "\r\n", $content);
         $this->data['text'] = html_entity_decode(strip_tags($content));
+        $this->data['display_content'] = $display_content;
         $d = $this->data;
         $this->data = [
             'criteria' => [],
             'map' => [],
             'inputs' => [],
-            'text' => ''
+            'text' => '',
+            'display_content' => ''
         ];
         return $d;
     }
