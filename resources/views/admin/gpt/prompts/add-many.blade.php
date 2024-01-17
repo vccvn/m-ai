@@ -97,6 +97,7 @@
 @section('js')
     <script type="text/template" id="prompt-input-template">
         <div class="prompt-group">
+            <p>#{$i}</p>
             <div class="form-group">
                 <label for="prompt-name-{$i}">Tên prompt (tuỳ chọn)</label>
                 <div class="input-group">
