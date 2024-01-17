@@ -154,7 +154,7 @@
                 let promptContent = $inputPrompts.val();
                 if (promptContent.trim() == '') return App.Swal.warning('Vui lòng nhập danh sách');
                 App.Swal.showLoading();
-                App.api.post("{{ route('admin.gpt.prompts.analytics') }}", {
+                App.api.post("{{ route('admin.gpt.prompts.analytics-list') }}", {
                         prompts: promptContent
                     })
                     .then(rs => {
