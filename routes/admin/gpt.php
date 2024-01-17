@@ -54,6 +54,10 @@ Route::prefix('prompts')->name('.prompts')->controller(PromptController::class)-
     $promptMaster->addActionByRouter(Route::post('quick-add', 'quickAdd')->name('.quick-add'), ['create', 'update'], 'Import');
     $promptMaster->addActionByRouter(Route::post('analytics', 'analytics')->name('.analytics'), ['create', 'update'], 'Import');
 
+    $promptMaster->addActionByRouter(Route::get('nhap-danh-sach.html', 'getAddManyForm')->name('.add-many-form'), ['create', 'update'], 'Import Form');
+    $promptMaster->addActionByRouter(Route::post('add-many', 'addMany')->name('.add-many'), ['create', 'update'], 'Import');
+    $promptMaster->addActionByRouter(Route::post('analytics-list', 'analyticsMany')->name('.analytics-list'), ['create', 'update'], 'Import');
+
 });
 Route::prefix('criteria')->name('.criteria')->controller(CriteriaController::class)->group(function () use ($master) {
     $warehouseMaster = admin_routes(

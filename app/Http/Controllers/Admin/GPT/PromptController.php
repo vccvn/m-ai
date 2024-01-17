@@ -89,8 +89,8 @@ class PromptController extends AdminController
         $c = $this->promptService->analyticHtmlPrompt($data->prompt);
         $data->config = $c;
         $data->prompt_config = $c['text'] ?? '';
-        $display_content = $c['display_content']??'';
-        if($display_content) {
+        $display_content = $c['display_content'] ?? '';
+        if ($display_content) {
             $data->prompt = $display_content;
         }
     }
@@ -125,11 +125,13 @@ class PromptController extends AdminController
         return $back->with('success', 'Đã thêm thành công ' . $importData['success'] . ' prompt!');
     }
 
+
+
     public function getQuickAddForm(Request $request)
     {
         $user = $request->user();
         $promptCount = $this->repository->count(['user_id' => $user->id]);
-        return $this->viewModule('quick-add', ['user' => $user, 'promptCount'=>$promptCount]);
+        return $this->viewModule('quick-add', ['user' => $user, 'promptCount' => $promptCount]);
     }
 
 
@@ -151,7 +153,7 @@ class PromptController extends AdminController
             !($c = $this->promptService->analyticHtmlPrompt($promptText))
             || !($createData = [
                 'topic_id' => $request->topic_id,
-                'prompt' => $promptText,
+                'prompt' => $c['display_prompt'] ?? $promptText,
                 'prompt_config' => $c['text'] ?? '',
                 'name' => $request->name ?? ($this->analyticData ? ($this->analyticData['name'] ?? '') : ''),
                 'description' => $request->description ?? ($this->analyticData ? ($this->analyticData['description'] ?? '') : ''),
@@ -171,6 +173,71 @@ class PromptController extends AdminController
         return $this->json(compact(...$this->apiSystemVars));
     }
 
+
+
+    public function getAddManyForm(Request $request)
+    {
+        $user = $request->user();
+        $promptCount = $this->repository->count(['user_id' => $user->id]);
+        return $this->viewModule('add-many', ['user' => $user, 'promptCount' => $promptCount]);
+    }
+
+
+    public function addMany(Request $request)
+    {
+        extract($this->apiDefaultData);
+
+        if (
+            !is_array($prompts = $request->prompts)
+            || count($prompts) != count($promptList = array_filter($prompts, function ($prompt) {
+                return is_array($prompt) && strlen($prompt['name'] ?? '') > 0 && strlen($prompt['prompt'] ?? '') > 0;
+            }))
+        )
+            $message = 'Danh sách prompt gửi lên còn thiếu thông tin. Vui lòng kiểm tra lại';
+        elseif (!$request->topic_id || !($topic = $this->topicService->first(['id' => $request->topic_id])))
+            $message = 'Chủ đề không hợp lệ';
+
+        else {
+            $success = 0;
+            $failed = 0;
+            $data = [];
+            $created = [];
+            $user_id = $request->user()->id;
+            foreach ($prompts as $key => $promptData) {
+                if (!($c = $this->promptService->analyticHtmlPrompt($promptData['prompt']))) {
+                    $failed++;
+                    continue;
+                }
+                $createData = [
+                    'topic_id' => $request->topic_id,
+                    'prompt' => $c['display_prompt'] ?? $promptData['prompt'],
+                    'prompt_config' => $c['text'] ?? '',
+                    'name' => $promptData['name'],
+                    'description' => $promptData['description'],
+                    'placeholder' => $promptData['placeholder'] ?? '',
+                    'config' => $c,
+                    'user_id' => $user_id
+                ];
+                if ($create = $this->repository->create($createData)) {
+                    $this->promptService->updatePromptTopicMap($create->id, $create->topic_id);
+                    $created[] = $create;
+                    $success++;
+                }
+                else{
+                    $failed++;
+                }
+            }
+            $data = [
+                'success' => $success,
+                'failed' => $failed,
+                'prompts' => $created
+            ];
+            $status = true;
+        }
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
+
     public function analytics(Request $request)
     {
         extract($this->apiDefaultData);
@@ -178,6 +245,21 @@ class PromptController extends AdminController
         if (!($promptContent = trim($request->prompt)))
             $message = 'Nội dung prompt không được bỏ trống';
         elseif (!($data = $this->promptService->analyticPrompt($promptContent)))
+            $message = 'Không vó kết quả phân tích prompt';
+        else
+            $status = true;
+
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
+
+    public function analyticsMany(Request $request)
+    {
+        extract($this->apiDefaultData);
+
+        if (!($promptContent = trim($request->prompts)))
+            $message = 'Danh sách prompt không được bỏ trống';
+        elseif (!($data = $this->promptService->analyticPromptList($promptContent)))
             $message = 'Không vó kết quả phân tích prompt';
         else
             $status = true;

@@ -390,11 +390,50 @@ class PromptService
             if($d && array_key_exists('content', $d)){
                 $a = json_decode($d['content'], true);
                 if($a && array_key_exists('name', $a)){
+                    $d['prompt'] = $prompt;
                     return $a;
                 }
             }
         } catch (\Throwable $th) {
             //throw $th;
+        }
+        return null;
+    }
+
+    public function analyticPromptList($prompt_texts){
+        $list = nl2array($prompt_texts, false);
+        $i = -1;
+        $inPrompt = false;
+        $promptList = [];
+        foreach ($list as $line) {
+            $a = trim($line);
+            if($line == ""){
+                if(!$inPrompt) {
+                    $i++;
+                    $promptList[$i] = [];
+                    $inPrompt = true;
+                }
+                $promptList[$i][] = $line;
+
+            }elseif($inPrompt){
+                $inPrompt = false;
+            }
+        }
+
+        if(count($promptList)){
+            $data = [];
+            foreach ($promptList as $key => $promptData) {
+                $p = implode('<br>', $promptData);
+                try {
+                    $d = $this->analyticPrompt($p);
+                    if($d) {
+                        $data[] = $d;
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+            }
+            return $data;
         }
         return null;
     }
