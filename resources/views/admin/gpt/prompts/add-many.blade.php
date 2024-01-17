@@ -179,7 +179,7 @@
                         App.Swal.error("Lỗi không xác định");
                     })
             }
-            $('#quick-add-form').on('submit', function(e) {
+            $('#add-many-form').on('submit', function(e) {
                 e.preventDefault();
                 let fd = new FormData(this);
                 let topic_id = $topicId.val();
