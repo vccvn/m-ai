@@ -112,7 +112,7 @@
             <div class="form-group">
                 <label for="prompt-content-{$i}">Nội dung prompt</label>
                 <div class="input-group">
-                    <textarea name="prompts[{$i}][prompt]" id="prompt-content-{$i}" cols="30" rows="10" class="form-control m-input" placeholder="Nhập nội dung prompt"></textarea>
+                    <textarea name="prompts[{$i}][prompt]" id="prompt-content-{$i}" cols="30" rows="10" class="form-control m-input" placeholder="Nhập nội dung prompt">{$prompt}</textarea>
                 </div>
             </div>
             <div class="form-group">
