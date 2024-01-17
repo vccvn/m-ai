@@ -419,7 +419,8 @@ class PromptService
                 $inPrompt = false;
             }
         }
-
+        header("Content-Type: application/json");
+        die(json_encode($promptList));
         if(count($promptList)){
             $data = [];
             foreach ($promptList as $key => $promptData) {
