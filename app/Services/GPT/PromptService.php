@@ -364,6 +364,8 @@ class PromptService
         if ($isPrint) echo "Update prompts...\n";
         $this->promptRepository->chunkById(50, function ($prompts) use ($isPrint) {
             foreach ($prompts as $prompt) {
+                $p = preg_replace('/<\/{0,1}(table|tr|td|tbody)(>|[^>]*>)/i', '', $prompt->prompt);
+                if($p != $prompt->prompt) echo $p . "\n";
                 $c = $this->analyticHtmlPrompt($prompt->prompt);
                 if ($c) {
                     $display_content = $c['display_content'] ?? '';
