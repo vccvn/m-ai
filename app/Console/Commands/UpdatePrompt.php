@@ -12,7 +12,7 @@ class UpdatePrompt extends Command
      *
      * @var string
      */
-    protected $signature = 'gpt:update-prompt {print=0:In ra từng dòng}';
+    protected $signature = 'gpt:update-prompt {print=0 : In ra từng dòng}';
 
     /**
      * The console command description.
@@ -28,7 +28,10 @@ class UpdatePrompt extends Command
      */
     public function handle(PromptService $promptService)
     {
-        $isPrint = in_array($this->argument('print'), [true, 1, "true", "print", "echo"]);
+        $p = $this->argument('print');
+        $pp = $p && $p != "0"? $p : "false";
+        $isPrint = $pp === true || in_array($pp, [1, "true", "print", "echo"]);
+        // dump($isPrint);
         $promptService->updateAllPrompt( $isPrint );
         return Command::SUCCESS;
     }

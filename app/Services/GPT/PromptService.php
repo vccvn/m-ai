@@ -361,16 +361,24 @@ class PromptService
 
     public function updateAllPrompt($isPrint = false)
     {
+        // dd($isPrint);
         if ($isPrint) echo "Update prompts...\n";
         $this->promptRepository->chunkById(50, function ($prompts) use ($isPrint) {
             foreach ($prompts as $prompt) {
-                $p = preg_replace('/<\/{0,1}(table|tr|td|tbody)(>|[^>]*>)/i', '', $prompt->prompt);
-                if($p != $prompt->prompt) echo $p . "\n";
-                $c = $this->analyticHtmlPrompt($prompt->prompt);
+                $content = $prompt->prompt;
+                preg_match_all('/<\/*(table|tr|td|tbody|colgroup)+[^>]*>/i', $content, $matches);
+                // print_r($matches);
+                if (count($matches[0])) {
+                    $content = preg_replace('/<\/*(table|tr|td|tbody|colgroup)+[^>]*>/i', '', $content);
+                }
+                // if($p != $prompt->prompt) echo $p . "\n";
+                $c = $this->analyticHtmlPrompt($content);
                 if ($c) {
                     $display_content = $c['display_content'] ?? '';
+
                     if ($display_content) {
                         $prompt->prompt = $display_content;
+                        $content = $display_content;
                     }
                     if ($text = $c['text'] ?? '') {
                         $prompt->prompt_config = $text;
@@ -378,7 +386,7 @@ class PromptService
                     $prompt->config = $c;
                     // $prompt->save();
                     if ($isPrint) {
-                        echo "Updating " . $prompt->prompt . "\n";
+                        echo "Updating " . $content . "\n";
                     }
                 }
                 // $prompt->slug = str_slug($prompt->name);
