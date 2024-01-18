@@ -366,6 +366,7 @@ class PromptService
         $this->promptRepository->chunkById(50, function ($prompts) use ($isPrint) {
             foreach ($prompts as $prompt) {
                 $content = $prompt->prompt;
+                $raw = $content;
                 preg_match_all('/<\/*(table|tr|td|tbody|colgroup)+[^>]*>/i', $content, $matches);
                 // print_r($matches);
                 if (count($matches[0])) {
@@ -384,9 +385,10 @@ class PromptService
                         $prompt->prompt_config = $text;
                     }
                     $prompt->config = $c;
-                    // $prompt->save();
+                    $prompt->save();
+
                     if ($isPrint) {
-                        echo "Updating " . $content . "\n";
+                        echo "Updating " . $prompt->name . "\n";
                     }
                 }
                 // $prompt->slug = str_slug($prompt->name);
