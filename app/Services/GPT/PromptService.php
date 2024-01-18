@@ -374,9 +374,9 @@ class PromptService
                         $prompt->prompt_config = $text;
                     }
                     $prompt->config = $c;
-                    $prompt->save();
+                    // $prompt->save();
                     if ($isPrint) {
-                        echo "Updating " . $prompt->name . "\n";
+                        echo "Updating " . $prompt->prompt . "\n";
                     }
                 }
                 // $prompt->slug = str_slug($prompt->name);
