@@ -83,7 +83,7 @@ class PromptService
         $content2 = $this->checkCriteria($content2);
 
 
-        if($criterialMap){
+        if ($criterialMap) {
             foreach ($criterialMap as $key => $value) {
                 $content2 = str_replace($key, $value, $content2);
             }
@@ -168,7 +168,8 @@ class PromptService
         return $inputs;
     }
 
-    public function updatePromptTopicMap($prompt_id, $topic_id) {
+    public function updatePromptTopicMap($prompt_id, $topic_id)
+    {
         return $this->promptTopicRepository->updatePromptTopics($prompt_id, $this->getTopicMap($topic_id));
     }
 
@@ -273,7 +274,6 @@ class PromptService
             if ($create) {
                 $success++;
                 $this->promptTopicRepository->updatePromptTopics($create->id, $this->getTopicMap($create->topic_id));
-
             }
         }
         return ['success' => $success, 'failed' => $failed];
@@ -359,17 +359,35 @@ class PromptService
     }
 
 
-    public function updateAllPrompt() {
-        $this->promptRepository->chunkById(50, function($prompts){
+    public function updateAllPrompt($isPrint = false)
+    {
+        if ($isPrint) echo "Update prompts...\n";
+        $this->promptRepository->chunkById(50, function ($prompts) use ($isPrint) {
             foreach ($prompts as $prompt) {
-                $prompt->slug = str_slug($prompt->name);
-                $prompt->save();
+                $c = $this->analyticHtmlPrompt($prompt->prompt);
+                if ($c) {
+                    $display_content = $c['display_content'] ?? '';
+                    if ($display_content) {
+                        $prompt->prompt = $display_content;
+                    }
+                    if ($text = $c['text'] ?? '') {
+                        $prompt->prompt_config = $text;
+                    }
+                    $prompt->config = $c;
+                    $prompt->save();
+                    if ($isPrint) {
+                        echo "Updating " . $prompt->name . "\n";
+                    }
+                }
+                // $prompt->slug = str_slug($prompt->name);
+                // $prompt->save();
                 $this->updatePromptTopicMap($prompt->id, $prompt->topic_id);
             }
         });
     }
 
-    public function analyticPrompt($prompt)  {
+    public function analyticPrompt($prompt)
+    {
         try {
             $promptChat = implode("\n", [
                 'phân tích prompt và trả về dử liệu định dạng json với 4 key là name, description, placeholder, suggest. ',
@@ -387,9 +405,9 @@ class PromptService
                 ['role' => 'user', 'content' => $content]
             ]);
 
-            if($d && array_key_exists('content', $d)){
+            if ($d && array_key_exists('content', $d)) {
                 $a = json_decode($d['content'], true);
-                if($a && array_key_exists('name', $a)){
+                if ($a && array_key_exists('name', $a)) {
                     $d['prompt'] = $prompt;
                     return $a;
                 }
@@ -400,34 +418,34 @@ class PromptService
         return null;
     }
 
-    public function analyticPromptList($prompt_texts){
+    public function analyticPromptList($prompt_texts)
+    {
         $list = nl2array($prompt_texts, false);
         $i = -1;
         $inPrompt = false;
         $promptList = [];
         foreach ($list as $line) {
             $a = trim($line);
-            if($line != ""){
-                if(!$inPrompt) {
+            if ($line != "") {
+                if (!$inPrompt) {
                     $i++;
                     $promptList[$i] = [];
                     $inPrompt = true;
                 }
                 $promptList[$i][] = $line;
-
-            }elseif($inPrompt){
+            } elseif ($inPrompt) {
                 $inPrompt = false;
             }
         }
         // header("Content-Type: application/json");
         // die(json_encode($promptList));
-        if(count($promptList)){
+        if (count($promptList)) {
             $data = [];
             foreach ($promptList as $key => $promptData) {
                 $p = implode('<br>', $promptData);
                 try {
                     $d = $this->analyticPrompt($p);
-                    if($d) {
+                    if ($d) {
                         $d['prompt'] = implode("\n", $promptData);
                         $data[] = $d;
                     }
@@ -439,5 +457,4 @@ class PromptService
         }
         return null;
     }
-
 }
