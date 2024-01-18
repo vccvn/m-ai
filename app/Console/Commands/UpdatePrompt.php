@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\GPT\PromptService;
 use Illuminate\Console\Command;
 
 class UpdatePrompt extends Command
@@ -25,8 +26,10 @@ class UpdatePrompt extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(PromptService $promptService)
     {
+        $isPrint = in_array($this->argument('print'), [true, 1, "true", "print", "echo"]);
+        $promptService->updateAllPrompt( $isPrint );
         return Command::SUCCESS;
     }
 }
