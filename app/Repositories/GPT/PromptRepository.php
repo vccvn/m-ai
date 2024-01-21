@@ -77,7 +77,8 @@ class PromptRepository extends BaseRepository
         ], ['gpt_prompts.*']));
         $this->setSearchable(array_merge($columns, [
             'name' => 'gpt_prompts.name',
-            'keywords' => 'gpt_prompts.keywords'
+            'keywords' => 'gpt_prompts.keywords',
+            'description' => 'gpt_prompts.description'
         ]));
         foreach ($raw as $col) {
             $columns[$col] = 'gpt_prompts.' . $col;
@@ -102,7 +103,8 @@ class PromptRepository extends BaseRepository
             'gpt_prompts.keywords' => [
                 '{query}%',
                 '%, {query}%'
-            ]
+            ],
+            'gpt_prompts.description' => '%{query}%'
         ])
         ->setGroupBy('gpt_prompts.id')
         ;

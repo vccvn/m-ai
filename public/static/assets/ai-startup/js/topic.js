@@ -160,7 +160,7 @@ $(() => {
                     )
                 );
                 arrButtons.push(btnTemplate.render({
-                    url: btn.url ? btn.url : '#',
+                    url: btn.url ? (location.protocol === 'https:' ? App.str.replace(btn.url, 'http://', 'https://'):btn.url) : '#',
                     label: btn.label
                 }))
 
@@ -198,8 +198,11 @@ $(() => {
             App.Swal.warning('Lỗi không xác định')
         })
 
+    let currentSearchTopicID = null;
+
     const searchPrompt = keyword => {
-        if (!keyword || keyword == currentKeyword) {
+        let topic_id = $inputTopic.val();
+        if (!keyword || (keyword == currentKeyword && topic_id == currentSearchTopicID)) {
             if (!keyword || keyword == '') {
                 $navWrapper.removeClass('d-none');
                 listViewMode = 'topic';
@@ -210,6 +213,7 @@ $(() => {
             return false;
         }
 
+        currentSearchTopicID = topic_id;
         listViewMode = 'search';
         if (!$navWrapper.hasClass('d-none')) {
             $navWrapper.addClass('d-none');
@@ -219,7 +223,6 @@ $(() => {
 
         currentKeyword = keyword;
         let searchData = { search: keyword };
-        let topic_id = $inputTopic.val();
         if (topic_id && topic_id != '0') {
             searchData.topic_id = topic_id;
         }
