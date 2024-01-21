@@ -365,6 +365,13 @@ class PromptService
         if ($isPrint) echo "Update prompts...\n";
         $this->promptRepository->chunkById(50, function ($prompts) use ($isPrint) {
             foreach ($prompts as $prompt) {
+                $prompt->description = str_replace(['Prompt', 'prompt'], ['Công cụ', 'Công cụ'], $prompt->description);
+                $prompt->description = preg_replace('/Chat\s*GPT/i', 'M.AI', $prompt->description);
+                $prompt->save();
+                if ($isPrint) {
+                    echo "Updating " . $prompt->name . "\n";
+                }
+                continue;
                 $content = $prompt->prompt;
                 $raw = $content;
                 preg_match_all('/<\/*(table|tr|td|tbody|colgroup)+[^>]*>/i', $content, $matches);
@@ -385,6 +392,8 @@ class PromptService
                         $prompt->prompt_config = $text;
                     }
                     $prompt->config = $c;
+                    $prompt->description = str_replace(['Prompt', 'prompt'], ['Công cụ', 'Công cụ'], $prompt->description);
+                    $prompt->description = preg_replace('/Chat\s*GPT/i', 'M.AI', $prompt->description);
                     $prompt->save();
 
                     if ($isPrint) {
