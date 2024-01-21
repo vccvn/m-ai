@@ -104,7 +104,7 @@ class PromptRepository extends BaseRepository
                 '{query}%',
                 '%, {query}%'
             ],
-            'gpt_prompts.description' => '%{query}%'
+            // 'gpt_prompts.description' => '%{query}%'
         ])
         ->setGroupBy('gpt_prompts.id')
         ;
