@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\AI\ChatController;
+use App\Http\Controllers\Web\AI\PromptController;
 use App\Http\Controllers\Web\AI\TopicController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('web.auth')->prefix('ai')->name('ai.')->group(function(){
-    Route::any('/',                                     [TopicController::class, 'getIndex'])->name('index');
+    Route::any('/',                                       [TopicController::class, 'getIndex'])->name('index');
+    Route::any('tools/search',                            [PromptController::class, 'getSearchResults'])->name('tools.search');
     Route::controller(ChatController::class)->prefix('chat')->name('chat.')->group(function(){
         Route::get('/',                                         'index'             )->name('index');
         Route::get('messages',                                  'index'             )->name('messages');
@@ -22,6 +24,8 @@ Route::middleware('web.auth')->prefix('ai')->name('ai.')->group(function(){
         Route::get('box',                                       'chatBox'           )->name('box');
         Route::post('send-box-message',                         'sendBoxMessage'    )->name('send-box-message');
         Route::any('get-chat-data',                             'getChatData'       )->name('data');
+        Route::any('get-history',                               'getHistory'        )->name('get-history');
+
     });
     Route::controller(TopicController::class)->prefix('chuyen-de')->name('topics.')->group(function(){
         Route::get('/',                                         'getTopic'          )->name('detail-by-id');

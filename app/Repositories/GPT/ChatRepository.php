@@ -116,6 +116,45 @@ class ChatRepository extends BaseRepository
         return $chat;
     }
 
+
+    /**
+     * get first or create new Chat
+     *
+     * @param array $params
+     * @return ChatMask
+     */
+    public function getChatForSendMessage($params = [])
+    {
+        if (!array_key_exists('user_id', $params) || !$params['user_id']) return null;
+        if (!($chat = $this->with(['messages' => function ($query) {
+            $query->orderBy('id', 'ASC')
+                ->join('gpt_chats', function ($join) {
+                    $join->on('gpt_chats.id', '=', 'gpt_chat_messages.chat_id')
+                        ->on('gpt_chats.current_id', '=', 'gpt_chat_messages.task_id');
+                })
+                ->select('gpt_chat_messages.*');
+        }])->mode('mask')->orderBy('id', 'DESC')->detail($params))) {
+            unset($params['id']);
+            if ($chat = $this->with(['messages' => function ($query) {
+                $query->orderBy('id', 'ASC')
+                    ->join('gpt_chats', function ($join) {
+                        $join->on('gpt_chats.id', '=', 'gpt_chat_messages.chat_id')
+                            ->on('gpt_chats.current_id', '=', 'gpt_chat_messages.task_id');
+                    })
+                    ->select('gpt_chat_messages.*');
+            }])->mode('mask')->orderBy('created_at', 'DESC')->detail($params))
+                return $chat;
+            /**
+             * @var ChatMask
+             */
+            $chat = $this->mask($this->create($params));
+            $chat->__lock();
+        }
+        return $chat;
+    }
+
+
+
     /**
      * get first or create new Chat
      *

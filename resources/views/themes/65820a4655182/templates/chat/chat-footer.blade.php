@@ -32,20 +32,20 @@
         </div>
     </form>
 </div>
-<script type="text/template" id="prompt-label-template">
-    <div class="prompt-label"><span>{$name}</span> <a href="#">X</a></div>
+<script type="text/template" id="prompt-label-template" role="promptLabel">
+    <div class="prompt-label"><span>{name}</span> <a href="#">X</a></div>
 </script>
 
-<script type="text/template" id="prompt-top-label-template">
+<script type="text/template" id="prompt-top-label-template" role="promptTopLabel">
     <div class="prompt-top-label">
         <span class="label-box">
-            {$name} <a href="#">X</a>
+            {name} <a href="#">X</a>
         </span>
-        {$button}
+        {button}
     </div>
 </script>
 
-<script type="text/template" id="prompt-top-toggle-buuton-template">
+<script type="text/template" id="prompt-top-toggle-buuton-template" role="promptTopToggleButton">
     <span class="toggle-button criteria-toggle-button">
         <span class="material-icons">
             arrow_downward
@@ -53,15 +53,15 @@
     </span>
 </script>
 
-<script type="text/template" id="prompt-criteria-textarea-template">
-    <textarea name="criteria[{$name}]" id="prompt-{$name}" class="inp-criteria" data-name="{$name}" placeholder="{$placeholder}"></textarea>
+<script type="text/template" id="prompt-criteria-textarea-template" role="promptCriteriaTextarea">
+    <textarea name="criteria[{name}]" id="prompt-{name}" class="inp-criteria" data-name="{name}" placeholder="{placeholder}"></textarea>
 </script>
-<script type="text/template" id="prompt-criteria-input-template">
-    <input type="{$type}" name="criteria[{$name}]" id="prompt-{$name}" class="inp-criteria" data-name="{$name}" placeholder="{$placeholder}">
+<script type="text/template" id="prompt-criteria-input-template" role="promptCriteriaInput">
+    <input type="{type}" name="criteria[{name}]" id="prompt-{name}" class="inp-criteria" data-name="{name}" placeholder="{placeholder}">
 </script>
-<script type="text/template" id="prompt-criteria-input-wrapper-template">
-    <div class="prompt-criteria-wrapper" id="prompt-criteria-wrapper-{$id}">
-        <label for="prompt-{$name}">{$label}: </label>
-        {$htmlInput}
+<script type="text/template" id="prompt-criteria-input-wrapper-template" role="promptCriteriaInputWrapper">
+    <div class="prompt-criteria-wrapper" id="prompt-criteria-wrapper-{id}">
+        <label for="prompt-{$name}">{label}: </label>
+        {htmlInput}
     </div>
 </script>

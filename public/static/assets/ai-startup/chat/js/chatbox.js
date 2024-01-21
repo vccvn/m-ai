@@ -1,4 +1,6 @@
 $(function () {
+    SH.init();
+    const AI_DATA = window.__AI_DATA__;
     const chatData = {
         type: 'new',
         prompt_id: 0,
@@ -7,7 +9,7 @@ $(function () {
         message: '',
         use_criteria: 0,
         chat_name: App.date('H:i', +7),
-        name: window.__USER_NAME__,
+        name: AI_DATA.data.users.user.name,
         uuid: App.str.rand(32),
         hasCriteria: false,
         criteriaTotal: 0,
@@ -25,17 +27,17 @@ $(function () {
 
     const htmlTemplates = {
         promptItem: '',
-        promptTopLabel: $('#prompt-top-label-template').html(),
-        promptLabel: $('#prompt-label-template').html(),
-        messageBlock: $('#message-block-template').html(),
-        userMessageItem: $('#user-message-item-template').html(),
-        assistantMessageItem: $('#assistant-message-item-template').html(),
-        replyWritting: $('#reply-writting-template').html(),
+        promptTopLabel: SH.tpl('promptTopLabel'),
+        promptLabel: SH.tpl('promptLabel'),
+        messageBlock: SH.tpl('messageBlock'),
+        userMessageItem: SH.tpl('userMessageItem'),
+        assistantMessageItem: SH.tpl('assistantMessageItem'),
+        replyWritting: SH.tpl('replyWritting'),
 
-        criteriaWrapper: $('#prompt-criteria-input-wrapper-template').html(),
-        criteriaInput: $('#prompt-criteria-input-template').html(),
-        criteriaTextarea: $('#prompt-criteria-textarea-template').html(),
-        criteriaToggleButton: $('#prompt-top-toggle-buuton-template').html(),
+        criteriaWrapper: SH.tpl('promptCriteriaInputWrapper'),
+        criteriaInput: SH.tpl('promptCriteriaInput'),
+        criteriaTextarea: SH.tpl('promptCriteriaTextarea'),
+        criteriaToggleButton: SH.tpl('promptTopToggleButton').render(),
     };
     const tempElement = document.createElement('div');
     const $form = $('#chat-message-form');
@@ -52,8 +54,8 @@ $(function () {
     const $chatFooter = $('.chat-footer');
 
     const SEND_URL = $form.attr('action');
-    const INPUT_URL = window.__prompt_input_url__;
-    const DATA_URL = window.__chat_data_url__;
+    const INPUT_URL = AI_DATA.urls.inputs;
+    const DATA_URL = AI_DATA.urls.data;
     let currentChatData = {
         uuid: chatData.uuid,
         id: chatData.id,
@@ -200,25 +202,19 @@ $(function () {
                     let htmlInputs = rs.data.inputs.map(inp => {
                         CRITERIA_LABELS[inp.name] = inp.label;
                         inp.placeholder = inp.placeholder ? inp.placeholder : 'Nhập ' + inp.label;
-                        return App.str.eval(
-                            htmlTemplates.criteriaWrapper,
+                        return htmlTemplates.criteriaWrapper.render(
+
                             Object.assign(
                                 {},
                                 inp,
                                 {
-                                    htmlInput: App.str.eval(
-                                        inp.type == 'textarea' ? htmlTemplates.criteriaTextarea : htmlTemplates.criteriaInput,
-                                        inp
-                                    )
+                                    htmlInput: (inp.type == 'textarea' ? htmlTemplates.criteriaTextarea : htmlTemplates.criteriaInput).render(inp)
                                 }
                             )
                         )
-                    }).join("")
-                        + App.str.eval(
-                            htmlTemplates.criteriaWrapper, { id: 0, htmlInput: '', label: "Message" }
-                        );
+                    }).join("") + htmlTemplates.criteriaWrapper.render( { id: 0, htmlInput: '', label: "Message" });
                     $messageHeader.html(
-                        App.str.eval(htmlTemplates.promptTopLabel, {
+                        htmlTemplates.promptTopLabel.render({
                             name: rs.data.prompt.name,
                             button: htmlTemplates.criteriaToggleButton
                         })
@@ -235,7 +231,7 @@ $(function () {
 
 
                 } else {
-                    $messageHeader.prepend(App.str.eval(htmlTemplates.promptTopLabel, {
+                    $messageHeader.prepend(htmlTemplates.promptTopLabel.render({
                         id,
                         name,
                         button: ""
@@ -254,7 +250,7 @@ $(function () {
     }
 
     const createChatBlock = (uuid, name, prepend) => {
-        let chatHtml = App.str.eval(htmlTemplates.messageBlock, { uuid, name });
+        let chatHtml = htmlTemplates.messageBlock.render({ uuid, name });
         if (prepend) {
             $chatList.prepend(chatHtml);
         } else {
@@ -269,7 +265,7 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        $chatBlock.append(App.str.eval(htmlTemplates[role + "MessageItem"], { role, message, name: role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__, id: id ? id : '' }));
+        $chatBlock.append(htmlTemplates[role + "MessageItem"].render({ role, message, name: role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name, avatar: role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar, id: id ? id : '' }));
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
@@ -281,7 +277,7 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        messages.map(message => App.isObject(message) && $chatBlock.append(App.str.eval(htmlTemplates[message.role + "MessageItem"], { role: message.role, message: message.message, name: message.role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: message.role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__, id: message.id || '' })));
+        messages.map(message => App.isObject(message) && $chatBlock.append(htmlTemplates[message.role + "MessageItem"].render({ role: message.role, message: message.message, name: message.role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: message.role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__, id: message.id || '' })));
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
@@ -304,7 +300,7 @@ $(function () {
     }
     const toggleCriteriaBlock = () => {
         if (chatData.showCriteria) {
-            chatData.use_criteria = 0;
+            if(!chatData.isFirstChat) chatData.use_criteria = 0;
             chatData.showCriteria = false;
             $messageWrapper.removeClass('show-criteria');
         } else {
@@ -328,7 +324,7 @@ $(function () {
         chatData.prompt_id = pid;
         if (name) {
             let button = hasCriteria ? htmlTemplates.criteriaToggleButton : "";
-            $messageHeader.prepend(App.str.eval(htmlTemplates.promptTopLabel, { id, name, button }));
+            $messageHeader.prepend(htmlTemplates.promptTopLabel.render({ id, name, button }));
             // setMessagePlaceholder(placeholder ? placeholder : 'Nhập ' + name);
             setMessagePlaceholder(placeholder ? placeholder : "Nhập thêm nội dung bạn muốn để AI đưa ra thông tin chính xác hơn")
         }
@@ -344,22 +340,18 @@ $(function () {
         let htmlInputs = inputs.map(inp => {
             CRITERIA_LABELS[inp.name] = inp.label;
             inp.placeholder = inp.placeholder ? inp.placeholder : 'Nhập ' + inp.label;
-            return App.str.eval(
-                htmlTemplates.criteriaWrapper,
+            return htmlTemplates.criteriaWrapper.render(
                 Object.assign(
                     {},
                     inp,
                     {
-                        htmlInput: App.str.eval(
-                            inp.type == 'textarea' ? htmlTemplates.criteriaTextarea : htmlTemplates.criteriaInput,
-                            inp
-                        )
+                        htmlInput: (inp.type == 'textarea' ? htmlTemplates.criteriaTextarea : htmlTemplates.criteriaInput).render(inp)
                     }
                 )
             )
         }).join("")
-            + App.str.eval(
-                htmlTemplates.criteriaWrapper, { id: 0, htmlInput: '', label: "Message" }
+            + htmlTemplates.criteriaWrapper.render(
+                { id: 0, htmlInput: '', label: "Message" }
             );
         $criteriaWrapper.html(htmlInputs);
         let $ta = $criteriaWrapper.find('textarea');
@@ -372,7 +364,7 @@ $(function () {
     }
     const addReplyWritting = (uuid) => {
         let $chatBlock = $('#message-block-' + uuid);
-        $chatBlock.append(App.str.eval(htmlTemplates.replyWritting, { uuid }));
+        $chatBlock.append(htmlTemplates.replyWritting.render({ uuid }));
         window.updateChatScroll();
     }
 
@@ -488,8 +480,8 @@ $(function () {
             role: 'user',
             message: data.message,
             chat_name: data.chat_name,
-            name: window.__USER_NAME__,
-            avatar: window.__USER_AVATAR__,
+            name: AI_DATA.data.users.user.name,
+            avatar: AI_DATA.data.users.user.avatar,
             uuid: data.uuid,
             prompt_name: data.prompt_name,
             criteria: getCriteriaData(),
@@ -526,8 +518,8 @@ $(function () {
             role: 'user',
             message: data.message,
             chat_name: data.chat_name,
-            name: window.__USER_NAME__,
-            avatar: window.__USER_AVATAR__,
+            name: AI_DATA.data.users.user.name,
+            avatar: AI_DATA.data.users.user.avatar,
             uuid: data.uuid,
             prompt_name: data.prompt_name,
             criteria: getCriteriaData(),
@@ -626,7 +618,7 @@ $(function () {
 
         $messageWrapper.removeClass('show-criteria');
         chatData.isFirstChat = true;
-        const DATA = window.__CHAT_DATA__;
+        const DATA = AI_DATA.data.chats;
         if (!DATA && typeof DATA != "object") {
             return;
         }
@@ -662,7 +654,7 @@ $(function () {
             return App.api.post(DATA_URL, data)
                 .then(rs => {
                     if (rs.status) {
-                        window.__CHAT_DATA__ = rs.data;
+                        AI_DATA.data.chats = rs.data;
                         init();
                     } else {
                         window.hideLoader();
@@ -680,12 +672,19 @@ $(function () {
         }, 1000);
     }
 
+    const showTopicHistory = topic_id => {
+        console.log(topic_id);
+    }
+
     window.setChatData = (data) => {
         console.log(data);
     }
 
-    window.setPromptChat = prompt_id => {
+    window.setPromptChat = (prompt_id, topic_id) => {
         openChat({ prompt_id });
+        if(topic_id){
+            showTopicHistory(topic_id);
+        }
     }
 
 

@@ -18,3 +18,5 @@
 
 	<!-- Custom JS -->
     <script src="{{ai_startup_asset('chat/js/script.js')}}"></script>
+
+    <script src="{{ asset('static/app/js/sh.min.js') }}"></script>

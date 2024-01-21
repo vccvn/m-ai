@@ -1,13 +1,13 @@
 
 <div class="sidebar-menu">
     <div class="logo-col">
-        <a href="index.html"><img src="{{ai_startup_asset('chat/img/logo.png')}}" alt=""></a>
+        <a href="javascript:void(0);"><img src="{{ai_startup_asset('chat/img/logo.png')}}" alt=""></a>
     </div>
     <div class="menus-col">
         <div class="chat-menus">
             <ul>
                 <li>
-                    <a href="index.html" class="chat-unread blue">
+                    <a href="javascript:void(0);" class="chat-unread blue">
                         <span class="material-icons">message</span>
                         <span>Chats</span>
                     </a>
@@ -59,14 +59,14 @@
                 </li> --}}
                 <li>
                     <a href="#" class="chat-profile-icon" data-bs-toggle="dropdown">
-                        <img src="{{ai_startup_asset('chat/assets/img/avatar/avatar-13.jpg')}}" alt="">
+                        <img src="{{auth()->user()->getAvatar()}}" alt="">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a href="#" class="dropdown-item dream_profile_menu">Edit Profile <span class="edit-profile-icon"><i class="fas fa-edit"></i></span></a>
                         <a href="#" class="dropdown-item">Profile <span class="profile-icon-col"><i class="fas fa-id-card-alt"></i></span></a>
-                        <a href="settings.html" class="dropdown-item">Settings <span class="material-icons">settings</span></a>
-                        <a href="archived.html" class="dropdown-item">Archived <span class="material-icons">flag</span></a>
-                        <a href="login-email.html" class="dropdown-item">Logout <span class="material-icons">power_settings_new</span></a>
+                        <a href="javascript:void(0);" class="dropdown-item">Settings <span class="material-icons">settings</span></a>
+                        <a href="javascript:void(0);" class="dropdown-item">Archived <span class="material-icons">flag</span></a>
+                        <a href="javascript:void(0);" class="dropdown-item">Logout <span class="material-icons">power_settings_new</span></a>
                     </div>
                 </li>
             </ul>

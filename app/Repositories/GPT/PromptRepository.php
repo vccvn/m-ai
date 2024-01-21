@@ -58,16 +58,23 @@ class PromptRepository extends BaseRepository
     public function init()
     {
         $this->setJoinable([
-            ['leftJoin', 'gpt_topics', 'gpt_topics.id', '=', 'gpt_prompts.topic_id']
+            ['leftJoin', 'gpt_topics', 'gpt_topics.id', '=', 'gpt_prompts.topic_id'],
+            ['leftJoin', 'gpt_prompt_topics', 'gpt_prompt_topics.topic_id', '=', 'gpt_prompts.topic_id'],
+            ['join', 'gpt_topics as pt', 'gpt_prompt_topics.topic_id', '=', 'pt.id'],
+
         ]);
         $raw = [
             'topic_id', 'name', 'prompt'
         ];
         $columns = [
+            'pt_name' => 'pt.name',
+            'pt_slug' => 'pt.slug',
+            'pt_keywords' => 'pt.keywords',
+        ];
+        $this->setSelectable(array_merge([
             'topic_name' => 'gpt_topics.name',
             'topic_keywords' => 'gpt_topics.keywords',
-        ];
-        $this->setSelectable(array_merge($columns, ['gpt_prompts.*']));
+        ], ['gpt_prompts.*']));
         $this->setSearchable(array_merge($columns, [
             'name' => 'gpt_prompts.name',
             'keywords' => 'gpt_prompts.keywords'
@@ -76,6 +83,29 @@ class PromptRepository extends BaseRepository
             $columns[$col] = 'gpt_prompts.' . $col;
         }
         $this->setSortable($columns);
+        $this->searchRule([
+            'pt.name' => [
+                '{query}%',
+                '% {query}%'
+            ],
+            'pt.slug' => [
+                '%{query}%'
+            ],
+            'pt.keywords' => [
+                '{query}%',
+                '%, {query}%'
+            ],
+            'gpt_prompts.name' => [
+                '{query}%',
+                '% {query}%'
+            ],
+            'gpt_prompts.keywords' => [
+                '{query}%',
+                '%, {query}%'
+            ]
+        ])
+        ->setGroupBy('gpt_prompts.id')
+        ;
         $this->perPage = 50;
     }
 

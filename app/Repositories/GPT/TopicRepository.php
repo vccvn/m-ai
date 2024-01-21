@@ -123,7 +123,7 @@ class TopicRepository extends BaseRepository
 
 
 
-    public function getTopicOptions(array $args = [])
+    public function getTopicOptions(array $args = [], $firstDefault = null)
     {
         $a = [];
         if (count($args)) {
@@ -131,7 +131,7 @@ class TopicRepository extends BaseRepository
                 if (strlen($value)) $a[$key] = $value;
             }
         }
-        $list = ["-- Danh mục --"];
+        $list = [$firstDefault?$firstDefault:"-- Chủ đề --"];
         $this->where('parent_id', '<', 1);
         if ($categories = $this->get($a)) {
             $list = static::toTopicSelectOptions($categories, $list);
@@ -156,12 +156,12 @@ class TopicRepository extends BaseRepository
         return $list;
     }
 
-    public static function getTopicSelectOptions(array $args = [])
+    public static function getTopicSelectOptions(array $args = [], $firstDefault = null)
     {
 
         $repository = app(static::class);
         $repository->init();
-        return $repository->getTopicOptions(array_merge(['trashed_status' => 0], $args));
+        return $repository->getTopicOptions(array_merge(['trashed_status' => 0], $args), $firstDefault);
     }
     public static function getTopicCheckTreeOptions(array $args = [])
     {

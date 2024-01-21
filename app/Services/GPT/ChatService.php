@@ -80,8 +80,7 @@ class ChatService
             // dd($d);
             if ($d && $d->choices) {
                 return ['role' => $d->get('choices.0.message.role'), 'content' => $d->get('choices.0.message.content')];
-            }
-            elseif($d->error){
+            } elseif ($d->error) {
                 $this->message = $d->gey('error.message');
                 $this->code = $d->get('error.code');
             }
@@ -123,10 +122,12 @@ class ChatService
         return null;
     }
 
-    public function getErrorCode() {
+    public function getErrorCode()
+    {
         return $this->code;
     }
-    public function getErrorMessage() {
+    public function getErrorMessage()
+    {
         return $this->message;
     }
 
@@ -190,6 +191,20 @@ class ChatService
         }
         return $this->chatRepository->getOrCreateChat($params);
     }
+    public function getChatForSendMessage($user_id, $chat_id = 0, $prompt_id = 0): ChatMask
+    {
+        $params = [
+            'user_id' => $user_id
+        ];
+        if ($chat_id) {
+            $params['id'] = $chat_id;
+        } elseif ($prompt_id) {
+            $params['prompt_id'] = $prompt_id;
+        }
+        return $this->chatRepository->getChatForSendMessage($params);
+    }
+
+
     public function createChat($user_id, $prompt_id = 0): ChatMask
     {
 
@@ -199,11 +214,23 @@ class ChatService
      * get chat history
      *
      * @param int $user_id
+     * @param array $args
      * @return ChatCollection<ChatMask>
      */
-    public function getHistory($user_id)
+    public function getHistory($user_id, $args = [])
     {
-        return $this->chatRepository->mode('mask')->with('prompt')
+        $args['user_id'] = $user_id;
+        $query = $this->chatRepository->mode('mask')->with('prompt');
+        $prompt_id = $args['prompt_id'] ?? 0;
+        $topic_id = $args['topic_id'] ?? 0;
+        if ($topic_id) {
+            $query->join('gpt_prompt_topics', 'gpt_prompt_topics.prompt_id', '=', 'gpt_chats.prompt_id');
+            $args['gpt_prompt_topics.topic_id'] = $topic_id;
+        }
+        if (array_key_exists('topic_id', $args))
+            unset($args['topic_id']);
+
+        return $query
             ->select('gpt_chats.*')->selectRaw("(
             SELECT gpt_chat_messages.updated_at
             FROM gpt_chat_messages
@@ -211,7 +238,8 @@ class ChatService
             ORDER BY gpt_chat_messages.updated_at DESC
             LIMIT 1
         ) as last_sent")
+            ->groupBy('gpt_chats.id')
             ->orderByRaw('last_sent DESC')
-            ->getData(['user_id' => $user_id]);
+            ->getData($args);
     }
 }

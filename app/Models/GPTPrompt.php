@@ -3,6 +3,7 @@
 namespace App\Models;
 use Gomee\Models\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * GPTTPrompt class
@@ -22,7 +23,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GPTPrompt extends Model
 {
     public $table = 'gpt_prompts';
-    public $fillable = ['user_id', 'topic_id', 'name', 'slug', 'keywords', 'description', 'prompt', 'prompt_config', 'config', 'placeholder', 'message_required', 'trashed_status'];
+    public $fillable = [
+        'user_id',
+        'topic_id',
+        'name',
+        'slug',
+        'keywords',
+        'description',
+        'prompt',
+        'prompt_config',
+        'config',
+        'placeholder',
+        'message_required',
+        'trashed_status'
+    ];
 
     public $casts = [
         'config' => 'json'
@@ -38,6 +52,15 @@ class GPTPrompt extends Model
         return $this->belongsTo(GPTTopic::class, 'topic_id', 'id');
     }
 
+    /**
+     * The topics that belong to the GPTPrompt
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function topics(): BelongsToMany
+    {
+        return $this->belongsToMany(GPTTopic::class, 'gpt_prompt_topics', 'prompt_id', 'topic_id');
+    }
 
     /**
      * ẩn danh mục

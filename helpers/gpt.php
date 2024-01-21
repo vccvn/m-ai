@@ -28,10 +28,8 @@ if (!function_exists('get_topic_options')) {
         $params = array_filter($args, function ($value) {
             return is_string($value) ? (strlen($value) > 0) : (is_array($value) ? (count($value) > 0) : true);
         });
-        $options = TopicRepository::getTopicSelectOptions(array_merge(['trashed_status' => 0], $params));
-        if ($firstDefault) {
-            $options[0] = $firstDefault;
-        }
+        $options = TopicRepository::getTopicSelectOptions(array_merge(['trashed_status' => 0], $params), $firstDefault);
+
         return $options;
     }
 }

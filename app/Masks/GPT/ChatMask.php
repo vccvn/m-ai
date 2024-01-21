@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Masks\GPT;
 
 use App\Models\GPTChat;
+use Carbon\Carbon;
 use Gomee\Masks\Mask;
+
 /**
  * ChatMask class
  *
  * @property integer $user_id User Id
  * @property integer $prompt_id Prompt Id
+ * @property integer $current_id Prompt Id
  * @property string $role
  * @property string $content
  * @property-read GPTChat $model
@@ -15,6 +19,7 @@ use Gomee\Masks\Mask;
  */
 class ChatMask extends Mask
 {
+    protected $systemMessage = 'Tất cả kết quả trả về nếu có các từ như "ChatGPT", "chat gpt", "Chat GPT" hoặc các từ tương tự thì hãy thay bằng từ "Chuyên gia AI" hoặc "M.Ai". ';
 
     /**
      * thêm các thiết lập của bạn
@@ -23,7 +28,8 @@ class ChatMask extends Mask
      *
      * @return void
      */
-    protected function init(){
+    protected function init()
+    {
         $this->map([
             'messages' => MessageCollection::class,
             'prompt' => PromptMask::class
@@ -52,19 +58,31 @@ class ChatMask extends Mask
      */
     protected function onLoaded()
     {
-        # code...
+        $this->chat_name = $this->prompt ? $this->prompt->name : 'Chat với AI';
+        $this->last_sent_format = Carbon::parse($this->last_sent ? $this->last_sent : $this->update_at)->format('H:i - d/m/Y');
     }
 
-    public function toGPT(){
+    public function toGPT($reverse = false)
+    {
         $data = [
-            ['role' => 'system', 'content' => 'Tất cả kết quả trả về nếu có các từ như "ChatGPT", "chat gpt", "Chat GPT" hoặc các từ tương tự thì hãy thay bằng từ "Chuyên gia AI" hoặc "M.Ai". ']
+            // ['role' => 'system', 'content' => 'Tất cả kết quả trả về nếu có các từ như "ChatGPT", "chat gpt", "Chat GPT" hoặc các từ tương tự thì hãy thay bằng từ "Chuyên gia AI" hoặc "M.Ai". ']
         ];
-        if($this->messages && is_countable($this->messages) && count($this->messages)){
+        if ($this->messages && is_countable($this->messages) && count($this->messages)) {
             foreach ($this->messages as $message) {
-                $data[] = $message->toGPT();
+                if ($reverse) {
+                    array_unshift($data, $message->toGPT());
+                } else
+                    $data[] = $message->toGPT();
             }
         }
+        array_unshift($data, ['role' => 'system', 'content' => $this->systemMessage]);
         return $data;
     }
 
+    public function getEmptyGPT()
+    {
+        return [
+            ['role' => 'system', 'content' => $this->systemMessage]
+        ];
+    }
 }

@@ -63,7 +63,7 @@
             };
 
             ["get", "post", "put", "patch", "delete", "head", "options"].map(function (method) {
-                var mt = method.toUpperCase();
+                const mt = method.toUpperCase();
                 /**
                  * gửi request dạng {mt}
                  * @param {string|option} url url hoặc option
@@ -81,14 +81,7 @@
             });
 
 
-
-
-
-
-
-
-
-            if (typeof window.apiInit == "function" || typeof window.custoAapiInit == "function") {
+            if (typeof window.apiInit == "function" || typeof window.customApiInit == "function") {
                 if (typeof window.apiInit == "function") {
                     window.apiInit();
                 }
@@ -172,6 +165,8 @@
                     }
                 }
             });
+
+
             var CrazySelect = function (selector, template) {
                 this.$el = $(selector);
                 this.template = template;
@@ -198,7 +193,7 @@
                 this.$searchBlock = this.$el.find('.search-block');
                 this.$searchInput = this.$el.find('input');
                 this.searchParamSelectors = this.$el.data('search-params') || '';
-
+                this.isShowChildrenAddress = this.$el.data('show-children-address') != "false" && this.$el.data('show-children-address') != false && this.$el.data('show-children-address') != "no";
                 this.confirmChange = false;
                 var self = this;
                 this.init = function () {
@@ -854,6 +849,7 @@
 
 
                 this.parseMultiLevelText = function () {
+                    if(!this.isShowChildrenAddress) return false;
                     var $options = self.$el.children('.select-option-menu');
                     var maxLevel = -1;
                     var data = {};
@@ -986,6 +982,7 @@
 
                     }// end if type == 'static'
                 };
+
                 this.resetDefault = function () {
                     let activeItem = this.$options.find('.option-item.active');
                     cl(activeItem)
@@ -1498,7 +1495,7 @@
                                 option.showConfirmButton = true;
                                 option.confirmButtonText = button;
                             }
-                        }else{
+                        } else {
                             option.showConfirmButton = false;
 
                         }
@@ -2126,10 +2123,12 @@
 
                     });
                 }
-            });    /**
-     * doi tuong quan li item
-     * @type {object}
-     */
+            });
+
+            /**
+    * doi tuong quan li item
+    * @type {object}
+    */
             App.extend({
                 comments: {
                     urls: {},

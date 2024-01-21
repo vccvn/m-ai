@@ -18,12 +18,35 @@ $(() => {
     const chatUrlTemplate = SH.create(window.__CHAT_URL__);
     // const promptItem = SH.tpl('promptItem');
     const chatFrameTemplate = SH.tpl('chatFrame');
+
+    const spinLoader = SH.tpl('SpinLoader');
+
+
+    const PaginationBlock = SH.tpl('PaginationBlock');
+    const PaginationFirstButton = SH.tpl('PaginationFirstButton');
+    const PaginationLastButton = SH.tpl('PaginationLastButton');
+    const PaginationLinkButton = SH.tpl('PaginationLinkButton');
+    const PaginationActiveButton = SH.tpl('PaginationActiveButton');
+    const PaginationDotButton = SH.tpl('PaginationDotButton');
+    const AlertBlock = SH.tpl('AlertBlock');
+
+
+
+
+
+
+
     const topicMapData = {};
 
     const $topicChildrenHeader = $topicChildren.find('.list-header');
     const $topicChildrenBody = $topicChildren.find('.list-body');
 
     const $AIPageContentAndFooter = $('.ai-page-content, .navbar-area, .footer-area,.search-overlay')
+    const $navWrapper = $('.nav-wrapper');
+
+    const $toolSearchForm = $('#tool-search-form');
+    const $inputSearch = $('#tool-search-input');
+    const $inputTopic = $('input#topic_id');
 
     function registerTopicItem(topic) {
         if (topic) {
@@ -70,7 +93,9 @@ $(() => {
         $topicPromptList.empty();
     }
 
+    let currentTopicId = '';
     const showTopic = id => {
+        currentKeyword = id;
         let topic = getTopic(id);
         if (!$topicChildrenBody.hasClass('d-none')) $topicChildrenBody.addClass('d-none')
         if (!topic) {
@@ -92,12 +117,12 @@ $(() => {
             $topicChildren.show(200, () => {
                 if (hasChildren) {
                     $topicChildrenBody.removeClass('d-none');
-                    let t = 100;
+                    let t = 20;
                     topic.children.map(tp => {
                         setTimeout(() => {
                             $topicChildrenBody.append(topicNavItem.render(tp));
                         }, t);
-                        t += 100;
+                        t += 20;
                     })
                 }
             })
@@ -105,17 +130,100 @@ $(() => {
         if (topic.prompts && topic.prompts.length) {
             $topicPromptBlock.show(200, () => {
                 $('html, body').scrollTop($(".topic-children").offset().top - 90);
-                let t = 100;
+                let t = 20;
                 topic.prompts.map(tp => {
                     setTimeout(() => {
                         $topicPromptList.append(promptItem.render(tp));
                     }, t);
-                    t += 100;
+                    t += 20;
                 })
             })
 
         }
 
+    }
+
+    const renderPaginationLinks = links => {
+        let buttons = '';
+        console.log(links);
+        if (links && links.length) {
+            let arrButtons = [];
+            for (let index = 0; index < links.length; index++) {
+                const btn = links[index];
+                const btnTemplate = index == 0 ? PaginationFirstButton : (
+                    index == links.length - 1 ? PaginationLastButton : (
+                        btn.active ? PaginationActiveButton : (
+                            btn.label == '...' ? PaginationDotButton : (
+                                PaginationLinkButton
+                            )
+                        )
+                    )
+                );
+                arrButtons.push(btnTemplate.render({
+                    url: btn.url ? btn.url : '#',
+                    label: btn.label
+                }))
+
+            }
+            buttons = arrButtons.join("");
+        }
+
+        $topicPromptList.append(PaginationBlock.render({ buttons: buttons }));
+    }
+
+    let currentKeyword = '';
+    let listViewMode = 'topic';
+    const getPromptData = (url, data) => listViewMode == 'search' && App.api.get(url, data ? data : {})
+        .then(rs => {
+            if(listViewMode != 'search')
+                return;
+            $topicPromptList.html("");
+            if (rs.status) {
+                if (rs.data && rs.data.length) {
+                    rs.data.map(tp => $topicPromptList.append(promptItem.render(tp)))
+                    if (rs.links && rs.links.length) {
+                        renderPaginationLinks(rs.links);
+                    }
+                } else {
+                    $topicPromptList.append(AlertBlock.render({ type: "warning", message: "Không tìm thấy kết quả phù hợp" }));
+                }
+
+            } else {
+                App.Swal.warning('Lỗi không xác định')
+            }
+        })
+        .catch(e => {
+            $topicPromptList.html("");
+            console.warn(e);
+            App.Swal.warning('Lỗi không xác định')
+        })
+
+    const searchPrompt = keyword => {
+        if (!keyword || keyword == currentKeyword) {
+            if (!keyword || keyword == '') {
+                $navWrapper.removeClass('d-none');
+                listViewMode = 'topic';
+                $topicPromptList.html('');
+                showTopic(currentTopicId);
+
+            }
+            return false;
+        }
+
+        listViewMode = 'search';
+        if (!$navWrapper.hasClass('d-none')) {
+            $navWrapper.addClass('d-none');
+        }
+        $topicPromptBlock.show();
+        $topicPromptList.html(spinLoader.render({ text: "Đang tìm kiếm..." }));
+
+        currentKeyword = keyword;
+        let searchData = { search: keyword };
+        let topic_id = $inputTopic.val();
+        if (topic_id && topic_id != '0') {
+            searchData.topic_id = topic_id;
+        }
+        return getPromptData(window.__TOOL_SEARCH__, searchData);
     }
 
     const checkExpired = () => {
@@ -153,7 +261,7 @@ $(() => {
 
     window.getContentWindow = () => contentWindow;
 
-    const setChatData = (prompt_id) => window.getContentWindow().setPromptChat(prompt_id);
+    const setChatData = (prompt_id, topic_id) => window.getContentWindow().setPromptChat(prompt_id, topic_id);
 
     function openChat(prompt_id, topic_id, turn) {
         if (!checkExpired())
@@ -169,7 +277,7 @@ $(() => {
                 openChat(prompt_id, topic_id, turn + 1);
             }, 500);
         }
-        setChatData(prompt_id);
+        setChatData(prompt_id, topic_id);
         // $chatFrameWrapper.append(chatFrameTemplate.render({ chat_url: chatUrlTemplate.render({ prompt_id, topic_id }) }))
 
         $chatArea.addClass('open');
@@ -208,6 +316,31 @@ $(() => {
     $(document).on('click', ".chat-btn-back", function (e) {
         e.preventDefault();
         closeChat();
+    });
+
+    $toolSearchForm.on('submit', e => {
+        e.preventDefault();
+        let keyword = $inputSearch.val();
+        // if (keyword != '')
+        searchPrompt(keyword);
     })
 
+    let inputTimer;
+    $inputSearch.on('input change keyup', function (e) {
+        clearTimeout(inputTimer);
+        inputTimer = setTimeout(function () {
+            searchPrompt($inputSearch.val())
+        }, 500)
+    })
+    let currentUrl = ''
+    $(document).on('click', ".pagination-area .page-numbers", function (e) {
+        e.preventDefault();
+        let url = $(this).attr('href');
+        if (url && url.length && url != '#' && url != currentUrl) {
+            currentUrl = url;
+            $topicPromptBlock.show();
+            $topicPromptList.html(spinLoader.render({ text: "Đang tải..." }));
+            getPromptData(url);
+        }
+    })
 })

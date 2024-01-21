@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property integer $user_id User Id
  * @property integer $prompt_id Prompt Id
+ * @property integer $current_id Prompt Id
  */
 class GPTChat extends Model
 {
     public $table = 'gpt_chats';
-    public $fillable = ['user_id', 'prompt_id'];
+    public $fillable = ['user_id', 'prompt_id', 'current_id'];
 
 
     /**

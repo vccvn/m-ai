@@ -355,6 +355,12 @@
   min-width: 100%;
 }
 
+.service-another-card.prompt-item {
+  margin-bottom: 0px;
+  text-align: center;
+  padding: 20px 20px;
+}
+
 @keyframes chat-writter {
   0% {
     border-left: 1px solid #989898;

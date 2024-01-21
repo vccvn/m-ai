@@ -12,7 +12,10 @@
             "name": "tên Prompt"
         },
         "search_columns": {
-            "keywords": "Từ khóa"
+            "keywords": "Từ khóa",
+            "pt_name": "Chủ đề",
+            "pt_keywords": "Từ khóa Chủ đề"
+
         },
         "sort_columns": {
             "id": "Mã Prompt",

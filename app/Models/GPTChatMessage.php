@@ -12,11 +12,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mediumText $message Message
  * @property string $role
  * @property string $content
+ * @property integer $task_id
  */
 class GPTChatMessage extends Model
 {
     public $table = 'gpt_chat_messages';
-    public $fillable = ['chat_id', 'role', 'message', 'content'];
+    public $fillable = ['chat_id', 'role', 'message', 'content', 'task_id'];
 
 
     /**

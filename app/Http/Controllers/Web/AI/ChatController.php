@@ -60,7 +60,7 @@ class ChatController extends WebController
         $chat = null;
         $user = $request->user();
         $prompt = null;
-        if (!($chat = $this->chatService->getOrCreateChat($user->id, $request->id, $request->prompt_id ?? 0)))
+        if (!($chat = $this->chatService->getChatForSendMessage($user->id, $request->id, $request->prompt_id ?? 0)))
             $message = 'Dữ liệu không hợp lệ';
         elseif ($request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))) {
             $message = 'Prompt không tồn tại';
@@ -68,6 +68,8 @@ class ChatController extends WebController
             $message = 'Dữ liệu không hợp lệ';
         } else {
             // return $this->json($messageData);
+            $current_id = $chat->current_id;
+            $task_id = $current_id;
             $cm = [
                 'role' => 'user',
                 'content' => $messageData['content'],
@@ -75,6 +77,7 @@ class ChatController extends WebController
             ];
             $cmLog = [
                 'chat_id' => $chat->id,
+                'task_id' => $chat->current_id,
                 'role' => 'user',
                 'content' => $messageData['content'],
                 'message' => $messageData['message']
@@ -88,9 +91,12 @@ class ChatController extends WebController
             $data = $this->chatService->sendMessages($messages);
             if (!$data) {
                 if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
+                    $task_id++;
+                    $current_id++;
                     $chat = $this->chatService->createChat($user->id, $request->prompt_id);
                     // $userMessage = $this->messageRepository->create($cmLog);
-                    $messages = $chat->toGPT();
+                    $this->repository->update($chat->id, ['current_id' => $current_id]);
+                    $messages = $chat->getEmptyGPT();
                     $messages[] = $cm;
 
                     // return $this->json($messages);
@@ -101,6 +107,7 @@ class ChatController extends WebController
                 $message = $this->chatService->getErrorMessage();
                 return $this->json(compact(...$this->apiSystemVars));
             }
+            $cmLog['task_id'] = $task_id;
             $userMessage = $this->messageRepository->create($cmLog);
             $content = $data['content'];
             if (strip_tags($data['content']) == $data['content']) {
@@ -126,6 +133,7 @@ class ChatController extends WebController
             }
             // $content = $data['content'];
             $data['chat_id'] = $chat->id;
+            $data['task_id'] = $task_id;
             $assistantMessage = $this->messageRepository->create($data);
             $status = true;
         }
@@ -161,6 +169,22 @@ class ChatController extends WebController
         $user_id = $request->user()->id;
         if ($chatData = $this->chatService->getChatData($user_id, $request->id ?? ($request->chat_id ?? ($request->cid ?? 0)), $request->p ?? ($request->prompt_id ?? ($request->pid ?? 0)))) {
             $status = true;
+            $data = $chatData;
+        }
+
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
+    public function getHistory(Request $request)
+    {
+
+        extract($this->apiDefaultData);
+        $user_id = $request->user()->id;
+        $params = $request->all();
+        $status = true;
+        $data = [];
+        if ($chatData = $this->chatService->getHistory($user_id, $params)) {
+            // $status = true;
             $data = $chatData;
         }
 
