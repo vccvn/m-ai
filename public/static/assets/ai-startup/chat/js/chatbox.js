@@ -265,7 +265,14 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        $chatBlock.append(htmlTemplates[role + "MessageItem"].render({ role, message, name: role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name, avatar: role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar, id: id ? id : '' }));
+        $chatBlock.append(
+            htmlTemplates[role + "MessageItem"].render({
+                role, message,
+                name: role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name,
+                avatar: role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar,
+                id: id ? id : ''
+        })
+        );
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
@@ -277,7 +284,16 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        messages.map(message => App.isObject(message) && $chatBlock.append(htmlTemplates[message.role + "MessageItem"].render({ role: message.role, message: message.message, name: message.role == 'user' ? window.__USER_NAME__ : window.__BOT_NAME__, avatar: message.role == 'user' ? window.__USER_AVATAR__ : window.__BOT_AVATAR__, id: message.id || '' })));
+        messages.map(message => App.isObject(message) && $chatBlock.append(
+            htmlTemplates[message.role + "MessageItem"].render({
+                role: message.role,
+                message: message.message,
+                name: message.role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name,
+                avatar: message.role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar,
+                id: message.id || ''
+            })
+
+        ));
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();

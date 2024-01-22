@@ -43,4 +43,16 @@ class TopicController extends WebController
         return $this->viewModule('index', ['topic' => $topic, 'topics' => $topics]);
     }
 
+    public function getTopic(Request $request)
+    {
+        extract($this->apiDefaultData);
+        if(!$request->id)
+            $message = 'Thiếu thông tin topic';
+        elseif(!($data = $this->repository->buildWithData()->mode('mask')->detail(['id' => $request->id])))
+            $message = 'Chủ đề không tồn tại';
+        else
+            $status = true;
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
 }

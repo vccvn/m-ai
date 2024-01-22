@@ -57,8 +57,6 @@ $(() => {
     }
 
     const registerTopicMAp = () => {
-        if (window.__TOPIC_DATA__ && window.__TOPIC_DATA__.length)
-            window.__TOPIC_DATA__.map(topic => registerTopicItem(topic));
 
     }
 
@@ -94,10 +92,33 @@ $(() => {
     }
 
     let currentTopicId = '';
+    const getTopicData = (topic_id, onSuccess) => {
+        $topicPromptBlock.hide();
+        $('.ai-loader-block').html(spinLoader.render({ text: "Chờ giây lát..." }))
+        return App.api.get(App.str.replace(window.__TOPIC_URL__, 'TOPIC_ID', topic_id))
+            .then(rs => {
+                $('.ai-loader-block').html('')
+
+                if (rs.status) {
+                    registerTopicItem(rs.data);
+                    if (typeof onSuccess == "function") {
+                        onSuccess(rs.data)
+                    }
+                } else {
+                    App.Swal.warning(rs.message);
+                }
+            }).catch(e => {
+                $('.ai-loader-block').html('')
+                App.Swal.warning('Lỗi không xác định');
+            })
+    };
     const showTopic = id => {
-        currentKeyword = id;
         let topic = getTopic(id);
         if (!$topicChildrenBody.hasClass('d-none')) $topicChildrenBody.addClass('d-none')
+        if (!topic)
+            return getTopicData(id, t => showTopic(id));
+        currentKeyword = id;
+
         if (!topic) {
             cleanChildren();
             cleanTopicPrompt();
@@ -160,7 +181,7 @@ $(() => {
                     )
                 );
                 arrButtons.push(btnTemplate.render({
-                    url: btn.url ? (location.protocol === 'https:' ? App.str.replace(btn.url, 'http://', 'https://'):btn.url) : '#',
+                    url: btn.url ? (location.protocol === 'https:' ? App.str.replace(btn.url, 'http://', 'https://') : btn.url) : '#',
                     label: btn.label
                 }))
 
@@ -175,10 +196,13 @@ $(() => {
     let listViewMode = 'topic';
     const getPromptData = (url, data) => listViewMode == 'search' && App.api.get(url, data ? data : {})
         .then(rs => {
-            if(listViewMode != 'search')
+            $('.ai-loader-block').html('')
+            if (listViewMode != 'search')
                 return;
-            $topicPromptList.html("");
+
             if (rs.status) {
+                $topicPromptList.html("");
+                $topicPromptBlock.show()
                 if (rs.data && rs.data.length) {
                     rs.data.map(tp => $topicPromptList.append(promptItem.render(tp)))
                     if (rs.links && rs.links.length) {
@@ -193,7 +217,9 @@ $(() => {
             }
         })
         .catch(e => {
-            $topicPromptList.html("");
+            // $topicPromptList.html("");
+            $('.ai-loader-block').html('')
+
             console.warn(e);
             App.Swal.warning('Lỗi không xác định')
         })
@@ -218,9 +244,8 @@ $(() => {
         if (!$navWrapper.hasClass('d-none')) {
             $navWrapper.addClass('d-none');
         }
-        $topicPromptBlock.show();
-        $topicPromptList.html(spinLoader.render({ text: "Đang tìm kiếm..." }));
-
+        $topicPromptBlock.hide();
+        $('.ai-loader-block').html(spinLoader.render({ text: "Đang tìm kiếm..." }));
         currentKeyword = keyword;
         let searchData = { search: keyword };
         if (topic_id && topic_id != '0') {
@@ -298,7 +323,7 @@ $(() => {
     }
 
 
-    registerTopicMAp();
+    // registerTopicMAp();
     renderNav();
     // initDefault();
     $(window).on('load', e => {

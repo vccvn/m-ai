@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('web.auth')->prefix('ai')->name('ai.')->group(function(){
     Route::any('/',                                       [TopicController::class, 'getIndex'])->name('index');
+    Route::any('/topic/{id?}',                            [TopicController::class, 'getTopic'])->name('topic');
     Route::any('tools/search',                            [PromptController::class, 'getSearchResults'])->name('tools.search');
     Route::controller(ChatController::class)->prefix('chat')->name('chat.')->group(function(){
         Route::get('/',                                         'index'             )->name('index');
