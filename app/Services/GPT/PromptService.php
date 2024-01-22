@@ -191,18 +191,19 @@ class PromptService
 
         $content = $prompt->prompt_config;
         $config = $prompt->getConfigData();
-
-        if($config['criteria'] && $request->use_criteria != 1){
-            return ['content' => $__mess, 'message' => $messageContent];
-        }
-
-        $message = "<h4>{$prompt->name}:</h4>\r\n";
         $config = array_merge([
             'criteria' => [],
             'map' => [],
             'inputs' => [],
             'text' => ''
         ], (array) $config);
+
+        if ($config['criteria'] && $request->use_criteria != 1) {
+            return ['content' => $__mess, 'message' => $messageContent];
+        }
+
+        $message = "<h4>{$prompt->name}:</h4>\r\n";
+
         if ($config['criteria'] && count($list = $this->criteriaRepository->get(['id' => $config['criteria']]))) {
             foreach ($list as $item) {
                 $val = $request->input("criteria." . $item->name);

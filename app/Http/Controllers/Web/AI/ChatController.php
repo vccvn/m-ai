@@ -93,7 +93,7 @@ class ChatController extends WebController
                 if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
                     $task_id++;
                     $current_id++;
-                    $chat = $this->chatService->createChat($user->id, $request->prompt_id);
+                    // $chat = $this->chatService->createChat($user->id, $request->prompt_id);
                     // $userMessage = $this->messageRepository->create($cmLog);
                     $this->repository->update($chat->id, ['current_id' => $current_id]);
                     $messages = $chat->getEmptyGPT();
@@ -189,5 +189,11 @@ class ChatController extends WebController
         }
 
         return $this->json(compact(...$this->apiSystemVars));
+    }
+
+    public function downloadMessage(Request $request, $chat_id = null, $id = null){
+        $chat_id = $chat_id?$chat_id:$request->chat_id;
+        $id = $id?$id:$request->id;
+
     }
 }
