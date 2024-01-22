@@ -183,13 +183,19 @@ class PromptService
         $__mess = trim(strip_tags($__mess));
         $messageContent = $request->message;
         $messageContent = preg_replace('/\sstyle=\"[^\"]\"/i', '', $messageContent);
-        if (!($prompt = $this->getPrompt($request->prompt_id)) || $request->use_criteria != 1) {
+        if (!($prompt = $this->getPrompt($request->prompt_id))) {
 
             return ['content' => $__mess, 'message' => $messageContent];
         }
 
+
         $content = $prompt->prompt_config;
         $config = $prompt->getConfigData();
+
+        if($config['criteria'] && $request->use_criteria != 1){
+            return ['content' => $__mess, 'message' => $messageContent];
+        }
+
         $message = "<h4>{$prompt->name}:</h4>\r\n";
         $config = array_merge([
             'criteria' => [],

@@ -113,8 +113,14 @@ $(() => {
             })
     };
     const showTopic = id => {
-        let topic = getTopic(id);
         if (!$topicChildrenBody.hasClass('d-none')) $topicChildrenBody.addClass('d-none')
+        if (!id || id == 0 || id == '') {
+            cleanChildren();
+            cleanTopicPrompt();
+            return;
+        }
+        let topic = getTopic(id);
+
         if (!topic)
             return getTopicData(id, t => showTopic(id));
         currentKeyword = id;
@@ -158,11 +164,9 @@ $(() => {
                     }, t);
                     t += 20;
                 })
-            })
-
+            });
         }
-
-    }
+    };
 
     const renderPaginationLinks = links => {
         let buttons = '';
@@ -284,7 +288,7 @@ $(() => {
 
         contentWindow = (x.contentWindow || x.contentDocument);
         isInited = true;
-        console.log('inited');
+        // console.log('inited');
     }
 
     window.getContentWindow = () => contentWindow;
@@ -336,11 +340,13 @@ $(() => {
     $(document).on('click', ".topic-page .topic-nav-item", function (e) {
         e.preventDefault();
         showTopic($(this).data('id'));
-    })
+    });
+
     $(document).on('click', ".prompt-item", function (e) {
         e.preventDefault();
-        openChat($(this).data('id'), $(this).data('topoc-id'));
-    })
+        openChat($(this).data('id'), $(this).data('topic-id'));
+    });
+
     $(document).on('click', ".chat-btn-back", function (e) {
         e.preventDefault();
         closeChat();

@@ -27,6 +27,7 @@ $(function () {
 
     const htmlTemplates = {
         promptItem: '',
+        historyItem: SH.tpl('historyItem'),
         promptTopLabel: SH.tpl('promptTopLabel'),
         promptLabel: SH.tpl('promptLabel'),
         messageBlock: SH.tpl('messageBlock'),
@@ -52,7 +53,7 @@ $(function () {
     const $chatMessageBlock = $('.chat-message-block');
     const $chatBody = $('.chat-scrollable .chat-body');
     const $chatFooter = $('.chat-footer');
-
+    const $historyBlock = $('#chat-history-list');
     const SEND_URL = $form.attr('action');
     const INPUT_URL = AI_DATA.urls.inputs;
     const DATA_URL = AI_DATA.urls.data;
@@ -92,7 +93,7 @@ $(function () {
             if (elements.length) {
                 for (let index = 0; index < elements.length; index++) {
                     const element = elements[index];
-                    if(element.style) element.setAttribute("style", "");
+                    if (element.style) element.setAttribute("style", "");
                 }
             }
         } catch (error) {
@@ -212,7 +213,7 @@ $(function () {
                                 }
                             )
                         )
-                    }).join("") + htmlTemplates.criteriaWrapper.render( { id: 0, htmlInput: '', label: "Message" });
+                    }).join("") + htmlTemplates.criteriaWrapper.render({ id: 0, htmlInput: '', label: "Message" });
                     $messageHeader.html(
                         htmlTemplates.promptTopLabel.render({
                             name: rs.data.prompt.name,
@@ -271,7 +272,7 @@ $(function () {
                 name: role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name,
                 avatar: role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar,
                 id: id ? id : ''
-        })
+            })
         );
 
         updateChatBodyPaddingBottom();
@@ -316,7 +317,7 @@ $(function () {
     }
     const toggleCriteriaBlock = () => {
         if (chatData.showCriteria) {
-            if(!chatData.isFirstChat) chatData.use_criteria = 0;
+            if (!chatData.isFirstChat) chatData.use_criteria = 0;
             chatData.showCriteria = false;
             $messageWrapper.removeClass('show-criteria');
         } else {
@@ -689,7 +690,18 @@ $(function () {
     }
 
     const showTopicHistory = topic_id => {
-        console.log(topic_id);
+        App.api.get(AI_DATA.urls.history, { topic_id })
+            .then(rs => {
+                if (rs.status) {
+                    $historyBlock.empty();
+                    if (rs.data && rs.data.length)
+                        rs.data.map(chat => {
+                            chat.chat_name = chat.prompt ? chat.prompt.name : "Chat với M.AI";
+                            $historyBlock.append(htmlTemplates.historyItem.render(chat));
+                        })
+
+                }
+            })
     }
 
     window.setChatData = (data) => {
@@ -698,7 +710,7 @@ $(function () {
 
     window.setPromptChat = (prompt_id, topic_id) => {
         openChat({ prompt_id });
-        if(topic_id){
+        if (topic_id) {
             showTopicHistory(topic_id);
         }
     }
@@ -773,5 +785,73 @@ $(function () {
     });
 
     init();
+    function copyDivToClipboard(element) {
+        var range = document.createRange();
+        range.selectNode(element);
+        window.getSelection().removeAllRanges(); // clear current selection
+        window.getSelection().addRange(range); // to select text
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();// to deselect
+        Toastify({
+
+            text: "Đã sao chép vào clipboard",
+
+            duration: 3000
+
+        }).showToast();
+
+    }
+    const ipnElement = document.querySelector('#copyable-block');
+    $(document).on("click", ".btn-copy-message", function (e) {
+        let $this = $(this);
+        e.preventDefault();
+        // step 1
+
+        let $chat = $this.closest('.chats');
+        if (!$chat || !$chat.length)
+            return false;
+        copyDivToClipboard($chat.find('.inner-content')[0]);
+    });
+
+    function exportHTML(content, filename) {
+        var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+            "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+            "xmlns='http://www.w3.org/TR/REC-html40'>" +
+            "<head><meta charset='utf-8'><title>M.AI Word Document</title></head><body>";
+        var footer = "</body></html>";
+        var sourceHTML = header + content + footer;
+
+        var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+        var fileDownload = document.createElement("a");
+
+        if (!filename) filename = 'document.doc';
+
+        document.body.appendChild(fileDownload);
+        fileDownload.href = source;
+        fileDownload.download = filename;
+        fileDownload.click();
+        document.body.removeChild(fileDownload);
+    }
+
+
+    $(document).on("click", ".btn-download-message", function (e) {
+        let $this = $(this);
+        e.preventDefault();
+        // step 1
+
+        let $chat = $this.closest('.chats');
+        if (!$chat || !$chat.length)
+            return false;
+        let $cn = $this.closest('.message-block').find('.chat-line .chat-name')
+        let filename = null;
+        if($cn && $cn.length){
+            let name = $cn.html();
+            if(name && name.length > 5){
+                filename = name + '.doc';
+            }
+        }
+        exportHTML($chat.find('.inner-content').html(), filename);
+    });
+
 
 });

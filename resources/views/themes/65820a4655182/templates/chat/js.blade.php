@@ -16,6 +16,7 @@
     <!-- FancyBox JS -->
     <script src="{{ai_startup_asset('chat/plugins/fancybox/jquery.fancybox.min.js')}}"></script>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 	<!-- Custom JS -->
     <script src="{{ai_startup_asset('chat/js/script.js')}}"></script>
 

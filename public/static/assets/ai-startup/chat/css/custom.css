@@ -361,6 +361,10 @@
   padding: 20px 20px;
 }
 
+.chat-history-item .d-flex {
+  max-width: 100%;
+}
+
 @keyframes chat-writter {
   0% {
     border-left: 1px solid #989898;
