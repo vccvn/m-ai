@@ -37,7 +37,7 @@ class TopicController extends WebController
 
     public function getIndex(Request $request)
     {
-        $topics = $this->repository->buildWithData()->mode('mask')->getData(['parent_id' => 0]);
+        $topics = $this->repository->mode('mask')->getData(['parent_id' => 0]);
         $topic = null;
         $this->breadcrumb->add('Chuyên gia AI');
         return $this->viewModule('index', ['topic' => $topic, 'topics' => $topics]);
