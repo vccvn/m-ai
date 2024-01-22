@@ -167,7 +167,11 @@ class ChatController extends WebController
 
         extract($this->apiDefaultData);
         $user_id = $request->user()->id;
-        if ($chatData = $this->chatService->getChatData($user_id, $request->id ?? ($request->chat_id ?? ($request->cid ?? 0)), $request->p ?? ($request->prompt_id ?? ($request->pid ?? 0)))) {
+        if ($chatData = $this->chatService->getChatData(
+            $user_id,
+            $request->id ?? ($request->chat_id ?? ($request->cid ?? 0)),
+            $request->p ?? ($request->prompt_id ?? ($request->pid ?? 0))
+        )) {
             $status = true;
             $data = $chatData;
         }

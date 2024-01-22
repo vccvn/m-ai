@@ -168,7 +168,12 @@ class ChatService
                 $p = new PromoMask($this->promptService->getCurrentPrompt());
                 $p->__lock();
                 $detail['prompt'] = $p;
+            }elseif($a = $this->promptService->getCurrentPrompt()){
+                $p = new PromoMask($a);
+                $p->__lock();
+                $detail['prompt'] = $p;
             }
+
         }
         $chat = $this->chatRepository->getOrCreateChat($params);
         if ($chat) {
