@@ -81,7 +81,7 @@ class ChatService
             if ($d && $d->choices) {
                 return ['role' => $d->get('choices.0.message.role'), 'content' => $d->get('choices.0.message.content')];
             } elseif ($d->error) {
-                $this->message = $d->gey('error.message');
+                $this->message = $d->get('error.message');
                 $this->code = $d->get('error.code');
             }
         } catch (\Throwable $th) {
