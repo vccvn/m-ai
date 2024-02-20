@@ -129,7 +129,7 @@ class ChatController extends WebController
                     return $ln;
                 }, $contentArrays));
             } else {
-                $data['message'] = preg_replace('/(<html[^>]>.*<body>|<\/body>|</html>)/i', '', $data['content']);
+                $data['message'] = preg_replace('/(<html[^>]>.*<body>|<\/body>|<\/html>)/i', '', $data['content']);
             }
             // $content = $data['content'];
             $data['chat_id'] = $chat->id;
