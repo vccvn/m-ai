@@ -134,7 +134,7 @@ class ChatController extends WebController
                 }, $contentArrays));
             } else {
                 $mapData = [];
-                preg_match_all('/\`\`\`([A-z0-9_\-]+)\n([^\`\`\`]*)\n\`\`\`/i', $content, $matches);
+                preg_match_all('/\`\`\`([A-z0-9_\-]*)\n([^\`\`\`]*)\n\`\`\`/i', $content, $matches);
                 // dd($matches);
                 if (count($matches[0])) {
                     foreach ($matches[1] as $i => $t) {
