@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "bacon/bacon-qr-code": "^2.0",
         "doctrine/dbal": "^3.3",
+        "erusev/parsedown-extra": "^0.8.1",
         "gomee/core": "dev-main",
         "guzzlehttp/guzzle": "^7.2",
         "josiasmontag/laravel-recaptchav3": "^1.0",
@@ -18,7 +19,6 @@
         "laravel/tinker": "^2.7",
         "openai-php/laravel": "^0.8.1",
         "orhanerday/open-ai": "^5.0",
-
         "pragmarx/google2fa-laravel": "^2.1",
         "riverskies/laravel-mobile-detect": "^1.3"
     },

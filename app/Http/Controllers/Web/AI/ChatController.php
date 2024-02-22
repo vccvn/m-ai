@@ -13,6 +13,7 @@ use App\Repositories\GPT\PromptRepository;
 use App\Repositories\GPT\TopicRepository;
 use App\Services\GPT\ChatService;
 use App\Services\GPT\PromptService;
+use ParsedownExtra;
 
 /**
  * @property-read TopicRepository $topicRepository
@@ -110,7 +111,10 @@ class ChatController extends WebController
             $cmLog['task_id'] = $task_id;
             $userMessage = $this->messageRepository->create($cmLog);
             $content = $data['content'];
-            if (strip_tags($data['content']) == $data['content']) {
+
+            $Extra = new ParsedownExtra();
+            if (json_validate($data['content'])) {
+                $content = json_encode(json_decode($content), JSON_PRETTY_PRINT);
                 $contentArrays = nl2array($content, false);
                 $data['message'] = implode("<br>", array_map(function ($ln) {
                     $i = 0;
@@ -129,7 +133,28 @@ class ChatController extends WebController
                     return $ln;
                 }, $contentArrays));
             } else {
-                $data['message'] = preg_replace('/(<html[^>]>.*<body>|<\/body>|<\/html>)/i', '', $data['content']);
+                $mapData = [];
+                preg_match_all('/\`\`\`([A-z0-9_\-]+)\n([^\`\`\`]*)\n\`\`\`/i', $content, $matches);
+                // dd($matches);
+                if (count($matches[0])) {
+                    foreach ($matches[1] as $i => $t) {
+                        if (in_array(strtolower($t), ['html', 'xml'])) {
+                            $mark = '.startMarkdown ' . $i . ' .endMarkdown';
+                            $mapData[$i] = [$mark, $matches[2][$i]];
+                            $content = str_replace($matches[2][$i], htmlentities($matches[2][$i]), $content);
+                        }
+                    }
+                }
+                $data['message'] = $Extra->text($content);
+
+            }
+
+
+            if (strip_tags($data['content']) == $data['content']) {
+            } else {
+                // echo $Extra->text('# Header {.sth}'); # prints: <h1 class="sth">Header</h1>
+                // $data['message'] = preg_replace('/(<html[^>]>.*<body>|<\/body>|<\/html>)/i', '', $data['content']);
+                // $data['message'] = $Extra->text($);
             }
             // $content = $data['content'];
             $data['chat_id'] = $chat->id;
@@ -195,9 +220,9 @@ class ChatController extends WebController
         return $this->json(compact(...$this->apiSystemVars));
     }
 
-    public function downloadMessage(Request $request, $chat_id = null, $id = null){
-        $chat_id = $chat_id?$chat_id:$request->chat_id;
-        $id = $id?$id:$request->id;
-
+    public function downloadMessage(Request $request, $chat_id = null, $id = null)
+    {
+        $chat_id = $chat_id ? $chat_id : $request->chat_id;
+        $id = $id ? $id : $request->id;
     }
 }

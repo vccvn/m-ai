@@ -202,7 +202,8 @@ class PromptService
             return ['content' => $__mess, 'message' => $messageContent];
         }
 
-        $message = "<h4>{$prompt->name}:</h4>\r\n";
+        // $message = "<h4>{$prompt->name}:</h4>\r\n";
+        $message = "";
 
         if ($config['criteria'] && count($list = $this->criteriaRepository->get(['id' => $config['criteria']]))) {
             foreach ($list as $item) {
@@ -211,9 +212,9 @@ class PromptService
                 $content = str_replace($mark, $val, $content);
                 $message .= "<div class=\"criteria-info\"><span class=\"criteria-tag\">{$item->label}: </span> {$val}</div>\r\n";
             }
+            $message_label = $prompt->message_label ?? 'Thông tin liên quan';
+            $message .= "<div class=\"message-info\">{$message_label}</div>\r\n";
         }
-        $message_label = $prompt->message_label ?? 'Thông tin liên quan';
-        $message .= "<div class=\"message-info\">{$message_label}</div>\r\n";
         $message .= "<div class=\"message-detail\">{$messageContent}</div>\r\n";
 
 
