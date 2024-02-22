@@ -139,14 +139,31 @@ class ChatController extends WebController
                 if (count($matches[0])) {
                     foreach ($matches[1] as $i => $t) {
                         if (in_array(strtolower($t), ['html', 'xml'])) {
-                            $mark = '.startMarkdown ' . $i . ' .endMarkdown';
-                            $mapData[$i] = [$mark, $matches[2][$i]];
+                            // $mark = '.startMarkdown ' . $i . ' .endMarkdown';
+                            // $mapData[$i] = [$mark, $matches[2][$i]];
                             $content = str_replace($matches[2][$i], htmlentities($matches[2][$i]), $content);
                         }
                     }
+                    $data['message'] = $Extra->text($content);
+                } else {
+                    $contentArrays = nl2array($content, false);
+                    $data['message'] = implode("<br>", array_map(function ($ln) {
+                        $i = 0;
+                        $s = '';
+                        $l = strlen($ln);
+                        for ($j = 0; $j < $l; $j++) {
+                            # code...
+                            $c = substr($ln, $j, 1);
+                            if ($c != ' ') {
+                                $s .= substr($ln, $j);
+                                return $s;
+                            } else {
+                                $s .= "&nbsp;";
+                            }
+                        }
+                        return $ln;
+                    }, $contentArrays));
                 }
-                $data['message'] = $Extra->text($content);
-
             }
 
 
