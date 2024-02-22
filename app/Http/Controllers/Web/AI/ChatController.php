@@ -147,7 +147,7 @@ class ChatController extends WebController
                             // $mapData[$i] = [$mark, $matches[2][$i]];
                             $raw = str_replace($matches[2][$i], htmlentities($matches[2][$i]), $raw);
                         }
-                        $content = str_replace($matches[0][$i], $raw, $chat);
+                        $content = str_replace($matches[0][$i], $raw, $content);
                     }
                     $data['message'] = $Extra->text($content);
                 } else {
