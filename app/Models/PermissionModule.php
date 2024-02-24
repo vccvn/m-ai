@@ -59,7 +59,7 @@ class PermissionModule extends Model
 
     public function moduleRoles()
     {
-        return $this->hasMany(PermissionModuleRole::class, 'module_id');
+        return $this->hasMany(PermissionModuleRole::class, 'module_id', 'id');
     }
 
     /**
@@ -69,7 +69,7 @@ class PermissionModule extends Model
      */
     public function groups(): HasMany
     {
-        return $this->hasMany(static::class, 'parent_id')->where('type', self::TYPE_GROUP);
+        return $this->hasMany(static::class, 'parent_id', 'id')->where('type', self::TYPE_GROUP);
     }
 
     /**
@@ -79,7 +79,7 @@ class PermissionModule extends Model
      */
     public function actionGroups(): HasMany
     {
-        return $this->hasMany(PermissionModuleGroupAction::class, 'group_id');
+        return $this->hasMany(PermissionModuleGroupAction::class, 'group_id', 'id');
     }
 
     /**
@@ -120,7 +120,7 @@ class PermissionModule extends Model
      */
     public function modules(): HasMany
     {
-        return $this->hasMany(static::class, 'parent_id')->where('type', self::TYPE_MODULE);
+        return $this->hasMany(static::class, 'parent_id', 'id')->where('type', self::TYPE_MODULE);
     }
 
 

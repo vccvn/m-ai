@@ -173,7 +173,7 @@ if (!function_exists('get_ref_files')) {
                 $params[$key] = $value;
             }
         }
-        return (new FileRepository())->join('file_refs', 'file_refs.file_id', '=', 'files.uuid')->select('files.*')->get($params);
+        return (new FileRepository())->join('file_refs', 'file_refs.file_id', '=', 'files.id')->select('files.*')->get($params);
     }
 }
 
@@ -537,7 +537,7 @@ if (!function_exists('get_country_options')) {
      * @param array $args
      * @return array
      */
-    function get_country_options($args = [], $defaultFirst = "Chọn Tỉnh / Thành phố", $keyVal = "uuid", $keyText = 'name')
+    function get_country_options($args = [], $defaultFirst = "Chọn Tỉnh / Thành phố", $keyVal = "id", $keyText = 'name')
     {
         /**
          * @var CountryRepository
@@ -559,7 +559,7 @@ if (!function_exists('get_region_options')) {
          * @var RegionRepository
          */
         $repo = app(RegionRepository::class);
-        return $repo->getDataOptions($args, $defaultFirst, "uuid");
+        return $repo->getDataOptions($args, $defaultFirst, "id");
     }
 }
 

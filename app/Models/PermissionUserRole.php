@@ -9,6 +9,8 @@ class PermissionUserRole extends Model
     public $fillable = ['user_id', 'role_id'];
 
 
+    public $timestamps = false;
+
 
     public function role()
     {

@@ -36,7 +36,9 @@ class CoreServiceProvider extends ServiceProvider
 
         Input::addTemplate('module-table', ['checklist', 'checkbox', 'moduletable', 'module-table'], function (Input $input) {
             $input->addClass('module-table permision-matrix');
-            $input->hiddenData('modules', app(ModuleRepository::class)->getModuleMatrix());
+            $scope = $input->hidden('scope')??'admin';
+            $m = app(ModuleRepository::class)->getModuleMatrix($scope);
+            $input->hiddenData('modules', $m);
             $input->hidden('__id__', $input->getParamFromString("#hidden_id"));
         });
 

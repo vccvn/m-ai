@@ -51,16 +51,22 @@ class ModuleRepository extends BaseRepository
         ]);
     }
 
-    public function getModuleMatrix()
+    public function getModuleMatrix($scope = null)
     {
-        // 4 level
-        return $this->where('type', PermissionModule::TYPE_SCOPE)->whereNull('parent_id')->with([
+        $args = ['slug' => 'admin'];
+        if($scope){
+            $args['slug'] = $scope;
+        }
+        $scopeModules = $this->where('type', PermissionModule::TYPE_SCOPE)->where('parent_id', 0)->with([
             'moduleRoles' => function($query){},
-            // module
             'modules' => function ($query) {
                 $this->moduleQuery($query, 1);
             },
-        ])->get();
+        ])->get($args);
+        return $scopeModules;
+        // if($scopeModule)
+        //     return $scopeModule->modules;
+        // return [];
     }
 
 
