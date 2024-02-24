@@ -63,7 +63,7 @@ class RequestRepository extends BaseRepository
             'created_at' => 'DESC'
         ];
         $columns = [
-            'user_name' => 'users.full_name',
+            'user_name' => 'users.name',
             'user_phone_number' => 'users.phone',
             'user_email' => 'users.email',
             'package_name' => 'upload_packages.name',

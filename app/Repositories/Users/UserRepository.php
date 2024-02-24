@@ -274,14 +274,14 @@ class UserRepository extends BaseRepository
      */
     public function getUserSelectOptions($request, array $args = [])
     {
-        $this->setSelectColumns('id', 'full_name', 'email');
+        $this->setSelectColumns('id', 'name', 'email');
         if ($request->ignore && is_array($request->ignore)) {
             $this->whereNotIn('users.id', $request->ignore);
         }
         $data = [];
         if ($list = $this->getFilter($request, $args)) {
             foreach ($list as $user) {
-                $data[$user->id] = htmlentities($user->full_name . " ($user->email)");
+                $data[$user->id] = htmlentities($user->name . " ($user->email)");
             }
         }
         return $data;
@@ -294,7 +294,7 @@ class UserRepository extends BaseRepository
      */
     public function getUserTagData($request, array $args = [])
     {
-        $this->setSelectColumns('id', 'full_name', 'email');
+        $this->setSelectColumns('id', 'name', 'email');
         if ($request->ignore && is_array($request->ignore)) {
             $this->whereNotIn('users.id', $request->ignore);
         }
@@ -303,7 +303,7 @@ class UserRepository extends BaseRepository
             foreach ($list as $user) {
                 $data[] = [
                     'id' => $user->id,
-                    'full_name' => $user->full_name . ' (' . $user->email . ')',
+                    'name' => $user->name . ' (' . $user->email . ')',
                 ];
             }
         }
@@ -322,7 +322,7 @@ class UserRepository extends BaseRepository
         $data = ['' => 'Chọn một'];
         if ($list = (new static())->staffQuery()->get(array_merge(['@limit' => 10], $args))) {
             foreach ($list as $user) {
-                $data[$user->id] = htmlentities($user->full_name . " ($user->email)");
+                $data[$user->id] = htmlentities($user->name . " ($user->email)");
             }
         }
         return $data;
@@ -337,7 +337,7 @@ class UserRepository extends BaseRepository
         $data = [];
         if ($list = (new static())->staffQuery()->get($args)) {
             foreach ($list as $user) {
-                $data[$user->id] = htmlentities($user->full_name . " ($user->email)");
+                $data[$user->id] = htmlentities($user->name . " ($user->email)");
             }
         }
         return $data;

@@ -44,7 +44,7 @@ class OwnerRepository extends UserRepository
 
     protected $columns = [
         'id' => 'users.id',
-        'full_name' => 'users.full_name',
+        'name' => 'users.name',
         'email' => 'users.email',
         'username' => 'users.username',
         'phone_number' => 'users.phone_number',
@@ -158,7 +158,7 @@ class OwnerRepository extends UserRepository
             'email' => 'users.email',
             'username' => 'users.username',
             'phone_number' => 'users.phone_number',
-            'full_name' => 'profiles.full_name',
+            'name' => 'profiles.name',
 
         ];
         $this->setSearchable($cc)
