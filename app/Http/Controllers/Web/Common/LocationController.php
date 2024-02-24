@@ -55,7 +55,7 @@ class LocationController extends WebController
     {
         extract($this->apiDefaultData);
         $args = $request->code?['countries.code' => $request->code]:[];
-        if($options = $this->repository->join('countries', 'countries.id', '=', 'country_id')->select('regions.id', 'regions.name')->getDataOptions($args, 'Chọn Tỉnh / Thành phố', "uuid", "name")){
+        if($options = $this->repository->join('countries', 'countries.id', '=', 'country_id')->select('regions.id', 'regions.name')->getDataOptions($args, 'Chọn Tỉnh / Thành phố', "id", "name")){
             $data = $options;
             $status = true;
         }else{
@@ -69,7 +69,7 @@ class LocationController extends WebController
     {
         extract($this->apiDefaultData);
 
-        if($options = $this->districtRepository->getDataOptions(['region_id' => $request->region_id?$request->region_id:'-1'], 'Chọn Quận / Huyện', "uuid", "name")){
+        if($options = $this->districtRepository->getDataOptions(['region_id' => $request->region_id?$request->region_id:'-1'], 'Chọn Quận / Huyện', "id", "name")){
             $data = $options;
             $status = true;
         }else{
@@ -83,7 +83,7 @@ class LocationController extends WebController
     {
         extract($this->apiDefaultData);
 
-        if($options = $this->wardRepository->getDataOptions(['district_id' => $request->district_id?$request->district_id:'-1'], 'Chọn Xã / Phường', "uuid", "name")){
+        if($options = $this->wardRepository->getDataOptions(['district_id' => $request->district_id?$request->district_id:'-1'], 'Chọn Xã / Phường', "id", "name")){
             $data = $options;
             $status = true;
         }else{

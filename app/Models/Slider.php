@@ -5,7 +5,7 @@ use Gomee\Models\Model;
 /**
  * Slider class
  *
- * @property string $uuid Slider UUID
+ * @property string $id Slider id
  * @property string $name Tên slider
  * @property string $slug Slider Item
  * @property string $description Mô tả

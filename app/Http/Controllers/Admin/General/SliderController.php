@@ -96,8 +96,8 @@ class SliderController extends AdminController
         extract($this->apiDefaultData);
         $d = ['status' => $request->slider_status?1:0];
         // return $d;
-        $uuid = $request->id??$request->id;
-        if($uuid && $detail = $this->repository->update($uuid, $d)){
+        $id = $request->id??$request->id;
+        if($id && $detail = $this->repository->update($id, $d)){
             $data = $detail;
             $status = true;
         }

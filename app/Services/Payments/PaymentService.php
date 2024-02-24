@@ -124,9 +124,9 @@ class PaymentService extends Service
         return $this->errorMessage;
     }
 
-    public function getPaymentMethod($uuid = null)
+    public function getPaymentMethod($id = null)
     {
-        if ($uuid && $paymentMethod = $this->methodRepository->first(['id' => $uuid]))
+        if ($id && $paymentMethod = $this->methodRepository->first(['id' => $id]))
             return $paymentMethod;
         return $this->methodRepository->first();
     }

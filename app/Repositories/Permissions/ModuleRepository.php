@@ -11,7 +11,7 @@ class ModuleRepository extends BaseRepository
 
     /**
      * class chứ các phương thức để validate dử liệu
-     * @var string $validatorClass 
+     * @var string $validatorClass
      */
     protected $validatorClass = 'App\Validators\Permissions\ModuleValidator';
 
@@ -38,7 +38,7 @@ class ModuleRepository extends BaseRepository
     {
         return \App\Models\PermissionModule::class;
     }
-    
+
 
     function moduleQuery($query, $level = 0) {
         $query->with([
@@ -54,7 +54,7 @@ class ModuleRepository extends BaseRepository
     public function getModuleMatrix()
     {
         // 4 level
-        return $this->where('type', PermissionModule::TYPE_SCOPE)->whereNull('parent_uuid')->with([
+        return $this->where('type', PermissionModule::TYPE_SCOPE)->whereNull('parent_id')->with([
             'moduleRoles' => function($query){},
             // module
             'modules' => function ($query) {
@@ -94,7 +94,7 @@ class ModuleRepository extends BaseRepository
     /**
      * lay option parent
      * @param int $ignore
-     * 
+     *
      * @return array
      */
     public static function getParentOptions($ignore = null)
@@ -102,7 +102,7 @@ class ModuleRepository extends BaseRepository
         $data = ["" => 'Module cha'];
         $rep = new static();
         if ($ignore) {
-            $rep->where('uuid', '!=', $ignore);
+            $rep->where('id', '!=', $ignore);
         }
         if ($list = $rep->get()) {
             foreach ($list as $module) {

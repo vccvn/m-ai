@@ -138,7 +138,7 @@ class RequestController extends MerchantController
     {
         //
         $user = $request->user();
-        if (!($package = $this->packageRepository->first($request->order_id ? ['uuid' => $request->order_id] : ['@orderBy' => ['price', 'ASC']])))
+        if (!($package = $this->packageRepository->first($request->order_id ? ['id' => $request->order_id] : ['@orderBy' => ['price', 'ASC']])))
             $message = 'Không có gói thanh toán nào dc cấu hình';
         elseif ($package->price == 0) {
             $user->upload_count += $package->upload_count;

@@ -8,7 +8,7 @@ use App\Models\User;
 use Gomee\Masks\Mask;
 /**
  * MerchantMask class
- * @property string $uuid
+ * @property string $id
  * @property string $full_name
  * @property string $gender
  * @property string $birthday

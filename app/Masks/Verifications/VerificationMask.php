@@ -6,12 +6,12 @@ use Gomee\Masks\Mask;
 /**
  * VerificationMask class
  *
- * @property string $uuid ID của verification
+ * @property string $id ID của verification
  * @property string $type Loại verify
  * @property string $method Phương thức
  * @property string $received_by Nhận mã thông qua giá trị cụ thể
  * @property string $ref Bảng liên quan
- * @property string $ref_id UUID của bảng liên quan
+ * @property string $ref_id id của bảng liên quan
  * @property string $code Mã xác minh
  * @property string $status trạng thái
  * @property string $expired_at Hạn xác thực

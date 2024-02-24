@@ -6,8 +6,8 @@ use Gomee\Models\Model;
 /**
  * SliderItem class
  *
- * @property string $uuid Slider UUID
- * @property string $slider_id Slider UUID
+ * @property string $id Slider id
+ * @property string $slider_id Slider id
  * @property string $title Tiêu đề slide
  * @property string $sub_title Tieu7 đề phụ
  * @property string $description Mô tả

@@ -18,7 +18,7 @@ class PlaceData extends Excel
         'title' => 'Nhập liệu từ file',
         'data_row_start' => 2,
         'columns' => [
-            'region_id'           => 'Region UUID',
+            'region_id'           => 'Region id',
             'name'                  => 'Tên địa điểm'
         ]
     ];
