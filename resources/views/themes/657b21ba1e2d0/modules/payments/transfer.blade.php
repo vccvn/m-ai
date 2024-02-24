@@ -12,7 +12,7 @@
         <!-- Log In Section Start -->
         <div class="order-section">
             <div class="box">
-                <form class="form" action="{{ route('web.payments.check-order') }}" method="POST">
+                <form class="form" action="{{ route('client.payments.check-order') }}" method="POST">
                     @csrf
                     @if ($error = session('error'))
                         <div class="alert alert-danger text-center">
@@ -59,7 +59,7 @@
                     <div class="col-lg-6  mb-40 mb-lg-0">
                         <h3 class="heading-secondary mb-3">Thanh toán</h3>
                         <div class="login-reg-box bg-white">
-                            <form action="{{ route('web.payments.verify-transfer') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('client.payments.verify-transfer') }}" method="post" enctype="multipart/form-data">
                                 <div class="ps-form__content">
                                     @csrf
                                     <input type="hidden" name="order_code" value="{{ session('order_code') }}">

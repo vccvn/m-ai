@@ -80,7 +80,7 @@
                                         </li>
                                     </ul>
                                     @if ($order->isPaymentMethod('transfer') && $order->isPaymentPending() && !$order->is('canceled'))
-                                        <a href="{{ route('web.payments.check-order', ['order_code' => $order->code, 'contact' => $order->billing->email]) }}" class="btn btn-theme btn-colored-default btn-def-size" style="margin-top: 3%;">Thanh toán</a>
+                                        <a href="{{ route('client.payments.check-order', ['order_code' => $order->code, 'contact' => $order->billing->email]) }}" class="btn btn-theme btn-colored-default btn-def-size" style="margin-top: 3%;">Thanh toán</a>
                                     @endif
                                     @if ($order->canCancel())
                                         <a class="btn btn-theme btn-colored-default {{ parse_classname('btn-cancel-order') }}" data-id="{{ $order->id }}" data-order-code="{{ $order->code }}" style="margin-top: 3%;">Hủy</a>

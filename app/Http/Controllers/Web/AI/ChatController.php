@@ -247,4 +247,10 @@ class ChatController extends WebController
         $chat_id = $chat_id ? $chat_id : $request->chat_id;
         $id = $id ? $id : $request->id;
     }
+
+    public function deleteMessage(Request $request){
+        extract($this->apiDefaultData);
+        // if($request->id && $message = $this->)
+        return $this->json(compact(...$this->apiSystemVars));
+    }
 }

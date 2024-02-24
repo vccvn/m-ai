@@ -28,11 +28,11 @@
             @php
                 $args = [];
                 $routeParams = [];
-                $url = route('web.products');
+                $url = route('client.products');
                 $args['@limit'] = 4;
                 $args['@sorttype'] = 'rand()';
                 $url .= '?sorttype=6';
-
+                
                 if ($args) {
                     $args = array_merge($args, [
                         '@with' => ['promoAvailable'],

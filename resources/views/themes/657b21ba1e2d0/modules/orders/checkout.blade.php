@@ -17,7 +17,7 @@
                 @endif
                 <div class="row">
                     <div class="col-md-7">
-                        <form action="{{ route('web.orders.checkout') }}" method="POST" class="form form--cart {{ parse_classname('checkout-form', 'cart-form', 'cart-section') }}" data-cart-type="{{ $cart->type }}" data-cart-id="{{ $cart->id }}">
+                        <form action="{{ route('client.orders.checkout') }}" method="POST" class="form form--cart {{ parse_classname('checkout-form', 'cart-form', 'cart-section') }}" data-cart-type="{{ $cart->type }}" data-cart-id="{{ $cart->id }}">
                             <input type="hidden" name="cart_type" value="{{ $cart->type }}">
                             @csrf
                             <div class="production">
@@ -144,7 +144,7 @@
                         <div class="pay">
                             <div class="box-info">
                                 <h3 class="title">Thông tin thanh toán</h3>
-                                <form action="{{ route('web.orders.place-order') }}" method="POST" class="form form--cart {{ parse_classname('checkout-form', 'placeh-order-form', 'cart-section') }}">
+                                <form action="{{ route('client.orders.place-order') }}" method="POST" class="form form--cart {{ parse_classname('checkout-form', 'placeh-order-form', 'cart-section') }}">
                                     @csrf
                                     <input type="hidden" name="cart_type" value="{{ $cart->type }}">
                                     <div class="card box-cart">
@@ -152,7 +152,7 @@
                                             $form = $cart->getForm([
                                                 'className' => 'form-control',
                                             ]);
-
+                                            
                                             $info = $form->get('billing_name', 'billing_phone_number', 'billing_email', 'billing_region_id', 'billing_district_id', 'billing_ward_id', 'billing_address');
                                             $shipping = $form->get('shipping_name', 'shipping_email', 'shipping_phone_number', 'shipping_region_id', 'shipping_district_id', 'shipping_ward_id', 'shipping_address');
                                         @endphp

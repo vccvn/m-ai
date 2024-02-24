@@ -15,7 +15,7 @@
         <div class="order-section">
             <div class="box">
 
-                <form class="form" action="{{ route('web.payments.check-order') }}" method="POST">
+                <form class="form" action="{{ route('client.payments.check-order') }}" method="POST">
                     @csrf
                     @if ($error = session('error'))
                         <div class="alert alert-danger text-center">

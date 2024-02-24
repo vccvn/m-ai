@@ -5,11 +5,11 @@
     <script src="{{theme_asset('js/sotope.pkgd.min.js')}}"></script>
     <script src="{{theme_asset('js/script.js')}}"></script>
 
-
+    
     <script>
 
         // @if(session('disableBack'))
-
+        
         window.navInit = function(){
             App.nav.init({
                 disableBack: true,
@@ -57,7 +57,7 @@
                             '</div>'+
                         '</div>'+
                     '</div>',
-
+                   
                     attribute: '<div class="sing-price"><strong class="{{parse_classname('attribute-label')}}">{$label}</strong>: <span class="{{parse_classname('attribute-value')}}">{$value}</span></div>'
                 },
                 tasks: {
@@ -68,11 +68,11 @@
             });
         };
         window.authInit = function(){
-
+            
 
             App.auth.init({
                 urls: {
-                    check: "{{route('web.account.check')}}"
+                    check: "{{route('client.account.check')}}"
                 },
                 templates: {
                     account_section: "<i class=\"fa fa-user\"></i> {$name}",
@@ -82,7 +82,7 @@
             App.auth.check(function(res){
                 if(res.status){
                     // gs-account-links
-
+                   
                     function maplinks(links, func) {
                         var linkArr = [];
                         for(var key in links){
@@ -93,7 +93,7 @@
                         return linkArr;
                     }
                     var a = maplinks(res.data.links, function(link){return '<li><a href="'+link.link+'">'+link.text+'</a></li>';}).join('')
-
+                            
                     $('#account-menu-links').html(a);
 
                     var $btn = $('#account-menu-block .btn-account');
@@ -101,20 +101,20 @@
                     $btn.find('span.name-span').html(res.data.name);
                     $btn.removeClass('btn-colored-default');
                     $btn.addClass('btn-outline-default');
-
-
+                    
+                    
 
 
                 }else{
 
                     // $('.gs-account-links').html(
-                    //     '<a href="{{route('web.account.login')}}">Đăng nhập</a>'+
-                    //     '<a href="{{route('web.account.register')}}">Đăng ký</a>'
+                    //     '<a href="{{route('client.account.login')}}">Đăng nhập</a>'+
+                    //     '<a href="{{route('client.account.register')}}">Đăng ký</a>'
                     // );
                 }
             });
-
-
+            
+            
 
         };
     </script>

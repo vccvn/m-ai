@@ -20,7 +20,7 @@
                 <div class="col-lg-12 col-main">
 
                     @include($_current . 'templates.tabs', ['tab' => $t])
-
+                    
                     @if (count($collections))
                         <div class="product-list row">
                             @foreach ($collections as $item)
@@ -28,9 +28,9 @@
                                     <div class="product-item">
                                         @php
                                             // $u = $item->getViewUrl();
-                                            $u = route('web.products', ['collection' => $item->id]);
+                                            $u = route('client.products', ['collection' => $item->id]);
                                             // $url.="?collection=" . $item->id;
-
+                                            
                                         @endphp
                                         <div class="thumbnail">
                                             <a href="{{ $u }}">
@@ -39,7 +39,7 @@
                                         </div>
                                         <div class="info">
                                             <h4 class="product-name"><a href="{{ $u }}">{{ $item->name }}</a></h4>
-
+                                            
                                         </div>
                                     </div>
                                 </div>

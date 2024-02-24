@@ -7,7 +7,7 @@
     <div class="row tabs">
         @foreach ($tabs as $key => $text)
             <div class="col-4 tab-item">
-                <a href="{{route('web.products.'.$key)}}" class="tab-link {{$key == $t ? 'active': ''}}">{{$text}}</a>
+                <a href="{{route('client.products.'.$key)}}" class="tab-link {{$key == $t ? 'active': ''}}">{{$text}}</a>
             </div>
         @endforeach
     </div>

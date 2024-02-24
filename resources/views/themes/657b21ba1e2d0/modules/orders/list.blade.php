@@ -12,18 +12,18 @@
                     <ul class="nav nav-tabs custome-nav-tabs flex-column category-option">
 
                         <li class="nav-item mb-2">
-                            <a class="nav-link font-light {{$key?'': 'active'}}" href="{{route('web.orders.manager')}}"><i class="fas fa-angle-right"></i>Tất cả đơn hàng</a>
+                            <a class="nav-link font-light {{$key?'': 'active'}}" href="{{route('client.orders.manager')}}"><i class="fas fa-angle-right"></i>Tất cả đơn hàng</a>
                         </li>
 
                         @foreach ($status_list as $item)
                             <li class="nav-item mb-2">
-                                <a class="nav-link font-light {{$key == $item->key ? "active":""}}" href="{{route('web.orders.list', ['status_key' => $status_keys[$item->key]])}}"><i class="fas fa-angle-right"></i>{{$item['label']}}</a>
+                                <a class="nav-link font-light {{$key == $item->key ? "active":""}}" href="{{route('client.orders.list', ['status_key' => $status_keys[$item->key]])}}"><i class="fas fa-angle-right"></i>{{$item['label']}}</a>
                             </li>
                         @endforeach
                         <li class="nav-item">
-                            <a class="nav-link font-light {{$key?'': 'active'}}" href="{{route('web.customers.logout')}}"><i class="fas fa-angle-right"></i> Đăng xuất tài khoản</a>
+                            <a class="nav-link font-light {{$key?'': 'active'}}" href="{{route('client.customers.logout')}}"><i class="fas fa-angle-right"></i> Đăng xuất tài khoản</a>
                         </li>
-
+                        
                     </ul>
                 </div>
 
@@ -60,13 +60,13 @@
                                                     <br>
                                                     ({{$order->getPaymentStatusLabel()}})
                                                     @endif
-
+                                                    
                                                 </p>
                                             </td>
                                             <td><p class="mt-0 order-status">{{$order->getStatusLabel()}}</p></td>
                                             <td class="product-price"><p class="theme-color fs-6">{{$helper->getCurrencyFormat($order->total_money)}}</p></td>
                                             <td>
-                                                <a href="{{route('web.orders.detail', ['code' => $order->code??$order->id])}}" class="">Chi tiết</a>
+                                                <a href="{{route('client.orders.detail', ['code' => $order->code??$order->id])}}" class="">Chi tiết</a>
                                                 @if ($order->canCancel())
                                                     |
                                                     <a href="#" class="{{parse_classname('btn-cancel-order')}}" data-id="{{$order->id}}" data-order-code="{{$order->code}}">Hủy</a>

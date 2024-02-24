@@ -9,6 +9,7 @@ class PermissionModuleGroupAction extends Model
     public $table = 'permission_module_group_actions';
     public $fillable = ['group_id', 'action_id'];
 
+    public $timestamps = false;
 
 
     /**

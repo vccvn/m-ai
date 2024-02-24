@@ -8,7 +8,7 @@
                 <img src="{{$siteinfo->logo(theme_asset('images/logo-mien.png'))}}" alt="{{$siteinfo->site_name}}" class="d-inline-block align-text-top">
 
             </a>
-            <a href="{{route('web.orders.cart')}}" class="minicart-btn">
+            <a href="{{route('client.orders.cart')}}" class="minicart-btn">
                 <span>
                     <i class="pe-7s-shopbag"></i>
                     <div class="notification {{parse_classname('cart-quantity')}}">0</div>
@@ -16,7 +16,7 @@
             </a>
 
             <div class="collapse main-menu-wrapper" id="main-menu-wrapper">
-                {!!
+                {!! 
                     $helper->getCustomMenu('primary', 2, [
                         'class' => 'navbar-nav justify-content-center flex-grow-1'
                     ])
@@ -43,8 +43,8 @@
                         }
                         else{
                             $link->addClass('dropdown-item');
-
-                        }
+                                    
+                        }                                        
                     })
                 !!}
             </div>

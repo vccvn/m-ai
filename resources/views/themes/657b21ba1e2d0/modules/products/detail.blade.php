@@ -11,9 +11,9 @@
         $u = $product->getViewUrl();
         $user = $request->user();
         add_product_schema($product);
-
+        
         $reviewAnalytics = $product->getReviewData();
-
+        
     @endphp
     @php
         $thumbnails = $product->getThumbnailOrderOption();
@@ -103,7 +103,7 @@
                             </div>
 
                             @if ($ecommerce->allow_place_order && $product->price_status > 0 && $product->status > 0 && $product->available_in_store)
-                                <form action="{{ route('web.orders.add-to-cart') }}" method="post" class="{{ $product->price_status < 0 ? '' : parse_classname('product-order-form') }}"data-check-required="{{ $ecommerce->allow_place_order && $product->price_status > 0 && $product->status > 0 && $product->available_in_store ? 'true' : 'false' }}">
+                                <form action="{{ route('client.orders.add-to-cart') }}" method="post" class="{{ $product->price_status < 0 ? '' : parse_classname('product-order-form') }}"data-check-required="{{ $ecommerce->allow_place_order && $product->price_status > 0 && $product->status > 0 && $product->available_in_store ? 'true' : 'false' }}">
 
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}" class="{{ parse_classname('product-order-id') }}">
@@ -182,7 +182,7 @@
                 '@with' => ['gallery', 'promoAvailable'],
                 '@withOption' => true
         ])))
-
+            
             <div class="relative-products">
                 <h3 class="list-title">
                     Có thể bạn sẽ thích
