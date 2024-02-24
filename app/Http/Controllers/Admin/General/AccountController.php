@@ -108,7 +108,7 @@ class AccountController extends AdminController
     {
 
         if($this->tab == 'info'){
-            $data->full_name = $data->last_name . ' ' . $data->first_name;
+            $data->name = $data->last_name . ' ' . $data->first_name;
             // $this->uploadImageAttachFile($request, $data, 'avatar', get_content_path('users/'.$request->user()->secret_id.'/avatar'), 400, 400);
             $this->uploadImageAttachFile($request, $data, 'avatar', get_content_path('users/avatar'));
         }
