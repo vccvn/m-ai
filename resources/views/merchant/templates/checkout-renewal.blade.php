@@ -23,7 +23,7 @@
                             </p>
 
                             <div class="buttons">
-                                <a href="#" class="btn btn-danger btn-renewal" data-uuid="{{ $template->uuid }}" data-package="{{ $i + 1 }}">
+                                <a href="#" class="btn btn-danger btn-renewal" data-id="{{ $template->id }}" data-package="{{ $i + 1 }}">
 
                                     <i class="fa fa-shopping-cart"></i>
                                     Gia hạn

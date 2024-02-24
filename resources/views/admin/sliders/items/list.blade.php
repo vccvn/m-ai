@@ -75,16 +75,16 @@
 							<tbody>
 								@foreach ($results as $item)
 
-								<tr id="crazy-item-{{$item->uuid}}" data-name="{{$item->label??$item->name}}">
+								<tr id="crazy-item-{{$item->id}}" data-name="{{$item->label??$item->name}}">
 									<td class="check-col">
 										<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-											<input type="checkbox" name="ids[]" value="{{$item->uuid}}" data-id="{{$item->uuid}}" class="crazy-check-item">
+											<input type="checkbox" name="ids[]" value="{{$item->id}}" data-id="{{$item->id}}" class="crazy-check-item">
 											<span></span>
 										</label>
 									</td>
 
 									<td>
-                                        <a href="{{$url = admin_slider_item_url('update', ['uuid'=>$item->uuid])}}">
+                                        <a href="{{$url = admin_slider_item_url('update', ['id'=>$item->id])}}">
                                             <img src="{{$item->getImage()}}" class="image-thumbnail" alt="{{$item->title}}">
                                         </a>
                                     </td>
@@ -95,7 +95,7 @@
 										<a href="{{$url}}" data-original-title="Sửa" data-toggle="m-tooltip" data-placement="left" title class="text-accent btn btn-outline-accent btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
 											<i class="flaticon-edit-1"></i>
 										</a>
-										<a href="javascript:void(0);" data-id="{{$item->uuid}}" data-toggle="m-tooltip" data-placement="left" data-original-title="Xóa" class="btn-delete text-danger btn btn-outline-danger btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+										<a href="javascript:void(0);" data-id="{{$item->id}}" data-toggle="m-tooltip" data-placement="left" data-original-title="Xóa" class="btn-delete text-danger btn btn-outline-danger btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
 											<i class="flaticon-delete-1"></i>
 										</a>
 

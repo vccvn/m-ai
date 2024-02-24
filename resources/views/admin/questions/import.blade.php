@@ -172,7 +172,7 @@ $subjectDataMap = get_subject_data_map();
     </div>
     <div class="detail">
         <div class="info1">
-            <div class="filename"><a target="_blank" href="/static/contents/exams/assets/${uuid}" class="btn-view-source">{$original_filename}</a></div>
+            <div class="filename"><a target="_blank" href="/static/contents/exams/assets/${id}" class="btn-view-source">{$original_filename}</a></div>
             <a href="javascript:;" class="btn-remove-file-item btn btn-sm btn-secondary" data-id="{$id}">
                 <i class="fa fa-trash"></i>
             </a>

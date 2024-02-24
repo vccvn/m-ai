@@ -70,24 +70,24 @@ $columns = [
                         <tbody>
                             @foreach ($results as $item)
 
-                            <tr class="tr_user" id="crazy-item-{{$item->uuid}}" data-name="{{$item->name}}">
+                            <tr class="tr_user" id="crazy-item-{{$item->id}}" data-name="{{$item->name}}">
                                 <td class="text-center">
                                     <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                        <input type="checkbox" name="ids[]" value="{{$item->uuid}}" data-id="{{$item->uuid}}" class="crazy-check-item">
+                                        <input type="checkbox" name="ids[]" value="{{$item->id}}" data-id="{{$item->id}}" class="crazy-check-item">
                                         <span></span>
                                     </label>
                                 </td>
-                                <td><a style="font-weight:500" href="{{$edit = route($route_name_prefix.'permissions.roles.update', ['uuid'=>$item->uuid])}}">{{$item->name}}</a></td>
+                                <td><a style="font-weight:500" href="{{$edit = route($route_name_prefix.'permissions.roles.update', ['id'=>$item->id])}}">{{$item->name}}</a></td>
                                 <td>{{ $item->label() }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->handle }}</td>
-                                <td><a style="font-weight:500" href="{{route($route_name_prefix.'permissions.roles.detail', ['uuid'=>$item->uuid])}}">Chi tiết</a></td>
+                                <td><a style="font-weight:500" href="{{route($route_name_prefix.'permissions.roles.detail', ['id'=>$item->id])}}">Chi tiết</a></td>
                                 <td class="text-center min-100 actions">
                                     <a data-toggle="m-tooltip" data-placement="left" title data-original-title="Sửa" href="{{$edit}}" class="text-accent btn btn-outline-accent btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
                                         <i class="flaticon-edit-1"></i>
                                     </a>
 
-                                    <a href="javascript:void(0);" data-id="{{$item->uuid}}" data-toggle="m-tooltip" data-placement="left" data-original-title="Xóa" class="btn-delete text-danger btn btn-outline-danger btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                    <a href="javascript:void(0);" data-id="{{$item->id}}" data-toggle="m-tooltip" data-placement="left" data-original-title="Xóa" class="btn-delete text-danger btn btn-outline-danger btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
                                         <i class="flaticon-delete-1"></i>
                                     </a>
                                 </td>

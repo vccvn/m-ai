@@ -13,7 +13,7 @@ set_admin_template_data('modals', 'modal-place');
             "@select-type" => $input->hidden('select-type'),
             "@search-route" => $input->hidden('search-route'),
             'call' => 'get_place_options',
-            'params' => [['uuid' => $input->value]],
+            'params' => [['id' => $input->value]],
             'value' => $input->value,
             '@advance' => $input->hidden('advance')
         ])

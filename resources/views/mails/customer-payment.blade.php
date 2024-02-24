@@ -13,7 +13,7 @@
             Một khách hàng của bạn vừa tiến hành thanh toán
         </p>
         <p>
-            Mã KH: {{$customer_uuid}}
+            Mã KH: {{$customer_id}}
         </p>
         <p>
             Số tiền: {{get_price_format($total, $currency)}}

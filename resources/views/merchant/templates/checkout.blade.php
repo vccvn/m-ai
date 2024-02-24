@@ -21,9 +21,9 @@
                             </p>
 
                             <div class="buttons">
-                                <a href="#" class="btn btn-danger btn-choose" data-uuid="{{$template->uuid}}" data-package="{{$i+1}}">
+                                <a href="#" class="btn btn-danger btn-choose" data-id="{{$template->id}}" data-package="{{$i+1}}">
                                     @if ($d->price)
-                                        <i class="fa fa-shopping-cart"></i> 
+                                        <i class="fa fa-shopping-cart"></i>
                                         Đặt hàng
                                     @else
                                         Dùng thử

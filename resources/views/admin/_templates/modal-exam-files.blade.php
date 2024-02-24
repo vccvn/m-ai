@@ -17,7 +17,7 @@
                     <div class="create-file-form-body">
 
                     </div>
-    
+
         		</form>
             </div>
             <div class="modal-footer">
@@ -49,7 +49,7 @@
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-info">Tạo đề thi</button>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 
@@ -74,11 +74,11 @@
 	</div>
 @endsection
 @section('file-item')
-    <tr id="${uuid}">
+    <tr id="${id}">
         <td class="id-col">${code}</td>
         <td>${downloadItems}</td>
         <td>${downloadAnswers}</td>
-        <td class="max-80 text-right"><a href="javascript:;" class="btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air text-danger btn btn-outline-danger btn-delete-file" data-uuid="${uuid}"><i class="flaticon-delete-1"></i></a></td>
+        <td class="max-80 text-right"><a href="javascript:;" class="btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air text-danger btn btn-outline-danger btn-delete-file" data-id="${id}"><i class="flaticon-delete-1"></i></a></td>
     </tr>
 @endsection
 @section('download-item')
@@ -88,7 +88,7 @@
 @endsection
 
 @section('empty-list')
-<tr id="${uuid}">
+<tr id="${id}">
     <td colspan="4" class="text-center">${message}</td>
 </tr>
 @endsection
@@ -102,7 +102,7 @@
                 <i class="flaticon-download"></i> Tải về tất cả
             </a>
         </td>
-        <td class="max-80 text-right"><a href="javascript:;" class="btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air text-danger btn btn-outline-danger btn-delete-all" data-uuid="${uuid}"><i class="flaticon-delete-1"></i></a></td>
+        <td class="max-80 text-right"><a href="javascript:;" class="btn-sm m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air text-danger btn btn-outline-danger btn-delete-all" data-id="${id}"><i class="flaticon-delete-1"></i></a></td>
     </tr>
 </tfoot>
 @endsection
@@ -111,12 +111,12 @@
     <td colspan="4" class="text-center">
         <div class="row">
             <div class="col-6 text-left">
-                File: ${count} / ${total} 
+                File: ${count} / ${total}
             </div>
             <div class="col-6 text-right">
                 ${percent}%
             </div>
-            
+
         </div>
         <div class="progress m-progress--sm">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" style="width: ${percent}%"></div>
@@ -126,7 +126,7 @@
 
 @endsection
 @php
-		
+
 	add_js_data('exam_data', [
 		'urls' => [
 			'detail' => route('admin.exams.exam-detail'),

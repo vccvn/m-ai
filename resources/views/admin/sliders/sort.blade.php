@@ -42,12 +42,12 @@
                                     $showLabels = ["", '<i class="fa fa-check"></i>'];
                                 ?>
                                 @foreach ($sliders as $slider)
-                                <li class="dd-item" data-id="{{$slider->uuid}}">
+                                <li class="dd-item" data-id="{{$slider->id}}">
                                     <div class="item-actions">
-                                        <a href="{{route($route_name_prefix.'sliders.update', ['uuid' => $slider->uuid])}}" class="edit btn-edit-item" data-id="{{$slider->uuid}}">
+                                        <a href="{{route($route_name_prefix.'sliders.update', ['id' => $slider->id])}}" class="edit btn-edit-item" data-id="{{$slider->id}}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        <a href="javascript:void(0);" class="remove btn-delete-item" data-id="{{$slider->uuid}}">
+                                        <a href="javascript:void(0);" class="remove btn-delete-item" data-id="{{$slider->id}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </div>

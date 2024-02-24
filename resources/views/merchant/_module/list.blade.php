@@ -262,11 +262,11 @@ $currentUrl = url()->full();
                                         @php
                                             $index = $itemStart + $loop->index;
                                         @endphp
-                                        <tr id="crazy-item-{{ $item->id ?? $item->uuid }}" data-name="{{ $item->name ?? $item->title }}">
+                                        <tr id="crazy-item-{{ $item->id ?? $item->id}}" data-name="{{ $item->name ?? $item->title }}">
                                             @if ($showChecklist)
                                             <td class="check-col">
                                                 <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                                    <input type="checkbox" name="ids[]" value="{{ $item->id ?? $item->uuid }}" data-id="{{ $item->id ?? $item->uuid }}" data-uuid="{{ $item->uuid }}" class="crazy-check-item">
+                                                    <input type="checkbox" name="ids[]" value="{{ $item->id ?? $item->id}}" data-id="{{ $item->id ?? $item->id}}" data-id="{{ $item->id}}" class="crazy-check-item">
                                                     <span></span>
                                                 </label>
                                             </td>
@@ -316,7 +316,7 @@ $currentUrl = url()->full();
                                                                 }
                                                             @endphp
                                                             @if ($show)
-                                                                <a href="{{ $btnCfg->route ? route(substr($btnCfg->route, 0, 1) == '.' ? $route_name_prefix . $config->package . $btnCfg->route : $btnCfg->route, $btnCfg->params ?? []) : 'javascript:void(0);' }}" data-original-title="{{ $btnCfg->title }}" data-id="{{ $item->id ?? $item->uuid }}" data-toggle="m-tooltip" data-placement="left"
+                                                                <a href="{{ $btnCfg->route ? route(substr($btnCfg->route, 0, 1) == '.' ? $route_name_prefix . $config->package . $btnCfg->route : $btnCfg->route, $btnCfg->params ?? []) : 'javascript:void(0);' }}" data-original-title="{{ $btnCfg->title }}" data-id="{{ $item->id ?? $item->id}}" data-toggle="m-tooltip" data-placement="left"
                                                                     @foreach ($btnCfg->all() as $btnKey => $btnVal)
                                                                         @if (!in_array($btnKey, ['class', 'className', 'href', 'route', 'text', 'title', 'icon', 'type', 'show', 'params', 'data-id']))
                                                                             {{ $btnKey }}="{{ $btnVal }}"{{ ' ' }}
@@ -330,7 +330,7 @@ $currentUrl = url()->full();
                                                         @endforeach
                                                     @endif
                                                     @if ($can_edit !== false)
-                                                        <a href="{{ route($route_name_prefix . $config->package . '.update', array_merge([$item->getKeyName() => $item->{$item->getKeyName()}], $routeParams)) }}" data-id="{{ $item->id ?? $item->uuid }}" data-original-title="Sửa" data-toggle="m-tooltip" data-placement="left" title class="text-accent btn-edit-item btn btn-outline-accent {{ $btn_icon_class }}">
+                                                        <a href="{{ route($route_name_prefix . $config->package . '.update', array_merge([$item->getKeyName() => $item->{$item->getKeyName()}], $routeParams)) }}" data-id="{{ $item->id ?? $item->id}}" data-original-title="Sửa" data-toggle="m-tooltip" data-placement="left" title class="text-accent btn-edit-item btn btn-outline-accent {{ $btn_icon_class }}">
                                                             <i class="flaticon-edit-1"></i>
                                                         </a>
                                                     @endif
@@ -340,7 +340,7 @@ $currentUrl = url()->full();
                                                         </a>
                                                     @endif
                                                     @if ($can_delete !== false)
-                                                        <a href="javascript:void(0);" data-id="{{ $item->id ?? $item->uuid }}" data-toggle="m-tooltip" data-placement="left" data-original-title="{{ $btn_tooltip }}" class="{{ $btn_class }} text-danger btn btn-outline-danger {{ $btn_icon_class }}">
+                                                        <a href="javascript:void(0);" data-id="{{ $item->id ?? $item->id}}" data-toggle="m-tooltip" data-placement="left" data-original-title="{{ $btn_tooltip }}" class="{{ $btn_class }} text-danger btn btn-outline-danger {{ $btn_icon_class }}">
                                                             <i class="flaticon-delete-1"></i>
                                                         </a>
                                                     @endif

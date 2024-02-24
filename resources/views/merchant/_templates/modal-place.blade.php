@@ -29,8 +29,8 @@
                             @include($_base.'forms.templates.crazyselect', [
                                 'input' => html_input([
                                     'type' => 'crazyselect',
-                                    'name' => 'type_uuid',
-                                    'id' => 'type-uuid',
+                                    'name' => 'type_id',
+                                    'id' => 'type-id',
                                     'call' => 'get_place_type_options'
                                 ])
                             ])
@@ -42,8 +42,8 @@
                             @include($_base.'forms.templates.crazyselect', [
                                 'input' => html_input([
                                     'type' => 'crazyselect',
-                                    'name' => 'region_uuid',
-                                    'id' => 'region_uuid',
+                                    'name' => 'region_id',
+                                    'id' => 'region_id',
                                     'data' => 'get_region_options',
                                     '@change' => 'App.location.changeRegionID'
                                 ])
@@ -56,10 +56,10 @@
                             @include($_base.'forms.templates.crazyselect', [
                                 'input' => html_input([
                                     'type' => 'crazyselect',
-                                    'name' => 'district_uuid',
-                                    'id' => 'district_uuid',
+                                    'name' => 'district_id',
+                                    'id' => 'district_id',
                                     'data' => ['' => 'Chọn quận huyện'],
-                                    'params' => [['uuid' => "jkghjkh"]],
+                                    'params' => [['id' => "jkghjkh"]],
                                     '@change' => 'App.location.changeDistrictID'
                                 ])
                             ])
@@ -71,10 +71,10 @@
                             @include($_base.'forms.templates.crazyselect', [
                                 'input' => html_input([
                                     'type' => 'crazyselect',
-                                    'name' => 'ward_uuid',
-                                    'id' => 'ward_uuid',
+                                    'name' => 'ward_id',
+                                    'id' => 'ward_id',
                                     'data' => ['' => 'Chọn quận huyện'],
-                                    'params' => [['uuid' => "jghjfg"]],
+                                    'params' => [['id' => "jghjfg"]],
                                 ])
                             ])
                         </div>
@@ -91,8 +91,8 @@
                             @include($_base.'forms.templates.media', [
                                 'input' => html_input([
                                     'type' => 'media',
-                                    'name' => 'thumbnail_uuid',
-                                    'id' => 'thumbnail_uuid',
+                                    'name' => 'thumbnail_id',
+                                    'id' => 'thumbnail_id',
                                 ])
                             ])
                         </div>

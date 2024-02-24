@@ -92,7 +92,7 @@
                         </li>
 
                         @if ($template && !$available)
-                            <a href="javascript:void(0);" class="btn btn-danger btn-renewal-template" data-uuid="{{ $template->uuid }}">Gia hạn</a>
+                            <a href="javascript:void(0);" class="btn btn-danger btn-renewal-template" data-id="{{ $template->id}}">Gia hạn</a>
                         @endif
                     </ul>
                 </div>
@@ -139,7 +139,7 @@
                                                                 $tabInputs[$name] = $rawInputs[$name];
                                                             }
                                                         }
-                                                        
+
                                                         foreach ($tabInputs as $key => $inp) {
                                                             if ($inp['type'] == 'list') {
                                                                 if (array_key_exists('item', $inp)) {
@@ -166,7 +166,7 @@
                                                                 'class' => 'crazy-form',
                                                             ],
                                                         ];
-                                                        
+
                                                     @endphp
 
 
@@ -182,7 +182,7 @@
                                         </div>
                                     @else
                                         @php
-                                            
+
                                             foreach ($rawInputs as $key => $inp) {
                                                 if ($inp['type'] == 'list') {
                                                     if (array_key_exists('item', $inp)) {
@@ -209,7 +209,7 @@
                                                     'class' => 'crazy-form',
                                                 ],
                                             ];
-                                            
+
                                         @endphp
 
                                         <div class="outer-scrollable m-scrollable" data-scrollable="true">
@@ -306,14 +306,14 @@
                                                 @endif
                                             </div>
                                             <div class="buttons">
-                                                @if ($setting && $setting->template_uuid == $item->uuid)
+                                                @if ($setting && $setting->template_id== $item->id)
                                                     <button class="btn btn-secondary">Đang dùng</button>
                                                 @elseif(!$item->has_own)
-                                                    <a href="{{ route('merchant.templates.checkout', ['template_uuid' => $item->uuid]) }}" class="btn btn-info btn-buy-template" data-uuid="{{ $item->uuid }}">Mua mẫu</a>
+                                                    <a href="{{ route('merchant.templates.checkout', ['template_id' => $item->id]) }}" class="btn btn-info btn-buy-template" data-id="{{ $item->id}}">Mua mẫu</a>
                                                 @elseif(($mat = $item->merchantActiveTemplate) && !$mat->expired_status)
-                                                    <a href="{{ route('merchant.templates.checkout-renewal', ['template_uuid' => $item->uuid]) }}" class="btn btn-danger btn-renewal-template" data-uuid="{{ $item->uuid }}">Gia hạn</a>
+                                                    <a href="{{ route('merchant.templates.checkout-renewal', ['template_id' => $item->id]) }}" class="btn btn-danger btn-renewal-template" data-id="{{ $item->id}}">Gia hạn</a>
                                                 @else
-                                                    <button class="btn btn-primary btn-choose-template" data-uuid="{{ $item->uuid }}">Áp dụng</button>
+                                                    <button class="btn btn-primary btn-choose-template" data-id="{{ $item->id}}">Áp dụng</button>
                                                 @endif
 
                                             </div>
@@ -361,7 +361,7 @@
                 <div class="modal-body">
                     <div id="payment-section" class="payment-methods">
                         <form method="POST" action="{{ route('merchant.templates.order') }}" id="template-payment-form">
-                            <input type="hidden" name="uuid" id="payment-template-uuid">
+                            <input type="hidden" name="id" id="payment-template-id">
                             <input type="hidden" name="package_id" id="payment-package-id">
 
                             <div class="method {{ parse_classname('payment-methods') }}">

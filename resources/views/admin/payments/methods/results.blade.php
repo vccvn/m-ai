@@ -87,9 +87,9 @@ $method_options = get_payment_select_options();
                                     @include($_base . 'forms.templates.switch', [
                                         'input' => html_input([
                                             'type' => 'checkbox',
-                                            'data-method-id' => $item->uuid,
-                                            'name' => 'payment_methods[' . $item->uuid . '][status]',
-                                            'id' => 'payment-methods-' . $item->uuid . '-status',
+                                            'data-method-id' => $item->id,
+                                            'name' => 'payment_methods[' . $item->id . '][status]',
+                                            'id' => 'payment-methods-' . $item->id . '-status',
                                             'value' => $item->status,
                                             '@change' => 'App.payments.methods.changeStatus',
                                         ]),
@@ -109,7 +109,7 @@ $method_options = get_payment_select_options();
                                     </a>
                                 </li>
                                 <li class="m-portlet__nav-item">
-                                    <a href="javascript:void(0);" data-id="{{ $item->uuid }}" class="m-portlet__nav-link m-portlet__nav-link--icon {{ $btn_class }}">
+                                    <a href="javascript:void(0);" data-id="{{ $item->id }}" class="m-portlet__nav-link m-portlet__nav-link--icon {{ $btn_class }}">
                                         <i class="la la-close"></i>
                                     </a>
                                 </li>
