@@ -28,7 +28,7 @@
     </div>
     <!-- /Chat -->
     <script type="text/template" id="message-block-template">
-        <div class="message-block" id="message-block-{$id}">
+        <div class="message-block" id="message-block-{$uuid}">
 
             <div class="chat-line">
                 <span class="chat-date chat-name">{$name}</span>
@@ -68,7 +68,7 @@
     </script>
 
     <script type="text/template" id="reply-writting-template">
-        <div class="chats reply-writting" id="reply-writing-{id}">
+        <div class="chats reply-writting" id="reply-writing-{uuid}">
             <div class="chat-content">
                 <div class="chat-profile-name text-end">
                     <h6>Đang trả lời...</h6>

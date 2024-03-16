@@ -105,7 +105,7 @@ class ChatController extends WebController
                 }
             }
             if (!$data || !$data['content']) {
-                $message = $this->chatService->getErrorMessage();
+                $message = str_replace('For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', '', $this->chatService->getErrorMessage());
                 return $this->json(compact(...$this->apiSystemVars));
             }
             $cmLog['task_id'] = $task_id;
