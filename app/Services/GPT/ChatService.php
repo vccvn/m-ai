@@ -43,7 +43,7 @@ class ChatService
     public function send($messages = [])
     {
         $result = $this->openAIChat->create([
-            'model' => 'gpt-4',
+            'model' => 'gpt-3.5-turbo',
             'messages' => $messages,
         ]);
         // return $result;
@@ -68,7 +68,7 @@ class ChatService
         try {
             //code...
             $chat = $open_ai->chat([
-                'model' => 'gpt-4',
+                'model' => 'gpt-3.5-turbo',
                 'messages' => $messages,
                 'temperature' => 1.0,
                 'max_tokens' => 4000,

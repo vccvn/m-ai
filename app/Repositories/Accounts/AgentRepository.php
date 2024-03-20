@@ -91,6 +91,7 @@ class AgentRepository extends BaseRepository
         }
         if ($policy_id != $userPolicy->policy_id) {
             $data = [
+                'policy_id' => $policy_id,
                 'commission_level_1' => 0,
                 'commission_level_2' => 0,
                 'commission_level_3' => 0,

@@ -17,6 +17,13 @@
                         "icon": "list-ul"
                     },
                     {
+                        "text": "Thêm mới",
+                        "title": "Thêm mới",
+                        "active_key": "add",
+                        "route": "admin.users.create",
+                        "icon": "user-plus"
+                    },
+                    {
                         "text": "Đơn xét duyệt",
                         "title": "Danh sách Đơn",
                         "active_key": "cover-letters",
@@ -29,13 +36,6 @@
                         "active_key": "trash",
                         "route": "admin.users.trash",
                         "icon": "user-slash"
-                    },
-                    {
-                        "text": "Thêm mới",
-                        "title": "Thêm mới",
-                        "active_key": "add",
-                        "route": "admin.users.create",
-                        "icon": "user-plus"
                     }
                 ]
             }
