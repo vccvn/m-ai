@@ -154,7 +154,7 @@ class ChatController extends WebController
                     $data['message'] = $Extra->text($content);
                 }
                 elseif($service == 'gemini'){
-                    $content = preg_replace('/\#([^\s])+/i', '#$1', $content);
+                    $content = preg_replace('/\s\#\s([^\s]*)/i', ' #$1', $content);
                     $data['message'] = $Extra->text($content);
                 }
                 else {
