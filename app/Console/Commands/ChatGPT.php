@@ -30,8 +30,8 @@ class ChatGPT extends Command
     {
         $chatGPT = app(ChatService::class);
         $data = $chatGPT->sendMessages([
-            // ['role' => 'user', 'content' => "i want to be supper man"],
-            // ['role' => 'assistant', 'content' => "Perhaps you mean you want to be like \"Superman\", the popular comic book hero. Here are few tips:
+            ['role' => 'user', 'content' => "i want to be supper man"],
+            ['role' => 'model', 'content' => "Perhaps you mean you want to be like \"Superman\", the popular comic book hero. Here are few tips:
 
             // 1. Develop Moral Character: Superman is known for his strong moral compass. He always tries to do what is right, no matter the situation.
 
@@ -49,7 +49,6 @@ class ChatGPT extends Command
         $content = $data['content'];
         $contentArrays = explode("
 ",$content);
-        dump($contentArrays);
         $data['content'] = implode("
 ", array_map(function($ln){
             $i = 0;
