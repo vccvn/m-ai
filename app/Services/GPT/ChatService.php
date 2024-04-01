@@ -67,9 +67,10 @@ class ChatService
     }
     public function sendMessages($messages, $service = 'chatgpt', $model = 'gpt-3.5-turbo')
     {
+        $message = array_pop($messages);
+        $history = $service == 'gemini'? $this->convertToGeminiHistory($messages): $messages;
         try {
             if ($service == 'gemini') {
-                $message = array_pop($messages);
                 $history = $this->convertToGeminiHistory($messages);
                 if($history){
 
@@ -117,7 +118,7 @@ class ChatService
         } catch (\Throwable $th) {
             //throw $th;
             $this->code = $th->getCode();
-            $this->message = $th->getMessage();
+            $this->message = $th->getMessage() . ' -- ' . json_encode($history);
         }
 
         return null;

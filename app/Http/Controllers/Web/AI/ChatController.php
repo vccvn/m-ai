@@ -58,6 +58,9 @@ class ChatController extends WebController
     public function sendMessage(Request $request)
     {
         extract($this->apiDefaultData);
+        $service = ($s = setting('ai_service')) && in_array($s, ['chatgpt', 'gemini']) ? $s : 'chatgpt';
+        $model = ($m = setting('ai_model')) ? $m : 'gpt-3.5-turbo';
+
         $chat = null;
         $user = $request->user();
         $prompt = null;
@@ -65,7 +68,7 @@ class ChatController extends WebController
             $message = 'Dữ liệu không hợp lệ';
         elseif ($request->prompt_id && !($prompt = $this->promptRepository->find($request->prompt_id))) {
             $message = 'Prompt không tồn tại';
-        } elseif (!($messageData = $this->promptService->getPromptDataFilled($request))) {
+        } elseif (!($messageData = $this->promptService->getPromptDataFilled($request, $service))) {
             $message = 'Dữ liệu không hợp lệ';
         } else {
             // return $this->json($messageData);
@@ -87,8 +90,6 @@ class ChatController extends WebController
 
             $messages = $chat->toGPT();
             $messages[] = $cm;
-            $service = ($s = setting('ai_service')) && in_array($s, ['chatgpt', 'gemini'])? $s: 'chatgpt';
-            $model = ($m = setting('ai_model')) ? $m: 'gpt-3.5-turbo';
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages, $service, $model);
             if (!$data) {
@@ -140,7 +141,7 @@ class ChatController extends WebController
                 if (count($matches[0])) {
                     foreach ($matches[1] as $i => $t) {
                         $raw = $matches[0][$i];
-                        if($t){
+                        if ($t) {
                             $raw = "$t:\n$raw";
                         }
                         if (in_array(strtolower($t), ['html', 'xml'])) {
@@ -249,7 +250,8 @@ class ChatController extends WebController
         $id = $id ? $id : $request->id;
     }
 
-    public function deleteMessage(Request $request){
+    public function deleteMessage(Request $request)
+    {
         extract($this->apiDefaultData);
         // if($request->id && $message = $this->)
         return $this->json(compact(...$this->apiSystemVars));
