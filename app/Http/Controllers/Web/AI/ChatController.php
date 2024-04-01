@@ -88,7 +88,7 @@ class ChatController extends WebController
             ];
 
 
-            $messages = $chat->toGPT();
+            $messages = $chat->toGPT($service);
             $messages[] = $cm;
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages, $service, $model);

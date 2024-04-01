@@ -62,7 +62,7 @@ class ChatMask extends Mask
         $this->last_sent_format = Carbon::parse($this->last_sent ? $this->last_sent : $this->update_at)->format('H:i - d/m/Y');
     }
 
-    public function toGPT($reverse = false)
+    public function toGPT($service = 'chatgpt', $reverse = false)
     {
         $data = [
             // ['role' => 'system', 'content' => 'Tất cả kết quả trả về nếu có các từ như "ChatGPT", "chat gpt", "Chat GPT" hoặc các từ tương tự thì hãy thay bằng từ "Chuyên gia AI" hoặc "M.Ai". ']
@@ -75,7 +75,8 @@ class ChatMask extends Mask
                     $data[] = $message->toGPT();
             }
         }
-        array_unshift($data, ['role' => 'system', 'content' => $this->systemMessage]);
+        if ($service == 'chatgpt')
+            array_unshift($data, ['role' => 'system', 'content' => $this->systemMessage]);
         return $data;
     }
 
