@@ -152,7 +152,12 @@ class ChatController extends WebController
                         $content = str_replace($matches[0][$i], $raw, $content);
                     }
                     $data['message'] = $Extra->text($content);
-                } else {
+                }
+                elseif($service == 'gemini'){
+                    $data['message'] = $Extra->text($content);
+                }
+                else {
+
                     $contentArrays = nl2array($content, false);
                     $data['message'] = implode("<br>", array_map(function ($ln) {
                         $i = 0;
