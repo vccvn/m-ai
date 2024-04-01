@@ -90,7 +90,7 @@ class ChatController extends WebController
             $service = ($s = setting('ai_service')) && in_array($s, ['chatgpt', 'gemini'])? $s: 'chatgpt';
             $model = ($m = setting('ai_model')) ? $m: 'gpt-3.5-turbo';
             // return $this->json($messages);
-            $data = $this->chatService->sendMessages($messages);
+            $data = $this->chatService->sendMessages($messages, $service, $model);
             if (!$data) {
                 if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
                     $task_id++;
