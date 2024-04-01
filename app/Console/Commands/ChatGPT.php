@@ -28,7 +28,7 @@ class ChatGPT extends Command
      */
     public function handle()
     {
-        $chatGPT = new ChatService();
+        $chatGPT = app(ChatService::class);
         $data = $chatGPT->sendMessages([
             // ['role' => 'user', 'content' => "i want to be supper man"],
             // ['role' => 'assistant', 'content' => "Perhaps you mean you want to be like \"Superman\", the popular comic book hero. Here are few tips:
@@ -45,7 +45,7 @@ class ChatGPT extends Command
 
             // Remember that Superman is just a character, but the attributes he represents, such as strength, courage, kindness, and resilience, are within everyone's reach."],
             ['role' => 'user', 'content' => $this->argument('message')??'Tôi muốn làm siêu nhân']
-        ]);
+        ], 'gemini');
         $content = $data['content'];
         $contentArrays = explode("
 ",$content);

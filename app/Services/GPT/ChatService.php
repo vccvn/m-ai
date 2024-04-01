@@ -16,7 +16,7 @@ use GeminiAPI\Client;
 use GeminiAPI\Enums\Role;
 use GeminiAPI\Resources\Content;
 use GeminiAPI\Resources\Parts\TextPart;
-
+use GeminiAPI\Laravel\Facades\Gemini;
 class ChatService
 {
     /**
@@ -71,6 +71,12 @@ class ChatService
             if ($service == 'gemini') {
                 $message = array_pop($messages);
                 $history = $this->convertToGeminiHistory($messages);
+
+                $chat = Gemini::startChat($history);
+
+                return ['role' => 'assistant', 'content' => $chat->sendMessage($message['content'])];
+
+
                 $client = new Client(config('ai.gemini.key'));
                 $chat = $client->geminiPro()
                     ->startChat()
@@ -115,7 +121,11 @@ class ChatService
     {
         $data = [];
         foreach ($messages as $index => $message) {
-            $data[] = Content::text($message['content'], $message['role'] == 'user' ? Role::User : Role::Model);
+            // $data[] = Content::text($message['content'], $message['role'] == 'user' ? Role::User : Role::Model);
+            $data[] = [
+                'message' => $message['content'],
+                'role' => $message['role'] == 'user' ? Role::User : Role::Model,
+            ];
         }
         return $data;
     }

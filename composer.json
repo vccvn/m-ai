@@ -10,6 +10,7 @@
         "doctrine/dbal": "^3.3",
         "erusev/parsedown-extra": "^0.8.1",
         "gemini-api-php/client": "^1.4",
+        "gemini-api-php/laravel": "^0.3.0",
         "gomee/core": "dev-main",
         "google/cloud-ai-platform": "^0.36.0",
         "guzzlehttp/guzzle": "^7.2",
