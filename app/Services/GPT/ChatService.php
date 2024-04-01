@@ -69,6 +69,7 @@ class ChatService
     {
         $message = array_pop($messages);
         $history = $service == 'gemini'? $this->convertToGeminiHistory($messages): $messages;
+        dd($history);
         try {
             if ($service == 'gemini') {
                 $history = $this->convertToGeminiHistory($messages);
