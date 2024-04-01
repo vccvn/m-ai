@@ -12,6 +12,10 @@ use Illuminate\Support\Arr;
 use OpenAI\Laravel\Facades\OpenAI;
 use Orhanerday\OpenAi\OpenAi as OpenAiGPT;
 use OpenAI\Resources\Chat;
+use GeminiAPI\Client;
+use GeminiAPI\Enums\Role;
+use GeminiAPI\Resources\Content;
+use GeminiAPI\Resources\Parts\TextPart;
 
 class ChatService
 {
@@ -61,28 +65,42 @@ class ChatService
         }
         return [];
     }
-    public function sendMessages($messages)
+    public function sendMessages($messages, $service = 'chatgpt', $model = 'gpt-3.5-turbo')
     {
-        $open_ai_key = getenv('OPENAI_API_KEY');
-        $open_ai = new OpenAiGPT($open_ai_key);
         try {
-            //code...
-            $chat = $open_ai->chat([
-                'model' => 'gpt-3.5-turbo',
-                'messages' => $messages,
-                'temperature' => 1.0,
-                'max_tokens' => 4000,
-                'frequency_penalty' => 0,
-                'presence_penalty' => 0,
-            ]);
+            if ($service == 'gemini') {
+                $message = array_pop($messages);
+                $history = $this->convertToGeminiHistory($messages);
+                $client = new Client(config('ai.gemini.key'));
+                $chat = $client->geminiPro()
+                    ->startChat()
+                    ->withHistory($history);
 
-            $d = new HelpersArr(json_decode($chat, true));
-            // dd($d);
-            if ($d && $d->choices) {
-                return ['role' => $d->get('choices.0.message.role'), 'content' => $d->get('choices.0.message.content')];
-            } elseif ($d->error) {
-                $this->message = $d->get('error.message');
-                $this->code = $d->get('error.code');
+                $response = $chat->sendMessage(new TextPart($message['content']));
+                $content = $response->text();
+                return ['role' => 'assistant', 'content' => $content];
+            }else{
+
+                $open_ai_key = getenv('OPENAI_API_KEY');
+                $open_ai = new OpenAiGPT($open_ai_key);
+                //code...
+                $chat = $open_ai->chat([
+                    'model' => $model,
+                    'messages' => $messages,
+                    'temperature' => 1.0,
+                    'max_tokens' => 4000,
+                    'frequency_penalty' => 0,
+                    'presence_penalty' => 0,
+                ]);
+
+                $d = new HelpersArr(json_decode($chat, true));
+                // dd($d);
+                if ($d && $d->choices) {
+                    return ['role' => $d->get('choices.0.message.role'), 'content' => $d->get('choices.0.message.content')];
+                } elseif ($d->error) {
+                    $this->message = $d->get('error.message');
+                    $this->code = $d->get('error.code');
+                }
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -93,6 +111,14 @@ class ChatService
         return null;
     }
 
+    public function convertToGeminiHistory($messages = [])
+    {
+        $data = [];
+        foreach ($messages as $index => $message) {
+            $data[] = Content::text($message['content'], $message['role'] == 'user' ? Role::User : Role::Model);
+        }
+        return $data;
+    }
     public function getChatDetail($user_id, $prompt_id = 0)
     {
         $detail = [
@@ -168,12 +194,11 @@ class ChatService
                 $p = new PromoMask($this->promptService->getCurrentPrompt());
                 $p->__lock();
                 $detail['prompt'] = $p;
-            }elseif($a = $this->promptService->getCurrentPrompt()){
+            } elseif ($a = $this->promptService->getCurrentPrompt()) {
                 $p = new PromoMask($a);
                 $p->__lock();
                 $detail['prompt'] = $p;
             }
-
         }
         $chat = $this->chatRepository->getOrCreateChat($params);
         if ($chat) {
@@ -196,6 +221,7 @@ class ChatService
         }
         return $this->chatRepository->getOrCreateChat($params);
     }
+
     public function getChatForSendMessage($user_id, $chat_id = 0, $prompt_id = 0): ChatMask
     {
         $params = [

@@ -26,6 +26,8 @@ class GPTPrompt extends Model
     public $fillable = [
         'user_id',
         'topic_id',
+        'ai_service',
+        'ai_model',
         'name',
         'slug',
         'keywords',

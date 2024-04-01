@@ -25,6 +25,26 @@
             "name": "mail_notification",
             "type": "maillist",
             "label": "Email nhận thông báo (ngăn cách bằng dấu phẩy (,))"
+        },
+        {
+            "name": "ai_service",
+            "type": "select",
+            "label": "Ai Service",
+            "data": {
+                "": "Mặc định",
+                "chatgpt": "ChatGPT",
+                "gemini": "Gemini"
+            }
+        },
+        {
+            "name": "ai_model",
+            "type": "text",
+            "label": "AI Model <br>Ví dụ: gpt-3.5-turbo, gpt-4, hoặc model tuỳ chỉnh của bạn",
+            "data": {
+                "": "Mặc định",
+                "chatgpt": "ChatGPT",
+                "gemini": "Gemini"
+            }
         }
     ]
 

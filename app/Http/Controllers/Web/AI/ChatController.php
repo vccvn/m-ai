@@ -87,7 +87,8 @@ class ChatController extends WebController
 
             $messages = $chat->toGPT();
             $messages[] = $cm;
-
+            $service = ($s = setting('ai_service')) && in_array($s, ['chatgpt', 'gemini'])? $s: 'chatgpt';
+            $model = ($m = setting('ai_model')) ? $m: 'gpt-3.5-turbo';
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages);
             if (!$data) {
