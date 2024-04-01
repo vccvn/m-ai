@@ -71,10 +71,16 @@ class ChatService
             if ($service == 'gemini') {
                 $message = array_pop($messages);
                 $history = $this->convertToGeminiHistory($messages);
+                if($history){
 
-                $chat = Gemini::startChat($history);
+                    $chat = Gemini::startChat($history);
 
-                return ['role' => 'assistant', 'content' => $chat->sendMessage($message['content'])];
+                    return ['role' => 'assistant', 'content' => $chat->sendMessage($message['content'])];
+                }
+                else{
+                    return ['role' => 'assistant', 'content' => Gemini::generateText($message['content'])];
+                    // Gemini::generateText('PHP in less than 100 chars');
+                }
 
 
                 $client = new Client(config('ai.gemini.key'));
