@@ -69,7 +69,6 @@ class ChatService
     {
         $message = array_pop($messages);
         $history = $service == 'gemini'? $this->convertToGeminiHistory($messages): $messages;
-        dd($history);
         try {
             if ($service == 'gemini') {
                 $history = $this->convertToGeminiHistory($messages);
@@ -132,7 +131,7 @@ class ChatService
             // $data[] = Content::text($message['content'], $message['role'] == 'user' ? Role::User : Role::Model);
             $data[] = [
                 'message' => $message['content'],
-                'role' => $message['role'] == 'user' ? Role::User : Role::Model,
+                'role' => $message['role'] == 'user' ? 'user' : 'model',
             ];
         }
         return $data;
