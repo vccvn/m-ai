@@ -89,14 +89,15 @@ class TopicRepository extends BaseRepository
         if ($level > 4) return;
         if (!$query)
             $query = $this;
-        $query->with([
-            'prompts' => function ($query) {
-                $query->where('trashed_status', 0);
-            },
-            'children' => function ($query) use ($level) {
-                $this->buildWithData($query, $level + 1);
-            }
-        ]);
+        $query->where('trashed_status', 0)
+            ->with([
+                'prompts' => function ($query) {
+                    $query->where('trashed_status', 0);
+                },
+                'children' => function ($query) use ($level) {
+                    $this->buildWithData($query, $level + 1);
+                }
+            ]);
         return $this;
     }
 
