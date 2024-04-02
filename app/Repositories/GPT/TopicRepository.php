@@ -91,7 +91,7 @@ class TopicRepository extends BaseRepository
             $query = $this;
         $query->with([
             'prompts' => function ($query) {
-                $query->where('trashed_status', '>', 0);
+                $query->where('trashed_status', 0);
             },
             'children' => function ($query) use ($level) {
                 $this->buildWithData($query, $level + 1);
