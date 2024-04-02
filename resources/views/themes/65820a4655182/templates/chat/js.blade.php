@@ -17,6 +17,10 @@
     <script src="{{ai_startup_asset('chat/plugins/fancybox/jquery.fancybox.min.js')}}"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
 	<!-- Custom JS -->
     <script src="{{ai_startup_asset('chat/js/script.js')}}"></script>
 

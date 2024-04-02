@@ -391,7 +391,11 @@
     }
 }
 
-
+.reply-writting{
+    .chat-profile-nam{
+        display: flex;
+    }
+}
 
 @keyframes chat-writter {
     0% {

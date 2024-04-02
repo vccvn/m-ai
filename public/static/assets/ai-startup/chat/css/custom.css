@@ -365,6 +365,10 @@
   max-width: 100%;
 }
 
+.reply-writting .chat-profile-nam {
+  display: flex;
+}
+
 @keyframes chat-writter {
   0% {
     border-left: 1px solid #989898;

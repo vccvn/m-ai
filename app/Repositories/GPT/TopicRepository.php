@@ -86,14 +86,18 @@ class TopicRepository extends BaseRepository
 
     public function buildWithData($query = null, $level = 0)
     {
-        if($level > 4) return;
+        if ($level > 4) return;
         if (!$query)
             $query = $this;
-        $query->with(['prompts', 'children' => function($query) use($level){
-            $this->buildWithData($query, $level+1);
-        }]);
+        $query->with([
+            'prompts' => function ($query) {
+                $query->where('trashed_status', '>', 0);
+            },
+            'children' => function ($query) use ($level) {
+                $this->buildWithData($query, $level + 1);
+            }
+        ]);
         return $this;
-
     }
 
     /**
@@ -131,7 +135,7 @@ class TopicRepository extends BaseRepository
                 if (strlen($value)) $a[$key] = $value;
             }
         }
-        $list = [$firstDefault?$firstDefault:"-- Chủ đề --"];
+        $list = [$firstDefault ? $firstDefault : "-- Chủ đề --"];
         $this->where('parent_id', '<', 1);
         if ($categories = $this->get($a)) {
             $list = static::toTopicSelectOptions($categories, $list);

@@ -66,9 +66,11 @@ $(function () {
 
     let isSending = false;
     let sendingID = null;
+    let isTypingWriter = false;
 
     const updateChatBodyPaddingBottom = () => {
-        $chatBody.css({ paddingBottom: ($chatFooter.height() + 30) + "px" })
+        $chatBody.css({ paddingBottom: ($chatFooter.height() + 30) + "px" });
+        return true;
     }
 
     const checkTextareaContentHeight = function checkTextareaContentHeight(el) {
@@ -260,20 +262,62 @@ $(function () {
         return $chatList.find('#message-block-' + uuid);
     }
 
+    const messageContentTyper = (uuid, message) => isTypingWriter ? new Typed('#message-box-' + uuid + ' .inner-content .inner-message-content', {
+        // stringsElement: '#message-box-' + uuid + ' .hidden-content',
+        strings: [message],
+        loop: false,
+        loopCount: 1,
+        showCursor: false,
+        onComplete: (self) => updateChatBodyPaddingBottom() | window.updateChatScroll() | $('#message-box-' + uuid + ' .inner-content .typed-cursor--blink').remove(),
+
+        /**
+         * After each string is typed
+         * @param {number} arrayPos
+         * @param {Typed} self
+         */
+        onStringTyped: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
+
+        /**
+         * During looping, after last string is typed
+         * @param {Typed} self
+         */
+        onLastStringBackspaced: (self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
+
+
+        /**
+         * Typing has been stopped
+         * @param {number} arrayPos
+         * @param {Typed} self
+         */
+        onTypingPaused: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
+    }) : $('#message-box-' + uuid + ' .inner-content .inner-message-content').html(message);
+
     const pushChatMessage = ($chatBlock, role, message, id) => {
         if (!$chatBlock) return false;
         if (App.isString($chatBlock))
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
+        let uuid = App.str.rand(16);
         $chatBlock.append(
             htmlTemplates[role + "MessageItem"].render({
-                role, message,
+                role,
+                // message,
                 name: role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name,
                 avatar: role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar,
-                id: id ? id : ''
+                id: id ? id : '',
+                uuid: uuid
             })
         );
+        messageContentTyper(uuid, message);
+
+
+        // var typed = new Typed('#message-box-' + uuid + ' .inner-content .inner-message-content', {
+        //     stringsElement: '#message-box-' + uuid + ' .hidden-content',
+        //     loop: false,
+        //     loopCount: 1,
+        // });
+
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
@@ -285,16 +329,22 @@ $(function () {
             $chatBlock = $('#message-block-' + $chatBlock);
         if (!App.isObject($chatBlock))
             return false;
-        messages.map(message => App.isObject(message) && $chatBlock.append(
-            htmlTemplates[message.role + "MessageItem"].render({
-                role: message.role,
-                message: message.message,
-                name: message.role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name,
-                avatar: message.role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar,
-                id: message.id || ''
-            })
+        messages.map(message => {
+            let uuid = App.str.rand(16);
+            let b = App.isObject(message) && $chatBlock.append(
+                htmlTemplates[message.role + "MessageItem"].render({
+                    role: message.role,
+                    // message: message.message,
+                    name: message.role == 'user' ? AI_DATA.data.users.user.name : AI_DATA.data.users.bot.name,
+                    avatar: message.role == 'user' ? AI_DATA.data.users.user.avatar : AI_DATA.data.users.bot.avatar,
+                    id: message.id || '',
+                    uuid: uuid
+                })
+            );
 
-        ));
+            messageContentTyper(uuid, message.message);
+        });
+
 
         updateChatBodyPaddingBottom();
         window.updateChatScroll();
@@ -379,13 +429,51 @@ $(function () {
 
         $messageWrapper.addClass('ot-criteria');
     }
+    let isWritingTyper = null;
     const addReplyWritting = (uuid) => {
         let $chatBlock = $('#message-block-' + uuid);
         $chatBlock.append(htmlTemplates.replyWritting.render({ uuid }));
+
+        isWritingTyper = new Typed('#reply-writing-' + uuid + ' .chat-profile-name h6 span', {
+            strings: [
+                'Vui lòng chờ giây lát! ...',
+                AI_DATA.data.users.bot.name + ' đang trả lời...',
+            ],
+            typeSpeed: 20,
+            backSpeed: 10,
+            /**
+              * @property {boolean} loop loop strings
+              * @property {number} loopCount amount of loops
+              */
+            loop: true,
+            loopCount: Infinity,
+
+            /**
+             * @property {boolean} showCursor show cursor
+             * @property {string} cursorChar character for cursor
+             * @property {boolean} autoInsertCss insert CSS for cursor and fadeOut into HTML <head>
+             */
+            showCursor: false,
+            cursorChar: '|',
+            autoInsertCss: true,
+
+
+
+            onComplete: (self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
+
+        })
+
         window.updateChatScroll();
+
     }
 
     const removeReplyWritting = (uuid) => {
+        if(isTypingWriter){
+            // isTypingWriter.destroy();
+            if(typeof isTypingWriter.destroy == "function"){
+                isTypingWriter.destroy()
+            }
+        }
         let $chatBlock = $('#message-block-' + uuid);
         $chatBlock.find('.reply-writting').remove();
     }
@@ -404,6 +492,7 @@ $(function () {
             .then(rs => {
                 removeReplyWritting(data.uuid);
                 if (rs.status) {
+                    isTypingWriter = true;
                     pushChatMessage(data.uuid, rs.data.role, rs.data.message);
 
                     if (data.uuid = chatData.uuid) {
@@ -517,6 +606,9 @@ $(function () {
         // mergeChatData(currentChatData);
         chatStorage[currentChatData.message_uuid] = currentData;
 
+        isTypingWriter = true;
+
+
         let $chatBlock = createChatBlock(currentData.uuid, currentData.chat_name);
         pushChatMessage($chatBlock, 'user', parseMessageContent(currentData));
         sendingID = data.uuid;
@@ -553,7 +645,7 @@ $(function () {
 
 
         chatStorage[currentChatData.message_uuid] = currentData;
-
+        isTypingWriter = true;
         let $chatBlock = $('#message-block-' + data.uuid);
         pushChatMessage($chatBlock, 'user', parseMessageContent(currentData));
         sendingID = data.uuid;
@@ -631,6 +723,7 @@ $(function () {
 
 
     const init = () => {
+        isTypingWriter = false;
         $messageWrapper.removeClass('ot-criteria');
 
         $messageWrapper.removeClass('show-criteria');
@@ -810,7 +903,7 @@ $(function () {
         let $chat = $this.closest('.chats');
         if (!$chat || !$chat.length)
             return false;
-        copyDivToClipboard($chat.find('.inner-content')[0]);
+        copyDivToClipboard($chat.find('.inner-message-content')[0]);
     });
 
     function exportHTML(content, filename) {
@@ -844,13 +937,13 @@ $(function () {
             return false;
         let $cn = $this.closest('.message-block').find('.chat-line .chat-name')
         let filename = null;
-        if($cn && $cn.length){
+        if ($cn && $cn.length) {
             let name = $cn.html();
-            if(name && name.length > 5){
+            if (name && name.length > 5) {
                 filename = name + '.doc';
             }
         }
-        exportHTML($chat.find('.inner-content').html(), filename);
+        exportHTML($chat.find('.inner-message-content').html(), filename);
     });
 
 
