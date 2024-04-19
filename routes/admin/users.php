@@ -21,6 +21,7 @@ Route::controller(UserController::class)->group(function(){
     $status        = Route::post('/change-status',               'changeStatus'                          )->name('.change-status');
     // $updateEncData = Route::any('/update-enc-data',              'updateEncData'                         )->name('.update-enc-data');
     $reset2fa      = Route::post('/reset2fa',                    'reset2fa'                              )->name('.reset2fa');
+    $addMonth      = Route::post('/add-month',                   'addMonth'                              )->name('.add-month');
 
 
     $master->addActionByRouter($selectOptions, ['view', 'create', 'update']);

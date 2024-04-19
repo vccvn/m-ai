@@ -86,6 +86,9 @@ $(function () {
         });
     }
 
+    const getElementTop = element => {
+
+    }
 
     const strpTags = str => {
         tempElement.innerHTML = str;
@@ -268,20 +271,32 @@ $(function () {
         loop: false,
         loopCount: 1,
         showCursor: false,
-        onComplete: (self) => updateChatBodyPaddingBottom() | window.updateChatScroll() | $('#message-box-' + uuid + ' .inner-content .typed-cursor--blink').remove(),
+        onComplete: (self) => {
+            // updateChatBodyPaddingBottom()
+            window.updateChatScroll('#message-box-' + uuid, 200 )
+            $('#message-box-' + uuid + ' .inner-content .typed-cursor--blink').remove()
+            console.log(" After complete")},
 
         /**
          * After each string is typed
          * @param {number} arrayPos
          * @param {Typed} self
          */
-        onStringTyped: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
+        onStringTyped: (arrayPos, self) => {
+            // updateChatBodyPaddingBottom();
+            window.updateChatScroll();
+            console.log(" After each string is typed");
+        },
 
         /**
          * During looping, after last string is typed
          * @param {Typed} self
          */
-        onLastStringBackspaced: (self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
+        onLastStringBackspaced: (self) => {
+            // updateChatBodyPaddingBottom();
+            window.updateChatScroll();
+            console.log(" After last string is typed");
+        },
 
 
         /**
@@ -289,8 +304,8 @@ $(function () {
          * @param {number} arrayPos
          * @param {Typed} self
          */
-        onTypingPaused: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
-    }) : $('#message-box-' + uuid + ' .inner-content .inner-message-content').html(message);
+        onTypingPaused: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll('#message-box-' + uuid) | console.log(" After pause"),
+    }) : $('#message-box-' + uuid + ' .inner-content .inner-message-content').html(message) | updateChatBodyPaddingBottom() | window.updateChatScroll('#message-box-' + uuid ) ;
 
     const pushChatMessage = ($chatBlock, role, message, id) => {
         if (!$chatBlock) return false;
@@ -319,8 +334,8 @@ $(function () {
         // });
 
 
-        updateChatBodyPaddingBottom();
-        window.updateChatScroll();
+        // updateChatBodyPaddingBottom();
+        // window.updateChatScroll();
     }
 
     const pushChatMessageList = ($chatBlock, messages) => {
@@ -432,7 +447,9 @@ $(function () {
     let isWritingTyper = null;
     const addReplyWritting = (uuid) => {
         let $chatBlock = $('#message-block-' + uuid);
-        $chatBlock.append(htmlTemplates.replyWritting.render({ uuid }));
+        $chatBlock.append(htmlTemplates.replyWritting.render({ uuid, avatar: AI_DATA.data.users.bot.avatar }));
+        updateChatBodyPaddingBottom();
+        window.updateChatScroll();
 
         isWritingTyper = new Typed('#reply-writing-' + uuid + ' .chat-profile-name h6 span', {
             strings: [
@@ -457,13 +474,7 @@ $(function () {
             cursorChar: '|',
             autoInsertCss: true,
 
-
-
-            onComplete: (self) => updateChatBodyPaddingBottom() | window.updateChatScroll(),
-
         })
-
-        window.updateChatScroll();
 
     }
 
@@ -472,6 +483,9 @@ $(function () {
             // isTypingWriter.destroy();
             if(typeof isTypingWriter.destroy == "function"){
                 isTypingWriter.destroy()
+            }
+            else if(typeof isTypingWriter.stop == "function"){
+                isTypingWriter.stop()
             }
         }
         let $chatBlock = $('#message-block-' + uuid);

@@ -170,7 +170,6 @@ $(() => {
 
     const renderPaginationLinks = links => {
         let buttons = '';
-        console.log(links);
         if (links && links.length) {
             let arrButtons = [];
             for (let index = 0; index < links.length; index++) {

@@ -79,7 +79,7 @@ $method_options = get_payment_select_options();
 
                 @endphp
                 <!--begin::Portlet-->
-                <div class="m-portlet method-item m-portlet--collapsed m-portlet--head-sm m-portlet--sortable" data-name="{{ $name = $item->name ? $item->name : (isset($method_options[$method->method]) ? $method_options[$method->method] : $method->method) }}" m-portlet="true" id="crazy-item-{{ $item->id }}" data-id="{{ $item->id }}">
+                <div class="m-portlet method-item m-portlet--collapsed m-portlet--head-sm m-portlet--sortable" data-name="{{ $name = $item->name ? $item->name : (isset($method_options[$item->method]) ? $method_options[$item->method] : $item->method) }}" m-portlet="true" id="crazy-item-{{ $item->id }}" data-id="{{ $item->id }}">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">

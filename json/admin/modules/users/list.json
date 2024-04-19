@@ -36,13 +36,13 @@
             "created_at": "Thời gian khổi tạo"
         }
     },
-    "buttons1": {
-        "reset2fa": {
-            "type": "warning",
-            "route": ".reset2fa",
-            "title":"Đặt lại 2fa",
-            "icon": "fa fa-unlink",
-            "className": "btn-reset2fa"
+    "buttons": {
+        "addMonth": {
+            "type": "primary",
+            "route": ".add-month",
+            "title":"Thêm Số tháng",
+            "icon": "fa fa-calendar",
+            "className": "btn-add-month"
         }
     },
 

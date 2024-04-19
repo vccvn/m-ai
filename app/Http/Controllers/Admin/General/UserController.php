@@ -96,6 +96,28 @@ class UserController extends AdminController
 
     }
 
+    public function addMonth(Request $request){
+        extract($this->apiDefaultData);
+        if (!($request->uuid ?? $request->id) || !($user = $this->repository->find($request->uuid ?? $request->id))) {
+            $message = 'Người dùng không tồn tãi';
+        } elseif (!is_numeric($m = $request->month) || $m < 1) {
+            $message = 'Số tháng không hợp lệ';
+        }else{
+            if ($user->type == User::AGENT && ($agent = get_agent_account($user->id)) && $payment->role == User::AGENT) {
+                $agent->month_balance += $m;
+                // dd($agent, $package);
+                $agent->save();
+                $data = $agent;
+            } else {
+                $update = $this->service->addMonth($user->id, $m);
+                $data = $update;
+            }
+            $message = 'Đã thêm ' . $m . ' tháng sử dụng cho tài khoản <strong>' . $user->name . '</strong>';
+            $status = true;
+        }
+        return $this->json(compact(...$this->apiSystemVars));
+    }
+
     public function changeStatus(Request $request)
     {
         extract($this->apiDefaultData);

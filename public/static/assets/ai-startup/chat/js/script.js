@@ -41,11 +41,28 @@ Version      : 1.0
             $('.right-sidebar.video-right-sidebar .slimScrollDiv').height(wHeight - 90);
         });
 
-        window.updateChatScroll = function () {
+        window.updateChatScroll = function (elm, time) {
             $slimScrolls.each(function (i, el) {
                 if ($(el).hasClass('chat-scrollable')) {
-                    var bottomCoord = el.scrollHeight + 30;
-                    $(el).slimScroll({ scrollTo: bottomCoord });
+                    if (elm) {
+                        let offset_top = $(elm)[0].offsetTop - 30
+                        if(time){
+                            $(el).animate({scrollTop: offset_top})
+                        }else{
+                            $(el).slimScroll({ scrollTo: offset_top });
+
+                        }
+
+                    }
+                    else {
+                        var bottomCoord = el.scrollHeight + 30;
+                        if(time){
+                            $(el).animate({scrollTop: bottomCoord})
+                        }else{
+                            $(el).slimScroll({ scrollTo: bottomCoord });
+
+                        }
+                    }
                 }
             })
 

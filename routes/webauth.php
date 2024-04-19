@@ -25,14 +25,14 @@ Route::controller(AccountController::class)->group(function(){
 
         Route::get('sign-up', 'getSignUpForm')->name('sign-up');
         Route::post('post-signup','postSignUp')->name('signup');
-        
-        
+
+
         Route::any('csrf-token','getCSRFToken')->name('token');
         Route::get('sign-in','getSignInForm')->name('sign-in');
         Route::post('post-sign-in', 'postSignIn')->name('signin');
-        
-        
+
+
         Route::get('verify','verifyEmail')->name('verify-email');
-        Route::get('alert','showAlertMessage')->name('alert');
+        Route::get('account/alert','showAlertMessage')->name('alert');
     });
 });
