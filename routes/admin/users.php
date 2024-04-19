@@ -29,6 +29,7 @@ Route::controller(UserController::class)->group(function(){
     $master->addActionByRouter($tagData, ['view', 'create', 'update']);
     $master->addActionByRouter($status, ['update']);
     $master->addActionByRouter($reset2fa, ['update']);
+    $master->addActionByRouter($addMonth, ['view', 'create', 'update']);
 
 
 });
