@@ -124,6 +124,8 @@ class ChatService
             }
             else{
 
+                $this->code = $th->getCode();
+                $this->message = $th->getMessage();
             }
         }
 
