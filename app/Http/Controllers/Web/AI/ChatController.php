@@ -93,8 +93,7 @@ class ChatController extends WebController
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages, $service, $model);
             if (!$data) {
-                dd($this->chatService->getErrorCode());
-                if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
+                if ($this->chatService->getErrorCode() == 'context_length_exceeded' || $this->chatService->getErrorMessage() == 'Invalid message in the chat history') {
                     $task_id++;
                     $current_id++;
                     // $chat = $this->chatService->createChat($user->id, $request->prompt_id);
