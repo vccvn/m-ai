@@ -261,7 +261,7 @@ $(() => {
         if (window.__EXPIRED_AT__ != "" && window.__EXPIRED_AT__.length) {
             return true;
         }
-        App.Swal.warning('BẠn đã hết thời hạn sử dụng dịch vụ hoặc chưa đăng ký gói AI nào!', null, () => {
+        App.Swal.warning('Bạn đã hết thời hạn sử dụng dịch vụ hoặc chưa đăng ký gói AI nào!', null, () => {
             top.location.href = window.__PAY_OPTION_URL__;
         })
         return false;

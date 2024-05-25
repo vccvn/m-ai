@@ -69,7 +69,8 @@ $(function () {
     let isTypingWriter = false;
 
     const updateChatBodyPaddingBottom = () => {
-        $chatBody.css({ paddingBottom: ($chatFooter.height() + 30) + "px" });
+        let width = window.innerWidth;
+        $chatBody.css({ paddingBottom: ($chatFooter.height() + 30 + (width < 767 ? 64 : 0)) + "px" });
         return true;
     }
 
@@ -265,48 +266,50 @@ $(function () {
         return $chatList.find('#message-block-' + uuid);
     }
 
-    const messageContentTyper = (uuid, message) => isTypingWriter ? new Typed('#message-box-' + uuid + ' .inner-content .inner-message-content', {
-        // stringsElement: '#message-box-' + uuid + ' .hidden-content',
-        strings: [message],
-        loop: false,
-        loopCount: 1,
-        showCursor: false,
-        onComplete: (self) => {
-            // updateChatBodyPaddingBottom()
-            window.updateChatScroll('#message-box-' + uuid, 200 )
-            $('#message-box-' + uuid + ' .inner-content .typed-cursor--blink').remove()
-            console.log(" After complete")},
+    const messageContentTyper = (uuid, message) => {
+        if (isTypingWriter) {
+            let _timeInteval = setInterval(() => window.updateChatScroll(), 300);
+            let typed = new Typed('#message-box-' + uuid + ' .inner-content .inner-message-content', {
+                // stringsElement: '#message-box-' + uuid + ' .hidden-content',
+                strings: [message],
+                loop: false,
+                loopCount: 1,
+                showCursor: false,
+                onComplete: (self) => {
+                    clearInterval(_timeInteval)
+                    $('#message-box-' + uuid + ' .inner-content .typed-cursor--blink').remove();
+                    window.updateChatScroll(null, 200);
+                },
 
-        /**
-         * After each string is typed
-         * @param {number} arrayPos
-         * @param {Typed} self
-         */
-        onStringTyped: (arrayPos, self) => {
-            // updateChatBodyPaddingBottom();
-            window.updateChatScroll();
-            console.log(" After each string is typed");
-        },
+                /**
+                 * After each string is typed
+                 * @param {number} arrayPos
+                 * @param {Typed} self
+                 */
+                onStringTyped: (arrayPos, self) => {
+                    window.updateChatScroll();
+                },
 
-        /**
-         * During looping, after last string is typed
-         * @param {Typed} self
-         */
-        onLastStringBackspaced: (self) => {
-            // updateChatBodyPaddingBottom();
-            window.updateChatScroll();
-            console.log(" After last string is typed");
-        },
+                /**
+                 * During looping, after last string is typed
+                 * @param {Typed} self
+                 */
+                onLastStringBackspaced: (self) => {
+                    window.updateChatScroll();
+                },
 
 
-        /**
-         * Typing has been stopped
-         * @param {number} arrayPos
-         * @param {Typed} self
-         */
-        onTypingPaused: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll('#message-box-' + uuid) | console.log(" After pause"),
-    }) : $('#message-box-' + uuid + ' .inner-content .inner-message-content').html(message) | updateChatBodyPaddingBottom() | window.updateChatScroll('#message-box-' + uuid ) ;
-
+                /**
+                 * Typing has been stopped
+                 * @param {number} arrayPos
+                 * @param {Typed} self
+                 */
+                onTypingPaused: (arrayPos, self) => updateChatBodyPaddingBottom() | window.updateChatScroll('#message-box-' + uuid) | console.log(" After pause"),
+            })
+        }
+        else
+            $('#message-box-' + uuid + ' .inner-content .inner-message-content').html(message) | updateChatBodyPaddingBottom() | window.updateChatScroll('#message-box-' + uuid);
+    }
     const pushChatMessage = ($chatBlock, role, message, id) => {
         if (!$chatBlock) return false;
         if (App.isString($chatBlock))
@@ -479,12 +482,12 @@ $(function () {
     }
 
     const removeReplyWritting = (uuid) => {
-        if(isTypingWriter){
+        if (isTypingWriter) {
             // isTypingWriter.destroy();
-            if(typeof isTypingWriter.destroy == "function"){
+            if (typeof isTypingWriter.destroy == "function") {
                 isTypingWriter.destroy()
             }
-            else if(typeof isTypingWriter.stop == "function"){
+            else if (typeof isTypingWriter.stop == "function") {
                 isTypingWriter.stop()
             }
         }

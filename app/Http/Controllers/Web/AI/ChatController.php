@@ -93,6 +93,7 @@ class ChatController extends WebController
             // return $this->json($messages);
             $data = $this->chatService->sendMessages($messages, $service, $model);
             if (!$data) {
+                dd($this->chatService->getErrorCode());
                 if ($this->chatService->getErrorCode() == 'context_length_exceeded') {
                     $task_id++;
                     $current_id++;

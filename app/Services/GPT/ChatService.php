@@ -84,14 +84,14 @@ class ChatService
                 }
 
 
-                $client = new Client(config('ai.gemini.key'));
-                $chat = $client->geminiPro()
-                    ->startChat()
-                    ->withHistory($history);
+                // $client = new Client(config('ai.gemini.key'));
+                // $chat = $client->geminiPro()
+                //     ->startChat()
+                //     ->withHistory($history);
 
-                $response = $chat->sendMessage(new TextPart($message['content']));
-                $content = $response->text();
-                return ['role' => 'assistant', 'content' => $content];
+                // $response = $chat->sendMessage(new TextPart($message['content']));
+                // $content = $response->text();
+                // return ['role' => 'assistant', 'content' => $content];
             }else{
 
                 $open_ai_key = getenv('OPENAI_API_KEY');
@@ -117,8 +117,14 @@ class ChatService
             }
         } catch (\Throwable $th) {
             //throw $th;
-            $this->code = $th->getCode();
-            $this->message = $th->getMessage() . ' -- ' . json_encode($history);
+            if($service == 'chatgpt'){
+
+                $this->code = $th->getCode();
+                $this->message = $th->getMessage();
+            }
+            else{
+
+            }
         }
 
         return null;
