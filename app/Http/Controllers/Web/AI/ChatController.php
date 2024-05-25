@@ -103,7 +103,7 @@ class ChatController extends WebController
                     $messages[] = $cm;
 
                     // return $this->json($messages);
-                    $data = $this->chatService->sendMessages($messages);
+                    $data = $this->chatService->sendMessages($messages, $service, $model);
                 }
             }
             if (!$data || !$data['content']) {
