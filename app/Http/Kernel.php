@@ -82,5 +82,6 @@ class Kernel extends HttpKernel
         'https.redirect' => \App\Http\Middleware\HttpsProtocol::class,
         'cart.check' => \App\Http\Middleware\CheckCart::class,
         '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
+        'check.device' => \App\Http\Middleware\CheckDevice::class
     ];
 }

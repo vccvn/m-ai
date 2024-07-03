@@ -34,7 +34,16 @@ class Regex extends Command
     public function handle()
     {
         // $regex = $this->argument('regex');
-
+        $a = -1;
+        $b = 0;
+        $c = null;
+        if($a) echo "a = $a\n";
+        else echo "Không có a\n";
+        if($b) echo "b = $b\n";
+        else echo "Không có b\n";
+        if($c) echo "a = $c\n";
+        else echo "Không có c\n";
+        die;
         if($pa = $this->argument('pattern'))
             $pattern = $pa;
         elseif (($po = $this->option('pattern')) != 'null')

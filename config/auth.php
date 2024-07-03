@@ -7,6 +7,9 @@ return [
         'passwords' => 'users',
     ],
 
+
+    'key' => env('AUTH_SESSION_KEY', '__ga_79535F14PM0XD7'),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -101,5 +104,18 @@ return [
     */
 
     'password_timeout' => 10800,
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Other
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the amount of seconds before a password confirmation
+    | times out and the user is prompted to re-enter their password via the
+    | confirmation screen. By default, the timeout lasts for three hours.
+    |
+    */
+
 
 ];

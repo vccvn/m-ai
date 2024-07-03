@@ -6,7 +6,7 @@ use App\Http\Controllers\Web\Common\CheckAuthController;
 use App\Http\Controllers\Web\Common\AccountController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('web.auth')->controller(AccountController::class)->name('account')->group(function () {
+Route::middleware(['web.auth', 'check.device'])->controller(AccountController::class)->name('account')->group(function () {
 
     /**
      * -------------------------------------------------------------------------------------------------------------------------------

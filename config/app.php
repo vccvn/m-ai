@@ -11,6 +11,9 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
+
+
+
     /*
     |--------------------------------------------------------------------------
     | Application URL
@@ -147,6 +150,9 @@ return [
         App\Providers\BladeServiceProvider::class,
         App\Providers\CoreServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+
+
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -164,6 +170,7 @@ return [
         // ...
         'Helper' => Gomee\Engines\Helper::class,
         'MobileDetect' => Riverskies\Laravel\MobileDetect\Facades\MobileDetect::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ])->toArray(),
 
 ];

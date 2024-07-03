@@ -8,6 +8,7 @@ use App\Repositories\Accounts\AgentRepository;
 use App\Repositories\Accounts\CoverLetterRepository;
 use App\Repositories\Accounts\WalletRepository;
 use App\Repositories\Emails\EmailTokenRepository;
+use App\Repositories\Users\DeviceRepository;
 use App\Repositories\Users\UserRepository;
 use App\Services\Mailers\Mailer;
 use App\Services\Mailers\MailNotification;
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Jenssegers\Agent\Agent;
 
 class AuthController extends WebController
 {
@@ -56,7 +59,8 @@ class AuthController extends WebController
         EmailTokenRepository $EmailTokenRepository,
         protected AgentRepository $agentRepository,
         protected WalletRepository $walletRepository,
-        protected CoverLetterRepository $coverLetterRepository
+        protected CoverLetterRepository $coverLetterRepository,
+        protected DeviceRepository $deviceRepository
     ) {
         $this->middleware('guest')->except('logout');
         $this->repository = $UserRepository;
@@ -120,12 +124,11 @@ class AuthController extends WebController
                 } else {
 
                     $send = $this->sendVerifyEmailByUser($user, __('account.verify_message'));
-                    if($request->register_agent){
+                    if ($request->register_agent) {
                         $this->coverLetterRepository->create([
                             'user_id' => $user->id
                         ]);
                     }
-
                 }
                 DB::commit();
                 return $send;
@@ -245,7 +248,7 @@ class AuthController extends WebController
             'expired_at' => Carbon::now()->toDateTimeString()
         ]);
         $this->walletRepository->createDefaultWallet($user->id);
-        if($cover = $this->coverLetterRepository->first(['user_id' => $user->id])){
+        if ($cover = $this->coverLetterRepository->first(['user_id' => $user->id])) {
             MailNotification::subject($user->name . ' Vừa nộp đơn đăng ký làm dại lý');
         }
         return redirect()->route('web.alert')->with([
@@ -312,13 +315,86 @@ class AuthController extends WebController
         } // nếu đăng nhập sai. trường hợp này còn lâu mới xảy ra =))))
         elseif (!Auth::attempt(
             ['id' => $user->id, 'email' => $user->email, 'password' => $request->password],
-            $request->remember
+            $request->remember_me
         )) {
             $message = __('auth.login-failed');
         } // nếu có yêu cầu chuyển hướng
-        elseif ($request->next) return redirect($request->next);
         else {
-            return redirect()->route('home');
+            $s = false;
+            $authKey = config('auth.key');
+            $authToken = $request->cookie($authKey);
+
+            $dc = $user->device_count;
+            $userDeviceCount = ($dc === null) ? 1 : (($dc == -1) ? 9999 : (is_numeric($dc) ? $dc : 1));
+            $acceptedDeviceCount = $this->deviceRepository->count(['user_id' => $user->id]);
+            $correctDevice = $authToken ? $this->deviceRepository->first(['user_id' => $user->id, 'session_token' => $authToken]) : null;
+
+            $agent = new Agent();
+
+            $strTime = date('Y-m-d H:i:s');
+            $isOld = false;
+            $cookie = null;
+
+            if ($correctDevice) {
+                $isOld = true;
+                $correctDevice->last_login_at = $strTime;
+                $correctDevice->ip = $request->ip();
+                $correctDevice->save();
+                if ($correctDevice->approved) {
+                    $s = true;
+                }
+            } else {
+                $approved = ($userDeviceCount < 0 || $acceptedDeviceCount > $userDeviceCount) ? 1 : 0;
+                $authToken = Str::uuid()->toString();
+                $correctDevice = $this->deviceRepository->create([
+                    'user_id' => $user->id,
+                    'user_agent' => $agent->getUserAgent(),
+                    'device' => $agent->device(),
+                    'platform' => $agent->platform(),
+                    'browser' => $agent->browser(),
+                    'ip' => $request->ip(),
+                    'session_token' => $authToken,
+                    'last_login_at' => $strTime,
+                    'approved' => $approved
+                ]);
+                $cookie = cookie($authKey, $authToken, 69 * 24 * 365);
+                if ($approved) {
+                    $s = true;
+                }
+            }
+
+
+            if ($s) {
+                if ($cookie) {
+                    if ($request->next) return redirect($request->next)->withCookie($cookie);
+                    else {
+                        return redirect()->route('home')->withCookie($cookie);
+                    }
+                } else {
+                    if ($request->next) return redirect($request->next);
+                    else {
+                        return redirect()->route('home');
+                    }
+                }
+            } else {
+                Auth::logout();
+                if ($cookie) {
+
+                    return redirect()->route('web.alert')->with([
+                        'type'    => 'warning',
+                        'message' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
+                        'link'    => route('web.contacts'),
+                        'text'    => 'Liên hệ'
+                    ]);
+                }else {
+                    return redirect()->route('web.alert')->with([
+                        'type'    => 'warning',
+                        'message' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
+                        'link'    => route('web.contacts'),
+                        'text'    => 'Liên hệ'
+                    ]);
+                }
+            }
         }
 
 
