@@ -328,7 +328,7 @@ class AuthController extends WebController
             $userDeviceCount = ($dc === null) ? 1 : (($dc == -1) ? 9999 : (is_numeric($dc) ? $dc : 1));
             $acceptedDeviceCount = $this->deviceRepository->count(['user_id' => $user->id]);
             $correctDevice = $authToken ? $this->deviceRepository->first(['user_id' => $user->id, 'session_token' => $authToken]) : null;
-
+            dd($userDeviceCount, $acceptedDeviceCount, $authToken);
             $agent = new Agent();
 
             $strTime = date('Y-m-d H:i:s');
