@@ -382,15 +382,15 @@ class AuthController extends WebController
 
                     return redirect()->route('web.alert')->with([
                         'type'    => 'warning',
-                        'message' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
-                        'link'    => route('web.contacts'),
+                        'error' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
+                        'link'    => route('web.account.login'),
                         'text'    => 'Liên hệ'
                     ]);
                 }else {
                     return redirect()->route('web.alert')->with([
                         'type'    => 'warning',
-                        'message' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
-                        'link'    => route('web.contacts'),
+                        'error' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
+                        'link'    => route('web.account.login'),
                         'text'    => 'Liên hệ'
                     ]);
                 }

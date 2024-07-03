@@ -38,7 +38,7 @@ class CheckDevice
                     Auth::logout();
                     return redirect()->route('web.alert')->with([
                         'type'    => 'warning',
-                        'message' => 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại',
+                        'error' => 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại',
                         'link'    => route('web.account.login'),
                         'text'    => 'Đăng nhập'
                     ]);
@@ -49,7 +49,7 @@ class CheckDevice
                     Auth::logout();
                     return redirect()->route('web.alert')->with([
                         'type'    => 'warning',
-                        'message' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
+                        'error' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
                         'link'    => route('web.contacts'),
                         'text'    => 'Liên hệ'
                     ]);
@@ -58,7 +58,7 @@ class CheckDevice
                 Auth::logout();
                 return redirect()->route('web.alert')->with([
                     'type'    => 'warning',
-                    'message' => 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại',
+                    'error' => 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại',
                     'link'    => route('web.account.login'),
                     'text'    => 'Đăng nhập'
                 ]);
