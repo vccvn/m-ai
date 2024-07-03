@@ -36,7 +36,7 @@ class CheckDevice
                 $device = $deviceRepository->first(['user_id' => $user->id, 'session_token' => $authToken]);
                 if (!$device) {
                     Auth::logout();
-                    return redirect()->route('web.alert')->with([
+                    return redirect()->route('web.account.login')->with([
                         'type'    => 'warning',
                         'error' => 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại',
                         'link'    => route('web.account.login'),
@@ -47,7 +47,7 @@ class CheckDevice
                     return $next($request);
                 } else {
                     Auth::logout();
-                    return redirect()->route('web.alert')->with([
+                    return redirect()->route('web.account.login')->with([
                         'type'    => 'warning',
                         'error' => 'Tài khoản này đang được đăng nhập trên thiết bị khác. Hãy sử dụng mục liên hệ và cung cấp thông tin thiết bị và trình duyệt của bạn để ban quản trị có thể hỗ trợ',
                         'link'    => route('web.contacts'),
@@ -56,7 +56,7 @@ class CheckDevice
                 }
             } else {
                 Auth::logout();
-                return redirect()->route('web.alert')->with([
+                return redirect()->route('web.account.login')->with([
                     'type'    => 'warning',
                     'error' => 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại',
                     'link'    => route('web.account.login'),
