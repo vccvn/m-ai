@@ -72,6 +72,9 @@ class GPTTopic extends Model
         return $parent;
     }
 
+    public function getParentName($default = 'Không') {
+        return $this->parent_name??($this->parent?$this->parent->name : $default);
+    }
 
     /**
      * lấy danh mục con
