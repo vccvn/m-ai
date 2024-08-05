@@ -102,7 +102,7 @@ class PageRepository extends BaseRepository
         self::$maxLevel = $maxLevel;
         $list = ["Không"];
         $repository = app(static::class);
-        $repository->whereNull('parent_id');
+        $repository->where('parent_id',0);
         if(self::$activeID){
             if($page = $repository->find(self::$activeID)){
                 self::$sonLevel = $page->getSonLevel();
@@ -147,7 +147,7 @@ class PageRepository extends BaseRepository
             }
         }
         $list = ["-- Trang --"];
-        $this->notTrashed()->whereNull('parent_id');
+        $this->notTrashed()->where('parent_id', 0);
         if($categories = $this->get($a)){
             $list = static::toPageSelectOptions($categories, $list);
         }
