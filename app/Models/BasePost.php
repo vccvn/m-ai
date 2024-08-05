@@ -105,6 +105,16 @@ class BasePost extends Model
         return $this->hasMany('App\Models\BasePost', 'parent_id', 'id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment', 'ref_id', 'id')->where('ref', $this->ref);
+    }
+
+    public function publishComments()
+    {
+        return $this->comments()->whereIn('privacy', ['public', 'publish', 'published'])->where('parent_id', 0)->where('approved', 1);
+    }
+
     /**
      * lay du lieu form
      * @return array

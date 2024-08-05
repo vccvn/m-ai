@@ -35,117 +35,30 @@
                 </div>
 
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-                    <ul class="navbar-nav m-auto">
-                        <li class="nav-item">
-                            <a href="/" class="nav-link active">
-                                Trang chủ
-                            </a>
+                    {!! // các tham số
+                        // 1: Vị trí menu hoặc tham số lấy menu
+                        // ví dụ string: 'primary' // lấy ra menu đứng đầu có vị trí là primary
+                        // hoặc mảng tham số : ['id' => $menuID , ...]
+                        // 2: số cấp
+                        // 3: thuộc tính html của menu
+                        $helper->getCustomMenu('primary', 3, [
+                                'class' => 'navbar-nav m-auto',
+                            ])->addAction(function ($item, $link, $sub) {
+                                $item->removeClass()->addClass('nav-item');
+                                $link->removeClass()->addClass('nav-link');
 
-                        </li>
-                        <li class="nav-item">
-                            <a href="/ai" class="nav-link">
-                                AI Content
-                            </a>
-                        </li>
-                        <!--
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                Pages
-                                <i class="bx bx-plus"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="team.html" class="nav-link">
-                                        Team
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pricing.html" class="nav-link">
-                                        Pricing Table
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="faq.html" class="nav-link">
-                                        FAQ
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Courses
-                                        <i class="bx bx-plus"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="courses.html" class="nav-link">
-                                                Courses
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="course-details.html" class="nav-link">
-                                                Course Details
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="testimonials.html" class="nav-link">
-                                        Testimonials
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Case study
-                                        <i class="bx bx-plus"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="case-study.html" class="nav-link">
-                                                Case study
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="case-details.html" class="nav-link">
-                                                Case study Details
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="404.html" class="nav-link">
-                                        404 page
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="sign-in.html" class="nav-link">
-                                        Sign In
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="sign-up.html" class="nav-link">
-                                        Sign Up
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="terms-condition.html" class="nav-link">
-                                        Terms & Conditions
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="privacy-policy.html" class="nav-link">
-                                        Privacy Policy
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="coming-soon.html" class="nav-link">
-                                        Coming Soon
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        -->
-
-                    </ul>
-
+                                $level = $item->getSonLevel();
+                                $subItems = ($hasSub = $item->hasSubMenu()) ? $item->sub->count() : 0;
+                                // has-dropdown
+                                if ($hasSub) {
+                                    $item->addClass('has-sub');
+                                    $item->sub->addClass('dropdown-menu');
+                                    $link->append('<i class="bx bx-plus"></i>');
+                                }
+                            })
+                            // hế comment
+                            //
+                            !!}
                     <div class="side-nav d-in-line d-lg-flex align-items-center">
                         @if ($header->show_search_button)
                             <div class="side-item">
@@ -203,7 +116,7 @@
             </div>
             <div class="container">
                 <div class="side-nav-inner">
-                    <div class="side-nav justify-content-center  align-items-center">
+                    <div class="side-nav justify-content-center align-items-center">
                         <div class="side-item">
                             <div class="search-box">
                                 <i class="flaticon-loupe"></i>
