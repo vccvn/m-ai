@@ -223,7 +223,7 @@ class MenuEngine
                 $keyFunc = substr($key, 0, 1) == '@' ? substr($key, 1) : "";
 
                 if (in_array($key, $itemList) || (is_array($item) && array_key_exists('@parent', $item) && in_array($item['@parent'], $itemList))) {
-                    $cond1 = array_key_exists('permiss', $item);
+                    $cond1 = array_key_exists('permiss', $item) || array_key_exists('permission', $item);
                     $cond2 = array_key_exists('route', $item);
                     if ($user && ($this->disableCheck || ($user->type == User::ADMIN || $user->type == User::MANAGER))) {
                         //pass
@@ -343,6 +343,81 @@ class MenuEngine
         $items = [];
 
 
+        // dynamic
+        $dynamicRepository = new DynamicRepository();
+        if (count($dynamics = $dynamicRepository->notTrashed()->get())) {
+            foreach ($dynamics as $item) {
+                $m = [
+                    'text' => $item->name,
+                    'title' => $item->name,
+                    'active_key' => $item->slug,
+                    'url' => route('admin.posts', ['dynamic' => $item->slug]),
+                    'icon' => 'folder-open'
+                ];
+                $sub_menu = [];
+                if(($user && $user->type == 'admin')){
+
+                    $sub_menu = [
+                        [
+                            'text' => "Danh sách",
+                            'active_key' => 'list',
+                            'url' => admin_dynamic_url('list', ['dynamic' => $item->slug]),
+                            'icon' => 'list-ul'
+                        ],
+                        [
+                            'text' => "Thêm " . $item->name,
+                            'active_key' => 'create',
+                            'url' => admin_dynamic_url('create', ['dynamic' => $item->slug]),
+                            'icon' => 'plus-circle'
+                        ]
+                    ];
+                    if ($item->use_category) {
+                        $sub_menu[] = [
+                            'text' => "Danh mục",
+                            'active_key' => $item->slug . '.categories.list',
+                            'url' => admin_dynamic_url('categories.list', ['dynamic' => $item->slug]),
+                            'icon' => 'hashtag',
+                            'data-active-key' => $item->slug . '.categories.list',
+                        ];
+                    }
+
+                }
+                else{
+                    if(PermissionService::checkModulePermission('admin.posts.list', $roles)){
+                        $sub_menu[] = [
+                            'text' => "Danh sách",
+                            'active_key' => 'list',
+                            'url' => admin_dynamic_url('list', ['dynamic' => $item->slug]),
+                            'icon' => 'list-ul'
+                        ];
+                    }
+                    if(PermissionService::checkModulePermission('admin.posts.create', $roles)){
+                        $sub_menu[] = [
+                            'text' => "Thêm " . $item->name,
+                            'active_key' => 'create',
+                            'url' => admin_dynamic_url('create', ['dynamic' => $item->slug]),
+                            'icon' => 'plus-circle'
+                        ];
+                    }
+                    if($item->use_category && PermissionService::checkModulePermission('admin.posts.categories.list', $roles)){
+                        $sub_menu[] = [
+                            'text' => "Danh mục",
+                            'active_key' => $item->slug . '.categories.list',
+                            'url' => admin_dynamic_url('categories.list', ['dynamic' => $item->slug]),
+                            'icon' => 'hashtag',
+                            'data-active-key' => $item->slug . '.categories.list',
+                        ];
+                    }
+
+
+                }
+                if($sub_menu){
+                    $m['submenu'] = $sub_menu;
+                }
+
+                $items[] = $m;
+            }
+        }
 
 
         return $items;
