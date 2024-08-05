@@ -27,7 +27,7 @@ class TopicMask extends Mask
             'parent' => self::class,
             'children' => TopicCollection::class
         ]);
-        $this->allow('getViewUrl');
+        $this->allow('getViewUrl', 'getIcon', 'getThumbnail');
     }
 
     /**
