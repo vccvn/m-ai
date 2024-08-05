@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class GPTTopic extends Model
 {
     public $table = 'gpt_topics';
-    public $fillable = ['parent_id', 'name', 'slug', 'keywords', 'description', 'trashed_status'];
+    public $fillable = ['parent_id', 'name', 'slug', 'keywords', 'description', 'thumbnail', 'trashed_status'];
 
 
 

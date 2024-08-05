@@ -34,6 +34,23 @@ if (!function_exists('get_topic_options')) {
     }
 }
 
+if (!function_exists('get_topics')) {
+    /**
+     * lấy danh sách danh mục
+     * @param mixed $args
+     * @return array
+     */
+    function get_topics($args = [])
+    {
+        $params = array_filter($args, function ($value) {
+            return is_string($value) ? (strlen($value) > 0) : (is_array($value) ? (count($value) > 0) : true);
+        });
+        $options = app(TopicRepository::class)->getData(array_merge(['trashed_status' => 0], $params));
+
+        return $options;
+    }
+}
+
 
 if (!function_exists('get_topic_map')) {
     /**
