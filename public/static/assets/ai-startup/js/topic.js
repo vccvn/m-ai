@@ -295,7 +295,7 @@ $(() => {
     const setChatData = (prompt_id, topic_id) => window.getContentWindow().setPromptChat(prompt_id, topic_id);
 
     function openChat(prompt_id, topic_id, turn) {
-        if(window.__IS_LOGIN__){
+        if(!window.__IS_LOGIN__){
             top.location.href = window.__LOGIN_URL__;
             return false;
         }
