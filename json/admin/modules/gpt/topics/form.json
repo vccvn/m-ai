@@ -25,6 +25,11 @@
             "type": "text",
             "label": "Từ khóa",
             "placeholder": "Nhập từ khóa"
+        },
+        "thumbnail": {
+            "type": "file",
+            "label": "Thumbnail",
+            "accept": "image/*"
         }
     },
     "config": {

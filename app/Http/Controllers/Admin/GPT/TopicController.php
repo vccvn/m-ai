@@ -69,6 +69,8 @@ class TopicController extends AdminController
             $request->slug ?? $request->name,
             $request->id
         );
+
+        $this->uploadImageAttachFile($request, $data, 'thumbnail', get_content_path('topics'));
     }
 
     public function getDetail(Request $request, $id = null){

@@ -296,7 +296,8 @@ $(() => {
 
     function openChat(prompt_id, topic_id, turn) {
         if(!window.__IS_LOGIN__){
-            top.location.href = window.__LOGIN_URL__;
+            App.Swal.warning('Vui lòng đăng nhập để tiếp tục');
+            // top.location.href = window.__LOGIN_URL__;
             return false;
         }
         if (!checkExpired())
