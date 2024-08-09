@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
  */
 
 
-Route::prefix('ai')->name('ai.')->group(function(){
+Route::prefix('ai')->middleware(['web.auth', 'check.device'])->name('ai.')->group(function(){
     Route::any('/',                                       [TopicController::class, 'getIndex'])->name('index');
     Route::any('/topic/{id?}',                            [TopicController::class, 'getTopic'])->name('topic');
     Route::any('tools/search',                            [PromptController::class, 'getSearchResults'])->name('tools.search');
-    Route::controller(ChatController::class)->prefix('chat')->name('chat.')->middleware(['web.auth', 'check.device'])->group(function(){
+    Route::controller(ChatController::class)->prefix('chat')->name('chat.')->group(function(){
         Route::get('/',                                         'index'             )->name('index');
         Route::get('messages',                                  'index'             )->name('messages');
         Route::post('send-message',                             'sendMessage'       )->name('send-message');
@@ -28,7 +28,7 @@ Route::prefix('ai')->name('ai.')->group(function(){
         Route::any('get-history',                               'getHistory'        )->name('get-history');
 
     });
-    Route::controller(TopicController::class)->prefix('chuyen-de')->name('topics.')->middleware(['web.auth', 'check.device'])->group(function(){
+    Route::controller(TopicController::class)->prefix('chuyen-de')->name('topics.')->group(function(){
         Route::get('/',                                         'getTopic'          )->name('detail-by-id');
         Route::get('/{slug}',                                   'getTopic'          )->name('detail-by-slug');
     });

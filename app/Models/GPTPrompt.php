@@ -89,6 +89,52 @@ class GPTPrompt extends Model
         $b = json_decode($a, true);
         return $b??[];
     }
+    /**
+     * get avatar url
+     * @param boolean $urlencode mã hóa url
+     * @return string
+     */
+    public function getThumbnail()
+    {
+        if($this->thumbnail){
+            $filename = $this->thumbnail;
+            $path = get_content_path( 'prompts' ) . '/';
+        }else{
+            $path = 'static/images/icons/';
+            $filename = 'topic.png';
+        }
+
+        $url = asset($path.$filename);
+
+
+        return $url;
+    }
+
+
+    /**
+     * get avatar url
+     * @param boolean $urlencode mã hóa url
+     * @return string
+     */
+    public function getIcon()
+    {
+        if($this->thumbnail){
+            $filename = $this->thumbnail;
+            $path = get_content_path( 'prompts' ) . '/';
+        }else{
+            $path = 'static/images/icons/';
+            $filename = 'topic-120.png';
+        }
+
+        if(file_exists($path2 = public_path($path.'120x120/'.$filename))){
+            $url = asset($path.'120x120/'.$filename);
+        }else{
+            $url = asset($path.$filename);
+        }
+
+
+        return $url;
+    }
 
 
 }
